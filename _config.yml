@@ -17,9 +17,9 @@ minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt"
 # Site Settings
 locale                   : "zh-CN"
 rtl                      : # true, false (default) # turns direction of the page into right to left for RTL languages
-title                    : "Personal Blog"
+title                    : "个人博客"
 title_separator          : "-"
-subtitle                 : "Welcome to my blog."
+subtitle                 : "欢迎来到我的博客"
 name                     : "Amemiya"
 description              : "An amazing website."
 url                      : "https://amemiya02.github.io/"
@@ -116,7 +116,7 @@ author:
   name             : "Amemiya"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "一个热爱技术与生活的开发者"
-  location         : ""
+  location         : 
   email            : 
   links:
     - label: "Email"
