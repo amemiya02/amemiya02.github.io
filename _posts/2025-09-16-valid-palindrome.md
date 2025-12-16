@@ -47,8 +47,6 @@ tags: [字符串, 双指针]
 
 ## 代码实现 (Java)
 
-你提供的解法正是对上述思路的完美实现。
-
 ```java
 class Solution {
     public boolean isPalindrome(String s) {
