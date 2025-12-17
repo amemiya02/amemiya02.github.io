@@ -1,5 +1,5 @@
 ---
-title: "【双指针】LeetCode 88. 合并两个有序数组"
+title: "【HOT100/双指针】LeetCode 88. 合并两个有序数组"
 date: 2025-09-11 18:46:00 +0900
 categories: [算法, LeetCode]
 tags: [数组, 双指针, 题解]
