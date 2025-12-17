@@ -1,5 +1,5 @@
 ---
-title: "【双指针 / 链表】LeetCode 160. 相交链表"
+title: "【HOT100/双指针 / 链表】LeetCode 160. 相交链表"
 date: 2025-09-24 20:01:00 +0900
 categories: [算法, LeetCode]
 tags: [链表, 双指针]
@@ -14,9 +14,10 @@ tags: [链表, 双指针]
 ![示意图](https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_statement.png)
 
 ## 核心思路
+
 ### 思路0：HashSet去重
 
-### 思路一：双指针 + 长度对齐 
+### 思路一：双指针 + 长度对齐
 
 这是最直观的解法。既然相交前的部分长度可能不同，导致我们无法直接同步遍历，那我们想办法让它们变得一样长就可以了。
 
@@ -30,7 +31,7 @@ tags: [链表, 双指针]
 
 这个方法就像两个人去同一个终点，路程长的人先出发一段距离，然后两个人再同时出发，这样他们就能同时到达终点。
 
-### 思路二：双指针“浪漫”相遇法
+### 思路二：双指针"浪漫"相遇法
 
 这是一个更巧妙，代码也更简洁的解法，它避免了显式地计算长度。
 
@@ -51,7 +52,7 @@ tags: [链表, 双指针]
 
 ## 代码实现 (Java)
 
-### 解法一：长度对齐法 
+### 解法一：长度对齐法
 
 ```java
 public class Solution {
@@ -90,13 +91,13 @@ public class Solution {
             pA = pA.next;
             pB = pB.next;
         }
-        
+
         return pA;
     }
 }
 ```
 
-### 解法二：双指针“换路”法 (更巧妙)
+### 解法二：双指针"换路"法 (更巧妙)
 
 ```java
 public class Solution {
@@ -104,16 +105,16 @@ public class Solution {
         if (headA == null || headB == null) {
             return null;
         }
-        
+
         ListNode pA = headA, pB = headB;
-        
+
         while (pA != pB) {
             // pA 走完自己的路，就去走 pB 的路
             pA = (pA == null) ? headB : pA.next;
             // pB 走完自己的路，就去走 pA 的路
             pB = (pB == null) ? headA : pB.next;
         }
-        
+
         return pA;
     }
 }

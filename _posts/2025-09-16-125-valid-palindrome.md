@@ -1,5 +1,5 @@
 ---
-title: "【双指针】LeetCode 125. 验证回文串"
+title: "【HOT100/双指针】LeetCode 125. 验证回文串"
 date: 2025-09-16 21:02:00 +0900
 categories: [算法, LeetCode]
 tags: [字符串, 双指针]
@@ -21,9 +21,9 @@ tags: [字符串, 双指针]
 
 ## 核心思路：相向双指针
 
-“回文”这个特性，天然就适合使用**相向双指针**来解决。我们可以设置一个指针从字符串头部开始，另一个指针从尾部开始，同时向中间移动并进行比较。
+"回文"这个特性，天然就适合使用**相向双指针**来解决。我们可以设置一个指针从字符串头部开始，另一个指针从尾部开始，同时向中间移动并进行比较。
 
-对于这道题，我们需要在比较之前，先对字符进行“清洗”，即忽略非字母数字字符和大小写。
+对于这道题，我们需要在比较之前，先对字符进行"清洗"，即忽略非字母数字字符和大小写。
 
 1.  **初始化指针**：
     * 定义左指针 `left` 指向字符串的起始位置 `0`。
@@ -60,7 +60,7 @@ class Solution {
             while (left < right && !Character.isLetterOrDigit(s.charAt(left))) {
                 left++;
             }
-            
+
             // 从右边找到一个字母或数字
             while (left < right && !Character.isLetterOrDigit(s.charAt(right))) {
                 right--;
@@ -76,7 +76,7 @@ class Solution {
                 right--;
             }
         }
-        
+
         return true;
     }
 }

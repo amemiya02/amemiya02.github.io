@@ -1,5 +1,5 @@
 ---
-title: "【哈希表 / 摩尔投票】LeetCode 169. 多数元素"
+title: "【HOT100/哈希表 / 摩尔投票】LeetCode 169. 多数元素"
 date: 2025-09-15 10:05:00 +0900
 categories: [算法, LeetCode]
 tags: [数组, 哈希表, 摩尔投票]
@@ -41,9 +41,9 @@ tags: [数组, 哈希表, 摩尔投票]
 
 1.  **定义候选者和票数**：我们维护一个候选者 `candidate` 和一个计数器 `count`。
 2.  **遍历数组**：遍历 `nums` 数组，对于每个元素 `num`：
-    * 如果 `count` 为 `0`，表示之前的候选者已经被“淘汰”了，我们将当前元素 `num` 设为新的 `candidate`，并将 `count` 设为 1。
-    * 如果 `num` 与 `candidate` **相同**，就给候选者“投一票”，`count` 加 1。
-    * 如果 `num` 与 `candidate` **不同**，就让候选者的票数“抵消”一张，`count` 减 1。
+    * 如果 `count` 为 `0`，表示之前的候选者已经被"淘汰"了，我们将当前元素 `num` 设为新的 `candidate`，并将 `count` 设为 1。
+    * 如果 `num` 与 `candidate` **相同**，就给候选者"投一票"，`count` 加 1。
+    * 如果 `num` 与 `candidate` **不同**，就让候选者的票数"抵消"一张，`count` 减 1。
 3.  **返回结果**：遍历结束后，留下的 `candidate` 就是最终的多数元素。
 
 **为什么这个方法可行？** 因为多数元素的数量超过了数组长度的一半，这意味着它的数量比所有其他元素数量的总和还要多。所以在对拼消耗的过程中，它的票数 `count` 最终不可能被减到 0 或以下，它必然是笑到最后的那个。
@@ -57,23 +57,25 @@ class Solution {
     public int majorityElement(int[] nums) {
         Map<Integer, Integer> map = new HashMap<>();
         int n = nums.length;
-        
+
         for (int num : nums) {
             map.put(num, map.getOrDefault(num, 0) + 1);
             if (map.get(num) > n / 2) {
                 return num;
             }
         }
-        
+
         // 根据题意，循环中必定会返回，这里可以是任意返回值
-        return -1; 
+        return -1;
     }
 }
 ```
 - 时间复杂度: `O(n)`。需要遍历一次数组。
 
 - 空间复杂度: `O(n)`。在最坏情况下，哈希表可能需要存储近 n/2 个不同的元素。
+
 ### 解法二：摩尔投票
+
 ```java
 class Solution {
     public int majorityElement(int[] nums) {

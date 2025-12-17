@@ -1,5 +1,5 @@
 ---
-title: "【滑动窗口/Middle】LeetCode 3. 无重复字符的最长子串"
+title: "【HOT100/滑动窗口/Middle】LeetCode 3. 无重复字符的最长子串"
 date: 2025-09-22 18:24:00 +0900
 categories: [算法, LeetCode]
 tags: [字符串, 哈希集合, 滑动窗口, 双指针]
@@ -24,7 +24,7 @@ tags: [字符串, 哈希集合, 滑动窗口, 双指针]
 
 ## 核心思路：滑动窗口
 
-这道题要求我们找到一个**连续**的子串，这个子串需要满足“无重复字符”的条件，并且长度要最长。这种在连续区间上求解的问题，非常适合使用**滑动窗口**算法。
+这道题要求我们找到一个**连续**的子串，这个子串需要满足"无重复字符"的条件，并且长度要最长。这种在连续区间上求解的问题，非常适合使用**滑动窗口**算法。
 
 我们可以想象有一个窗口在字符串 `s` 上滑动，窗口的左右边界由两个指针 `left` 和 `right` 决定。这个窗口 `s[left...right]` 就代表了我们正在考察的当前子串。
 
@@ -53,7 +53,7 @@ class Solution {
     public int lengthOfLongestSubstring(String s) {
         int n = s.length();
         int maxLength = 0;
-        
+
         // left 是窗口的左边界，right 是窗口的右边界
         int left = 0;
         // set 存储当前窗口内的不重复字符
@@ -61,20 +61,20 @@ class Solution {
 
         for (int right = 0; right < n; right++) {
             char currentChar = s.charAt(right);
-            
+
             // 如果 set 中已存在当前字符，说明窗口需要从左侧收缩
             while (set.contains(currentChar)) {
                 set.remove(s.charAt(left));
                 left++;
             }
-            
+
             // 将当前字符加入窗口，并扩大窗口
             set.add(currentChar);
-            
+
             // 更新最大长度 (当前窗口的长度为 right - left + 1)
             maxLength = Math.max(maxLength, right - left + 1);
         }
-        
+
         return maxLength;
     }
 }
@@ -82,4 +82,3 @@ class Solution {
 **复杂度分析**
 - 时间复杂度: `O(n)`。虽然代码中有一个 for 循环嵌套一个 while 循环，但每个字符最多被左指针 left 和右指针 right 访问一次。因此，总的操作次数是线性的，而不是二次方。
 - 空间复杂度: `O(k)`。其中 k 是字符串中不同字符的数量（即字符集的大小）。哈希集合在最坏情况下需要存储 k 个字符。对于 ASCII 字符集，k 最多为 128，可以看作是 O(1)。
-

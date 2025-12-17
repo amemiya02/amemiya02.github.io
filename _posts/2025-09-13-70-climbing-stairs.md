@@ -1,5 +1,5 @@
 ---
-title: "【动态规划】LeetCode 70.爬楼梯"
+title: "【HOT100/动态规划】LeetCode 70.爬楼梯"
 date: 2025-09-13 10:40:00 +0900
 categories: [算法, LeetCode, 动态规划]
 tags: [动态规划, 斐波那契数列, 题解]
@@ -45,7 +45,7 @@ $f(n) = f(n-1) + f(n-2)$
 
 ## 代码实现 (Java)
 
-这种只用有限变量来代替 DP 数组的方法，常被称为“滚动数组”思想，能将空间复杂度从 $O(n)$ 优化到 $O(1)$。
+这种只用有限变量来代替 DP 数组的方法，常被称为"滚动数组"思想，能将空间复杂度从 $O(n)$ 优化到 $O(1)$。
 
 ```java
 class Solution {
@@ -54,10 +54,10 @@ class Solution {
         if (n <= 2) {
             return n;
         }
-        
+
         // a 代表 f(i-2), b 代表 f(i-1)
         int a = 1, b = 2;
-        
+
         // 从第 3 阶开始循环计算
         for (int i = 3; i <= n; i++) {
             // c 代表 f(i)，即 f(i-1) + f(i-2)
@@ -66,7 +66,7 @@ class Solution {
             a = b;
             b = c;
         }
-        
+
         // 循环结束后, b 中存储的就是 f(n) 的结果
         return b;
     }

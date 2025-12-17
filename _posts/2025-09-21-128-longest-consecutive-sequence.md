@@ -1,5 +1,5 @@
 ---
-title: "【哈希集合/Middle】LeetCode 128. 最长连续序列"
+title: "【HOT100/哈希集合/Middle】LeetCode 128. 最长连续序列"
 date: 2025-09-21 11:03:00 +0900
 categories: [算法, LeetCode]
 tags: [数组, 哈希集合, O(n)]
@@ -40,7 +40,7 @@ tags: [数组, 哈希集合, O(n)]
         * **如果是起点**：就从 `num` 开始，不断检查 `num + 1`, `num + 2`, ... 是否存在于集合中，以此计算出当前序列的长度。
         * **更新最大值**：将当前计算出的长度与全局的最大长度进行比较并更新。
 
-通过这种“只从起点开始”的智能枚举，我们确保了每个数字作为序列的一部分，只会被内层循环访问一次，从而将总时间复杂度控制在 $O(n)$。
+通过这种"只从起点开始"的智能枚举，我们确保了每个数字作为序列的一部分，只会被内层循环访问一次，从而将总时间复杂度控制在 $O(n)$。
 
 ## 代码实现 (Java)
 
@@ -54,7 +54,7 @@ class Solution {
         }
 
         int longestStreak = 0;
-        
+
         // 2. 遍历哈希集合 如果遍历数组会超时
         for (int num : set) {
             // 3. 智能判断：只有当 num-1 不存在时，才将 num 视为序列的起点
@@ -68,12 +68,12 @@ class Solution {
                     currentNum += 1;
                     currentStreak += 1;
                 }
-                
+
                 // 5. 更新最长序列的长度
                 longestStreak = Math.max(longestStreak, currentStreak);
             }
         }
-        
+
         return longestStreak;
     }
 }
@@ -81,7 +81,6 @@ class Solution {
 
 **复杂度分析**
 
-    
 - 时间复杂度: `O(n)`。
 
         将 n 个数添加到 HashSet 中，时间复杂度为 O(n)。

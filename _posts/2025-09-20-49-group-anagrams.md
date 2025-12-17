@@ -1,5 +1,5 @@
 ---
-title: "【哈希表】LeetCode 49. 字母异位词分组"
+title: "【HOT100/哈希表】LeetCode 49. 字母异位词分组"
 date: 2025-09-20 14:45:00 +0900
 categories: [算法, LeetCode]
 tags: [字符串, 哈希表]
@@ -52,7 +52,7 @@ class Solution {
         for (char c : str.toCharArray()) {
             counts[c - 'a']++;
         }
-        
+
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 26; i++) {
             // 用特殊字符分隔，防止歧义，例如 "b1c2" vs "bc12"
