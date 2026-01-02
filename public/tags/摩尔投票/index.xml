@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>摩尔投票 on 个人技术博客</title>
-    <link>http://localhost:1313/tags/%E6%91%A9%E5%B0%94%E6%8A%95%E7%A5%A8/</link>
+    <link>https://amemiya02.github.io/tags/%E6%91%A9%E5%B0%94%E6%8A%95%E7%A5%A8/</link>
     <description>Recent content in 摩尔投票 on 个人技术博客</description>
     <generator>Hugo -- 0.154.1</generator>
     <language>zh-CN</language>
     <lastBuildDate>Mon, 15 Sep 2025 10:05:00 +0900</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/%E6%91%A9%E5%B0%94%E6%8A%95%E7%A5%A8/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://amemiya02.github.io/tags/%E6%91%A9%E5%B0%94%E6%8A%95%E7%A5%A8/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>【HOT100/哈希表 / 摩尔投票】LeetCode 169. 多数元素</title>
-      <link>http://localhost:1313/posts/2025-09-15-169-majority-element/</link>
+      <link>https://amemiya02.github.io/posts/2025-09-15-169-majority-element/</link>
       <pubDate>Mon, 15 Sep 2025 10:05:00 +0900</pubDate>
-      <guid>http://localhost:1313/posts/2025-09-15-169-majority-element/</guid>
+      <guid>https://amemiya02.github.io/posts/2025-09-15-169-majority-element/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给定一个大小为 &lt;code&gt;n&lt;/code&gt; 的数组 &lt;code&gt;nums&lt;/code&gt; ，返回其中的多数元素。多数元素是指在数组中出现次数 &lt;strong&gt;大于&lt;/strong&gt; &lt;code&gt;⌊ n/2 ⌋&lt;/code&gt; 的元素。&lt;/p&gt;
