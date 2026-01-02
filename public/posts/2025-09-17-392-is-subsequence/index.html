@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>【HOT100/双指针】LeetCode 392. 判断子序列 | 个人技术博客</title>
+<meta name="keywords" content="字符串, 双指针">
+<meta name="description" content="题目回顾
+
+给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
+字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，&quot;ace&quot;是&quot;abcde&quot;的一个子序列，而&quot;aec&quot;不是）。
+
+示例：
+输入： s = &quot;abc&quot;, t = &quot;ahbgdc&quot;
+输出： true
+输入： s = &quot;axc&quot;, t = &quot;ahbgdc&quot;
+输出： false
+核心思路：双指针
+这道题的核心是匹配字符，同时要保持相对顺序。这种&quot;按顺序查找&quot;的场景，是双指针大显身手的地方。我们可以使用两个指针，一个指向子序列 s，一个指向主串 t，然后同步向前扫描。
+
+
+初始化指针：
+
+定义指针 p 指向 s 的起始位置 0。
+定义指针 q 指向 t 的起始位置 0。
+
+
+
+贪心匹配：
+
+我们使用指针 q 遍历主串 t，同时用指针 p 来标记我们当前正在 s 中寻找的字符。
+当 p 和 q 都在各自的字符串范围内时，进行循环比较：
+
+如果 s.charAt(p) 与 t.charAt(q) 相等，意味着我们在 t 中找到了 s 的一个字符。接下来我们应该去寻找 s 的下一个字符了，所以将 p 和 q 都向后移动一位 (p&#43;&#43;, q&#43;&#43;)。
+如果 s.charAt(p) 与 t.charAt(q) 不相等，说明当前 t 中的这个字符不是我们想要的。我们应该继续在 t 的后续部分寻找 s.charAt(p)，所以只将 q 向后移动一位 (q&#43;&#43;)。
+
+
+
+
+
+判断结果：">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/2025-09-17-392-is-subsequence/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.343cc480b9ffc8f04ccbe5e968ad674880cab773ec19905e93033065c1e7a804.css" integrity="sha256-NDzEgLn/yPBMy&#43;XpaK1nSIDKt3PsGZBekwMwZcHnqAQ=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2025-09-17-392-is-subsequence/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="http://localhost:1313/posts/2025-09-17-392-is-subsequence/">
+  <meta property="og:site_name" content="个人技术博客">
+  <meta property="og:title" content="【HOT100/双指针】LeetCode 392. 判断子序列">
+  <meta property="og:description" content="题目回顾 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
+字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，&#34;ace&#34;是&#34;abcde&#34;的一个子序列，而&#34;aec&#34;不是）。
+示例：
+输入： s = &#34;abc&#34;, t = &#34;ahbgdc&#34; 输出： true
+输入： s = &#34;axc&#34;, t = &#34;ahbgdc&#34; 输出： false
+核心思路：双指针 这道题的核心是匹配字符，同时要保持相对顺序。这种&#34;按顺序查找&#34;的场景，是双指针大显身手的地方。我们可以使用两个指针，一个指向子序列 s，一个指向主串 t，然后同步向前扫描。
+初始化指针：
+定义指针 p 指向 s 的起始位置 0。 定义指针 q 指向 t 的起始位置 0。 贪心匹配：
+我们使用指针 q 遍历主串 t，同时用指针 p 来标记我们当前正在 s 中寻找的字符。 当 p 和 q 都在各自的字符串范围内时，进行循环比较： 如果 s.charAt(p) 与 t.charAt(q) 相等，意味着我们在 t 中找到了 s 的一个字符。接下来我们应该去寻找 s 的下一个字符了，所以将 p 和 q 都向后移动一位 (p&#43;&#43;, q&#43;&#43;)。 如果 s.charAt(p) 与 t.charAt(q) 不相等，说明当前 t 中的这个字符不是我们想要的。我们应该继续在 t 的后续部分寻找 s.charAt(p)，所以只将 q 向后移动一位 (q&#43;&#43;)。 判断结果：">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-09-17T20:13:00+09:00">
+    <meta property="article:modified_time" content="2025-09-17T20:13:00+09:00">
+    <meta property="article:tag" content="字符串">
+    <meta property="article:tag" content="双指针">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【HOT100/双指针】LeetCode 392. 判断子序列">
+<meta name="twitter:description" content="题目回顾
+
+给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
+字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，&quot;ace&quot;是&quot;abcde&quot;的一个子序列，而&quot;aec&quot;不是）。
+
+示例：
+输入： s = &quot;abc&quot;, t = &quot;ahbgdc&quot;
+输出： true
+输入： s = &quot;axc&quot;, t = &quot;ahbgdc&quot;
+输出： false
+核心思路：双指针
+这道题的核心是匹配字符，同时要保持相对顺序。这种&quot;按顺序查找&quot;的场景，是双指针大显身手的地方。我们可以使用两个指针，一个指向子序列 s，一个指向主串 t，然后同步向前扫描。
+
+
+初始化指针：
+
+定义指针 p 指向 s 的起始位置 0。
+定义指针 q 指向 t 的起始位置 0。
+
+
+
+贪心匹配：
+
+我们使用指针 q 遍历主串 t，同时用指针 p 来标记我们当前正在 s 中寻找的字符。
+当 p 和 q 都在各自的字符串范围内时，进行循环比较：
+
+如果 s.charAt(p) 与 t.charAt(q) 相等，意味着我们在 t 中找到了 s 的一个字符。接下来我们应该去寻找 s 的下一个字符了，所以将 p 和 q 都向后移动一位 (p&#43;&#43;, q&#43;&#43;)。
+如果 s.charAt(p) 与 t.charAt(q) 不相等，说明当前 t 中的这个字符不是我们想要的。我们应该继续在 t 的后续部分寻找 s.charAt(p)，所以只将 q 向后移动一位 (q&#43;&#43;)。
+
+
+
+
+
+判断结果：">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "【HOT100/双指针】LeetCode 392. 判断子序列",
+      "item": "http://localhost:1313/posts/2025-09-17-392-is-subsequence/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "【HOT100/双指针】LeetCode 392. 判断子序列",
+  "name": "【HOT100\/双指针】LeetCode 392. 判断子序列",
+  "description": "题目回顾 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。\n字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，\u0026quot;ace\u0026quot;是\u0026quot;abcde\u0026quot;的一个子序列，而\u0026quot;aec\u0026quot;不是）。\n示例：\n输入： s = \u0026quot;abc\u0026quot;, t = \u0026quot;ahbgdc\u0026quot; 输出： true\n输入： s = \u0026quot;axc\u0026quot;, t = \u0026quot;ahbgdc\u0026quot; 输出： false\n核心思路：双指针 这道题的核心是匹配字符，同时要保持相对顺序。这种\u0026quot;按顺序查找\u0026quot;的场景，是双指针大显身手的地方。我们可以使用两个指针，一个指向子序列 s，一个指向主串 t，然后同步向前扫描。\n初始化指针：\n定义指针 p 指向 s 的起始位置 0。 定义指针 q 指向 t 的起始位置 0。 贪心匹配：\n我们使用指针 q 遍历主串 t，同时用指针 p 来标记我们当前正在 s 中寻找的字符。 当 p 和 q 都在各自的字符串范围内时，进行循环比较： 如果 s.charAt(p) 与 t.charAt(q) 相等，意味着我们在 t 中找到了 s 的一个字符。接下来我们应该去寻找 s 的下一个字符了，所以将 p 和 q 都向后移动一位 (p++, q++)。 如果 s.charAt(p) 与 t.charAt(q) 不相等，说明当前 t 中的这个字符不是我们想要的。我们应该继续在 t 的后续部分寻找 s.charAt(p)，所以只将 q 向后移动一位 (q++)。 判断结果：\n",
+  "keywords": [
+    "字符串", "双指针"
+  ],
+  "articleBody": "题目回顾 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。\n字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，\"ace\"是\"abcde\"的一个子序列，而\"aec\"不是）。\n示例：\n输入： s = \"abc\", t = \"ahbgdc\" 输出： true\n输入： s = \"axc\", t = \"ahbgdc\" 输出： false\n核心思路：双指针 这道题的核心是匹配字符，同时要保持相对顺序。这种\"按顺序查找\"的场景，是双指针大显身手的地方。我们可以使用两个指针，一个指向子序列 s，一个指向主串 t，然后同步向前扫描。\n初始化指针：\n定义指针 p 指向 s 的起始位置 0。 定义指针 q 指向 t 的起始位置 0。 贪心匹配：\n我们使用指针 q 遍历主串 t，同时用指针 p 来标记我们当前正在 s 中寻找的字符。 当 p 和 q 都在各自的字符串范围内时，进行循环比较： 如果 s.charAt(p) 与 t.charAt(q) 相等，意味着我们在 t 中找到了 s 的一个字符。接下来我们应该去寻找 s 的下一个字符了，所以将 p 和 q 都向后移动一位 (p++, q++)。 如果 s.charAt(p) 与 t.charAt(q) 不相等，说明当前 t 中的这个字符不是我们想要的。我们应该继续在 t 的后续部分寻找 s.charAt(p)，所以只将 q 向后移动一位 (q++)。 判断结果：\n循环的终止条件是 p 或 q 任何一个越界。 循环结束后，如果 p 成功地移动到了 s 字符串的末尾（即 p == s.length()），说明 s 中的所有字符都按顺序在 t 中找到了。因此 s 是 t 的子序列。 反之，如果 q 走完了 t 而 p 还没走完 s，则说明匹配失败。 这个方法的本质是一个贪心算法：对于 s 中的每一个字符，我们都在 t 中寻找它第一次出现的位置。\n代码实现 (Java) class Solution { public boolean isSubsequence(String s, String t) { int n = s.length(), m = t.length(); int p = 0, q = 0; while (p \u003c n \u0026\u0026 q \u003c m) { // 如果找到匹配的字符，则 s 的指针 p 向后移动 if (s.charAt(p) == t.charAt(q)) { p++; } // 无论是否匹配，t 的指针 q 总是向后移动 q++; } // 如果 p 走完了 s，说明 s 是 t 的子序列 return p == n; } } 复杂度分析\n时间复杂度：O(n+m)，其中 n 为 s 的长度，m 为 t 的长度。每次无论是匹配成功还是失败，都有至少一个指针发生右移，两指针能够位移的总距离为 n+m。 空间复杂度：O(1)。 ",
+  "wordCount" : "207",
+  "inLanguage": "en",
+  "datePublished": "2025-09-17T20:13:00+09:00",
+  "dateModified": "2025-09-17T20:13:00+09:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/2025-09-17-392-is-subsequence/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "个人技术博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="个人技术博客 (Alt + H)">个人技术博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      【HOT100/双指针】LeetCode 392. 判断子序列
+    </h1>
+    <div class="post-meta"><span title='2025-09-17 20:13:00 +0900 JST'>September 17, 2025</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="题目回顾">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾">#</a></h2>
+<blockquote>
+<p>给定字符串 <code>s</code> 和 <code>t</code> ，判断 <code>s</code> 是否为 <code>t</code> 的子序列。</p>
+<p>字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，<code>&quot;ace&quot;</code>是<code>&quot;abcde&quot;</code>的一个子序列，而<code>&quot;aec&quot;</code>不是）。</p>
+</blockquote>
+<p><strong>示例：</strong></p>
+<p><strong>输入：</strong> s = <code>&quot;abc&quot;</code>, t = <code>&quot;ahbgdc&quot;</code>
+<strong>输出：</strong> <code>true</code></p>
+<p><strong>输入：</strong> s = <code>&quot;axc&quot;</code>, t = <code>&quot;ahbgdc&quot;</code>
+<strong>输出：</strong> <code>false</code></p>
+<h2 id="核心思路双指针">核心思路：双指针<a hidden class="anchor" aria-hidden="true" href="#核心思路双指针">#</a></h2>
+<p>这道题的核心是匹配字符，同时要保持<strong>相对顺序</strong>。这种&quot;按顺序查找&quot;的场景，是双指针大显身手的地方。我们可以使用两个指针，一个指向子序列 <code>s</code>，一个指向主串 <code>t</code>，然后同步向前扫描。</p>
+<ol>
+<li>
+<p><strong>初始化指针</strong>：</p>
+<ul>
+<li>定义指针 <code>p</code> 指向 <code>s</code> 的起始位置 <code>0</code>。</li>
+<li>定义指针 <code>q</code> 指向 <code>t</code> 的起始位置 <code>0</code>。</li>
+</ul>
+</li>
+<li>
+<p><strong>贪心匹配</strong>：</p>
+<ul>
+<li>我们使用指针 <code>q</code> 遍历主串 <code>t</code>，同时用指针 <code>p</code> 来标记我们<strong>当前正在 <code>s</code> 中寻找的字符</strong>。</li>
+<li>当 <code>p</code> 和 <code>q</code> 都在各自的字符串范围内时，进行循环比较：
+<ul>
+<li>如果 <code>s.charAt(p)</code> 与 <code>t.charAt(q)</code> <strong>相等</strong>，意味着我们在 <code>t</code> 中找到了 <code>s</code> 的一个字符。接下来我们应该去寻找 <code>s</code> 的下一个字符了，所以将 <code>p</code> 和 <code>q</code> <strong>都</strong>向后移动一位 (<code>p++</code>, <code>q++</code>)。</li>
+<li>如果 <code>s.charAt(p)</code> 与 <code>t.charAt(q)</code> <strong>不相等</strong>，说明当前 <code>t</code> 中的这个字符不是我们想要的。我们应该继续在 <code>t</code> 的后续部分寻找 <code>s.charAt(p)</code>，所以只将 <code>q</code> 向后移动一位 (<code>q++</code>)。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>判断结果</strong>：</p>
+<ul>
+<li>循环的终止条件是 <code>p</code> 或 <code>q</code> 任何一个越界。</li>
+<li>循环结束后，如果 <code>p</code> 成功地移动到了 <code>s</code> 字符串的末尾（即 <code>p == s.length()</code>），说明 <code>s</code> 中的所有字符都按顺序在 <code>t</code> 中找到了。因此 <code>s</code> 是 <code>t</code> 的子序列。</li>
+<li>反之，如果 <code>q</code> 走完了 <code>t</code> 而 <code>p</code> 还没走完 <code>s</code>，则说明匹配失败。</li>
+</ul>
+</li>
+</ol>
+<p>这个方法的本质是一个贪心算法：对于 <code>s</code> 中的每一个字符，我们都在 <code>t</code> 中寻找它第一次出现的位置。</p>
+<h2 id="代码实现-java">代码实现 (Java)<a hidden class="anchor" aria-hidden="true" href="#代码实现-java">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isSubsequence</span>(String s, String t) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> s.<span style="color:#a6e22e">length</span>(), m <span style="color:#f92672">=</span> t.<span style="color:#a6e22e">length</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> 0, q <span style="color:#f92672">=</span> 0;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (p <span style="color:#f92672">&lt;</span> n <span style="color:#f92672">&amp;&amp;</span> q <span style="color:#f92672">&lt;</span> m) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 如果找到匹配的字符，则 s 的指针 p 向后移动</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (s.<span style="color:#a6e22e">charAt</span>(p) <span style="color:#f92672">==</span> t.<span style="color:#a6e22e">charAt</span>(q)) {
+</span></span><span style="display:flex;"><span>                p<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 无论是否匹配，t 的指针 q 总是向后移动</span>
+</span></span><span style="display:flex;"><span>            q<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 如果 p 走完了 s，说明 s 是 t 的子序列</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> p <span style="color:#f92672">==</span> n;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>复杂度分析</strong></p>
+<ul>
+<li>时间复杂度：<code>O(n+m)</code>，其中 n 为 s 的长度，m 为 t 的长度。每次无论是匹配成功还是失败，都有至少一个指针发生右移，两指针能够位移的总距离为 n+m。</li>
+<li>空间复杂度：<code>O(1)</code>。</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/">字符串</a></li>
+      <li><a href="http://localhost:1313/tags/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">个人技术博客</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

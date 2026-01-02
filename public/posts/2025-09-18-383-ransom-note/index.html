@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>【HOT100/哈希表 / 数组】LeetCode 383. 赎金信 | 个人技术博客</title>
+<meta name="keywords" content="字符串, 哈希表, 数组">
+<meta name="description" content="题目回顾
+
+给你两个字符串：ransomNote 和 magazine ，判断 ransomNote 能不能由 magazine 里面的字符构成。
+如果可以，返回 true ；否则返回 false 。
+magazine 中的每个字符只能在 ransomNote 中使用一次。
+
+示例 1：
+输入： ransomNote = &quot;a&quot;, magazine = &quot;b&quot;
+输出： false
+示例 2：
+输入： ransomNote = &quot;aa&quot;, magazine = &quot;aab&quot;
+输出： true
+核心思路：字符计数
+这道题的本质是判断 magazine 字符串中的字符数量，是否足够&quot;支付&quot; ransomNote 中所需的字符数量。字符的顺序无关紧要，我们只关心每个字符的可用频率。
+这是一个典型的哈希表或频率统计问题。
+
+
+统计资源：首先，我们需要清点我们拥有的&quot;资源&quot;，即 magazine 中每个字符的数量。
+
+我们可以遍历 magazine 字符串。
+由于题目中只包含小写英文字母，我们可以使用一个长度为 26 的整型数组 counts 来充当哈希表，这比使用 HashMap 更高效。数组的索引 c - &#39;a&#39; 对应字符 c。
+遍历 magazine 时，将对应字符的计数值加 1。
+
+
+
+消耗资源：统计完 magazine 的字符后，我们再遍历 ransomNote，看看我们的资源是否足够。">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/2025-09-18-383-ransom-note/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.343cc480b9ffc8f04ccbe5e968ad674880cab773ec19905e93033065c1e7a804.css" integrity="sha256-NDzEgLn/yPBMy&#43;XpaK1nSIDKt3PsGZBekwMwZcHnqAQ=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2025-09-18-383-ransom-note/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="http://localhost:1313/posts/2025-09-18-383-ransom-note/">
+  <meta property="og:site_name" content="个人技术博客">
+  <meta property="og:title" content="【HOT100/哈希表 / 数组】LeetCode 383. 赎金信">
+  <meta property="og:description" content="题目回顾 给你两个字符串：ransomNote 和 magazine ，判断 ransomNote 能不能由 magazine 里面的字符构成。
+如果可以，返回 true ；否则返回 false 。
+magazine 中的每个字符只能在 ransomNote 中使用一次。
+示例 1：
+输入： ransomNote = &#34;a&#34;, magazine = &#34;b&#34; 输出： false
+示例 2：
+输入： ransomNote = &#34;aa&#34;, magazine = &#34;aab&#34; 输出： true
+核心思路：字符计数 这道题的本质是判断 magazine 字符串中的字符数量，是否足够&#34;支付&#34; ransomNote 中所需的字符数量。字符的顺序无关紧要，我们只关心每个字符的可用频率。
+这是一个典型的哈希表或频率统计问题。
+统计资源：首先，我们需要清点我们拥有的&#34;资源&#34;，即 magazine 中每个字符的数量。
+我们可以遍历 magazine 字符串。 由于题目中只包含小写英文字母，我们可以使用一个长度为 26 的整型数组 counts 来充当哈希表，这比使用 HashMap 更高效。数组的索引 c - &#39;a&#39; 对应字符 c。 遍历 magazine 时，将对应字符的计数值加 1。 消耗资源：统计完 magazine 的字符后，我们再遍历 ransomNote，看看我们的资源是否足够。">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-09-18T18:18:00+09:00">
+    <meta property="article:modified_time" content="2025-09-18T18:18:00+09:00">
+    <meta property="article:tag" content="字符串">
+    <meta property="article:tag" content="哈希表">
+    <meta property="article:tag" content="数组">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【HOT100/哈希表 / 数组】LeetCode 383. 赎金信">
+<meta name="twitter:description" content="题目回顾
+
+给你两个字符串：ransomNote 和 magazine ，判断 ransomNote 能不能由 magazine 里面的字符构成。
+如果可以，返回 true ；否则返回 false 。
+magazine 中的每个字符只能在 ransomNote 中使用一次。
+
+示例 1：
+输入： ransomNote = &quot;a&quot;, magazine = &quot;b&quot;
+输出： false
+示例 2：
+输入： ransomNote = &quot;aa&quot;, magazine = &quot;aab&quot;
+输出： true
+核心思路：字符计数
+这道题的本质是判断 magazine 字符串中的字符数量，是否足够&quot;支付&quot; ransomNote 中所需的字符数量。字符的顺序无关紧要，我们只关心每个字符的可用频率。
+这是一个典型的哈希表或频率统计问题。
+
+
+统计资源：首先，我们需要清点我们拥有的&quot;资源&quot;，即 magazine 中每个字符的数量。
+
+我们可以遍历 magazine 字符串。
+由于题目中只包含小写英文字母，我们可以使用一个长度为 26 的整型数组 counts 来充当哈希表，这比使用 HashMap 更高效。数组的索引 c - &#39;a&#39; 对应字符 c。
+遍历 magazine 时，将对应字符的计数值加 1。
+
+
+
+消耗资源：统计完 magazine 的字符后，我们再遍历 ransomNote，看看我们的资源是否足够。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "【HOT100/哈希表 / 数组】LeetCode 383. 赎金信",
+      "item": "http://localhost:1313/posts/2025-09-18-383-ransom-note/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "【HOT100/哈希表 / 数组】LeetCode 383. 赎金信",
+  "name": "【HOT100\/哈希表 \/ 数组】LeetCode 383. 赎金信",
+  "description": "题目回顾 给你两个字符串：ransomNote 和 magazine ，判断 ransomNote 能不能由 magazine 里面的字符构成。\n如果可以，返回 true ；否则返回 false 。\nmagazine 中的每个字符只能在 ransomNote 中使用一次。\n示例 1：\n输入： ransomNote = \u0026quot;a\u0026quot;, magazine = \u0026quot;b\u0026quot; 输出： false\n示例 2：\n输入： ransomNote = \u0026quot;aa\u0026quot;, magazine = \u0026quot;aab\u0026quot; 输出： true\n核心思路：字符计数 这道题的本质是判断 magazine 字符串中的字符数量，是否足够\u0026quot;支付\u0026quot; ransomNote 中所需的字符数量。字符的顺序无关紧要，我们只关心每个字符的可用频率。\n这是一个典型的哈希表或频率统计问题。\n统计资源：首先，我们需要清点我们拥有的\u0026quot;资源\u0026quot;，即 magazine 中每个字符的数量。\n我们可以遍历 magazine 字符串。 由于题目中只包含小写英文字母，我们可以使用一个长度为 26 的整型数组 counts 来充当哈希表，这比使用 HashMap 更高效。数组的索引 c - 'a' 对应字符 c。 遍历 magazine 时，将对应字符的计数值加 1。 消耗资源：统计完 magazine 的字符后，我们再遍历 ransomNote，看看我们的资源是否足够。\n",
+  "keywords": [
+    "字符串", "哈希表", "数组"
+  ],
+  "articleBody": "题目回顾 给你两个字符串：ransomNote 和 magazine ，判断 ransomNote 能不能由 magazine 里面的字符构成。\n如果可以，返回 true ；否则返回 false 。\nmagazine 中的每个字符只能在 ransomNote 中使用一次。\n示例 1：\n输入： ransomNote = \"a\", magazine = \"b\" 输出： false\n示例 2：\n输入： ransomNote = \"aa\", magazine = \"aab\" 输出： true\n核心思路：字符计数 这道题的本质是判断 magazine 字符串中的字符数量，是否足够\"支付\" ransomNote 中所需的字符数量。字符的顺序无关紧要，我们只关心每个字符的可用频率。\n这是一个典型的哈希表或频率统计问题。\n统计资源：首先，我们需要清点我们拥有的\"资源\"，即 magazine 中每个字符的数量。\n我们可以遍历 magazine 字符串。 由于题目中只包含小写英文字母，我们可以使用一个长度为 26 的整型数组 counts 来充当哈希表，这比使用 HashMap 更高效。数组的索引 c - 'a' 对应字符 c。 遍历 magazine 时，将对应字符的计数值加 1。 消耗资源：统计完 magazine 的字符后，我们再遍历 ransomNote，看看我们的资源是否足够。\n对于 ransomNote 中的每一个字符，我们检查它在 counts 数组中对应的计数值。 如果计数值等于 0，说明 magazine 中已经没有这个字符可供使用了，因此无法构成 ransomNote，直接返回 false。 如果计数值大于 0，说明资源充足。我们将该字符的计数值减 1，表示\"消耗\"掉了一个字符。 得出结论：\n如果我们能成功遍历完整个 ransomNote 字符串而没有中途返回 false，那就说明 magazine 的资源完全足够，最终返回 true。 在开始计数前，可以做一个简单的剪枝判断：如果 ransomNote 的长度大于 magazine 的长度，那么 magazine 无论如何也不可能凑成 ransomNote，可以直接返回 false。\n代码实现 (Java) class Solution { public boolean canConstruct(String ransomNote, String magazine) { int n = ransomNote.length(), m = magazine.length(); // 剪枝：如果赎金信比杂志长，肯定无法构成 if (n \u003e m) { return false; } // 创建一个长度为 26 的数组作为哈希表，统计 magazine 中各字符的频率 int[] counts = new int[26]; for (char c : magazine.toCharArray()) { counts[c - 'a']++; } // 遍历赎金信，消耗 magazine 中的字符 for (char c : ransomNote.toCharArray()) { int index = c - 'a'; // 如果对应字符的计数为 0，说明 magazine 中已无此字符 if (counts[index] == 0) { return false; } else { // 消耗一个字符 counts[index]--; } } // 成功遍历完赎金信，说明可以构成 return true; } } 复杂度分析\n时间复杂度: O(m + n)。其中 m 是 magazine 的长度，n 是 ransomNote 的长度。我们需要分别遍历两个字符串各一次。\n空间复杂度: O(1)。我们使用了一个额外的数组来存储字符频率。由于字符集的大小是固定的（小写字母共 26 个），所以空间消耗是常数级别的，不随输入字符串的长度而改变。因此，空间复杂度为 O(1)。\n",
+  "wordCount" : "213",
+  "inLanguage": "en",
+  "datePublished": "2025-09-18T18:18:00+09:00",
+  "dateModified": "2025-09-18T18:18:00+09:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/2025-09-18-383-ransom-note/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "个人技术博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="个人技术博客 (Alt + H)">个人技术博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      【HOT100/哈希表 / 数组】LeetCode 383. 赎金信
+    </h1>
+    <div class="post-meta"><span title='2025-09-18 18:18:00 +0900 JST'>September 18, 2025</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="题目回顾">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾">#</a></h2>
+<blockquote>
+<p>给你两个字符串：<code>ransomNote</code> 和 <code>magazine</code> ，判断 <code>ransomNote</code> 能不能由 <code>magazine</code> 里面的字符构成。</p>
+<p>如果可以，返回 <code>true</code> ；否则返回 <code>false</code> 。</p>
+<p><code>magazine</code> 中的每个字符只能在 <code>ransomNote</code> 中使用一次。</p>
+</blockquote>
+<p><strong>示例 1：</strong></p>
+<p><strong>输入：</strong> ransomNote = <code>&quot;a&quot;</code>, magazine = <code>&quot;b&quot;</code>
+<strong>输出：</strong> <code>false</code></p>
+<p><strong>示例 2：</strong></p>
+<p><strong>输入：</strong> ransomNote = <code>&quot;aa&quot;</code>, magazine = <code>&quot;aab&quot;</code>
+<strong>输出：</strong> <code>true</code></p>
+<h2 id="核心思路字符计数">核心思路：字符计数<a hidden class="anchor" aria-hidden="true" href="#核心思路字符计数">#</a></h2>
+<p>这道题的本质是判断 <code>magazine</code> 字符串中的字符数量，是否足够&quot;支付&quot; <code>ransomNote</code> 中所需的字符数量。字符的顺序无关紧要，我们只关心每个字符的可用频率。</p>
+<p>这是一个典型的<strong>哈希表</strong>或<strong>频率统计</strong>问题。</p>
+<ol>
+<li>
+<p><strong>统计资源</strong>：首先，我们需要清点我们拥有的&quot;资源&quot;，即 <code>magazine</code> 中每个字符的数量。</p>
+<ul>
+<li>我们可以遍历 <code>magazine</code> 字符串。</li>
+<li>由于题目中只包含小写英文字母，我们可以使用一个长度为 26 的整型数组 <code>counts</code> 来充当哈希表，这比使用 <code>HashMap</code> 更高效。数组的索引 <code>c - 'a'</code> 对应字符 <code>c</code>。</li>
+<li>遍历 <code>magazine</code> 时，将对应字符的计数值加 1。</li>
+</ul>
+</li>
+<li>
+<p><strong>消耗资源</strong>：统计完 <code>magazine</code> 的字符后，我们再遍历 <code>ransomNote</code>，看看我们的资源是否足够。</p>
+<ul>
+<li>对于 <code>ransomNote</code> 中的每一个字符，我们检查它在 <code>counts</code> 数组中对应的计数值。</li>
+<li>如果计数值<strong>等于 0</strong>，说明 <code>magazine</code> 中已经没有这个字符可供使用了，因此无法构成 <code>ransomNote</code>，直接返回 <code>false</code>。</li>
+<li>如果计数值<strong>大于 0</strong>，说明资源充足。我们将该字符的计数值减 1，表示&quot;消耗&quot;掉了一个字符。</li>
+</ul>
+</li>
+<li>
+<p><strong>得出结论</strong>：</p>
+<ul>
+<li>如果我们能成功遍历完整个 <code>ransomNote</code> 字符串而没有中途返回 <code>false</code>，那就说明 <code>magazine</code> 的资源完全足够，最终返回 <code>true</code>。</li>
+</ul>
+</li>
+</ol>
+<p>在开始计数前，可以做一个简单的剪枝判断：如果 <code>ransomNote</code> 的长度大于 <code>magazine</code> 的长度，那么 <code>magazine</code> 无论如何也不可能凑成 <code>ransomNote</code>，可以直接返回 <code>false</code>。</p>
+<h2 id="代码实现-java">代码实现 (Java)<a hidden class="anchor" aria-hidden="true" href="#代码实现-java">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">canConstruct</span>(String ransomNote, String magazine) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> ransomNote.<span style="color:#a6e22e">length</span>(), m <span style="color:#f92672">=</span> magazine.<span style="color:#a6e22e">length</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 剪枝：如果赎金信比杂志长，肯定无法构成</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&gt;</span> m) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 创建一个长度为 26 的数组作为哈希表，统计 magazine 中各字符的频率</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> counts <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[</span>26<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">char</span> c : magazine.<span style="color:#a6e22e">toCharArray</span>()) {
+</span></span><span style="display:flex;"><span>            counts<span style="color:#f92672">[</span>c <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span><span style="color:#f92672">]++</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 遍历赎金信，消耗 magazine 中的字符</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">char</span> c : ransomNote.<span style="color:#a6e22e">toCharArray</span>()) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> index <span style="color:#f92672">=</span> c <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 如果对应字符的计数为 0，说明 magazine 中已无此字符</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (counts<span style="color:#f92672">[</span>index<span style="color:#f92672">]</span> <span style="color:#f92672">==</span> 0) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 消耗一个字符</span>
+</span></span><span style="display:flex;"><span>                counts<span style="color:#f92672">[</span>index<span style="color:#f92672">]--</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 成功遍历完赎金信，说明可以构成</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>复杂度分析</strong></p>
+<ul>
+<li>
+<p>时间复杂度: O(m + n)。其中 m 是 magazine 的长度，n 是 ransomNote 的长度。我们需要分别遍历两个字符串各一次。</p>
+</li>
+<li>
+<p>空间复杂度: O(1)。我们使用了一个额外的数组来存储字符频率。由于字符集的大小是固定的（小写字母共 26 个），所以空间消耗是常数级别的，不随输入字符串的长度而改变。因此，空间复杂度为 O(1)。</p>
+</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/">字符串</a></li>
+      <li><a href="http://localhost:1313/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/">哈希表</a></li>
+      <li><a href="http://localhost:1313/tags/%E6%95%B0%E7%BB%84/">数组</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">个人技术博客</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

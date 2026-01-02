@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>O(n) on 个人技术博客</title>
+    <link>http://localhost:1313/tags/on/</link>
+    <description>Recent content in O(n) on 个人技术博客</description>
+    <generator>Hugo -- 0.154.1</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 21 Sep 2025 11:03:00 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/on/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>【HOT100/哈希集合/Middle】LeetCode 128. 最长连续序列</title>
+      <link>http://localhost:1313/posts/2025-09-21-128-longest-consecutive-sequence/</link>
+      <pubDate>Sun, 21 Sep 2025 11:03:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-09-21-128-longest-consecutive-sequence/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个未排序的整数数组 &lt;code&gt;nums&lt;/code&gt; ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。&lt;/p&gt;
+&lt;p&gt;请你设计并实现时间复杂度为 &lt;code&gt;O(n)&lt;/code&gt; 的算法解决此问题。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;nums = [100,4,200,1,3,2]&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;4&lt;/code&gt;
+&lt;strong&gt;解释：&lt;/strong&gt; 最长数字连续序列是 &lt;code&gt;[1, 2, 3, 4]&lt;/code&gt;。它的长度为 4。&lt;/p&gt;
+&lt;h2 id=&#34;核心思路哈希集合--智能枚举&#34;&gt;核心思路：哈希集合 + 智能枚举&lt;/h2&gt;
+&lt;p&gt;这道题最核心的要求是 &lt;code&gt;O(n)&lt;/code&gt; 的时间复杂度，这意味着我们不能使用排序 $O(nlogn)$。&lt;/p&gt;
+&lt;p&gt;要实现 &lt;code&gt;O(n)&lt;/code&gt;，关键在于&lt;strong&gt;快速查找&lt;/strong&gt;某个数是否存在。这让我们自然而然地想到了哈希表。我们可以用一个&lt;strong&gt;哈希集合 (HashSet)&lt;/strong&gt; 来优化查找过程。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;这题的关键是找出序列起点来剪枝&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;空间换时间，初始化哈希集合&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;创建一个 &lt;code&gt;HashSet&lt;/code&gt;，并将数组 &lt;code&gt;nums&lt;/code&gt; 中的所有元素都添加进去。&lt;/li&gt;
+&lt;li&gt;这一步有两个目的：一是方便后续以 $O(1)$ 的时间复杂度快速查找某个数是否存在；二是自动处理了数组中的重复元素。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;智能遍历，只从序列的起点开始计算&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;这是整个算法最精妙的地方。如果我们遍历集合中的每一个数，都尝试计算以它开头的序列长度，会有大量重复计算。例如，对于序列 &lt;code&gt;[1, 2, 3, 4]&lt;/code&gt;，我们从 &lt;code&gt;1&lt;/code&gt; 开始计算了一遍，又会从 &lt;code&gt;2&lt;/code&gt; 开始再计算一遍 &lt;code&gt;[2, 3, 4]&lt;/code&gt;，这是不必要的。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;如何避免重复计算？&lt;/strong&gt; 答案是：&lt;strong&gt;只从一个连续序列的起点开始计算&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;如何判断一个数 &lt;code&gt;num&lt;/code&gt; 是不是起点？&lt;/strong&gt; 很简单，只要检查 &lt;code&gt;num - 1&lt;/code&gt; 是否存在于哈希集合中。如果 &lt;code&gt;num - 1&lt;/code&gt; &lt;strong&gt;不存在&lt;/strong&gt;，那么 &lt;code&gt;num&lt;/code&gt; 就是一个潜在的序列起点。如果 &lt;code&gt;num - 1&lt;/code&gt; &lt;strong&gt;存在&lt;/strong&gt;，那么 &lt;code&gt;num&lt;/code&gt; 肯定不是起点，我们可以直接跳过它，因为它一定会被 &lt;code&gt;num - 1&lt;/code&gt; 开始的计算所覆盖。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;计算长度并更新结果&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

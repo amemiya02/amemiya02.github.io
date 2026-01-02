@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>双指针 on 个人技术博客</title>
+    <link>http://localhost:1313/tags/%E5%8F%8C%E6%8C%87%E9%92%88/</link>
+    <description>Recent content in 双指针 on 个人技术博客</description>
+    <generator>Hugo -- 0.154.1</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 02 Jan 2026 17:05:00 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E5%8F%8C%E6%8C%87%E9%92%88/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>【HOT100/数组】LeetCode 189. 轮转数组</title>
+      <link>http://localhost:1313/posts/2026-01-02-189-rotate-array/</link>
+      <pubDate>Fri, 02 Jan 2026 17:05:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2026-01-02-189-rotate-array/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个整数数组 &lt;code&gt;nums&lt;/code&gt;，将数组中的元素向右轮转 &lt;code&gt;k&lt;/code&gt; 个位置，其中 &lt;code&gt;k&lt;/code&gt; 是非负数。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入:&lt;/strong&gt; &lt;code&gt;nums = [1,2,3,4,5,6,7], k = 3&lt;/code&gt;
+&lt;strong&gt;输出:&lt;/strong&gt; &lt;code&gt;[5,6,7,1,2,3,4]&lt;/code&gt;
+&lt;strong&gt;解释:&lt;/strong&gt;
+向右轮转 1 步: &lt;code&gt;[7,1,2,3,4,5,6]&lt;/code&gt;
+向右轮转 2 步: &lt;code&gt;[6,7,1,2,3,4,5]&lt;/code&gt;
+向右轮转 3 步: &lt;code&gt;[5,6,7,1,2,3,4]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;示例 2:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;nums = [-1,-100,3,99], k = 2&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;[3,99,-1,-100]&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;核心思路三次翻转法&#34;&gt;核心思路：三次翻转法&lt;/h2&gt;
+&lt;p&gt;这道题最直观的解法是使用一个额外的数组，将每个元素放到正确的位置，但这需要 $O(N)$ 的空间。
+如果要求原地算法（$O(1)$ 空间），最经典且容易理解的方法是&lt;strong&gt;数组翻转法&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;我们可以观察一下规律，以 &lt;code&gt;nums = [1,2,3,4,5,6,7], k = 3&lt;/code&gt; 为例：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;原始数组&lt;/strong&gt;：&lt;code&gt;[1, 2, 3, 4, 5, 6, 7]&lt;/code&gt;
+我们可以把数组分为两部分：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一部分（前 &lt;code&gt;n-k&lt;/code&gt; 个）：&lt;code&gt;[1, 2, 3, 4]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;第二部分（后 &lt;code&gt;k&lt;/code&gt; 个）：&lt;code&gt;[5, 6, 7]&lt;/code&gt; (这部分实际上是要移动到数组头部的)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;第一步：整体翻转&lt;/strong&gt;
+将整个数组翻转：
+&lt;code&gt;[7, 6, 5, 4, 3, 2, 1]&lt;/code&gt;
+此时，原本在尾部的 &lt;code&gt;[5, 6, 7]&lt;/code&gt; 跑到了头部，但是顺序是反的（&lt;code&gt;7, 6, 5&lt;/code&gt;）。原本在头部的 &lt;code&gt;[1, 2, 3, 4]&lt;/code&gt; 跑到了尾部，顺序也是反的（&lt;code&gt;4, 3, 2, 1&lt;/code&gt;）。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【HOT100/动态规划】LeetCode 42. 接雨水</title>
+      <link>http://localhost:1313/posts/2026-01-02-42-trapping-rain-water/</link>
+      <pubDate>Fri, 02 Jan 2026 14:35:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2026-01-02-42-trapping-rain-water/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定 &lt;code&gt;n&lt;/code&gt; 个非负整数表示每个宽度为 &lt;code&gt;1&lt;/code&gt; 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;height = [0,1,0,2,1,0,1,3,2,1,2,1]&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;6&lt;/code&gt;
+&lt;strong&gt;解释：&lt;/strong&gt; 上面是由数组 &lt;code&gt;[0,1,0,2,1,0,1,3,2,1,2,1]&lt;/code&gt; 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;示例 2：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;height = [4,2,0,3,2,5]&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;9&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;核心思路按列求值的动态规划&#34;&gt;核心思路：按列求值的动态规划&lt;/h2&gt;
+&lt;p&gt;这道题是 LeetCode Top 100 中非常经典的 Hard 题目，也是大厂面试的常客。解决这道题的关键在于&lt;strong&gt;化繁为简&lt;/strong&gt;：不要试图一次性算出所有雨水，而是思考&lt;strong&gt;每一根柱子上方能存多少水&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;对于数组中索引为 &lt;code&gt;i&lt;/code&gt; 的位置，它能接到的雨水量取决于什么？
+根据&amp;quot;木桶效应&amp;quot;，它能存的水，取决于它&lt;strong&gt;左边最高的柱子&lt;/strong&gt;和&lt;strong&gt;右边最高的柱子&lt;/strong&gt;中较矮的那一个，减去它自身的高度。&lt;/p&gt;
+&lt;p&gt;公式如下：&lt;/p&gt;
+&lt;p&gt;$$
+\text{water}[i] = \min(\text{maxleft}[i], \text{maxright}[i]) - \text{height}[i]
+$$&lt;/p&gt;
+&lt;p&gt;当然，如果计算结果小于 0，说明当前柱子比两边都高，存不了水，结果取 0。&lt;/p&gt;
+&lt;h3 id=&#34;为什么需要动态规划&#34;&gt;为什么需要动态规划？&lt;/h3&gt;
+&lt;p&gt;如果我们对每个位置 &lt;code&gt;i&lt;/code&gt; 都向左、向右扫描寻找最大值，时间复杂度会达到 $O(N^2)$，这在数据量大时会超时。&lt;/p&gt;
+&lt;p&gt;为了优化，我们可以使用&lt;strong&gt;空间换时间&lt;/strong&gt;的策略（预处理）：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;左侧最大值数组 (&lt;code&gt;left&lt;/code&gt;)&lt;/strong&gt;：从左往右遍历，&lt;code&gt;left[i]&lt;/code&gt; 表示 &lt;code&gt;[0...i]&lt;/code&gt; 区间内的最大高度。递推公式为 &lt;code&gt;left[i] = max(left[i-1], height[i])&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;右侧最大值数组 (&lt;code&gt;right&lt;/code&gt;)&lt;/strong&gt;：从右往左遍历，&lt;code&gt;right[i]&lt;/code&gt; 表示 &lt;code&gt;[i...n-1]&lt;/code&gt; 区间内的最大高度。递推公式为 &lt;code&gt;right[i] = max(right[i+1], height[i])&lt;/code&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这样，我们在最后计算雨水时，只需要 $O(1)$ 的时间就能获取到左右两边的限制高度。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【HOT100/双指针】LeetCode 15. 三数之和</title>
+      <link>http://localhost:1313/posts/2025-12-17-15-3sum/</link>
+      <pubDate>Wed, 17 Dec 2025 19:25:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-12-17-15-3sum/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt; ，判断是否存在三元组 &lt;code&gt;[nums[i], nums[j], nums[k]]&lt;/code&gt; 满足 &lt;code&gt;i != j&lt;/code&gt;、&lt;code&gt;i != k&lt;/code&gt; 且 &lt;code&gt;j != k&lt;/code&gt; ，同时还满足 &lt;code&gt;nums[i] + nums[j] + nums[k] == 0&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;请你返回所有和为 &lt;code&gt;0&lt;/code&gt; 且不重复的三元组。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt; 答案中不可以包含重复的三元组。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;nums = [-1,0,1,2,-1,-4]&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;[[-1,-1,2],[-1,0,1]]&lt;/code&gt;
+&lt;strong&gt;解释：&lt;/strong&gt;
+不同的三元组是 &lt;code&gt;[-1,0,1]&lt;/code&gt; 和 &lt;code&gt;[-1,-1,2]&lt;/code&gt; 。
+注意，输出的顺序和三元组的顺序并不重要。&lt;/p&gt;
+&lt;h2 id=&#34;核心思路排序--双指针&#34;&gt;核心思路：排序 + 双指针&lt;/h2&gt;
+&lt;p&gt;这道题是“两数之和”的进阶版。如果直接使用三重循环暴力求解，时间复杂度为 $O(n^3)$，这显然会超时。我们需要寻找 $O(n^2)$ 级别的解法。&lt;/p&gt;
+&lt;h3 id=&#34;1-为什么先排序&#34;&gt;1. 为什么先排序？&lt;/h3&gt;
+&lt;p&gt;排序是解决这道题的关键步骤（通常花费 $O(n \log n)$）。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;便于双指针操作&lt;/strong&gt;：排序后，我们可以利用单调性，通过移动左右指针来调整两数之和的大小。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;便于去重&lt;/strong&gt;：题目要求不包含重复的三元组。排序后，相同的元素会相邻，我们在遍历时很容易判断并跳过重复元素。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;2-算法流程&#34;&gt;2. 算法流程&lt;/h3&gt;
+&lt;p&gt;我们将三数之和问题转化为：&lt;strong&gt;固定一个数 &lt;code&gt;nums[i]&lt;/code&gt;，在剩下的数组中寻找两个数，使它们的和等于 &lt;code&gt;-nums[i]&lt;/code&gt;&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;具体步骤如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;特判&lt;/strong&gt;：如果数组为空或长度小于3，直接返回空列表。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;排序&lt;/strong&gt;：对数组进行升序排序。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;遍历&lt;/strong&gt;：枚举第一个数 &lt;code&gt;nums[i]&lt;/code&gt;（索引 &lt;code&gt;i&lt;/code&gt; 从 0 到 &lt;code&gt;n-2&lt;/code&gt;）：
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;剪枝优化&lt;/strong&gt;：因为数组已排序，如果 &lt;code&gt;nums[i] &amp;gt; 0&lt;/code&gt;，那么后面的数一定都比它大，三数之和不可能为 0，直接结束循环。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;外层去重&lt;/strong&gt;：如果 &lt;code&gt;i &amp;gt; 0&lt;/code&gt; 且 &lt;code&gt;nums[i] == nums[i-1]&lt;/code&gt;，说明这个数作为第一个数的情况已经处理过了，跳过以避免重复。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;双指针查找&lt;/strong&gt;：令左指针 &lt;code&gt;L = i + 1&lt;/code&gt;，右指针 &lt;code&gt;R = n - 1&lt;/code&gt;。当 &lt;code&gt;L &amp;lt; R&lt;/code&gt; 时：
+&lt;ul&gt;
+&lt;li&gt;计算 sum = &lt;code&gt;nums[i] + nums[L] + nums[R]&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;若 sum == 0&lt;/strong&gt;：找到一组解，加入结果集。
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;内层去重&lt;/strong&gt;：为了防止结果重复，需要将 &lt;code&gt;L&lt;/code&gt; 向右移过所有重复值，将 &lt;code&gt;R&lt;/code&gt; 向左移过所有重复值。&lt;/li&gt;
+&lt;li&gt;移动指针：&lt;code&gt;L++&lt;/code&gt;, &lt;code&gt;R--&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;若 sum &amp;lt; 0&lt;/strong&gt;：说明和太小，需要变大，因此 &lt;code&gt;L++&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;若 sum &amp;gt; 0&lt;/strong&gt;：说明和太大，需要变小，因此 &lt;code&gt;R--&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;3-去重的细节&#34;&gt;3. 去重的细节&lt;/h3&gt;
+&lt;p&gt;这道题最容易出错的地方就是去重。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【HOT100/双指针】LeetCode 11. 盛最多水的容器</title>
+      <link>http://localhost:1313/posts/2025-12-17-11-container-with-most-water/</link>
+      <pubDate>Wed, 17 Dec 2025 19:10:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-12-17-11-container-with-most-water/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个长度为 &lt;code&gt;n&lt;/code&gt; 的整数数组 &lt;code&gt;height&lt;/code&gt; 。有 &lt;code&gt;n&lt;/code&gt; 条垂线，第 &lt;code&gt;i&lt;/code&gt; 条线的两个端点是 &lt;code&gt;(i, 0)&lt;/code&gt; 和 &lt;code&gt;(i, height[i])&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;找出其中的两条线，使得它们与 &lt;code&gt;x&lt;/code&gt; 轴共同构成的容器可以容纳最多的水。&lt;/p&gt;
+&lt;p&gt;返回容器可以储存的最大水量。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;说明：&lt;/strong&gt; 你不能倾斜容器。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;height = [1,8,6,2,5,4,8,3,7]&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;49&lt;/code&gt;
+&lt;strong&gt;解释：&lt;/strong&gt; 图中垂直线代表输入数组 &lt;code&gt;[1,8,6,2,5,4,8,3,7]&lt;/code&gt;。在此情况下，容器能够容纳水（表示为蓝色部分）的最大值为 49。&lt;/p&gt;
+&lt;h2 id=&#34;核心思路双指针与贪心策略&#34;&gt;核心思路：双指针与贪心策略&lt;/h2&gt;
+&lt;p&gt;这道题是经典的&lt;strong&gt;双指针&lt;/strong&gt;（Two Pointers）应用题，同时也蕴含了&lt;strong&gt;贪心&lt;/strong&gt;（Greedy）的思想。&lt;/p&gt;
+&lt;p&gt;如果我们使用暴力解法，两两组合计算面积，时间复杂度会达到 $O(n^2)$，这在 &lt;code&gt;n&lt;/code&gt; 很大时会超时。我们需要寻找一种 $O(n)$ 的线性扫描方法。&lt;/p&gt;
+&lt;h3 id=&#34;面积公式分析&#34;&gt;面积公式分析&lt;/h3&gt;
+&lt;p&gt;容器的蓄水量（面积）由以下公式决定：&lt;/p&gt;
+&lt;p&gt;$
+\text{Area} = \min(height[l], height[r]) \times (r - l)
+$&lt;/p&gt;
+&lt;p&gt;即：&lt;strong&gt;取决于两板之间较短的那块板的高度 × 两板之间的距离&lt;/strong&gt;。这就像&amp;quot;木桶效应&amp;quot;，装多少水取决于最短的那块木板。&lt;/p&gt;
+&lt;h3 id=&#34;双指针的决策逻辑&#34;&gt;双指针的决策逻辑&lt;/h3&gt;
+&lt;p&gt;我们从数组的两端开始向内收缩，初始化左指针 &lt;code&gt;l = 0&lt;/code&gt;，右指针 &lt;code&gt;r = n - 1&lt;/code&gt;。此时&lt;strong&gt;宽度最大&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;在每一步迭代中，我们需要决定移动哪一边的指针。这里有一个关键的贪心策略：
+&lt;strong&gt;总是移动高度较小的那一端指针。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;为什么？&lt;/strong&gt;
+假设当前 &lt;code&gt;height[l] &amp;lt; height[r]&lt;/code&gt;：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【HOT100/双指针 / 链表】LeetCode 160. 相交链表</title>
+      <link>http://localhost:1313/posts/2025-09-24-160-intersection-of-two-linked-lists/</link>
+      <pubDate>Wed, 24 Sep 2025 20:01:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-09-24-160-intersection-of-two-linked-lists/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给你两个单链表的头节点 &lt;code&gt;headA&lt;/code&gt; 和 &lt;code&gt;headB&lt;/code&gt; ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点, 返回 &lt;code&gt;null&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;题目数据 &lt;strong&gt;保证&lt;/strong&gt; 整个链式结构中不存在环，并且函数返回结果后，链表必须 &lt;strong&gt;保持其原始结构&lt;/strong&gt; 。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img alt=&#34;示意图&#34; loading=&#34;lazy&#34; src=&#34;https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_statement.png&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;核心思路&#34;&gt;核心思路&lt;/h2&gt;
+&lt;h3 id=&#34;思路0hashset去重&#34;&gt;思路0：HashSet去重&lt;/h3&gt;
+&lt;h3 id=&#34;思路一双指针--长度对齐&#34;&gt;思路一：双指针 + 长度对齐&lt;/h3&gt;
+&lt;p&gt;这是最直观的解法。既然相交前的部分长度可能不同，导致我们无法直接同步遍历，那我们想办法让它们变得一样长就可以了。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;计算长度&lt;/strong&gt;：首先，分别遍历两个链表，得到它们的长度 &lt;code&gt;lenA&lt;/code&gt; 和 &lt;code&gt;lenB&lt;/code&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;对齐指针&lt;/strong&gt;：计算出长度差 &lt;code&gt;diff = |lenA - lenB|&lt;/code&gt;。让&lt;strong&gt;较长&lt;/strong&gt;的那个链表的指针先走 &lt;code&gt;diff&lt;/code&gt; 步。这样操作之后，两个指针距离各自链表的末尾就有了相同的距离。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;同步遍历&lt;/strong&gt;：现在两个指针位于同一起跑线（相对终点而言），我们让它们同步向后移动，一次一步。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;寻找交点&lt;/strong&gt;：在同步移动的过程中，第一次出现两个指针相等 (&lt;code&gt;headA == headB&lt;/code&gt;) 的地方，就是它们的第一个相交节点。如果一直走到末尾 (&lt;code&gt;null&lt;/code&gt;) 都没有相遇，则说明两个链表不相交。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这个方法就像两个人去同一个终点，路程长的人先出发一段距离，然后两个人再同时出发，这样他们就能同时到达终点。&lt;/p&gt;
+&lt;h3 id=&#34;思路二双指针浪漫相遇法&#34;&gt;思路二：双指针&amp;quot;浪漫&amp;quot;相遇法&lt;/h3&gt;
+&lt;p&gt;这是一个更巧妙，代码也更简洁的解法，它避免了显式地计算长度。&lt;/p&gt;
+&lt;p&gt;想象有两个指针 &lt;code&gt;pA&lt;/code&gt; 和 &lt;code&gt;pB&lt;/code&gt;，分别从 &lt;code&gt;headA&lt;/code&gt; 和 &lt;code&gt;headB&lt;/code&gt; 出发。它们同时前进，当任何一个指针走到自己链表的末尾时，就&lt;strong&gt;跳到对方链表的头节点&lt;/strong&gt;继续前进。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;为什么这个方法可行？&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;路径长度相等&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;pA&lt;/code&gt; 走过的路径：&lt;code&gt;链表A的长度&lt;/code&gt; + &lt;code&gt;链表B的长度&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pB&lt;/code&gt; 走过的路径：&lt;code&gt;链表B的长度&lt;/code&gt; + &lt;code&gt;链表A的长度&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;两个指针走过的总路程是完全相同的。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;相遇点&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;如果相交&lt;/strong&gt;：设 A 不相交部分长 &lt;code&gt;a&lt;/code&gt;，B 不相交部分长 &lt;code&gt;b&lt;/code&gt;，相交部分长 &lt;code&gt;c&lt;/code&gt;。&lt;code&gt;pA&lt;/code&gt; 走 &lt;code&gt;a+c&lt;/code&gt; 到达终点，然后从 B 的头部走 &lt;code&gt;b&lt;/code&gt; 步。&lt;code&gt;pB&lt;/code&gt; 走 &lt;code&gt;b+c&lt;/code&gt; 到达终点，然后从 A 的头部走 &lt;code&gt;a&lt;/code&gt; 步。当它们都走了 &lt;code&gt;a+b+c&lt;/code&gt; 的路程时，会在相交点相遇。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;如果不相交&lt;/strong&gt;：&lt;code&gt;pA&lt;/code&gt; 走完 A 再走完 B，&lt;code&gt;pB&lt;/code&gt; 走完 B 再走完 A。它们会同时到达终点 &lt;code&gt;null&lt;/code&gt;，此时 &lt;code&gt;pA == pB == null&lt;/code&gt;，循环结束，正确返回 &lt;code&gt;null&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这个方法可以理解为，通过让两个指针都走一遍 &lt;code&gt;A+B&lt;/code&gt; 和 &lt;code&gt;B+A&lt;/code&gt; 的路程，从而消除了长度差，使得它们能够在终点前相遇。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【HOT100/滑动窗口/Middle】LeetCode 3. 无重复字符的最长子串</title>
+      <link>http://localhost:1313/posts/2025-09-22-3-longest-substring-without-repeating-characters/</link>
+      <pubDate>Mon, 22 Sep 2025 18:24:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-09-22-3-longest-substring-without-repeating-characters/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个字符串 &lt;code&gt;s&lt;/code&gt; ，请你找出其中不含有重复字符的 &lt;strong&gt;最长子串&lt;/strong&gt; 的长度。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入:&lt;/strong&gt; &lt;code&gt;s = &amp;quot;abcabcbb&amp;quot;&lt;/code&gt;
+&lt;strong&gt;输出:&lt;/strong&gt; &lt;code&gt;3&lt;/code&gt;
+&lt;strong&gt;解释:&lt;/strong&gt; 因为无重复字符的最长子串是 &lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt;，所以其长度为 3。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;示例 2:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入:&lt;/strong&gt; &lt;code&gt;s = &amp;quot;pwwkew&amp;quot;&lt;/code&gt;
+&lt;strong&gt;输出:&lt;/strong&gt; &lt;code&gt;3&lt;/code&gt;
+&lt;strong&gt;解释:&lt;/strong&gt; 因为无重复字符的最长子串是 &lt;code&gt;&amp;quot;wke&amp;quot;&lt;/code&gt;，所以其长度为 3。
+请注意，你的答案必须是 &lt;strong&gt;子串&lt;/strong&gt; 的长度，&lt;code&gt;&amp;quot;pwke&amp;quot;&lt;/code&gt; 是一个子序列，不是子串。&lt;/p&gt;
+&lt;h2 id=&#34;核心思路滑动窗口&#34;&gt;核心思路：滑动窗口&lt;/h2&gt;
+&lt;p&gt;这道题要求我们找到一个&lt;strong&gt;连续&lt;/strong&gt;的子串，这个子串需要满足&amp;quot;无重复字符&amp;quot;的条件，并且长度要最长。这种在连续区间上求解的问题，非常适合使用&lt;strong&gt;滑动窗口&lt;/strong&gt;算法。&lt;/p&gt;
+&lt;p&gt;我们可以想象有一个窗口在字符串 &lt;code&gt;s&lt;/code&gt; 上滑动，窗口的左右边界由两个指针 &lt;code&gt;left&lt;/code&gt; 和 &lt;code&gt;right&lt;/code&gt; 决定。这个窗口 &lt;code&gt;s[left...right]&lt;/code&gt; 就代表了我们正在考察的当前子串。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;数据结构选择&lt;/strong&gt;：我们需要一个数据结构来快速判断窗口内是否存在重复字符。&lt;strong&gt;哈希集合 (HashSet)&lt;/strong&gt; 是不二之选，它可以在 $O(1)$ 的时间内添加、删除和查找元素。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;窗口的移动逻辑&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;扩大窗口&lt;/strong&gt;：我们不断地移动右指针 &lt;code&gt;right&lt;/code&gt;，将新的字符纳入窗口中。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;缩小窗口&lt;/strong&gt;：当新加入的字符 &lt;code&gt;s[right]&lt;/code&gt; 已经在哈希集合中存在时，说明窗口内出现了重复。此时，我们必须从左侧开始缩小窗口，即不断地移动左指针 &lt;code&gt;left&lt;/code&gt; 并从哈希集合中移除 &lt;code&gt;s[left]&lt;/code&gt;，直到窗口内不再包含重复的 &lt;code&gt;s[right]&lt;/code&gt; 为止。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;算法步骤&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;初始化左指针 &lt;code&gt;left = 0&lt;/code&gt;，右指针 &lt;code&gt;right = 0&lt;/code&gt;，最大长度 &lt;code&gt;maxLength = 0&lt;/code&gt;，以及一个空的哈希集合 &lt;code&gt;set&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;右指针 &lt;code&gt;right&lt;/code&gt; 开始遍历整个字符串：
+a.  获取当前右指针的字符 &lt;code&gt;c = s.charAt(right)&lt;/code&gt;。
+b.  &lt;strong&gt;检查重复&lt;/strong&gt;：在 &lt;code&gt;set&lt;/code&gt; 中检查是否存在字符 &lt;code&gt;c&lt;/code&gt;。如果存在，就进入一个循环，不断从 &lt;code&gt;set&lt;/code&gt; 中移除左指针 &lt;code&gt;left&lt;/code&gt; 指向的字符，并递增 &lt;code&gt;left&lt;/code&gt;，直到 &lt;code&gt;set&lt;/code&gt; 中不再有 &lt;code&gt;c&lt;/code&gt;。
+c.  &lt;strong&gt;添加新字符&lt;/strong&gt;：将当前字符 &lt;code&gt;c&lt;/code&gt; 添加到 &lt;code&gt;set&lt;/code&gt; 中。
+d.  &lt;strong&gt;更新最大长度&lt;/strong&gt;：此时，从 &lt;code&gt;left&lt;/code&gt; 到 &lt;code&gt;right&lt;/code&gt; 的窗口内一定是无重复字符的。我们更新最大长度：&lt;code&gt;maxLength = Math.max(maxLength, right - left + 1)&lt;/code&gt;。
+e.  将右指针 &lt;code&gt;right&lt;/code&gt; 右移一位，考察下一个字符。&lt;/li&gt;
+&lt;li&gt;遍历结束后，&lt;code&gt;maxLength&lt;/code&gt; 就是最终答案。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;通过这种一扩一缩的动态调整，滑动窗口能够保证在一次遍历中就找到最优解。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【HOT100/快慢指针】LeetCode 283. 移动零</title>
+      <link>http://localhost:1313/posts/2025-09-20-283-move-zeroes/</link>
+      <pubDate>Sat, 20 Sep 2025 14:55:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-09-20-283-move-zeroes/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个数组 &lt;code&gt;nums&lt;/code&gt;，编写一个函数将所有 &lt;code&gt;0&lt;/code&gt; 移动到数组的末尾，同时保持非零元素的相对顺序。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;请注意&lt;/strong&gt; ，必须在不复制数组的情况下&lt;strong&gt;原地&lt;/strong&gt;对数组进行操作。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入:&lt;/strong&gt; &lt;code&gt;nums = [0,1,0,3,12]&lt;/code&gt;
+&lt;strong&gt;输出:&lt;/strong&gt; &lt;code&gt;[1,3,12,0,0]&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;核心思路快慢指针一次遍历&#34;&gt;核心思路：快慢指针（一次遍历）&lt;/h2&gt;
+&lt;p&gt;这道题有两个核心要求：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;将所有 &lt;code&gt;0&lt;/code&gt; 移动到末尾。&lt;/li&gt;
+&lt;li&gt;保持所有&lt;strong&gt;非零&lt;/strong&gt;元素的相对顺序不变。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;第二个要求&amp;quot;保持相对顺序&amp;quot;是解题的关键。它告诉我们，不能简单地像&amp;quot;移除元素&amp;quot;那样，用头尾指针交换元素，因为那样会打乱非零元素的原有顺序。&lt;/p&gt;
+&lt;p&gt;这个问题的本质可以看作是：&lt;strong&gt;将所有非零元素，按原有的顺序，紧凑地移动到数组的前面，然后将剩余的位置全部填上零&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;这正是&lt;strong&gt;快慢指针&lt;/strong&gt;擅长的场景：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;定义指针&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;慢指针 &lt;code&gt;p&lt;/code&gt; (或 &lt;code&gt;slow&lt;/code&gt;)&lt;/strong&gt;: 这个指针用于标记&amp;quot;下一个非零元素应该被放置的位置&amp;quot;。在 &lt;code&gt;p&lt;/code&gt; 左边的所有元素（不含 &lt;code&gt;p&lt;/code&gt;）都是已经处理好的、按序排列的非零元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;快指针 &lt;code&gt;q&lt;/code&gt; (或 &lt;code&gt;fast&lt;/code&gt;)&lt;/strong&gt;: 这个指针负责遍历整个数组，去寻找非零元素。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;执行过程&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;初始化 &lt;code&gt;p&lt;/code&gt; 和 &lt;code&gt;q&lt;/code&gt; 都指向数组的起始位置 &lt;code&gt;0&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;快指针 &lt;code&gt;q&lt;/code&gt; 开始向后遍历数组。&lt;/li&gt;
+&lt;li&gt;当 &lt;code&gt;q&lt;/code&gt; 遇到一个&lt;strong&gt;非零&lt;/strong&gt;元素时，说明这个元素需要被保留并放到前面。于是，我们执行两个操作：
+&lt;ol&gt;
+&lt;li&gt;将这个非零元素 &lt;code&gt;nums[q]&lt;/code&gt; 赋值给慢指针 &lt;code&gt;p&lt;/code&gt; 所在的位置 &lt;code&gt;nums[p]&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;将慢指针 &lt;code&gt;p&lt;/code&gt; 向后移动一位 (&lt;code&gt;p++&lt;/code&gt;)，为下一个非零元素腾出位置。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;如果 &lt;code&gt;q&lt;/code&gt; 遇到的是 &lt;code&gt;0&lt;/code&gt;，则慢指针 &lt;code&gt;p&lt;/code&gt; 保持不动，只有快指针 &lt;code&gt;q&lt;/code&gt; 继续向后移动。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;填充末尾的零&lt;/strong&gt;：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【HOT100/双指针】LeetCode 392. 判断子序列</title>
+      <link>http://localhost:1313/posts/2025-09-17-392-is-subsequence/</link>
+      <pubDate>Wed, 17 Sep 2025 20:13:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-09-17-392-is-subsequence/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定字符串 &lt;code&gt;s&lt;/code&gt; 和 &lt;code&gt;t&lt;/code&gt; ，判断 &lt;code&gt;s&lt;/code&gt; 是否为 &lt;code&gt;t&lt;/code&gt; 的子序列。&lt;/p&gt;
+&lt;p&gt;字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，&lt;code&gt;&amp;quot;ace&amp;quot;&lt;/code&gt;是&lt;code&gt;&amp;quot;abcde&amp;quot;&lt;/code&gt;的一个子序列，而&lt;code&gt;&amp;quot;aec&amp;quot;&lt;/code&gt;不是）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; s = &lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt;, t = &lt;code&gt;&amp;quot;ahbgdc&amp;quot;&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; s = &lt;code&gt;&amp;quot;axc&amp;quot;&lt;/code&gt;, t = &lt;code&gt;&amp;quot;ahbgdc&amp;quot;&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;核心思路双指针&#34;&gt;核心思路：双指针&lt;/h2&gt;
+&lt;p&gt;这道题的核心是匹配字符，同时要保持&lt;strong&gt;相对顺序&lt;/strong&gt;。这种&amp;quot;按顺序查找&amp;quot;的场景，是双指针大显身手的地方。我们可以使用两个指针，一个指向子序列 &lt;code&gt;s&lt;/code&gt;，一个指向主串 &lt;code&gt;t&lt;/code&gt;，然后同步向前扫描。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;初始化指针&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;定义指针 &lt;code&gt;p&lt;/code&gt; 指向 &lt;code&gt;s&lt;/code&gt; 的起始位置 &lt;code&gt;0&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;定义指针 &lt;code&gt;q&lt;/code&gt; 指向 &lt;code&gt;t&lt;/code&gt; 的起始位置 &lt;code&gt;0&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;贪心匹配&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;我们使用指针 &lt;code&gt;q&lt;/code&gt; 遍历主串 &lt;code&gt;t&lt;/code&gt;，同时用指针 &lt;code&gt;p&lt;/code&gt; 来标记我们&lt;strong&gt;当前正在 &lt;code&gt;s&lt;/code&gt; 中寻找的字符&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;当 &lt;code&gt;p&lt;/code&gt; 和 &lt;code&gt;q&lt;/code&gt; 都在各自的字符串范围内时，进行循环比较：
+&lt;ul&gt;
+&lt;li&gt;如果 &lt;code&gt;s.charAt(p)&lt;/code&gt; 与 &lt;code&gt;t.charAt(q)&lt;/code&gt; &lt;strong&gt;相等&lt;/strong&gt;，意味着我们在 &lt;code&gt;t&lt;/code&gt; 中找到了 &lt;code&gt;s&lt;/code&gt; 的一个字符。接下来我们应该去寻找 &lt;code&gt;s&lt;/code&gt; 的下一个字符了，所以将 &lt;code&gt;p&lt;/code&gt; 和 &lt;code&gt;q&lt;/code&gt; &lt;strong&gt;都&lt;/strong&gt;向后移动一位 (&lt;code&gt;p++&lt;/code&gt;, &lt;code&gt;q++&lt;/code&gt;)。&lt;/li&gt;
+&lt;li&gt;如果 &lt;code&gt;s.charAt(p)&lt;/code&gt; 与 &lt;code&gt;t.charAt(q)&lt;/code&gt; &lt;strong&gt;不相等&lt;/strong&gt;，说明当前 &lt;code&gt;t&lt;/code&gt; 中的这个字符不是我们想要的。我们应该继续在 &lt;code&gt;t&lt;/code&gt; 的后续部分寻找 &lt;code&gt;s.charAt(p)&lt;/code&gt;，所以只将 &lt;code&gt;q&lt;/code&gt; 向后移动一位 (&lt;code&gt;q++&lt;/code&gt;)。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;判断结果&lt;/strong&gt;：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【HOT100/双指针】LeetCode 125. 验证回文串</title>
+      <link>http://localhost:1313/posts/2025-09-16-125-valid-palindrome/</link>
+      <pubDate>Tue, 16 Sep 2025 21:02:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-09-16-125-valid-palindrome/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果在将所有大写字符转换为小写字符、并移除所有非字母数字字符之后，短语正着读和反着读都一样。则可以认为该短语是一个 &lt;strong&gt;回文串&lt;/strong&gt; 。&lt;/p&gt;
+&lt;p&gt;字母和数字都属于字母数字字符。&lt;/p&gt;
+&lt;p&gt;给你一个字符串 &lt;code&gt;s&lt;/code&gt;，如果它是 &lt;strong&gt;回文串&lt;/strong&gt; ，返回 &lt;code&gt;true&lt;/code&gt; ；否则，返回 &lt;code&gt;false&lt;/code&gt; 。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; s = &lt;code&gt;&amp;quot;A man, a plan, a canal: Panama&amp;quot;&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;true&lt;/code&gt;
+&lt;strong&gt;解释：&lt;/strong&gt; &lt;code&gt;&amp;quot;amanaplanacanalpanama&amp;quot;&lt;/code&gt; 是回文串。&lt;/p&gt;
+&lt;h2 id=&#34;核心思路相向双指针&#34;&gt;核心思路：相向双指针&lt;/h2&gt;
+&lt;p&gt;&amp;ldquo;回文&amp;quot;这个特性，天然就适合使用&lt;strong&gt;相向双指针&lt;/strong&gt;来解决。我们可以设置一个指针从字符串头部开始，另一个指针从尾部开始，同时向中间移动并进行比较。&lt;/p&gt;
+&lt;p&gt;对于这道题，我们需要在比较之前，先对字符进行&amp;quot;清洗&amp;rdquo;，即忽略非字母数字字符和大小写。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;初始化指针&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;定义左指针 &lt;code&gt;left&lt;/code&gt; 指向字符串的起始位置 &lt;code&gt;0&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;定义右指针 &lt;code&gt;right&lt;/code&gt; 指向字符串的末尾位置 &lt;code&gt;s.length() - 1&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;循环与过滤&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;当 &lt;code&gt;left &amp;lt; right&lt;/code&gt; 时，循环继续。&lt;/li&gt;
+&lt;li&gt;在循环内部，首先要找到左右两边有效的、可用于比较的字符。
+&lt;ul&gt;
+&lt;li&gt;移动 &lt;code&gt;left&lt;/code&gt; 指针：如果 &lt;code&gt;left&lt;/code&gt; 指向的字符&lt;strong&gt;不是&lt;/strong&gt;字母或数字，就将 &lt;code&gt;left&lt;/code&gt; 右移 (&lt;code&gt;left++&lt;/code&gt;)，跳过该字符。&lt;/li&gt;
+&lt;li&gt;移动 &lt;code&gt;right&lt;/code&gt; 指针：如果 &lt;code&gt;right&lt;/code&gt; 指向的字符&lt;strong&gt;不是&lt;/strong&gt;字母或数字，就将 &lt;code&gt;right&lt;/code&gt; 左移 (&lt;code&gt;right--&lt;/code&gt;)，跳过该字符。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;比较字符&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;当左右指针都停留在有效的字母数字字符上时，将它们统一转换为小写进行比较。&lt;/li&gt;
+&lt;li&gt;如果 &lt;code&gt;Character.toLowerCase(s.charAt(left))&lt;/code&gt; &lt;strong&gt;不等于&lt;/strong&gt; &lt;code&gt;Character.toLowerCase(s.charAt(right))&lt;/code&gt;，说明字符串不是回文串，可以直接返回 &lt;code&gt;false&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;向中心移动&lt;/strong&gt;：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【HOT100/快慢指针】LeetCode 80. 删除有序数组中的重复项 II</title>
+      <link>http://localhost:1313/posts/2025-09-14-80-remove-duplicates-from-sorted-array-ii/</link>
+      <pubDate>Sun, 14 Sep 2025 16:55:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-09-14-80-remove-duplicates-from-sorted-array-ii/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给你一个有序数组 &lt;code&gt;nums&lt;/code&gt; ，请你 &lt;strong&gt;原地&lt;/strong&gt; 删除重复出现的元素，使得出现次数超过两次的元素&lt;strong&gt;只出现两次&lt;/strong&gt; ，返回删除后数组的新长度。&lt;/p&gt;
+&lt;p&gt;不要使用额外的数组空间，你必须在 &lt;strong&gt;原地&lt;/strong&gt; 修改输入数组 并在使用 O(1) 额外空间的条件下完成。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; nums = &lt;code&gt;[1,1,1,2,2,3]&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;5&lt;/code&gt;, nums = &lt;code&gt;[1,1,2,2,3,_]&lt;/code&gt;
+&lt;strong&gt;解释：&lt;/strong&gt; 函数应返回 &lt;code&gt;k = 5&lt;/code&gt;，并且 &lt;code&gt;nums&lt;/code&gt; 的前五个元素为 &lt;code&gt;1, 1, 2, 2, 3&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;核心思路快慢指针的通用解法&#34;&gt;核心思路：快慢指针的通用解法&lt;/h2&gt;
+&lt;p&gt;这道题是 LeetCode 26 的进阶版，规则从&amp;quot;只保留 1 个&amp;quot;变成了&amp;quot;最多保留 2 个&amp;quot;。快慢指针的思路依然适用，我们只需要对写入条件稍作修改。&lt;/p&gt;
+&lt;p&gt;我们可以定义一个更通用的解法来处理&amp;quot;最多保留 k 个重复项&amp;quot;这类问题。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;定义指针&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;慢指针 &lt;code&gt;slow&lt;/code&gt;&lt;/strong&gt;: 指向下一个可以被覆盖的位置。&lt;code&gt;[0...slow-1]&lt;/code&gt; 是已处理好的区域。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;快指针 &lt;code&gt;fast&lt;/code&gt;&lt;/strong&gt;: 遍历整个数组，寻找符合条件的元素。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;执行过程&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;我们遍历数组，对于快指针 &lt;code&gt;fast&lt;/code&gt; 指向的当前元素 &lt;code&gt;nums[fast]&lt;/code&gt;，思考一个问题：&lt;strong&gt;在什么情况下，这个元素应该被保留下来？&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;保留的条件是：当前处理好的数组长度 &lt;code&gt;slow&lt;/code&gt; 小于 2，或者 &lt;code&gt;nums[fast]&lt;/code&gt; 不等于 &lt;code&gt;nums[slow - 2]&lt;/code&gt;。
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;slow &amp;lt; 2&lt;/code&gt;：表示当前是数组最开头的两个位置，无论如何都应该被填充，因为题目允许最多两个重复项。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nums[fast] &amp;gt; nums[slow - 2]&lt;/code&gt;：这是本算法的核心。&lt;code&gt;nums[slow - 1]&lt;/code&gt; 和 &lt;code&gt;nums[slow - 2]&lt;/code&gt; 是已处理好的数组的最后两个元素。如果当前快指针的元素 &lt;code&gt;nums[fast]&lt;/code&gt; 和 &lt;code&gt;nums[slow - 2]&lt;/code&gt; 相同，说明 &lt;code&gt;nums[slow-2]&lt;/code&gt;, &lt;code&gt;nums[slow-1]&lt;/code&gt;, &lt;code&gt;nums[fast]&lt;/code&gt; 将构成三个或以上的连续重复，此时 &lt;code&gt;nums[fast]&lt;/code&gt; 不应被保留。反之，则可以保留。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;返回结果&lt;/strong&gt;：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【HOT100/快慢指针】LeetCode 26.删除有序数组中的重复项</title>
+      <link>http://localhost:1313/posts/2025-09-13-26-remove-duplicates-from-sorted-array/</link>
+      <pubDate>Sat, 13 Sep 2025 10:35:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-09-13-26-remove-duplicates-from-sorted-array/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给你一个 &lt;strong&gt;非严格递增排列&lt;/strong&gt; 的数组 &lt;code&gt;nums&lt;/code&gt; ，请你 &lt;strong&gt;原地&lt;/strong&gt; 删除重复出现的元素，使每个元素 &lt;strong&gt;只出现一次&lt;/strong&gt; ，返回删除后数组的新长度。元素的 &lt;strong&gt;相对顺序&lt;/strong&gt; 应该保持 &lt;strong&gt;一致&lt;/strong&gt; 。&lt;/p&gt;
+&lt;p&gt;更改数组 &lt;code&gt;nums&lt;/code&gt; ，使 &lt;code&gt;nums&lt;/code&gt; 的前 &lt;code&gt;k&lt;/code&gt; 个元素包含唯一元素，并按照它们最初在 &lt;code&gt;nums&lt;/code&gt; 中出现的顺序排列。&lt;/p&gt;
+&lt;p&gt;返回 &lt;code&gt;k&lt;/code&gt; 。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; nums = &lt;code&gt;[0,0,1,1,1,2,2,3,3,4]&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;5&lt;/code&gt;, nums = &lt;code&gt;[0,1,2,3,4,_,_,_,_,_]&lt;/code&gt;
+&lt;strong&gt;解释：&lt;/strong&gt; 函数应该返回 &lt;code&gt;k = 5&lt;/code&gt;，并且 &lt;code&gt;nums&lt;/code&gt; 的前五个元素为 &lt;code&gt;0, 1, 2, 3, 4&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;核心思路快慢指针&#34;&gt;核心思路：快慢指针&lt;/h2&gt;
+&lt;p&gt;题目的关键在于&amp;quot;数组有序&amp;quot;和&amp;quot;保持相对顺序&amp;quot;。因为数组是有序的，所以所有重复的元素必然是相邻的。这让我们不必进行复杂的查找，只需向后遍历即可。&lt;/p&gt;
+&lt;p&gt;我们可以使用&lt;strong&gt;快慢指针&lt;/strong&gt;来解决这个问题：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;定义指针&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;慢指针 &lt;code&gt;p&lt;/code&gt;&lt;/strong&gt;: 指向当前已处理好的、不重复数组的最后一个位置。它也代表了下一个唯一元素应该被放置的位置。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;快指针 &lt;code&gt;q&lt;/code&gt;&lt;/strong&gt;: 负责向前探索，遍历整个数组，寻找与慢指针所指元素不同的新元素。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;执行过程&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;初始化 &lt;code&gt;p = 0&lt;/code&gt;, &lt;code&gt;q = 1&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;快指针 &lt;code&gt;q&lt;/code&gt; 向后遍历数组。&lt;/li&gt;
+&lt;li&gt;若 &lt;code&gt;nums[q]&lt;/code&gt; 与 &lt;code&gt;nums[p]&lt;/code&gt; &lt;strong&gt;相同&lt;/strong&gt;，说明是重复元素，则 &lt;code&gt;p&lt;/code&gt; 不动，&lt;code&gt;q&lt;/code&gt; 继续向后移动以跳过所有重复项。&lt;/li&gt;
+&lt;li&gt;若 &lt;code&gt;nums[q]&lt;/code&gt; 与 &lt;code&gt;nums[p]&lt;/code&gt; &lt;strong&gt;不同&lt;/strong&gt;，说明 &lt;code&gt;q&lt;/code&gt; 找到了一个新的唯一元素。此时，先将慢指针 &lt;code&gt;p&lt;/code&gt; 向后移动一位 (&lt;code&gt;++p&lt;/code&gt;)，然后将 &lt;code&gt;nums[q]&lt;/code&gt; 的值赋给 &lt;code&gt;nums[p]&lt;/code&gt;，完成新元素的&amp;quot;入队&amp;quot;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;返回结果&lt;/strong&gt;：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【HOT100/双指针】LeetCode 27. 原地移除数组元素</title>
+      <link>http://localhost:1313/posts/2025-09-12-27-remove-element/</link>
+      <pubDate>Fri, 12 Sep 2025 21:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-09-12-27-remove-element/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给你一个数组 &lt;code&gt;nums&lt;/code&gt; 和一个值 &lt;code&gt;val&lt;/code&gt;，你需要 &lt;strong&gt;原地&lt;/strong&gt; 移除所有数值等于 &lt;code&gt;val&lt;/code&gt; 的元素。元素的顺序可能发生改变。然后返回 &lt;code&gt;nums&lt;/code&gt; 中与 &lt;code&gt;val&lt;/code&gt; 不同的元素的数量。&lt;/p&gt;
+&lt;p&gt;假设 &lt;code&gt;nums&lt;/code&gt; 中不等于 &lt;code&gt;val&lt;/code&gt; 的元素数量为 &lt;code&gt;k&lt;/code&gt;，要通过此题，您需要执行以下操作：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;更改 &lt;code&gt;nums&lt;/code&gt; 数组，使 &lt;code&gt;nums&lt;/code&gt; 的前 &lt;code&gt;k&lt;/code&gt; 个元素包含不等于 &lt;code&gt;val&lt;/code&gt; 的元素。&lt;code&gt;nums&lt;/code&gt; 的其余元素和 &lt;code&gt;nums&lt;/code&gt; 的大小并不重要。&lt;/li&gt;
+&lt;li&gt;返回 &lt;code&gt;k&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; nums = &lt;code&gt;[3,2,2,3]&lt;/code&gt;, val = &lt;code&gt;3&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;2&lt;/code&gt;, nums = &lt;code&gt;[2,2,_,_]&lt;/code&gt;
+&lt;strong&gt;解释：&lt;/strong&gt; 函数应该返回 &lt;code&gt;k = 2&lt;/code&gt;, 并且 &lt;code&gt;nums&lt;/code&gt; 中的前两个元素均为 &lt;code&gt;2&lt;/code&gt;。你的函数可以返回 &lt;code&gt;k&lt;/code&gt;，并且 &lt;code&gt;nums&lt;/code&gt; 的前 &lt;code&gt;k&lt;/code&gt; 个元素可以包含任何顺序的 &lt;code&gt;2&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;核心思路相向双指针头尾指针&#34;&gt;核心思路：相向双指针（头尾指针）&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;定义头尾指针&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;p&lt;/code&gt; 指针从数组头部 &lt;code&gt;0&lt;/code&gt; 开始，向后移动。它的任务是&lt;strong&gt;寻找值为 &lt;code&gt;val&lt;/code&gt; 的元素&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;q&lt;/code&gt; 指针从数组尾部 &lt;code&gt;n-1&lt;/code&gt; 开始，向前移动。它的任务是&lt;strong&gt;寻找值不为 &lt;code&gt;val&lt;/code&gt; 的元素&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;交换与移动&lt;/strong&gt;：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【HOT100/双指针】LeetCode 88. 合并两个有序数组</title>
+      <link>http://localhost:1313/posts/2025-09-11-88-merge-sorted-array/</link>
+      <pubDate>Thu, 11 Sep 2025 18:46:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-09-11-88-merge-sorted-array/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给你两个按 &lt;strong&gt;非递减顺序&lt;/strong&gt; 排列的整数数组 &lt;code&gt;nums1&lt;/code&gt; 和 &lt;code&gt;nums2&lt;/code&gt;，另有两个整数 &lt;code&gt;m&lt;/code&gt; 和 &lt;code&gt;n&lt;/code&gt; ，分别表示 &lt;code&gt;nums1&lt;/code&gt; 和 &lt;code&gt;nums2&lt;/code&gt; 中的元素数目。&lt;/p&gt;
+&lt;p&gt;请你 &lt;strong&gt;合并&lt;/strong&gt; &lt;code&gt;nums2&lt;/code&gt; 到 &lt;code&gt;nums1&lt;/code&gt; 中，使合并后的数组同样按 &lt;strong&gt;非递减顺序&lt;/strong&gt; 排列。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：最终，合并后数组不应由函数返回，而是存储在数组 &lt;code&gt;nums1&lt;/code&gt; 中。为了应对这种情况，&lt;code&gt;nums1&lt;/code&gt; 的初始长度为 &lt;code&gt;m + n&lt;/code&gt;，其中前 &lt;code&gt;m&lt;/code&gt; 个元素表示应合并的元素，后 &lt;code&gt;n&lt;/code&gt; 个元素为 &lt;code&gt;0&lt;/code&gt; ，应忽略。&lt;code&gt;nums2&lt;/code&gt; 的长度为 &lt;code&gt;n&lt;/code&gt; 。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; nums1 = &lt;code&gt;[1,2,3,0,0,0]&lt;/code&gt;, m = &lt;code&gt;3&lt;/code&gt;, nums2 = &lt;code&gt;[2,5,6]&lt;/code&gt;, n = &lt;code&gt;3&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;[1,2,2,3,5,6]&lt;/code&gt;
+&lt;strong&gt;解释：&lt;/strong&gt; 需要合并 &lt;code&gt;[1,2,3]&lt;/code&gt; 和 &lt;code&gt;[2,5,6]&lt;/code&gt; 。合并结果是 &lt;code&gt;[1,2,2,3,5,6]&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;最初的思考为何从前往后走不通&#34;&gt;最初的思考：为何从前往后走不通？&lt;/h2&gt;
+&lt;p&gt;看到这道题，我的第一反应非常直接：创建一个新的指针 &lt;code&gt;i&lt;/code&gt; 指向 &lt;code&gt;nums1&lt;/code&gt; 的开头，一个指针 &lt;code&gt;j&lt;/code&gt; 指向 &lt;code&gt;nums2&lt;/code&gt; 的开头，然后比较 &lt;code&gt;nums1[i]&lt;/code&gt; 和 &lt;code&gt;nums2[j]&lt;/code&gt; 的大小，把较小的那个放到一个新数组里。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>【HOT100/双指针 / 链表】LeetCode 160. 相交链表 | 个人技术博客</title>
+<meta name="keywords" content="链表, 双指针">
+<meta name="description" content="题目回顾
+
+给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点, 返回 null 。
+题目数据 保证 整个链式结构中不存在环，并且函数返回结果后，链表必须 保持其原始结构 。
+
+
+核心思路
+思路0：HashSet去重
+思路一：双指针 &#43; 长度对齐
+这是最直观的解法。既然相交前的部分长度可能不同，导致我们无法直接同步遍历，那我们想办法让它们变得一样长就可以了。
+
+
+计算长度：首先，分别遍历两个链表，得到它们的长度 lenA 和 lenB。
+
+
+对齐指针：计算出长度差 diff = |lenA - lenB|。让较长的那个链表的指针先走 diff 步。这样操作之后，两个指针距离各自链表的末尾就有了相同的距离。
+
+
+同步遍历：现在两个指针位于同一起跑线（相对终点而言），我们让它们同步向后移动，一次一步。
+
+
+寻找交点：在同步移动的过程中，第一次出现两个指针相等 (headA == headB) 的地方，就是它们的第一个相交节点。如果一直走到末尾 (null) 都没有相遇，则说明两个链表不相交。
+
+
+这个方法就像两个人去同一个终点，路程长的人先出发一段距离，然后两个人再同时出发，这样他们就能同时到达终点。
+思路二：双指针&quot;浪漫&quot;相遇法
+这是一个更巧妙，代码也更简洁的解法，它避免了显式地计算长度。
+想象有两个指针 pA 和 pB，分别从 headA 和 headB 出发。它们同时前进，当任何一个指针走到自己链表的末尾时，就跳到对方链表的头节点继续前进。
+为什么这个方法可行？
+
+
+路径长度相等：
+
+pA 走过的路径：链表A的长度 &#43; 链表B的长度
+pB 走过的路径：链表B的长度 &#43; 链表A的长度
+两个指针走过的总路程是完全相同的。
+
+
+
+相遇点：
+
+如果相交：设 A 不相交部分长 a，B 不相交部分长 b，相交部分长 c。pA 走 a&#43;c 到达终点，然后从 B 的头部走 b 步。pB 走 b&#43;c 到达终点，然后从 A 的头部走 a 步。当它们都走了 a&#43;b&#43;c 的路程时，会在相交点相遇。
+如果不相交：pA 走完 A 再走完 B，pB 走完 B 再走完 A。它们会同时到达终点 null，此时 pA == pB == null，循环结束，正确返回 null。
+
+
+
+这个方法可以理解为，通过让两个指针都走一遍 A&#43;B 和 B&#43;A 的路程，从而消除了长度差，使得它们能够在终点前相遇。">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/2025-09-24-160-intersection-of-two-linked-lists/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.343cc480b9ffc8f04ccbe5e968ad674880cab773ec19905e93033065c1e7a804.css" integrity="sha256-NDzEgLn/yPBMy&#43;XpaK1nSIDKt3PsGZBekwMwZcHnqAQ=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2025-09-24-160-intersection-of-two-linked-lists/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="http://localhost:1313/posts/2025-09-24-160-intersection-of-two-linked-lists/">
+  <meta property="og:site_name" content="个人技术博客">
+  <meta property="og:title" content="【HOT100/双指针 / 链表】LeetCode 160. 相交链表">
+  <meta property="og:description" content="题目回顾 给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点, 返回 null 。
+题目数据 保证 整个链式结构中不存在环，并且函数返回结果后，链表必须 保持其原始结构 。
+核心思路 思路0：HashSet去重 思路一：双指针 &#43; 长度对齐 这是最直观的解法。既然相交前的部分长度可能不同，导致我们无法直接同步遍历，那我们想办法让它们变得一样长就可以了。
+计算长度：首先，分别遍历两个链表，得到它们的长度 lenA 和 lenB。
+对齐指针：计算出长度差 diff = |lenA - lenB|。让较长的那个链表的指针先走 diff 步。这样操作之后，两个指针距离各自链表的末尾就有了相同的距离。
+同步遍历：现在两个指针位于同一起跑线（相对终点而言），我们让它们同步向后移动，一次一步。
+寻找交点：在同步移动的过程中，第一次出现两个指针相等 (headA == headB) 的地方，就是它们的第一个相交节点。如果一直走到末尾 (null) 都没有相遇，则说明两个链表不相交。
+这个方法就像两个人去同一个终点，路程长的人先出发一段距离，然后两个人再同时出发，这样他们就能同时到达终点。
+思路二：双指针&#34;浪漫&#34;相遇法 这是一个更巧妙，代码也更简洁的解法，它避免了显式地计算长度。
+想象有两个指针 pA 和 pB，分别从 headA 和 headB 出发。它们同时前进，当任何一个指针走到自己链表的末尾时，就跳到对方链表的头节点继续前进。
+为什么这个方法可行？
+路径长度相等：
+pA 走过的路径：链表A的长度 &#43; 链表B的长度 pB 走过的路径：链表B的长度 &#43; 链表A的长度 两个指针走过的总路程是完全相同的。 相遇点：
+如果相交：设 A 不相交部分长 a，B 不相交部分长 b，相交部分长 c。pA 走 a&#43;c 到达终点，然后从 B 的头部走 b 步。pB 走 b&#43;c 到达终点，然后从 A 的头部走 a 步。当它们都走了 a&#43;b&#43;c 的路程时，会在相交点相遇。 如果不相交：pA 走完 A 再走完 B，pB 走完 B 再走完 A。它们会同时到达终点 null，此时 pA == pB == null，循环结束，正确返回 null。 这个方法可以理解为，通过让两个指针都走一遍 A&#43;B 和 B&#43;A 的路程，从而消除了长度差，使得它们能够在终点前相遇。">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-09-24T20:01:00+09:00">
+    <meta property="article:modified_time" content="2025-09-24T20:01:00+09:00">
+    <meta property="article:tag" content="链表">
+    <meta property="article:tag" content="双指针">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【HOT100/双指针 / 链表】LeetCode 160. 相交链表">
+<meta name="twitter:description" content="题目回顾
+
+给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点, 返回 null 。
+题目数据 保证 整个链式结构中不存在环，并且函数返回结果后，链表必须 保持其原始结构 。
+
+
+核心思路
+思路0：HashSet去重
+思路一：双指针 &#43; 长度对齐
+这是最直观的解法。既然相交前的部分长度可能不同，导致我们无法直接同步遍历，那我们想办法让它们变得一样长就可以了。
+
+
+计算长度：首先，分别遍历两个链表，得到它们的长度 lenA 和 lenB。
+
+
+对齐指针：计算出长度差 diff = |lenA - lenB|。让较长的那个链表的指针先走 diff 步。这样操作之后，两个指针距离各自链表的末尾就有了相同的距离。
+
+
+同步遍历：现在两个指针位于同一起跑线（相对终点而言），我们让它们同步向后移动，一次一步。
+
+
+寻找交点：在同步移动的过程中，第一次出现两个指针相等 (headA == headB) 的地方，就是它们的第一个相交节点。如果一直走到末尾 (null) 都没有相遇，则说明两个链表不相交。
+
+
+这个方法就像两个人去同一个终点，路程长的人先出发一段距离，然后两个人再同时出发，这样他们就能同时到达终点。
+思路二：双指针&quot;浪漫&quot;相遇法
+这是一个更巧妙，代码也更简洁的解法，它避免了显式地计算长度。
+想象有两个指针 pA 和 pB，分别从 headA 和 headB 出发。它们同时前进，当任何一个指针走到自己链表的末尾时，就跳到对方链表的头节点继续前进。
+为什么这个方法可行？
+
+
+路径长度相等：
+
+pA 走过的路径：链表A的长度 &#43; 链表B的长度
+pB 走过的路径：链表B的长度 &#43; 链表A的长度
+两个指针走过的总路程是完全相同的。
+
+
+
+相遇点：
+
+如果相交：设 A 不相交部分长 a，B 不相交部分长 b，相交部分长 c。pA 走 a&#43;c 到达终点，然后从 B 的头部走 b 步。pB 走 b&#43;c 到达终点，然后从 A 的头部走 a 步。当它们都走了 a&#43;b&#43;c 的路程时，会在相交点相遇。
+如果不相交：pA 走完 A 再走完 B，pB 走完 B 再走完 A。它们会同时到达终点 null，此时 pA == pB == null，循环结束，正确返回 null。
+
+
+
+这个方法可以理解为，通过让两个指针都走一遍 A&#43;B 和 B&#43;A 的路程，从而消除了长度差，使得它们能够在终点前相遇。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "【HOT100/双指针 / 链表】LeetCode 160. 相交链表",
+      "item": "http://localhost:1313/posts/2025-09-24-160-intersection-of-two-linked-lists/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "【HOT100/双指针 / 链表】LeetCode 160. 相交链表",
+  "name": "【HOT100\/双指针 \/ 链表】LeetCode 160. 相交链表",
+  "description": "题目回顾 给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点, 返回 null 。\n题目数据 保证 整个链式结构中不存在环，并且函数返回结果后，链表必须 保持其原始结构 。\n核心思路 思路0：HashSet去重 思路一：双指针 + 长度对齐 这是最直观的解法。既然相交前的部分长度可能不同，导致我们无法直接同步遍历，那我们想办法让它们变得一样长就可以了。\n计算长度：首先，分别遍历两个链表，得到它们的长度 lenA 和 lenB。\n对齐指针：计算出长度差 diff = |lenA - lenB|。让较长的那个链表的指针先走 diff 步。这样操作之后，两个指针距离各自链表的末尾就有了相同的距离。\n同步遍历：现在两个指针位于同一起跑线（相对终点而言），我们让它们同步向后移动，一次一步。\n寻找交点：在同步移动的过程中，第一次出现两个指针相等 (headA == headB) 的地方，就是它们的第一个相交节点。如果一直走到末尾 (null) 都没有相遇，则说明两个链表不相交。\n这个方法就像两个人去同一个终点，路程长的人先出发一段距离，然后两个人再同时出发，这样他们就能同时到达终点。\n思路二：双指针\u0026quot;浪漫\u0026quot;相遇法 这是一个更巧妙，代码也更简洁的解法，它避免了显式地计算长度。\n想象有两个指针 pA 和 pB，分别从 headA 和 headB 出发。它们同时前进，当任何一个指针走到自己链表的末尾时，就跳到对方链表的头节点继续前进。\n为什么这个方法可行？\n路径长度相等：\npA 走过的路径：链表A的长度 + 链表B的长度 pB 走过的路径：链表B的长度 + 链表A的长度 两个指针走过的总路程是完全相同的。 相遇点：\n如果相交：设 A 不相交部分长 a，B 不相交部分长 b，相交部分长 c。pA 走 a+c 到达终点，然后从 B 的头部走 b 步。pB 走 b+c 到达终点，然后从 A 的头部走 a 步。当它们都走了 a+b+c 的路程时，会在相交点相遇。 如果不相交：pA 走完 A 再走完 B，pB 走完 B 再走完 A。它们会同时到达终点 null，此时 pA == pB == null，循环结束，正确返回 null。 这个方法可以理解为，通过让两个指针都走一遍 A+B 和 B+A 的路程，从而消除了长度差，使得它们能够在终点前相遇。\n",
+  "keywords": [
+    "链表", "双指针"
+  ],
+  "articleBody": "题目回顾 给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点, 返回 null 。\n题目数据 保证 整个链式结构中不存在环，并且函数返回结果后，链表必须 保持其原始结构 。\n核心思路 思路0：HashSet去重 思路一：双指针 + 长度对齐 这是最直观的解法。既然相交前的部分长度可能不同，导致我们无法直接同步遍历，那我们想办法让它们变得一样长就可以了。\n计算长度：首先，分别遍历两个链表，得到它们的长度 lenA 和 lenB。\n对齐指针：计算出长度差 diff = |lenA - lenB|。让较长的那个链表的指针先走 diff 步。这样操作之后，两个指针距离各自链表的末尾就有了相同的距离。\n同步遍历：现在两个指针位于同一起跑线（相对终点而言），我们让它们同步向后移动，一次一步。\n寻找交点：在同步移动的过程中，第一次出现两个指针相等 (headA == headB) 的地方，就是它们的第一个相交节点。如果一直走到末尾 (null) 都没有相遇，则说明两个链表不相交。\n这个方法就像两个人去同一个终点，路程长的人先出发一段距离，然后两个人再同时出发，这样他们就能同时到达终点。\n思路二：双指针\"浪漫\"相遇法 这是一个更巧妙，代码也更简洁的解法，它避免了显式地计算长度。\n想象有两个指针 pA 和 pB，分别从 headA 和 headB 出发。它们同时前进，当任何一个指针走到自己链表的末尾时，就跳到对方链表的头节点继续前进。\n为什么这个方法可行？\n路径长度相等：\npA 走过的路径：链表A的长度 + 链表B的长度 pB 走过的路径：链表B的长度 + 链表A的长度 两个指针走过的总路程是完全相同的。 相遇点：\n如果相交：设 A 不相交部分长 a，B 不相交部分长 b，相交部分长 c。pA 走 a+c 到达终点，然后从 B 的头部走 b 步。pB 走 b+c 到达终点，然后从 A 的头部走 a 步。当它们都走了 a+b+c 的路程时，会在相交点相遇。 如果不相交：pA 走完 A 再走完 B，pB 走完 B 再走完 A。它们会同时到达终点 null，此时 pA == pB == null，循环结束，正确返回 null。 这个方法可以理解为，通过让两个指针都走一遍 A+B 和 B+A 的路程，从而消除了长度差，使得它们能够在终点前相遇。\n代码实现 (Java) 解法一：长度对齐法 public class Solution { public ListNode getIntersectionNode(ListNode headA, ListNode headB) { if (headA == null || headB == null) { return null; } // 1. 计算两个链表的长度 int lenA = 0, lenB = 0; ListNode pA = headA, pB = headB; while (pA != null) { lenA++; pA = pA.next; } while (pB != null) { lenB++; pB = pB.next; } // 2. 将较长链表的头指针向前移动，以对齐 pA = headA; pB = headB; if (lenA \u003e lenB) { for (int i = 0; i \u003c lenA - lenB; i++) { pA = pA.next; } } else { for (int i = 0; i \u003c lenB - lenA; i++) { pB = pB.next; } } // 3. 同步遍历，寻找相交节点 while (pA != pB) { pA = pA.next; pB = pB.next; } return pA; } } 解法二：双指针\"换路\"法 (更巧妙) public class Solution { public ListNode getIntersectionNode(ListNode headA, ListNode headB) { if (headA == null || headB == null) { return null; } ListNode pA = headA, pB = headB; while (pA != pB) { // pA 走完自己的路，就去走 pB 的路 pA = (pA == null) ? headB : pA.next; // pB 走完自己的路，就去走 pA 的路 pB = (pB == null) ? headA : pB.next; } return pA; } } 复杂度分析\n时间复杂度: O(m + n)。其中 m 和 n 分别是两个链表的长度。两种方法都需要线性遍历链表。 空间复杂度: O(1)。两种方法都只使用了常数个额外指针变量。 ",
+  "wordCount" : "320",
+  "inLanguage": "en",
+  "datePublished": "2025-09-24T20:01:00+09:00",
+  "dateModified": "2025-09-24T20:01:00+09:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/2025-09-24-160-intersection-of-two-linked-lists/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "个人技术博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="个人技术博客 (Alt + H)">个人技术博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      【HOT100/双指针 / 链表】LeetCode 160. 相交链表
+    </h1>
+    <div class="post-meta"><span title='2025-09-24 20:01:00 +0900 JST'>September 24, 2025</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="题目回顾">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾">#</a></h2>
+<blockquote>
+<p>给你两个单链表的头节点 <code>headA</code> 和 <code>headB</code> ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点, 返回 <code>null</code> 。</p>
+<p>题目数据 <strong>保证</strong> 整个链式结构中不存在环，并且函数返回结果后，链表必须 <strong>保持其原始结构</strong> 。</p>
+</blockquote>
+<p><img alt="示意图" loading="lazy" src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_statement.png"></p>
+<h2 id="核心思路">核心思路<a hidden class="anchor" aria-hidden="true" href="#核心思路">#</a></h2>
+<h3 id="思路0hashset去重">思路0：HashSet去重<a hidden class="anchor" aria-hidden="true" href="#思路0hashset去重">#</a></h3>
+<h3 id="思路一双指针--长度对齐">思路一：双指针 + 长度对齐<a hidden class="anchor" aria-hidden="true" href="#思路一双指针--长度对齐">#</a></h3>
+<p>这是最直观的解法。既然相交前的部分长度可能不同，导致我们无法直接同步遍历，那我们想办法让它们变得一样长就可以了。</p>
+<ol>
+<li>
+<p><strong>计算长度</strong>：首先，分别遍历两个链表，得到它们的长度 <code>lenA</code> 和 <code>lenB</code>。</p>
+</li>
+<li>
+<p><strong>对齐指针</strong>：计算出长度差 <code>diff = |lenA - lenB|</code>。让<strong>较长</strong>的那个链表的指针先走 <code>diff</code> 步。这样操作之后，两个指针距离各自链表的末尾就有了相同的距离。</p>
+</li>
+<li>
+<p><strong>同步遍历</strong>：现在两个指针位于同一起跑线（相对终点而言），我们让它们同步向后移动，一次一步。</p>
+</li>
+<li>
+<p><strong>寻找交点</strong>：在同步移动的过程中，第一次出现两个指针相等 (<code>headA == headB</code>) 的地方，就是它们的第一个相交节点。如果一直走到末尾 (<code>null</code>) 都没有相遇，则说明两个链表不相交。</p>
+</li>
+</ol>
+<p>这个方法就像两个人去同一个终点，路程长的人先出发一段距离，然后两个人再同时出发，这样他们就能同时到达终点。</p>
+<h3 id="思路二双指针浪漫相遇法">思路二：双指针&quot;浪漫&quot;相遇法<a hidden class="anchor" aria-hidden="true" href="#思路二双指针浪漫相遇法">#</a></h3>
+<p>这是一个更巧妙，代码也更简洁的解法，它避免了显式地计算长度。</p>
+<p>想象有两个指针 <code>pA</code> 和 <code>pB</code>，分别从 <code>headA</code> 和 <code>headB</code> 出发。它们同时前进，当任何一个指针走到自己链表的末尾时，就<strong>跳到对方链表的头节点</strong>继续前进。</p>
+<p><strong>为什么这个方法可行？</strong></p>
+<ul>
+<li>
+<p><strong>路径长度相等</strong>：</p>
+<ul>
+<li><code>pA</code> 走过的路径：<code>链表A的长度</code> + <code>链表B的长度</code></li>
+<li><code>pB</code> 走过的路径：<code>链表B的长度</code> + <code>链表A的长度</code></li>
+<li>两个指针走过的总路程是完全相同的。</li>
+</ul>
+</li>
+<li>
+<p><strong>相遇点</strong>：</p>
+<ul>
+<li><strong>如果相交</strong>：设 A 不相交部分长 <code>a</code>，B 不相交部分长 <code>b</code>，相交部分长 <code>c</code>。<code>pA</code> 走 <code>a+c</code> 到达终点，然后从 B 的头部走 <code>b</code> 步。<code>pB</code> 走 <code>b+c</code> 到达终点，然后从 A 的头部走 <code>a</code> 步。当它们都走了 <code>a+b+c</code> 的路程时，会在相交点相遇。</li>
+<li><strong>如果不相交</strong>：<code>pA</code> 走完 A 再走完 B，<code>pB</code> 走完 B 再走完 A。它们会同时到达终点 <code>null</code>，此时 <code>pA == pB == null</code>，循环结束，正确返回 <code>null</code>。</li>
+</ul>
+</li>
+</ul>
+<p>这个方法可以理解为，通过让两个指针都走一遍 <code>A+B</code> 和 <code>B+A</code> 的路程，从而消除了长度差，使得它们能够在终点前相遇。</p>
+<h2 id="代码实现-java">代码实现 (Java)<a hidden class="anchor" aria-hidden="true" href="#代码实现-java">#</a></h2>
+<h3 id="解法一长度对齐法">解法一：长度对齐法<a hidden class="anchor" aria-hidden="true" href="#解法一长度对齐法">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> ListNode <span style="color:#a6e22e">getIntersectionNode</span>(ListNode headA, ListNode headB) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (headA <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">||</span> headB <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 1. 计算两个链表的长度</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> lenA <span style="color:#f92672">=</span> 0, lenB <span style="color:#f92672">=</span> 0;
+</span></span><span style="display:flex;"><span>        ListNode pA <span style="color:#f92672">=</span> headA, pB <span style="color:#f92672">=</span> headB;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (pA <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>            lenA<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>            pA <span style="color:#f92672">=</span> pA.<span style="color:#a6e22e">next</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (pB <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>            lenB<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>            pB <span style="color:#f92672">=</span> pB.<span style="color:#a6e22e">next</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 2. 将较长链表的头指针向前移动，以对齐</span>
+</span></span><span style="display:flex;"><span>        pA <span style="color:#f92672">=</span> headA;
+</span></span><span style="display:flex;"><span>        pB <span style="color:#f92672">=</span> headB;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (lenA <span style="color:#f92672">&gt;</span> lenB) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0; i <span style="color:#f92672">&lt;</span> lenA <span style="color:#f92672">-</span> lenB; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                pA <span style="color:#f92672">=</span> pA.<span style="color:#a6e22e">next</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0; i <span style="color:#f92672">&lt;</span> lenB <span style="color:#f92672">-</span> lenA; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                pB <span style="color:#f92672">=</span> pB.<span style="color:#a6e22e">next</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 3. 同步遍历，寻找相交节点</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (pA <span style="color:#f92672">!=</span> pB) {
+</span></span><span style="display:flex;"><span>            pA <span style="color:#f92672">=</span> pA.<span style="color:#a6e22e">next</span>;
+</span></span><span style="display:flex;"><span>            pB <span style="color:#f92672">=</span> pB.<span style="color:#a6e22e">next</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> pA;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="解法二双指针换路法-更巧妙">解法二：双指针&quot;换路&quot;法 (更巧妙)<a hidden class="anchor" aria-hidden="true" href="#解法二双指针换路法-更巧妙">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> ListNode <span style="color:#a6e22e">getIntersectionNode</span>(ListNode headA, ListNode headB) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (headA <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">||</span> headB <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        ListNode pA <span style="color:#f92672">=</span> headA, pB <span style="color:#f92672">=</span> headB;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (pA <span style="color:#f92672">!=</span> pB) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// pA 走完自己的路，就去走 pB 的路</span>
+</span></span><span style="display:flex;"><span>            pA <span style="color:#f92672">=</span> (pA <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span>) <span style="color:#f92672">?</span> headB : pA.<span style="color:#a6e22e">next</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// pB 走完自己的路，就去走 pA 的路</span>
+</span></span><span style="display:flex;"><span>            pB <span style="color:#f92672">=</span> (pB <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span>) <span style="color:#f92672">?</span> headA : pB.<span style="color:#a6e22e">next</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> pA;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>复杂度分析</strong></p>
+<ul>
+<li>时间复杂度: <code>O(m + n)</code>。其中 m 和 n 分别是两个链表的长度。两种方法都需要线性遍历链表。</li>
+<li>空间复杂度: <code>O(1)</code>。两种方法都只使用了常数个额外指针变量。</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/%E9%93%BE%E8%A1%A8/">链表</a></li>
+      <li><a href="http://localhost:1313/tags/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">个人技术博客</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

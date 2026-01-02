@@ -1,0 +1,23 @@
+baseURL = 'https://example.org/'
+languageCode = 'zh-CN'
+title = '个人技术博客'
+theme = "PaperMod"
+
+[pagination]
+  pagerSize = 10
+
+[params]
+    env = "production"
+    
+    ShowFullPagination = true
+
+    # 个人主页模式
+    [params.profileMode]
+        enabled = true
+        title = "Amemiya"
+        subtitle = "欢迎来的我的个人博客"
+        
+        [[params.profileMode.buttons]]
+            name = "文章列表"
+            url = "posts"
+
