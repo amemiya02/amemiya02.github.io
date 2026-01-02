@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto" data-theme="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -9,17 +9,17 @@
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="canonical" href="https://amemiya02.github.io/tags/%E6%95%B0%E5%AD%A6/">
+<link rel="canonical" href="http://localhost:1313/tags/%E6%95%B0%E5%AD%A6/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.343cc480b9ffc8f04ccbe5e968ad674880cab773ec19905e93033065c1e7a804.css" integrity="sha256-NDzEgLn/yPBMy&#43;XpaK1nSIDKt3PsGZBekwMwZcHnqAQ=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://amemiya02.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://amemiya02.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://amemiya02.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://amemiya02.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://amemiya02.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://amemiya02.github.io/tags/%E6%95%B0%E5%AD%A6/index.xml" title="rss">
-<link rel="alternate" hreflang="en" href="https://amemiya02.github.io/tags/%E6%95%B0%E5%AD%A6/">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/tags/%E6%95%B0%E5%AD%A6/index.xml" title="rss">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/tags/%E6%95%B0%E5%AD%A6/">
 <noscript>
     <style>
         #theme-toggle,
@@ -71,7 +71,7 @@
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta property="og:url" content="https://amemiya02.github.io/tags/%E6%95%B0%E5%AD%A6/">
+</script><meta property="og:url" content="http://localhost:1313/tags/%E6%95%B0%E5%AD%A6/">
   <meta property="og:site_name" content="个人技术博客">
   <meta property="og:title" content="数学">
   <meta property="og:locale" content="zh-CN">
@@ -85,7 +85,7 @@
     <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://amemiya02.github.io/" accesskey="h" title="个人技术博客 (Alt + H)">个人技术博客</a>
+            <a href="http://localhost:1313/" accesskey="h" title="个人技术博客 (Alt + H)">个人技术博客</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -122,6 +122,30 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/矩阵】LeetCode 48. 旋转图像
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 给定一个 n × n 的二维矩阵 matrix 表示一个图像。请你将图像顺时针旋转 90 度。
+你必须在 原地 旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要 使用另一个矩阵来旋转图像。
+示例 1：
+输入： matrix = [[1,2,3],[4,5,6],[7,8,9]] 输出： [[7,4,1],[8,5,2],[9,6,3]]
+示例 2：
+输入： matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]] 输出： [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
+核心思路：数学变换 这道题最直接的思路是找出每个元素旋转后的坐标规律。对于一个坐标为 (i, j) 的元素，顺时针旋转 90 度后，它的新位置是 (j, n-1-i)。 如果直接模拟这个过程，我们需要小心翼翼地进行四角交换，逻辑容易出错。
+更优雅的解法是利用矩阵运算的性质。顺时针旋转 90 度可以拆解为两步简单的变换：
+转置 (Transpose)：将矩阵的行列互换（沿对角线翻转）。 matrix[i][j] $\leftrightarrow$ matrix[j][i] 水平镜像 (Reverse Rows)：将每一行左右翻转。 matrix[i][j] $\leftrightarrow$ matrix[i][n-1-j] 演示过程：
+假设输入为：
+1 2 3 4 5 6 7 8 9 第一步：转置（对角线翻转）
+1 4 7 2 5 8 3 6 9 第二步：每行左右翻转
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-02 22:15:00 +0900 JST'>January 2, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/矩阵】LeetCode 48. 旋转图像" href="http://localhost:1313/posts/2026-01-02-48-rotate-image/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">【HOT100/数组】LeetCode 189. 轮转数组
     </h2>
   </header>
@@ -138,12 +162,12 @@
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2026-01-02 17:05:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/数组】LeetCode 189. 轮转数组" href="https://amemiya02.github.io/posts/2026-01-02-189-rotate-array/"></a>
+  <a class="entry-link" aria-label="post link to 【HOT100/数组】LeetCode 189. 轮转数组" href="http://localhost:1313/posts/2026-01-02-189-rotate-array/"></a>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="https://amemiya02.github.io/">个人技术博客</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:1313/">个人技术博客</a></span> · 
 
     <span>
         Powered by

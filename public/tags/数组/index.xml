@@ -2,17 +2,170 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>数组 on 个人技术博客</title>
-    <link>https://amemiya02.github.io/tags/%E6%95%B0%E7%BB%84/</link>
+    <link>http://localhost:1313/tags/%E6%95%B0%E7%BB%84/</link>
     <description>Recent content in 数组 on 个人技术博客</description>
     <generator>Hugo -- 0.154.1</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 02 Jan 2026 19:30:00 +0900</lastBuildDate>
-    <atom:link href="https://amemiya02.github.io/tags/%E6%95%B0%E7%BB%84/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 02 Jan 2026 23:00:00 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E6%95%B0%E7%BB%84/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>【HOT100/矩阵】LeetCode 240. 搜索二维矩阵 II</title>
+      <link>http://localhost:1313/posts/2026-01-02-240-search-a-2d-matrix-ii/</link>
+      <pubDate>Fri, 02 Jan 2026 23:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2026-01-02-240-search-a-2d-matrix-ii/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;编写一个高效的算法来搜索 &lt;code&gt;m x n&lt;/code&gt; 矩阵 &lt;code&gt;matrix&lt;/code&gt; 中的一个目标值 &lt;code&gt;target&lt;/code&gt; 。该矩阵具有以下特性：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;每行的元素从左到右升序排列。&lt;/li&gt;
+&lt;li&gt;每列的元素从上到下升序排列。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;示例 2：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;matrix = ... (同上), target = 20&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;核心思路抽象-bst-从角落出发&#34;&gt;核心思路：抽象 BST (从角落出发)&lt;/h2&gt;
+&lt;p&gt;如果把矩阵的每一个位置看作一个节点，我们要利用&amp;quot;行有序&amp;quot;和&amp;quot;列有序&amp;quot;这两个条件来快速缩小查找范围。&lt;/p&gt;
+&lt;p&gt;如果我们从&lt;strong&gt;左上角&lt;/strong&gt;出发，当前值小于 &lt;code&gt;target&lt;/code&gt; 时，我们既可以向右走（变大），也可以向下走（变大），这就产生了歧义，无法确定唯一的搜索方向。&lt;/p&gt;
+&lt;p&gt;但是，如果我们选择&lt;strong&gt;左下角&lt;/strong&gt;（或者右上角）作为起点，情况就完全不同了。&lt;/p&gt;
+&lt;p&gt;以&lt;strong&gt;左下角&lt;/strong&gt; &lt;code&gt;(m-1, 0)&lt;/code&gt; 为例：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;当前值 &amp;gt; target&lt;/strong&gt;：
+因为当前行是升序的，左下角已经是该行最小的数了，如果连它都比 &lt;code&gt;target&lt;/code&gt; 大，说明&lt;strong&gt;这一行所有的数都比 &lt;code&gt;target&lt;/code&gt; 大&lt;/strong&gt;。
+-&amp;gt; 结论：&lt;strong&gt;排除当前行&lt;/strong&gt;，向上移动 (&lt;code&gt;i--&lt;/code&gt;)。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;当前值 &amp;lt; target&lt;/strong&gt;：
+因为当前列是升序的，左下角已经是该列最大的数了（在剩下的范围内），如果连它都比 &lt;code&gt;target&lt;/code&gt; 小，说明&lt;strong&gt;这一列所有的数都比 &lt;code&gt;target&lt;/code&gt; 小&lt;/strong&gt;。
+-&amp;gt; 结论：&lt;strong&gt;排除当前列&lt;/strong&gt;，向右移动 (&lt;code&gt;j++&lt;/code&gt;)。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这个过程就像是在遍历一棵&lt;strong&gt;二叉搜索树 (BST)&lt;/strong&gt;，左下角就是根节点，往上走是找更小的（类似左子树），往右走是找更大的（类似右子树）。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【HOT100/矩阵】LeetCode 48. 旋转图像</title>
+      <link>http://localhost:1313/posts/2026-01-02-48-rotate-image/</link>
+      <pubDate>Fri, 02 Jan 2026 22:15:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2026-01-02-48-rotate-image/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个 &lt;code&gt;n × n&lt;/code&gt; 的二维矩阵 &lt;code&gt;matrix&lt;/code&gt; 表示一个图像。请你将图像顺时针旋转 90 度。&lt;/p&gt;
+&lt;p&gt;你必须在 &lt;strong&gt;原地&lt;/strong&gt; 旋转图像，这意味着你需要直接修改输入的二维矩阵。&lt;strong&gt;请不要&lt;/strong&gt; 使用另一个矩阵来旋转图像。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;matrix = [[1,2,3],[4,5,6],[7,8,9]]&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;[[7,4,1],[8,5,2],[9,6,3]]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;示例 2：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;[[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;核心思路数学变换&#34;&gt;核心思路：数学变换&lt;/h2&gt;
+&lt;p&gt;这道题最直接的思路是找出每个元素旋转后的坐标规律。对于一个坐标为 &lt;code&gt;(i, j)&lt;/code&gt; 的元素，顺时针旋转 90 度后，它的新位置是 &lt;code&gt;(j, n-1-i)&lt;/code&gt;。
+如果直接模拟这个过程，我们需要小心翼翼地进行四角交换，逻辑容易出错。&lt;/p&gt;
+&lt;p&gt;更优雅的解法是利用矩阵运算的性质。顺时针旋转 90 度可以拆解为两步简单的变换：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;转置 (Transpose)&lt;/strong&gt;：将矩阵的行列互换（沿对角线翻转）。
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;matrix[i][j]&lt;/code&gt; $\leftrightarrow$ &lt;code&gt;matrix[j][i]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;水平镜像 (Reverse Rows)&lt;/strong&gt;：将每一行左右翻转。
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;matrix[i][j]&lt;/code&gt; $\leftrightarrow$ &lt;code&gt;matrix[i][n-1-j]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;演示过程：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;假设输入为：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1 2 3
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;4 5 6
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;7 8 9
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;第一步：转置（对角线翻转）&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1 4 7
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2 5 8
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;3 6 9
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;第二步：每行左右翻转&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【HOT100/矩阵】LeetCode 54. 螺旋矩阵</title>
+      <link>http://localhost:1313/posts/2026-01-02-54-spiral-matrix/</link>
+      <pubDate>Fri, 02 Jan 2026 21:30:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2026-01-02-54-spiral-matrix/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给你一个 &lt;code&gt;m&lt;/code&gt; 行 &lt;code&gt;n&lt;/code&gt; 列的矩阵 &lt;code&gt;matrix&lt;/code&gt; ，请按照 &lt;strong&gt;顺时针螺旋顺序&lt;/strong&gt; ，返回矩阵中的所有元素。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;matrix = [[1,2,3],[4,5,6],[7,8,9]]&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;[1,2,3,6,9,8,7,4,5]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;示例 2：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;[1,2,3,4,8,12,11,10,9,5,6,7]&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;核心思路四边界模拟法&#34;&gt;核心思路：四边界模拟法&lt;/h2&gt;
+&lt;p&gt;这道题没有太多的算法技巧，本质上是一道&lt;strong&gt;模拟题&lt;/strong&gt;。我们需要模拟一个机器人在矩阵中按照&amp;quot;右 -&amp;gt; 下 -&amp;gt; 左 -&amp;gt; 上&amp;quot;的顺序一直走，直到填满所有格子。&lt;/p&gt;
+&lt;p&gt;虽然思路简单，但如果不加设计地直接写，很容易陷入各种边界判断的泥潭（比如拐角处怎么处理、什么时候停止）。&lt;/p&gt;
+&lt;p&gt;最优雅的解法是&lt;strong&gt;设定四个边界&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;t&lt;/code&gt; (top)：上边界，初始为 &lt;code&gt;0&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;b&lt;/code&gt; (bottom)：下边界，初始为 &lt;code&gt;m-1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;l&lt;/code&gt; (left)：左边界，初始为 &lt;code&gt;0&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;r&lt;/code&gt; (right)：右边界，初始为 &lt;code&gt;n-1&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;算法流程&#34;&gt;算法流程&lt;/h3&gt;
+&lt;p&gt;我们要在一个循环中按照顺时针方向依次处理四条边。每处理完一条边，就将对应的边界向内收缩，并立即检查是否越界（越界意味着遍历结束）。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;向右移动&lt;/strong&gt;：遍历从 &lt;code&gt;l&lt;/code&gt; 到 &lt;code&gt;r&lt;/code&gt;。处理完后，上边界下移 (&lt;code&gt;++t&lt;/code&gt;)。如果 &lt;code&gt;t &amp;gt; b&lt;/code&gt;，说明上下边界交错，遍历结束。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;向下移动&lt;/strong&gt;：遍历从 &lt;code&gt;t&lt;/code&gt; 到 &lt;code&gt;b&lt;/code&gt;。处理完后，右边界左移 (&lt;code&gt;--r&lt;/code&gt;)。如果 &lt;code&gt;l &amp;gt; r&lt;/code&gt;，说明左右边界交错，遍历结束。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;向左移动&lt;/strong&gt;：遍历从 &lt;code&gt;r&lt;/code&gt; 到 &lt;code&gt;l&lt;/code&gt;。处理完后，下边界上移 (&lt;code&gt;--b&lt;/code&gt;)。如果 &lt;code&gt;t &amp;gt; b&lt;/code&gt;，遍历结束。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;向上移动&lt;/strong&gt;：遍历从 &lt;code&gt;b&lt;/code&gt; 到 &lt;code&gt;t&lt;/code&gt;。处理完后，左边界右移 (&lt;code&gt;++l&lt;/code&gt;)。如果 &lt;code&gt;l &amp;gt; r&lt;/code&gt;，遍历结束。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这种写法将边界检查巧妙地融合在每一步操作之后，不需要在循环头部写复杂的 &lt;code&gt;count &amp;lt; total&lt;/code&gt; 判断，代码逻辑非常清晰。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【HOT100/矩阵】LeetCode 73. 矩阵置零</title>
+      <link>http://localhost:1313/posts/2026-01-02-73-set-matrix-zeroes/</link>
+      <pubDate>Fri, 02 Jan 2026 20:45:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2026-01-02-73-set-matrix-zeroes/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个 &lt;code&gt;m x n&lt;/code&gt; 的矩阵，如果一个元素为 &lt;code&gt;0&lt;/code&gt; ，则将其所在行和列的所有元素都设为 &lt;code&gt;0&lt;/code&gt; 。请使用 &lt;strong&gt;原地&lt;/strong&gt; 算法。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;matrix = [[1,1,1],[1,0,1],[1,1,1]]&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;[[1,0,1],[0,0,0],[1,0,1]]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;示例 2：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;[[0,0,0,0],[0,4,5,0],[0,3,1,0]]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;进阶：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一个直观的解决方案是使用 $O(mn)$ 的额外空间，但这并不是一个好的解决方案。&lt;/li&gt;
+&lt;li&gt;一个简单的改进方案是使用 $O(m + n)$ 的额外空间，但这仍然不是最好的解决方案。&lt;/li&gt;
+&lt;li&gt;你能想出一个仅使用常量空间的解决方案吗？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;核心思路利用首行首列做标记&#34;&gt;核心思路：利用首行首列做标记&lt;/h2&gt;
+&lt;p&gt;这道题的难点在于**&amp;ldquo;污染&amp;rdquo;**问题：如果我们一边遍历一边将 0 所在的行列置零，那么修改后的 0 会干扰后续的遍历，导致整个矩阵最后全变成了 0。&lt;/p&gt;
+&lt;h3 id=&#34;空间复杂度优化路径&#34;&gt;空间复杂度优化路径&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;$O(MN)$ 空间&lt;/strong&gt;：新建一个同样的矩阵做标记。太浪费。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;$O(M+N)$ 空间&lt;/strong&gt;：使用两个布尔数组 &lt;code&gt;row[]&lt;/code&gt; 和 &lt;code&gt;col[]&lt;/code&gt;，分别记录哪一行、哪一列需要置零。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;$O(1)$ 空间&lt;/strong&gt;：直接利用矩阵的第一行和第一列来替代上面的两个布尔数组。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;算法流程-o1-方案&#34;&gt;算法流程 ($O(1)$ 方案)&lt;/h3&gt;
+&lt;p&gt;既然我们要用第一行和第一列来记录&amp;quot;该行/列是否需要置零&amp;quot;，那么第一行和第一列原本的状态（是否包含 0）就需要先被保存下来，否则会被后续的标记覆盖。&lt;/p&gt;
+&lt;p&gt;步骤如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;记录首行首列状态&lt;/strong&gt;：
+定义两个变量 &lt;code&gt;firstRowHasZero&lt;/code&gt; 和 &lt;code&gt;firstColHasZero&lt;/code&gt;，遍历第一行和第一列，如果发现 0，则将对应的变量置为 &lt;code&gt;true&lt;/code&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;利用首行首列做标记&lt;/strong&gt;：
+遍历矩阵的&lt;strong&gt;其余部分&lt;/strong&gt;（从 &lt;code&gt;(1,1)&lt;/code&gt; 开始）。如果发现 &lt;code&gt;matrix[i][j] == 0&lt;/code&gt;，就将它对应的行首 &lt;code&gt;matrix[i][0]&lt;/code&gt; 和列首 &lt;code&gt;matrix[0][j]&lt;/code&gt; 设为 0。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>【HOT100/数组】LeetCode 41. 缺失的第一个正数</title>
-      <link>https://amemiya02.github.io/posts/2026-01-02-41-first-missing-positive/</link>
+      <link>http://localhost:1313/posts/2026-01-02-41-first-missing-positive/</link>
       <pubDate>Fri, 02 Jan 2026 19:30:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2026-01-02-41-first-missing-positive/</guid>
+      <guid>http://localhost:1313/posts/2026-01-02-41-first-missing-positive/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给你一个未排序的整数数组 &lt;code&gt;nums&lt;/code&gt; ，请你找出其中没有出现的最小的正整数。&lt;/p&gt;
@@ -42,9 +195,9 @@
     </item>
     <item>
       <title>【HOT100/数组】LeetCode 238. 除了自身以外数组的乘积</title>
-      <link>https://amemiya02.github.io/posts/2026-01-02-238-product-of-array-except-self/</link>
+      <link>http://localhost:1313/posts/2026-01-02-238-product-of-array-except-self/</link>
       <pubDate>Fri, 02 Jan 2026 18:00:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2026-01-02-238-product-of-array-except-self/</guid>
+      <guid>http://localhost:1313/posts/2026-01-02-238-product-of-array-except-self/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt;，返回 数组 &lt;code&gt;answer&lt;/code&gt; ，其中 &lt;code&gt;answer[i]&lt;/code&gt; 等于 &lt;code&gt;nums&lt;/code&gt; 中除了 &lt;code&gt;nums[i]&lt;/code&gt; 之外其余各元素的乘积。&lt;/p&gt;
@@ -77,9 +230,9 @@
     </item>
     <item>
       <title>【HOT100/数组】LeetCode 189. 轮转数组</title>
-      <link>https://amemiya02.github.io/posts/2026-01-02-189-rotate-array/</link>
+      <link>http://localhost:1313/posts/2026-01-02-189-rotate-array/</link>
       <pubDate>Fri, 02 Jan 2026 17:05:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2026-01-02-189-rotate-array/</guid>
+      <guid>http://localhost:1313/posts/2026-01-02-189-rotate-array/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给定一个整数数组 &lt;code&gt;nums&lt;/code&gt;，将数组中的元素向右轮转 &lt;code&gt;k&lt;/code&gt; 个位置，其中 &lt;code&gt;k&lt;/code&gt; 是非负数。&lt;/p&gt;
@@ -115,9 +268,9 @@
     </item>
     <item>
       <title>【HOT100/排序】LeetCode 56. 合并区间</title>
-      <link>https://amemiya02.github.io/posts/2026-01-02-56-merge-intervals/</link>
+      <link>http://localhost:1313/posts/2026-01-02-56-merge-intervals/</link>
       <pubDate>Fri, 02 Jan 2026 16:20:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2026-01-02-56-merge-intervals/</guid>
+      <guid>http://localhost:1313/posts/2026-01-02-56-merge-intervals/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;以数组 &lt;code&gt;intervals&lt;/code&gt; 表示若干个区间的集合，其中单个区间为 &lt;code&gt;intervals[i] = [start_i, end_i]&lt;/code&gt; 。请你合并所有重叠的区间，并返回一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间。&lt;/p&gt;
@@ -190,9 +343,9 @@
     </item>
     <item>
       <title>【HOT100/动态规划】LeetCode 53. 最大子数组和</title>
-      <link>https://amemiya02.github.io/posts/2026-01-02-53-maximum-subarray/</link>
+      <link>http://localhost:1313/posts/2026-01-02-53-maximum-subarray/</link>
       <pubDate>Fri, 02 Jan 2026 15:10:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2026-01-02-53-maximum-subarray/</guid>
+      <guid>http://localhost:1313/posts/2026-01-02-53-maximum-subarray/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt; ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。&lt;/p&gt;
@@ -226,9 +379,9 @@ $$&lt;/p&gt;</description>
     </item>
     <item>
       <title>【HOT100/动态规划】LeetCode 42. 接雨水</title>
-      <link>https://amemiya02.github.io/posts/2026-01-02-42-trapping-rain-water/</link>
+      <link>http://localhost:1313/posts/2026-01-02-42-trapping-rain-water/</link>
       <pubDate>Fri, 02 Jan 2026 14:35:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2026-01-02-42-trapping-rain-water/</guid>
+      <guid>http://localhost:1313/posts/2026-01-02-42-trapping-rain-water/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给定 &lt;code&gt;n&lt;/code&gt; 个非负整数表示每个宽度为 &lt;code&gt;1&lt;/code&gt; 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。&lt;/p&gt;
@@ -260,9 +413,9 @@ $$&lt;/p&gt;
     </item>
     <item>
       <title>【HOT100/单调队列】LeetCode 239. 滑动窗口最大值</title>
-      <link>https://amemiya02.github.io/posts/2025-12-18-239-sliding-window-maximum/</link>
+      <link>http://localhost:1313/posts/2025-12-18-239-sliding-window-maximum/</link>
       <pubDate>Thu, 18 Dec 2025 15:30:00 +0800</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-12-18-239-sliding-window-maximum/</guid>
+      <guid>http://localhost:1313/posts/2025-12-18-239-sliding-window-maximum/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt;，有一个大小为 &lt;code&gt;k&lt;/code&gt; 的滑动窗口从数组的最左侧移动到最右侧。你只可以看到在滑动窗口内的 &lt;code&gt;k&lt;/code&gt; 个数字。滑动窗口每次只向右移动一位。&lt;/p&gt;
@@ -283,9 +436,9 @@ $$&lt;/p&gt;
     </item>
     <item>
       <title>【HOT100/前缀和】LeetCode 560. 和为 K 的子数组</title>
-      <link>https://amemiya02.github.io/posts/2025-12-17-560-subarray-sum-equals-k/</link>
+      <link>http://localhost:1313/posts/2025-12-17-560-subarray-sum-equals-k/</link>
       <pubDate>Wed, 17 Dec 2025 21:55:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-12-17-560-subarray-sum-equals-k/</guid>
+      <guid>http://localhost:1313/posts/2025-12-17-560-subarray-sum-equals-k/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt; 和一个整数 &lt;code&gt;k&lt;/code&gt; ，请你统计并返回 &lt;strong&gt;该数组中和为 &lt;code&gt;k&lt;/code&gt; 的子数组的个数&lt;/strong&gt; 。&lt;/p&gt;
@@ -315,9 +468,9 @@ $$&lt;/p&gt;</description>
     </item>
     <item>
       <title>【HOT100/双指针】LeetCode 15. 三数之和</title>
-      <link>https://amemiya02.github.io/posts/2025-12-17-15-3sum/</link>
+      <link>http://localhost:1313/posts/2025-12-17-15-3sum/</link>
       <pubDate>Wed, 17 Dec 2025 19:25:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-12-17-15-3sum/</guid>
+      <guid>http://localhost:1313/posts/2025-12-17-15-3sum/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt; ，判断是否存在三元组 &lt;code&gt;[nums[i], nums[j], nums[k]]&lt;/code&gt; 满足 &lt;code&gt;i != j&lt;/code&gt;、&lt;code&gt;i != k&lt;/code&gt; 且 &lt;code&gt;j != k&lt;/code&gt; ，同时还满足 &lt;code&gt;nums[i] + nums[j] + nums[k] == 0&lt;/code&gt; 。&lt;/p&gt;
@@ -369,9 +522,9 @@ $$&lt;/p&gt;</description>
     </item>
     <item>
       <title>【HOT100/双指针】LeetCode 11. 盛最多水的容器</title>
-      <link>https://amemiya02.github.io/posts/2025-12-17-11-container-with-most-water/</link>
+      <link>http://localhost:1313/posts/2025-12-17-11-container-with-most-water/</link>
       <pubDate>Wed, 17 Dec 2025 19:10:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-12-17-11-container-with-most-water/</guid>
+      <guid>http://localhost:1313/posts/2025-12-17-11-container-with-most-water/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给定一个长度为 &lt;code&gt;n&lt;/code&gt; 的整数数组 &lt;code&gt;height&lt;/code&gt; 。有 &lt;code&gt;n&lt;/code&gt; 条垂线，第 &lt;code&gt;i&lt;/code&gt; 条线的两个端点是 &lt;code&gt;(i, 0)&lt;/code&gt; 和 &lt;code&gt;(i, height[i])&lt;/code&gt; 。&lt;/p&gt;
@@ -401,9 +554,9 @@ $&lt;/p&gt;
     </item>
     <item>
       <title>【HOT100/滑动窗口/Middle】LeetCode 438. 找到字符串中所有字母异位词</title>
-      <link>https://amemiya02.github.io/posts/2025-09-23-438-find-all-anagrams-in-a-string/</link>
+      <link>http://localhost:1313/posts/2025-09-23-438-find-all-anagrams-in-a-string/</link>
       <pubDate>Tue, 23 Sep 2025 09:52:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-23-438-find-all-anagrams-in-a-string/</guid>
+      <guid>http://localhost:1313/posts/2025-09-23-438-find-all-anagrams-in-a-string/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给定两个字符串 &lt;code&gt;s&lt;/code&gt; 和 &lt;code&gt;p&lt;/code&gt;，找到 &lt;code&gt;s&lt;/code&gt; 中所有 &lt;code&gt;p&lt;/code&gt; 的 &lt;strong&gt;字母异位词&lt;/strong&gt; 的子串，返回这些子串的起始索引。不考虑答案输出的顺序。&lt;/p&gt;
@@ -429,9 +582,9 @@ $&lt;/p&gt;
     </item>
     <item>
       <title>【HOT100/哈希集合/Middle】LeetCode 128. 最长连续序列</title>
-      <link>https://amemiya02.github.io/posts/2025-09-21-128-longest-consecutive-sequence/</link>
+      <link>http://localhost:1313/posts/2025-09-21-128-longest-consecutive-sequence/</link>
       <pubDate>Sun, 21 Sep 2025 11:03:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-21-128-longest-consecutive-sequence/</guid>
+      <guid>http://localhost:1313/posts/2025-09-21-128-longest-consecutive-sequence/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给定一个未排序的整数数组 &lt;code&gt;nums&lt;/code&gt; ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。&lt;/p&gt;
@@ -466,9 +619,9 @@ $&lt;/p&gt;
     </item>
     <item>
       <title>【HOT100/快慢指针】LeetCode 283. 移动零</title>
-      <link>https://amemiya02.github.io/posts/2025-09-20-283-move-zeroes/</link>
+      <link>http://localhost:1313/posts/2025-09-20-283-move-zeroes/</link>
       <pubDate>Sat, 20 Sep 2025 14:55:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-20-283-move-zeroes/</guid>
+      <guid>http://localhost:1313/posts/2025-09-20-283-move-zeroes/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给定一个数组 &lt;code&gt;nums&lt;/code&gt;，编写一个函数将所有 &lt;code&gt;0&lt;/code&gt; 移动到数组的末尾，同时保持非零元素的相对顺序。&lt;/p&gt;
@@ -513,9 +666,9 @@ $&lt;/p&gt;
     </item>
     <item>
       <title>【HOT100/哈希表】LeetCode 1. 两数之和</title>
-      <link>https://amemiya02.github.io/posts/2025-09-20-1-two-sum/</link>
+      <link>http://localhost:1313/posts/2025-09-20-1-two-sum/</link>
       <pubDate>Sat, 20 Sep 2025 14:50:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-20-1-two-sum/</guid>
+      <guid>http://localhost:1313/posts/2025-09-20-1-two-sum/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给定一个整数数组 &lt;code&gt;nums&lt;/code&gt; 和一个整数目标值 &lt;code&gt;target&lt;/code&gt;，请你在该数组中找出 &lt;strong&gt;和为目标值 &lt;code&gt;target&lt;/code&gt;&lt;/strong&gt; 的那 &lt;strong&gt;两个&lt;/strong&gt; 整数，并返回它们的数组下标。&lt;/p&gt;
@@ -545,9 +698,9 @@ b.  &lt;strong&gt;在哈希表中查找&lt;/strong&gt; &lt;code&gt;complement&lt
     </item>
     <item>
       <title>【HOT100/哈希表 / 数组】LeetCode 383. 赎金信</title>
-      <link>https://amemiya02.github.io/posts/2025-09-18-383-ransom-note/</link>
+      <link>http://localhost:1313/posts/2025-09-18-383-ransom-note/</link>
       <pubDate>Thu, 18 Sep 2025 18:18:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-18-383-ransom-note/</guid>
+      <guid>http://localhost:1313/posts/2025-09-18-383-ransom-note/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给你两个字符串：&lt;code&gt;ransomNote&lt;/code&gt; 和 &lt;code&gt;magazine&lt;/code&gt; ，判断 &lt;code&gt;ransomNote&lt;/code&gt; 能不能由 &lt;code&gt;magazine&lt;/code&gt; 里面的字符构成。&lt;/p&gt;
@@ -577,9 +730,9 @@ b.  &lt;strong&gt;在哈希表中查找&lt;/strong&gt; &lt;code&gt;complement&lt
     </item>
     <item>
       <title>【HOT100/哈希表 / 摩尔投票】LeetCode 169. 多数元素</title>
-      <link>https://amemiya02.github.io/posts/2025-09-15-169-majority-element/</link>
+      <link>http://localhost:1313/posts/2025-09-15-169-majority-element/</link>
       <pubDate>Mon, 15 Sep 2025 10:05:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-15-169-majority-element/</guid>
+      <guid>http://localhost:1313/posts/2025-09-15-169-majority-element/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给定一个大小为 &lt;code&gt;n&lt;/code&gt; 的数组 &lt;code&gt;nums&lt;/code&gt; ，返回其中的多数元素。多数元素是指在数组中出现次数 &lt;strong&gt;大于&lt;/strong&gt; &lt;code&gt;⌊ n/2 ⌋&lt;/code&gt; 的元素。&lt;/p&gt;
@@ -622,9 +775,9 @@ b.  &lt;strong&gt;在哈希表中查找&lt;/strong&gt; &lt;code&gt;complement&lt
     </item>
     <item>
       <title>【HOT100/快慢指针】LeetCode 80. 删除有序数组中的重复项 II</title>
-      <link>https://amemiya02.github.io/posts/2025-09-14-80-remove-duplicates-from-sorted-array-ii/</link>
+      <link>http://localhost:1313/posts/2025-09-14-80-remove-duplicates-from-sorted-array-ii/</link>
       <pubDate>Sun, 14 Sep 2025 16:55:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-14-80-remove-duplicates-from-sorted-array-ii/</guid>
+      <guid>http://localhost:1313/posts/2025-09-14-80-remove-duplicates-from-sorted-array-ii/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给你一个有序数组 &lt;code&gt;nums&lt;/code&gt; ，请你 &lt;strong&gt;原地&lt;/strong&gt; 删除重复出现的元素，使得出现次数超过两次的元素&lt;strong&gt;只出现两次&lt;/strong&gt; ，返回删除后数组的新长度。&lt;/p&gt;
@@ -662,9 +815,9 @@ b.  &lt;strong&gt;在哈希表中查找&lt;/strong&gt; &lt;code&gt;complement&lt
     </item>
     <item>
       <title>【HOT100/快慢指针】LeetCode 26.删除有序数组中的重复项</title>
-      <link>https://amemiya02.github.io/posts/2025-09-13-26-remove-duplicates-from-sorted-array/</link>
+      <link>http://localhost:1313/posts/2025-09-13-26-remove-duplicates-from-sorted-array/</link>
       <pubDate>Sat, 13 Sep 2025 10:35:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-13-26-remove-duplicates-from-sorted-array/</guid>
+      <guid>http://localhost:1313/posts/2025-09-13-26-remove-duplicates-from-sorted-array/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给你一个 &lt;strong&gt;非严格递增排列&lt;/strong&gt; 的数组 &lt;code&gt;nums&lt;/code&gt; ，请你 &lt;strong&gt;原地&lt;/strong&gt; 删除重复出现的元素，使每个元素 &lt;strong&gt;只出现一次&lt;/strong&gt; ，返回删除后数组的新长度。元素的 &lt;strong&gt;相对顺序&lt;/strong&gt; 应该保持 &lt;strong&gt;一致&lt;/strong&gt; 。&lt;/p&gt;
@@ -700,9 +853,9 @@ b.  &lt;strong&gt;在哈希表中查找&lt;/strong&gt; &lt;code&gt;complement&lt
     </item>
     <item>
       <title>【HOT100/双指针】LeetCode 27. 原地移除数组元素</title>
-      <link>https://amemiya02.github.io/posts/2025-09-12-27-remove-element/</link>
+      <link>http://localhost:1313/posts/2025-09-12-27-remove-element/</link>
       <pubDate>Fri, 12 Sep 2025 21:00:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-12-27-remove-element/</guid>
+      <guid>http://localhost:1313/posts/2025-09-12-27-remove-element/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给你一个数组 &lt;code&gt;nums&lt;/code&gt; 和一个值 &lt;code&gt;val&lt;/code&gt;，你需要 &lt;strong&gt;原地&lt;/strong&gt; 移除所有数值等于 &lt;code&gt;val&lt;/code&gt; 的元素。元素的顺序可能发生改变。然后返回 &lt;code&gt;nums&lt;/code&gt; 中与 &lt;code&gt;val&lt;/code&gt; 不同的元素的数量。&lt;/p&gt;
@@ -730,9 +883,9 @@ b.  &lt;strong&gt;在哈希表中查找&lt;/strong&gt; &lt;code&gt;complement&lt
     </item>
     <item>
       <title>【HOT100/双指针】LeetCode 88. 合并两个有序数组</title>
-      <link>https://amemiya02.github.io/posts/2025-09-11-88-merge-sorted-array/</link>
+      <link>http://localhost:1313/posts/2025-09-11-88-merge-sorted-array/</link>
       <pubDate>Thu, 11 Sep 2025 18:46:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-11-88-merge-sorted-array/</guid>
+      <guid>http://localhost:1313/posts/2025-09-11-88-merge-sorted-array/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给你两个按 &lt;strong&gt;非递减顺序&lt;/strong&gt; 排列的整数数组 &lt;code&gt;nums1&lt;/code&gt; 和 &lt;code&gt;nums2&lt;/code&gt;，另有两个整数 &lt;code&gt;m&lt;/code&gt; 和 &lt;code&gt;n&lt;/code&gt; ，分别表示 &lt;code&gt;nums1&lt;/code&gt; 和 &lt;code&gt;nums2&lt;/code&gt; 中的元素数目。&lt;/p&gt;

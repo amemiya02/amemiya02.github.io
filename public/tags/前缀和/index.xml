@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>前缀和 on 个人技术博客</title>
-    <link>https://amemiya02.github.io/tags/%E5%89%8D%E7%BC%80%E5%92%8C/</link>
+    <link>http://localhost:1313/tags/%E5%89%8D%E7%BC%80%E5%92%8C/</link>
     <description>Recent content in 前缀和 on 个人技术博客</description>
     <generator>Hugo -- 0.154.1</generator>
     <language>zh-CN</language>
     <lastBuildDate>Fri, 02 Jan 2026 18:00:00 +0900</lastBuildDate>
-    <atom:link href="https://amemiya02.github.io/tags/%E5%89%8D%E7%BC%80%E5%92%8C/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/%E5%89%8D%E7%BC%80%E5%92%8C/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>【HOT100/数组】LeetCode 238. 除了自身以外数组的乘积</title>
-      <link>https://amemiya02.github.io/posts/2026-01-02-238-product-of-array-except-self/</link>
+      <link>http://localhost:1313/posts/2026-01-02-238-product-of-array-except-self/</link>
       <pubDate>Fri, 02 Jan 2026 18:00:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2026-01-02-238-product-of-array-except-self/</guid>
+      <guid>http://localhost:1313/posts/2026-01-02-238-product-of-array-except-self/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt;，返回 数组 &lt;code&gt;answer&lt;/code&gt; ，其中 &lt;code&gt;answer[i]&lt;/code&gt; 等于 &lt;code&gt;nums&lt;/code&gt; 中除了 &lt;code&gt;nums[i]&lt;/code&gt; 之外其余各元素的乘积。&lt;/p&gt;
@@ -45,9 +45,9 @@
     </item>
     <item>
       <title>【HOT100/前缀和】LeetCode 560. 和为 K 的子数组</title>
-      <link>https://amemiya02.github.io/posts/2025-12-17-560-subarray-sum-equals-k/</link>
+      <link>http://localhost:1313/posts/2025-12-17-560-subarray-sum-equals-k/</link>
       <pubDate>Wed, 17 Dec 2025 21:55:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-12-17-560-subarray-sum-equals-k/</guid>
+      <guid>http://localhost:1313/posts/2025-12-17-560-subarray-sum-equals-k/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt; 和一个整数 &lt;code&gt;k&lt;/code&gt; ，请你统计并返回 &lt;strong&gt;该数组中和为 &lt;code&gt;k&lt;/code&gt; 的子数组的个数&lt;/strong&gt; 。&lt;/p&gt;

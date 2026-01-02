@@ -2,17 +2,60 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>数学 on 个人技术博客</title>
-    <link>https://amemiya02.github.io/tags/%E6%95%B0%E5%AD%A6/</link>
+    <link>http://localhost:1313/tags/%E6%95%B0%E5%AD%A6/</link>
     <description>Recent content in 数学 on 个人技术博客</description>
     <generator>Hugo -- 0.154.1</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 02 Jan 2026 17:05:00 +0900</lastBuildDate>
-    <atom:link href="https://amemiya02.github.io/tags/%E6%95%B0%E5%AD%A6/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 02 Jan 2026 22:15:00 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E6%95%B0%E5%AD%A6/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>【HOT100/矩阵】LeetCode 48. 旋转图像</title>
+      <link>http://localhost:1313/posts/2026-01-02-48-rotate-image/</link>
+      <pubDate>Fri, 02 Jan 2026 22:15:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2026-01-02-48-rotate-image/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个 &lt;code&gt;n × n&lt;/code&gt; 的二维矩阵 &lt;code&gt;matrix&lt;/code&gt; 表示一个图像。请你将图像顺时针旋转 90 度。&lt;/p&gt;
+&lt;p&gt;你必须在 &lt;strong&gt;原地&lt;/strong&gt; 旋转图像，这意味着你需要直接修改输入的二维矩阵。&lt;strong&gt;请不要&lt;/strong&gt; 使用另一个矩阵来旋转图像。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;matrix = [[1,2,3],[4,5,6],[7,8,9]]&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;[[7,4,1],[8,5,2],[9,6,3]]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;示例 2：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;[[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;核心思路数学变换&#34;&gt;核心思路：数学变换&lt;/h2&gt;
+&lt;p&gt;这道题最直接的思路是找出每个元素旋转后的坐标规律。对于一个坐标为 &lt;code&gt;(i, j)&lt;/code&gt; 的元素，顺时针旋转 90 度后，它的新位置是 &lt;code&gt;(j, n-1-i)&lt;/code&gt;。
+如果直接模拟这个过程，我们需要小心翼翼地进行四角交换，逻辑容易出错。&lt;/p&gt;
+&lt;p&gt;更优雅的解法是利用矩阵运算的性质。顺时针旋转 90 度可以拆解为两步简单的变换：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;转置 (Transpose)&lt;/strong&gt;：将矩阵的行列互换（沿对角线翻转）。
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;matrix[i][j]&lt;/code&gt; $\leftrightarrow$ &lt;code&gt;matrix[j][i]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;水平镜像 (Reverse Rows)&lt;/strong&gt;：将每一行左右翻转。
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;matrix[i][j]&lt;/code&gt; $\leftrightarrow$ &lt;code&gt;matrix[i][n-1-j]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;演示过程：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;假设输入为：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1 2 3
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;4 5 6
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;7 8 9
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;第一步：转置（对角线翻转）&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1 4 7
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2 5 8
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;3 6 9
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;第二步：每行左右翻转&lt;/p&gt;</description>
+    </item>
     <item>
       <title>【HOT100/数组】LeetCode 189. 轮转数组</title>
-      <link>https://amemiya02.github.io/posts/2026-01-02-189-rotate-array/</link>
+      <link>http://localhost:1313/posts/2026-01-02-189-rotate-array/</link>
       <pubDate>Fri, 02 Jan 2026 17:05:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2026-01-02-189-rotate-array/</guid>
+      <guid>http://localhost:1313/posts/2026-01-02-189-rotate-array/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给定一个整数数组 &lt;code&gt;nums&lt;/code&gt;，将数组中的元素向右轮转 &lt;code&gt;k&lt;/code&gt; 个位置，其中 &lt;code&gt;k&lt;/code&gt; 是非负数。&lt;/p&gt;

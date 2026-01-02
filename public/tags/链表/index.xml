@@ -2,17 +2,71 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>链表 on 个人技术博客</title>
-    <link>https://amemiya02.github.io/tags/%E9%93%BE%E8%A1%A8/</link>
+    <link>http://localhost:1313/tags/%E9%93%BE%E8%A1%A8/</link>
     <description>Recent content in 链表 on 个人技术博客</description>
     <generator>Hugo -- 0.154.1</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 24 Sep 2025 20:01:00 +0900</lastBuildDate>
-    <atom:link href="https://amemiya02.github.io/tags/%E9%93%BE%E8%A1%A8/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 02 Jan 2026 20:01:00 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E9%93%BE%E8%A1%A8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>【HOT100/链表】LeetCode 206. 反转链表</title>
+      <link>http://localhost:1313/posts/2026-01-02-206-reverse-linked-list/</link>
+      <pubDate>Fri, 02 Jan 2026 20:01:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2026-01-02-206-reverse-linked-list/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给你单链表的头节点 &lt;code&gt;head&lt;/code&gt; ，请你反转链表，并返回反转后的链表。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;输入：head = [1,2,3,4,5]
+输出：[5,4,3,2,1]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;示例 2：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;输入：head = [1,2]
+输出：[2,1]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;示例 3：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;输入：head = []
+输出：[]
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;核心思路&#34;&gt;核心思路&lt;/h2&gt;
+&lt;h3 id=&#34;思路一迭代法双指针&#34;&gt;思路一：迭代法（双指针）&lt;/h3&gt;
+&lt;p&gt;这是最直观的解法。我们需要遍历链表，在遍历过程中改变每个节点的 &lt;code&gt;next&lt;/code&gt; 指针指向。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;三个指针&lt;/strong&gt;：我们需要三个指针来完成反转：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;prev&lt;/code&gt;：指向当前节点的前一个节点（初始为 &lt;code&gt;null&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;curr&lt;/code&gt;：指向当前节点（初始为 &lt;code&gt;head&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;next&lt;/code&gt;：临时存储当前节点的下一个节点&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;遍历反转&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;保存 &lt;code&gt;curr.next&lt;/code&gt; 到 &lt;code&gt;next&lt;/code&gt;（防止断链）&lt;/li&gt;
+&lt;li&gt;将 &lt;code&gt;curr.next&lt;/code&gt; 指向 &lt;code&gt;prev&lt;/code&gt;（反转当前节点）&lt;/li&gt;
+&lt;li&gt;将 &lt;code&gt;prev&lt;/code&gt; 移动到 &lt;code&gt;curr&lt;/code&gt; 位置&lt;/li&gt;
+&lt;li&gt;将 &lt;code&gt;curr&lt;/code&gt; 移动到 &lt;code&gt;next&lt;/code&gt; 位置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;返回结果&lt;/strong&gt;：遍历结束后，&lt;code&gt;prev&lt;/code&gt; 就是新链表的头节点&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这个方法就像把一列火车车厢的方向逐个反转，需要临时标记下一个车厢的位置。&lt;/p&gt;
+&lt;h3 id=&#34;思路二递归法&#34;&gt;思路二：递归法&lt;/h3&gt;
+&lt;p&gt;递归法的思路是：先递归到链表末尾，然后在回溯的过程中逐个反转节点。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;递归终止条件&lt;/strong&gt;：当 &lt;code&gt;head&lt;/code&gt; 为 &lt;code&gt;null&lt;/code&gt; 或 &lt;code&gt;head.next&lt;/code&gt; 为 &lt;code&gt;null&lt;/code&gt; 时，直接返回 &lt;code&gt;head&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;递归调用&lt;/strong&gt;：先递归处理 &lt;code&gt;head.next&lt;/code&gt;，得到反转后的子链表&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;反转当前节点&lt;/strong&gt;：将 &lt;code&gt;head.next.next&lt;/code&gt; 指向 &lt;code&gt;head&lt;/code&gt;，将 &lt;code&gt;head.next&lt;/code&gt; 设为 &lt;code&gt;null&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;返回结果&lt;/strong&gt;：返回子链表的头节点（即新链表的头节点）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;递归法的优点是代码简洁，但缺点是可能会因为链表过长导致栈溢出。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>【HOT100/双指针 / 链表】LeetCode 160. 相交链表</title>
-      <link>https://amemiya02.github.io/posts/2025-09-24-160-intersection-of-two-linked-lists/</link>
+      <link>http://localhost:1313/posts/2025-09-24-160-intersection-of-two-linked-lists/</link>
       <pubDate>Wed, 24 Sep 2025 20:01:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-24-160-intersection-of-two-linked-lists/</guid>
+      <guid>http://localhost:1313/posts/2025-09-24-160-intersection-of-two-linked-lists/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给你两个单链表的头节点 &lt;code&gt;headA&lt;/code&gt; 和 &lt;code&gt;headB&lt;/code&gt; ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点, 返回 &lt;code&gt;null&lt;/code&gt; 。&lt;/p&gt;
