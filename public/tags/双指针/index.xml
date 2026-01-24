@@ -6,8 +6,57 @@
     <description>Recent content in 双指针 on 个人技术博客</description>
     <generator>Hugo -- 0.154.1</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 02 Jan 2026 17:05:00 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 24 Jan 2026 21:00:00 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/%E5%8F%8C%E6%8C%87%E9%92%88/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Golang] LeetCode 热题 100 - 双指针</title>
+      <link>http://localhost:1313/posts/2026-01-24-two-pointer/</link>
+      <pubDate>Sat, 24 Jan 2026 21:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2026-01-24-two-pointer/</guid>
+      <description>&lt;h1 id=&#34;双指针&#34;&gt;双指针&lt;/h1&gt;
+&lt;h2 id=&#34;283-移动零---easy&#34;&gt;&lt;a href=&#34;https://leetcode.cn/problems/move-zeroes/&#34;&gt;283. 移动零 - Easy&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个数组 &lt;code&gt;nums&lt;/code&gt;，编写一个函数将所有 &lt;code&gt;0&lt;/code&gt; 移动到数组的末尾，同时保持非零元素的相对顺序。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;请注意&lt;/strong&gt; ，必须在不复制数组的情况下&lt;strong&gt;原地&lt;/strong&gt;对数组进行操作。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入:&lt;/strong&gt; &lt;code&gt;nums = [0,1,0,3,12]&lt;/code&gt;
+&lt;strong&gt;输出:&lt;/strong&gt; &lt;code&gt;[1,3,12,0,0]&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;核心思路快慢指针一次遍历&#34;&gt;核心思路：快慢指针（一次遍历）&lt;/h3&gt;
+&lt;p&gt;这道题有两个核心要求：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;将所有 &lt;code&gt;0&lt;/code&gt; 移动到末尾。&lt;/li&gt;
+&lt;li&gt;保持所有&lt;strong&gt;非零&lt;/strong&gt;元素的相对顺序不变。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;第二个要求&amp;quot;保持相对顺序&amp;quot;是解题的关键。它告诉我们，不能简单地像&amp;quot;移除元素&amp;quot;那样，用头尾指针交换元素，因为那样会打乱非零元素的原有顺序。&lt;/p&gt;
+&lt;p&gt;这个问题的本质可以看作是：&lt;strong&gt;将所有非零元素，按原有的顺序，紧凑地移动到数组的前面，然后将剩余的位置全部填上零&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;这正是&lt;strong&gt;快慢指针&lt;/strong&gt;擅长的场景：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;定义指针&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;慢指针 &lt;code&gt;p&lt;/code&gt; (或 &lt;code&gt;slow&lt;/code&gt;)&lt;/strong&gt;: 这个指针用于标记&amp;quot;下一个非零元素应该被放置的位置&amp;quot;。在 &lt;code&gt;p&lt;/code&gt; 左边的所有元素（不含 &lt;code&gt;p&lt;/code&gt;）都是已经处理好的、按序排列的非零元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;快指针 &lt;code&gt;q&lt;/code&gt; (或 &lt;code&gt;fast&lt;/code&gt;)&lt;/strong&gt;: 这个指针负责遍历整个数组，去寻找非零元素。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;执行过程&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;初始化 &lt;code&gt;p&lt;/code&gt; 和 &lt;code&gt;q&lt;/code&gt; 都指向数组的起始位置 &lt;code&gt;0&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;快指针 &lt;code&gt;q&lt;/code&gt; 开始向后遍历数组。&lt;/li&gt;
+&lt;li&gt;当 &lt;code&gt;q&lt;/code&gt; 遇到一个&lt;strong&gt;非零&lt;/strong&gt;元素时，说明这个元素需要被保留并放到前面。于是，我们执行两个操作：
+&lt;ol&gt;
+&lt;li&gt;将这个非零元素 &lt;code&gt;nums[q]&lt;/code&gt; 赋值给慢指针 &lt;code&gt;p&lt;/code&gt; 所在的位置 &lt;code&gt;nums[p]&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;将慢指针 &lt;code&gt;p&lt;/code&gt; 向后移动一位 (&lt;code&gt;p++&lt;/code&gt;)，为下一个非零元素腾出位置。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;如果 &lt;code&gt;q&lt;/code&gt; 遇到的是 &lt;code&gt;0&lt;/code&gt;，则慢指针 &lt;code&gt;p&lt;/code&gt; 保持不动，只有快指针 &lt;code&gt;q&lt;/code&gt; 继续向后移动。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;填充末尾的零&lt;/strong&gt;：&lt;/p&gt;</description>
+    </item>
     <item>
       <title>【HOT100/数组】LeetCode 189. 轮转数组</title>
       <link>http://localhost:1313/posts/2026-01-02-189-rotate-array/</link>
@@ -266,53 +315,6 @@ e.  将右指针 &lt;code&gt;right&lt;/code&gt; 右移一位，考察下一个�
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;通过这种一扩一缩的动态调整，滑动窗口能够保证在一次遍历中就找到最优解。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/快慢指针】LeetCode 283. 移动零</title>
-      <link>http://localhost:1313/posts/2025-09-20-283-move-zeroes/</link>
-      <pubDate>Sat, 20 Sep 2025 14:55:00 +0900</pubDate>
-      <guid>http://localhost:1313/posts/2025-09-20-283-move-zeroes/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给定一个数组 &lt;code&gt;nums&lt;/code&gt;，编写一个函数将所有 &lt;code&gt;0&lt;/code&gt; 移动到数组的末尾，同时保持非零元素的相对顺序。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;请注意&lt;/strong&gt; ，必须在不复制数组的情况下&lt;strong&gt;原地&lt;/strong&gt;对数组进行操作。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例 1:&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入:&lt;/strong&gt; &lt;code&gt;nums = [0,1,0,3,12]&lt;/code&gt;
-&lt;strong&gt;输出:&lt;/strong&gt; &lt;code&gt;[1,3,12,0,0]&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id=&#34;核心思路快慢指针一次遍历&#34;&gt;核心思路：快慢指针（一次遍历）&lt;/h2&gt;
-&lt;p&gt;这道题有两个核心要求：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;将所有 &lt;code&gt;0&lt;/code&gt; 移动到末尾。&lt;/li&gt;
-&lt;li&gt;保持所有&lt;strong&gt;非零&lt;/strong&gt;元素的相对顺序不变。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;第二个要求&amp;quot;保持相对顺序&amp;quot;是解题的关键。它告诉我们，不能简单地像&amp;quot;移除元素&amp;quot;那样，用头尾指针交换元素，因为那样会打乱非零元素的原有顺序。&lt;/p&gt;
-&lt;p&gt;这个问题的本质可以看作是：&lt;strong&gt;将所有非零元素，按原有的顺序，紧凑地移动到数组的前面，然后将剩余的位置全部填上零&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;这正是&lt;strong&gt;快慢指针&lt;/strong&gt;擅长的场景：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;定义指针&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;慢指针 &lt;code&gt;p&lt;/code&gt; (或 &lt;code&gt;slow&lt;/code&gt;)&lt;/strong&gt;: 这个指针用于标记&amp;quot;下一个非零元素应该被放置的位置&amp;quot;。在 &lt;code&gt;p&lt;/code&gt; 左边的所有元素（不含 &lt;code&gt;p&lt;/code&gt;）都是已经处理好的、按序排列的非零元素。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;快指针 &lt;code&gt;q&lt;/code&gt; (或 &lt;code&gt;fast&lt;/code&gt;)&lt;/strong&gt;: 这个指针负责遍历整个数组，去寻找非零元素。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;执行过程&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;初始化 &lt;code&gt;p&lt;/code&gt; 和 &lt;code&gt;q&lt;/code&gt; 都指向数组的起始位置 &lt;code&gt;0&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;快指针 &lt;code&gt;q&lt;/code&gt; 开始向后遍历数组。&lt;/li&gt;
-&lt;li&gt;当 &lt;code&gt;q&lt;/code&gt; 遇到一个&lt;strong&gt;非零&lt;/strong&gt;元素时，说明这个元素需要被保留并放到前面。于是，我们执行两个操作：
-&lt;ol&gt;
-&lt;li&gt;将这个非零元素 &lt;code&gt;nums[q]&lt;/code&gt; 赋值给慢指针 &lt;code&gt;p&lt;/code&gt; 所在的位置 &lt;code&gt;nums[p]&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;将慢指针 &lt;code&gt;p&lt;/code&gt; 向后移动一位 (&lt;code&gt;p++&lt;/code&gt;)，为下一个非零元素腾出位置。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;li&gt;如果 &lt;code&gt;q&lt;/code&gt; 遇到的是 &lt;code&gt;0&lt;/code&gt;，则慢指针 &lt;code&gt;p&lt;/code&gt; 保持不动，只有快指针 &lt;code&gt;q&lt;/code&gt; 继续向后移动。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;填充末尾的零&lt;/strong&gt;：&lt;/p&gt;</description>
     </item>
     <item>
       <title>【HOT100/双指针】LeetCode 392. 判断子序列</title>

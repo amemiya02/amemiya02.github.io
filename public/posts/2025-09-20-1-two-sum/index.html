@@ -28,8 +28,11 @@
 遍历 nums 数组，对于当前的元素 nums[i]：
 a.  计算我们需要寻找的&quot;另一半&quot;：complement = target - nums[i]。
 b.  在哈希表中查找 complement 是否存在。
-* 如果存在，说明我们找到了解！complement 的索引已经存在 map 中，当前元素的索引是 i。我们立即返回 [map.get(complement), i]。
-* 如果不存在，说明到目前为止还没遇到能和 nums[i] 配对的数。我们将当前数字和它的索引存入哈希表 map.put(nums[i], i)，以便后续的元素能用它来配对。
+
+如果存在，说明我们找到了解！complement 的索引已经存在 map 中，当前元素的索引是 i。我们立即返回 [map.get(complement), i]。
+如果不存在，说明到目前为止还没遇到能和 nums[i] 配对的数。我们将当前数字和它的索引存入哈希表 map.put(nums[i], i)，以便后续的元素能用它来配对。
+
+
 遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。
 
 这个&quot;一边遍历，一边查找，一边插入&quot;的单遍哈希表解法，非常巧妙地在一次循环中完成了所有工作。">
@@ -108,7 +111,7 @@ b.  在哈希表中查找 complement 是否存在。
 答案是肯定的，哈希表提供了近乎 $O(1)$ 的查找效率。
 我们可以使用一个哈希表（HashMap）来存储已经遍历过的数字及其对应的索引，即 Map&lt;数值, 索引&gt;。
 具体的算法流程如下：
-创建一个空的哈希表 map。 遍历 nums 数组，对于当前的元素 nums[i]： a. 计算我们需要寻找的&#34;另一半&#34;：complement = target - nums[i]。 b. 在哈希表中查找 complement 是否存在。 * 如果存在，说明我们找到了解！complement 的索引已经存在 map 中，当前元素的索引是 i。我们立即返回 [map.get(complement), i]。 * 如果不存在，说明到目前为止还没遇到能和 nums[i] 配对的数。我们将当前数字和它的索引存入哈希表 map.put(nums[i], i)，以便后续的元素能用它来配对。 遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。 这个&#34;一边遍历，一边查找，一边插入&#34;的单遍哈希表解法，非常巧妙地在一次循环中完成了所有工作。">
+创建一个空的哈希表 map。 遍历 nums 数组，对于当前的元素 nums[i]： a. 计算我们需要寻找的&#34;另一半&#34;：complement = target - nums[i]。 b. 在哈希表中查找 complement 是否存在。 如果存在，说明我们找到了解！complement 的索引已经存在 map 中，当前元素的索引是 i。我们立即返回 [map.get(complement), i]。 如果不存在，说明到目前为止还没遇到能和 nums[i] 配对的数。我们将当前数字和它的索引存入哈希表 map.put(nums[i], i)，以便后续的元素能用它来配对。 遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。 这个&#34;一边遍历，一边查找，一边插入&#34;的单遍哈希表解法，非常巧妙地在一次循环中完成了所有工作。">
   <meta property="og:locale" content="zh-CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -139,8 +142,11 @@ b.  在哈希表中查找 complement 是否存在。
 遍历 nums 数组，对于当前的元素 nums[i]：
 a.  计算我们需要寻找的&quot;另一半&quot;：complement = target - nums[i]。
 b.  在哈希表中查找 complement 是否存在。
-* 如果存在，说明我们找到了解！complement 的索引已经存在 map 中，当前元素的索引是 i。我们立即返回 [map.get(complement), i]。
-* 如果不存在，说明到目前为止还没遇到能和 nums[i] 配对的数。我们将当前数字和它的索引存入哈希表 map.put(nums[i], i)，以便后续的元素能用它来配对。
+
+如果存在，说明我们找到了解！complement 的索引已经存在 map 中，当前元素的索引是 i。我们立即返回 [map.get(complement), i]。
+如果不存在，说明到目前为止还没遇到能和 nums[i] 配对的数。我们将当前数字和它的索引存入哈希表 map.put(nums[i], i)，以便后续的元素能用它来配对。
+
+
 遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。
 
 这个&quot;一边遍历，一边查找，一边插入&quot;的单遍哈希表解法，非常巧妙地在一次循环中完成了所有工作。">
@@ -172,12 +178,12 @@ b.  在哈希表中查找 complement 是否存在。
   "@type": "BlogPosting",
   "headline": "【HOT100/哈希表】LeetCode 1. 两数之和",
   "name": "【HOT100\/哈希表】LeetCode 1. 两数之和",
-  "description": "题目回顾 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target 的那 两个 整数，并返回它们的数组下标。\n你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。\n你可以按任意顺序返回答案。\n示例 1：\n输入： nums = [2,7,11,15], target = 9 输出： [0,1] 解释： 因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。\n核心思路：用空间换时间 作为 LeetCode 的开篇之作，这道题完美地诠释了如何通过\u0026quot;空间换时间\u0026quot;的思想来优化算法。\n暴力解法的瓶颈在于\u0026quot;寻找另一个数\u0026quot;的过程太慢。对于每个 nums[i]，我们都需要在数组中寻找是否存在一个数 target - nums[i]。这个寻找过程能否被加速呢？\n答案是肯定的，哈希表提供了近乎 $O(1)$ 的查找效率。\n我们可以使用一个哈希表（HashMap）来存储已经遍历过的数字及其对应的索引，即 Map\u0026lt;数值, 索引\u0026gt;。\n具体的算法流程如下：\n创建一个空的哈希表 map。 遍历 nums 数组，对于当前的元素 nums[i]： a. 计算我们需要寻找的\u0026quot;另一半\u0026quot;：complement = target - nums[i]。 b. 在哈希表中查找 complement 是否存在。 * 如果存在，说明我们找到了解！complement 的索引已经存在 map 中，当前元素的索引是 i。我们立即返回 [map.get(complement), i]。 * 如果不存在，说明到目前为止还没遇到能和 nums[i] 配对的数。我们将当前数字和它的索引存入哈希表 map.put(nums[i], i)，以便后续的元素能用它来配对。 遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。 这个\u0026quot;一边遍历，一边查找，一边插入\u0026quot;的单遍哈希表解法，非常巧妙地在一次循环中完成了所有工作。\n",
+  "description": "题目回顾 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target 的那 两个 整数，并返回它们的数组下标。\n你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。\n你可以按任意顺序返回答案。\n示例 1：\n输入： nums = [2,7,11,15], target = 9 输出： [0,1] 解释： 因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。\n核心思路：用空间换时间 作为 LeetCode 的开篇之作，这道题完美地诠释了如何通过\u0026quot;空间换时间\u0026quot;的思想来优化算法。\n暴力解法的瓶颈在于\u0026quot;寻找另一个数\u0026quot;的过程太慢。对于每个 nums[i]，我们都需要在数组中寻找是否存在一个数 target - nums[i]。这个寻找过程能否被加速呢？\n答案是肯定的，哈希表提供了近乎 $O(1)$ 的查找效率。\n我们可以使用一个哈希表（HashMap）来存储已经遍历过的数字及其对应的索引，即 Map\u0026lt;数值, 索引\u0026gt;。\n具体的算法流程如下：\n创建一个空的哈希表 map。 遍历 nums 数组，对于当前的元素 nums[i]： a. 计算我们需要寻找的\u0026quot;另一半\u0026quot;：complement = target - nums[i]。 b. 在哈希表中查找 complement 是否存在。 如果存在，说明我们找到了解！complement 的索引已经存在 map 中，当前元素的索引是 i。我们立即返回 [map.get(complement), i]。 如果不存在，说明到目前为止还没遇到能和 nums[i] 配对的数。我们将当前数字和它的索引存入哈希表 map.put(nums[i], i)，以便后续的元素能用它来配对。 遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。 这个\u0026quot;一边遍历，一边查找，一边插入\u0026quot;的单遍哈希表解法，非常巧妙地在一次循环中完成了所有工作。\n",
   "keywords": [
     "数组", "哈希表"
   ],
-  "articleBody": "题目回顾 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target 的那 两个 整数，并返回它们的数组下标。\n你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。\n你可以按任意顺序返回答案。\n示例 1：\n输入： nums = [2,7,11,15], target = 9 输出： [0,1] 解释： 因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。\n核心思路：用空间换时间 作为 LeetCode 的开篇之作，这道题完美地诠释了如何通过\"空间换时间\"的思想来优化算法。\n暴力解法的瓶颈在于\"寻找另一个数\"的过程太慢。对于每个 nums[i]，我们都需要在数组中寻找是否存在一个数 target - nums[i]。这个寻找过程能否被加速呢？\n答案是肯定的，哈希表提供了近乎 $O(1)$ 的查找效率。\n我们可以使用一个哈希表（HashMap）来存储已经遍历过的数字及其对应的索引，即 Map\u003c数值, 索引\u003e。\n具体的算法流程如下：\n创建一个空的哈希表 map。 遍历 nums 数组，对于当前的元素 nums[i]： a. 计算我们需要寻找的\"另一半\"：complement = target - nums[i]。 b. 在哈希表中查找 complement 是否存在。 * 如果存在，说明我们找到了解！complement 的索引已经存在 map 中，当前元素的索引是 i。我们立即返回 [map.get(complement), i]。 * 如果不存在，说明到目前为止还没遇到能和 nums[i] 配对的数。我们将当前数字和它的索引存入哈希表 map.put(nums[i], i)，以便后续的元素能用它来配对。 遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。 这个\"一边遍历，一边查找，一边插入\"的单遍哈希表解法，非常巧妙地在一次循环中完成了所有工作。\n代码实现 (Java) class Solution { public int[] twoSum(int[] nums, int target) { // Key 存储数值, Value 存储索引 Map\u003cInteger, Integer\u003e map = new HashMap\u003c\u003e(); for (int i = 0; i \u003c nums.length; i++) { int complement = target - nums[i]; // 检查\"另一半\"是否已经存在于 map 中 if (map.containsKey(complement)) { // 如果存在，直接返回两个数的索引 return new int[] { map.get(complement), i }; } // 如果不存在，将当前数和它的索引存入 map，供后续元素查询 map.put(nums[i], i); } // 根据题意，一定有解，这里是为了编译通过 throw new IllegalArgumentException(\"No two sum solution\"); } } 复杂度分析\n时间复杂度: O(n)。我们只需遍历数组一次。哈希表的插入和查找操作的平均时间复杂度都是 O(1)。\n空间复杂度: O(n)。在最坏情况下，我们需要将数组中的所有元素都存入哈希表中。\n",
-  "wordCount" : "160",
+  "articleBody": "题目回顾 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target 的那 两个 整数，并返回它们的数组下标。\n你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。\n你可以按任意顺序返回答案。\n示例 1：\n输入： nums = [2,7,11,15], target = 9 输出： [0,1] 解释： 因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。\n核心思路：用空间换时间 作为 LeetCode 的开篇之作，这道题完美地诠释了如何通过\"空间换时间\"的思想来优化算法。\n暴力解法的瓶颈在于\"寻找另一个数\"的过程太慢。对于每个 nums[i]，我们都需要在数组中寻找是否存在一个数 target - nums[i]。这个寻找过程能否被加速呢？\n答案是肯定的，哈希表提供了近乎 $O(1)$ 的查找效率。\n我们可以使用一个哈希表（HashMap）来存储已经遍历过的数字及其对应的索引，即 Map\u003c数值, 索引\u003e。\n具体的算法流程如下：\n创建一个空的哈希表 map。 遍历 nums 数组，对于当前的元素 nums[i]： a. 计算我们需要寻找的\"另一半\"：complement = target - nums[i]。 b. 在哈希表中查找 complement 是否存在。 如果存在，说明我们找到了解！complement 的索引已经存在 map 中，当前元素的索引是 i。我们立即返回 [map.get(complement), i]。 如果不存在，说明到目前为止还没遇到能和 nums[i] 配对的数。我们将当前数字和它的索引存入哈希表 map.put(nums[i], i)，以便后续的元素能用它来配对。 遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。 这个\"一边遍历，一边查找，一边插入\"的单遍哈希表解法，非常巧妙地在一次循环中完成了所有工作。\n代码实现 (Java) class Solution { public int[] twoSum(int[] nums, int target) { // Key 存储数值, Value 存储索引 Map\u003cInteger, Integer\u003e map = new HashMap\u003c\u003e(); for (int i = 0; i \u003c nums.length; i++) { int complement = target - nums[i]; // 检查\"另一半\"是否已经存在于 map 中 if (map.containsKey(complement)) { // 如果存在，直接返回两个数的索引 return new int[] { map.get(complement), i }; } // 如果不存在，将当前数和它的索引存入 map，供后续元素查询 map.put(nums[i], i); } // 根据题意，一定有解，这里是为了编译通过 throw new IllegalArgumentException(\"No two sum solution\"); } } 复杂度分析\n时间复杂度: O(n)。我们只需遍历数组一次。哈希表的插入和查找操作的平均时间复杂度都是 O(1)。 空间复杂度: O(n)。在最坏情况下，我们需要将数组中的所有元素都存入哈希表中。 ",
+  "wordCount" : "158",
   "inLanguage": "en",
   "datePublished": "2025-09-20T14:50:00+09:00",
   "dateModified": "2025-09-20T14:50:00+09:00",
@@ -261,8 +267,11 @@ b.  在哈希表中查找 complement 是否存在。
 <li>遍历 <code>nums</code> 数组，对于当前的元素 <code>nums[i]</code>：
 a.  计算我们需要寻找的&quot;另一半&quot;：<code>complement = target - nums[i]</code>。
 b.  <strong>在哈希表中查找</strong> <code>complement</code> 是否存在。
-* <strong>如果存在</strong>，说明我们找到了解！<code>complement</code> 的索引已经存在 <code>map</code> 中，当前元素的索引是 <code>i</code>。我们立即返回 <code>[map.get(complement), i]</code>。
-* <strong>如果不存在</strong>，说明到目前为止还没遇到能和 <code>nums[i]</code> 配对的数。我们将当前数字和它的索引存入哈希表 <code>map.put(nums[i], i)</code>，以便后续的元素能用它来配对。</li>
+<ul>
+<li><strong>如果存在</strong>，说明我们找到了解！<code>complement</code> 的索引已经存在 <code>map</code> 中，当前元素的索引是 <code>i</code>。我们立即返回 <code>[map.get(complement), i]</code>。</li>
+<li><strong>如果不存在</strong>，说明到目前为止还没遇到能和 <code>nums[i]</code> 配对的数。我们将当前数字和它的索引存入哈希表 <code>map.put(nums[i], i)</code>，以便后续的元素能用它来配对。</li>
+</ul>
+</li>
 <li>遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。</li>
 </ol>
 <p>这个&quot;一边遍历，一边查找，一边插入&quot;的<strong>单遍哈希表</strong>解法，非常巧妙地在一次循环中完成了所有工作。</p>
@@ -291,12 +300,8 @@ b.  <strong>在哈希表中查找</strong> <code>complement</code> 是否存在�
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p><strong>复杂度分析</strong></p>
 <ul>
-<li>
-<p>时间复杂度: <code>O(n)</code>。我们只需遍历数组一次。哈希表的插入和查找操作的平均时间复杂度都是 O(1)。</p>
-</li>
-<li>
-<p>空间复杂度: <code>O(n)</code>。在最坏情况下，我们需要将数组中的所有元素都存入哈希表中。</p>
-</li>
+<li>时间复杂度: <code>O(n)</code>。我们只需遍历数组一次。哈希表的插入和查找操作的平均时间复杂度都是 O(1)。</li>
+<li>空间复杂度: <code>O(n)</code>。在最坏情况下，我们需要将数组中的所有元素都存入哈希表中。</li>
 </ul>
 
 

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>[Golang] LeetCode 热题 100 - 双指针 | 个人技术博客</title>
+<meta name="keywords" content="双指针, 题解">
+<meta name="description" content="双指针
+283. 移动零
+题目回顾
+
+给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+请注意 ，必须在不复制数组的情况下原地对数组进行操作。
+
+示例 1:
+输入: nums = [0,1,0,3,12]
+输出: [1,3,12,0,0]
+核心思路：快慢指针（一次遍历）
+这道题有两个核心要求：
+
+将所有 0 移动到末尾。
+保持所有非零元素的相对顺序不变。
+
+第二个要求&quot;保持相对顺序&quot;是解题的关键。它告诉我们，不能简单地像&quot;移除元素&quot;那样，用头尾指针交换元素，因为那样会打乱非零元素的原有顺序。
+这个问题的本质可以看作是：将所有非零元素，按原有的顺序，紧凑地移动到数组的前面，然后将剩余的位置全部填上零。
+这正是快慢指针擅长的场景：
+
+
+定义指针：
+
+慢指针 p (或 slow): 这个指针用于标记&quot;下一个非零元素应该被放置的位置&quot;。在 p 左边的所有元素（不含 p）都是已经处理好的、按序排列的非零元素。
+快指针 q (或 fast): 这个指针负责遍历整个数组，去寻找非零元素。
+
+
+
+执行过程：
+
+初始化 p 和 q 都指向数组的起始位置 0。
+快指针 q 开始向后遍历数组。
+当 q 遇到一个非零元素时，说明这个元素需要被保留并放到前面。于是，我们执行两个操作：
+
+将这个非零元素 nums[q] 赋值给慢指针 p 所在的位置 nums[p]。
+将慢指针 p 向后移动一位 (p&#43;&#43;)，为下一个非零元素腾出位置。
+
+
+如果 q 遇到的是 0，则慢指针 p 保持不动，只有快指针 q 继续向后移动。
+
+
+
+填充末尾的零：">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/2026-01-26-two-pointer/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.343cc480b9ffc8f04ccbe5e968ad674880cab773ec19905e93033065c1e7a804.css" integrity="sha256-NDzEgLn/yPBMy&#43;XpaK1nSIDKt3PsGZBekwMwZcHnqAQ=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2026-01-26-two-pointer/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="http://localhost:1313/posts/2026-01-26-two-pointer/">
+  <meta property="og:site_name" content="个人技术博客">
+  <meta property="og:title" content="[Golang] LeetCode 热题 100 - 双指针">
+  <meta property="og:description" content="双指针 283. 移动零 题目回顾 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+请注意 ，必须在不复制数组的情况下原地对数组进行操作。
+示例 1:
+输入: nums = [0,1,0,3,12] 输出: [1,3,12,0,0]
+核心思路：快慢指针（一次遍历） 这道题有两个核心要求：
+将所有 0 移动到末尾。 保持所有非零元素的相对顺序不变。 第二个要求&#34;保持相对顺序&#34;是解题的关键。它告诉我们，不能简单地像&#34;移除元素&#34;那样，用头尾指针交换元素，因为那样会打乱非零元素的原有顺序。
+这个问题的本质可以看作是：将所有非零元素，按原有的顺序，紧凑地移动到数组的前面，然后将剩余的位置全部填上零。
+这正是快慢指针擅长的场景：
+定义指针：
+慢指针 p (或 slow): 这个指针用于标记&#34;下一个非零元素应该被放置的位置&#34;。在 p 左边的所有元素（不含 p）都是已经处理好的、按序排列的非零元素。 快指针 q (或 fast): 这个指针负责遍历整个数组，去寻找非零元素。 执行过程：
+初始化 p 和 q 都指向数组的起始位置 0。 快指针 q 开始向后遍历数组。 当 q 遇到一个非零元素时，说明这个元素需要被保留并放到前面。于是，我们执行两个操作： 将这个非零元素 nums[q] 赋值给慢指针 p 所在的位置 nums[p]。 将慢指针 p 向后移动一位 (p&#43;&#43;)，为下一个非零元素腾出位置。 如果 q 遇到的是 0，则慢指针 p 保持不动，只有快指针 q 继续向后移动。 填充末尾的零：">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-24T21:00:00+09:00">
+    <meta property="article:modified_time" content="2026-01-24T21:00:00+09:00">
+    <meta property="article:tag" content="双指针">
+    <meta property="article:tag" content="题解">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[Golang] LeetCode 热题 100 - 双指针">
+<meta name="twitter:description" content="双指针
+283. 移动零
+题目回顾
+
+给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+请注意 ，必须在不复制数组的情况下原地对数组进行操作。
+
+示例 1:
+输入: nums = [0,1,0,3,12]
+输出: [1,3,12,0,0]
+核心思路：快慢指针（一次遍历）
+这道题有两个核心要求：
+
+将所有 0 移动到末尾。
+保持所有非零元素的相对顺序不变。
+
+第二个要求&quot;保持相对顺序&quot;是解题的关键。它告诉我们，不能简单地像&quot;移除元素&quot;那样，用头尾指针交换元素，因为那样会打乱非零元素的原有顺序。
+这个问题的本质可以看作是：将所有非零元素，按原有的顺序，紧凑地移动到数组的前面，然后将剩余的位置全部填上零。
+这正是快慢指针擅长的场景：
+
+
+定义指针：
+
+慢指针 p (或 slow): 这个指针用于标记&quot;下一个非零元素应该被放置的位置&quot;。在 p 左边的所有元素（不含 p）都是已经处理好的、按序排列的非零元素。
+快指针 q (或 fast): 这个指针负责遍历整个数组，去寻找非零元素。
+
+
+
+执行过程：
+
+初始化 p 和 q 都指向数组的起始位置 0。
+快指针 q 开始向后遍历数组。
+当 q 遇到一个非零元素时，说明这个元素需要被保留并放到前面。于是，我们执行两个操作：
+
+将这个非零元素 nums[q] 赋值给慢指针 p 所在的位置 nums[p]。
+将慢指针 p 向后移动一位 (p&#43;&#43;)，为下一个非零元素腾出位置。
+
+
+如果 q 遇到的是 0，则慢指针 p 保持不动，只有快指针 q 继续向后移动。
+
+
+
+填充末尾的零：">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "[Golang] LeetCode 热题 100 - 双指针",
+      "item": "http://localhost:1313/posts/2026-01-26-two-pointer/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "[Golang] LeetCode 热题 100 - 双指针",
+  "name": "[Golang] LeetCode 热题 100 - 双指针",
+  "description": "双指针 283. 移动零 题目回顾 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。\n请注意 ，必须在不复制数组的情况下原地对数组进行操作。\n示例 1:\n输入: nums = [0,1,0,3,12] 输出: [1,3,12,0,0]\n核心思路：快慢指针（一次遍历） 这道题有两个核心要求：\n将所有 0 移动到末尾。 保持所有非零元素的相对顺序不变。 第二个要求\u0026quot;保持相对顺序\u0026quot;是解题的关键。它告诉我们，不能简单地像\u0026quot;移除元素\u0026quot;那样，用头尾指针交换元素，因为那样会打乱非零元素的原有顺序。\n这个问题的本质可以看作是：将所有非零元素，按原有的顺序，紧凑地移动到数组的前面，然后将剩余的位置全部填上零。\n这正是快慢指针擅长的场景：\n定义指针：\n慢指针 p (或 slow): 这个指针用于标记\u0026quot;下一个非零元素应该被放置的位置\u0026quot;。在 p 左边的所有元素（不含 p）都是已经处理好的、按序排列的非零元素。 快指针 q (或 fast): 这个指针负责遍历整个数组，去寻找非零元素。 执行过程：\n初始化 p 和 q 都指向数组的起始位置 0。 快指针 q 开始向后遍历数组。 当 q 遇到一个非零元素时，说明这个元素需要被保留并放到前面。于是，我们执行两个操作： 将这个非零元素 nums[q] 赋值给慢指针 p 所在的位置 nums[p]。 将慢指针 p 向后移动一位 (p++)，为下一个非零元素腾出位置。 如果 q 遇到的是 0，则慢指针 p 保持不动，只有快指针 q 继续向后移动。 填充末尾的零：\n",
+  "keywords": [
+    "双指针", "题解"
+  ],
+  "articleBody": "双指针 283. 移动零 题目回顾 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。\n请注意 ，必须在不复制数组的情况下原地对数组进行操作。\n示例 1:\n输入: nums = [0,1,0,3,12] 输出: [1,3,12,0,0]\n核心思路：快慢指针（一次遍历） 这道题有两个核心要求：\n将所有 0 移动到末尾。 保持所有非零元素的相对顺序不变。 第二个要求\"保持相对顺序\"是解题的关键。它告诉我们，不能简单地像\"移除元素\"那样，用头尾指针交换元素，因为那样会打乱非零元素的原有顺序。\n这个问题的本质可以看作是：将所有非零元素，按原有的顺序，紧凑地移动到数组的前面，然后将剩余的位置全部填上零。\n这正是快慢指针擅长的场景：\n定义指针：\n慢指针 p (或 slow): 这个指针用于标记\"下一个非零元素应该被放置的位置\"。在 p 左边的所有元素（不含 p）都是已经处理好的、按序排列的非零元素。 快指针 q (或 fast): 这个指针负责遍历整个数组，去寻找非零元素。 执行过程：\n初始化 p 和 q 都指向数组的起始位置 0。 快指针 q 开始向后遍历数组。 当 q 遇到一个非零元素时，说明这个元素需要被保留并放到前面。于是，我们执行两个操作： 将这个非零元素 nums[q] 赋值给慢指针 p 所在的位置 nums[p]。 将慢指针 p 向后移动一位 (p++)，为下一个非零元素腾出位置。 如果 q 遇到的是 0，则慢指针 p 保持不动，只有快指针 q 继续向后移动。 填充末尾的零：\n当快指针 q 遍历完整个数组后，所有非零元素都已经被紧凑地移动到了数组的前 p 个位置。 数组中从索引 p 到末尾的所有位置，都应该是 0。 因此，我们再进行一次循环，从 p 开始，将数组剩余的位置全部赋值为 0。 代码实现 func moveZeroes(nums []int) { p := 0 for q := 0; q \u003c len(nums); q++ { if nums[q] != 0 { nums[p] = nums[q] p++ } } for ; p \u003c len(nums); p++ { nums[p] = 0 } } 复杂度分析\n时间复杂度: O(n)。其中 n 是数组的长度。快指针 q 遍历数组一次，慢指针 p 在第二步中也最多遍历一次。总的操作次数与 n 呈线性关系。 空间复杂度: O(1)。所有操作都在原数组上进行，没有使用额外的存储空间。 ",
+  "wordCount" : "139",
+  "inLanguage": "en",
+  "datePublished": "2026-01-24T21:00:00+09:00",
+  "dateModified": "2026-01-24T21:00:00+09:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/2026-01-26-two-pointer/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "个人技术博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="个人技术博客 (Alt + H)">个人技术博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      [Golang] LeetCode 热题 100 - 双指针
+    </h1>
+    <div class="post-meta"><span title='2026-01-24 21:00:00 +0900 JST'>January 24, 2026</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="双指针">双指针<a hidden class="anchor" aria-hidden="true" href="#双指针">#</a></h1>
+<h2 id="283-移动零"><a href="https://leetcode.cn/problems/move-zeroes/">283. 移动零</a><a hidden class="anchor" aria-hidden="true" href="#283-移动零">#</a></h2>
+<h3 id="题目回顾">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾">#</a></h3>
+<blockquote>
+<p>给定一个数组 <code>nums</code>，编写一个函数将所有 <code>0</code> 移动到数组的末尾，同时保持非零元素的相对顺序。</p>
+<p><strong>请注意</strong> ，必须在不复制数组的情况下<strong>原地</strong>对数组进行操作。</p>
+</blockquote>
+<p><strong>示例 1:</strong></p>
+<p><strong>输入:</strong> <code>nums = [0,1,0,3,12]</code>
+<strong>输出:</strong> <code>[1,3,12,0,0]</code></p>
+<h3 id="核心思路快慢指针一次遍历">核心思路：快慢指针（一次遍历）<a hidden class="anchor" aria-hidden="true" href="#核心思路快慢指针一次遍历">#</a></h3>
+<p>这道题有两个核心要求：</p>
+<ol>
+<li>将所有 <code>0</code> 移动到末尾。</li>
+<li>保持所有<strong>非零</strong>元素的相对顺序不变。</li>
+</ol>
+<p>第二个要求&quot;保持相对顺序&quot;是解题的关键。它告诉我们，不能简单地像&quot;移除元素&quot;那样，用头尾指针交换元素，因为那样会打乱非零元素的原有顺序。</p>
+<p>这个问题的本质可以看作是：<strong>将所有非零元素，按原有的顺序，紧凑地移动到数组的前面，然后将剩余的位置全部填上零</strong>。</p>
+<p>这正是<strong>快慢指针</strong>擅长的场景：</p>
+<ol>
+<li>
+<p><strong>定义指针</strong>：</p>
+<ul>
+<li><strong>慢指针 <code>p</code> (或 <code>slow</code>)</strong>: 这个指针用于标记&quot;下一个非零元素应该被放置的位置&quot;。在 <code>p</code> 左边的所有元素（不含 <code>p</code>）都是已经处理好的、按序排列的非零元素。</li>
+<li><strong>快指针 <code>q</code> (或 <code>fast</code>)</strong>: 这个指针负责遍历整个数组，去寻找非零元素。</li>
+</ul>
+</li>
+<li>
+<p><strong>执行过程</strong>：</p>
+<ul>
+<li>初始化 <code>p</code> 和 <code>q</code> 都指向数组的起始位置 <code>0</code>。</li>
+<li>快指针 <code>q</code> 开始向后遍历数组。</li>
+<li>当 <code>q</code> 遇到一个<strong>非零</strong>元素时，说明这个元素需要被保留并放到前面。于是，我们执行两个操作：
+<ol>
+<li>将这个非零元素 <code>nums[q]</code> 赋值给慢指针 <code>p</code> 所在的位置 <code>nums[p]</code>。</li>
+<li>将慢指针 <code>p</code> 向后移动一位 (<code>p++</code>)，为下一个非零元素腾出位置。</li>
+</ol>
+</li>
+<li>如果 <code>q</code> 遇到的是 <code>0</code>，则慢指针 <code>p</code> 保持不动，只有快指针 <code>q</code> 继续向后移动。</li>
+</ul>
+</li>
+<li>
+<p><strong>填充末尾的零</strong>：</p>
+<ul>
+<li>当快指针 <code>q</code> 遍历完整个数组后，所有非零元素都已经被紧凑地移动到了数组的前 <code>p</code> 个位置。</li>
+<li>数组中从索引 <code>p</code> 到末尾的所有位置，都应该是 <code>0</code>。</li>
+<li>因此，我们再进行一次循环，从 <code>p</code> 开始，将数组剩余的位置全部赋值为 <code>0</code>。</li>
+</ul>
+</li>
+</ol>
+<h3 id="代码实现">代码实现<a hidden class="anchor" aria-hidden="true" href="#代码实现">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">moveZeroes</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">q</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">q</span> &lt; len(<span style="color:#a6e22e">nums</span>); <span style="color:#a6e22e">q</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">q</span>] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">p</span>] = <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">q</span>]
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">p</span><span style="color:#f92672">++</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> ; <span style="color:#a6e22e">p</span> &lt; len(<span style="color:#a6e22e">nums</span>); <span style="color:#a6e22e">p</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">p</span>] = <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>复杂度分析</strong></p>
+<ul>
+<li>时间复杂度: <code>O(n)</code>。其中 n 是数组的长度。快指针 q 遍历数组一次，慢指针 p 在第二步中也最多遍历一次。总的操作次数与 n 呈线性关系。</li>
+<li>空间复杂度: <code>O(1)</code>。所有操作都在原数组上进行，没有使用额外的存储空间。</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a></li>
+      <li><a href="http://localhost:1313/tags/%E9%A2%98%E8%A7%A3/">题解</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">个人技术博客</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

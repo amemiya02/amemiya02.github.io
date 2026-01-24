@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>哈希 on 个人技术博客</title>
+    <link>http://localhost:1313/tags/%E5%93%88%E5%B8%8C/</link>
+    <description>Recent content in 哈希 on 个人技术博客</description>
+    <generator>Hugo -- 0.154.1</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sat, 24 Jan 2026 19:00:00 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E5%93%88%E5%B8%8C/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Golang] LeetCode 热题 100 - 哈希</title>
+      <link>http://localhost:1313/posts/2026-01-24-hash/</link>
+      <pubDate>Sat, 24 Jan 2026 19:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2026-01-24-hash/</guid>
+      <description>&lt;h1 id=&#34;哈希&#34;&gt;哈希&lt;/h1&gt;
+&lt;h2 id=&#34;1-两数之和---easy&#34;&gt;&lt;a href=&#34;https://leetcode.cn/problems/two-sum/&#34;&gt;1. 两数之和 - Easy&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个整数数组 &lt;code&gt;nums&lt;/code&gt; 和一个整数目标值 &lt;code&gt;target&lt;/code&gt;，请你在该数组中找出 &lt;strong&gt;和为目标值 &lt;code&gt;target&lt;/code&gt;&lt;/strong&gt; 的那 &lt;strong&gt;两个&lt;/strong&gt; 整数，并返回它们的数组下标。&lt;/p&gt;
+&lt;p&gt;你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。&lt;/p&gt;
+&lt;p&gt;你可以按任意顺序返回答案。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;nums = [2,7,11,15]&lt;/code&gt;, &lt;code&gt;target = 9&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;[0,1]&lt;/code&gt;
+&lt;strong&gt;解释：&lt;/strong&gt; 因为 &lt;code&gt;nums[0] + nums[1] == 9&lt;/code&gt; ，返回 &lt;code&gt;[0, 1]&lt;/code&gt; 。&lt;/p&gt;
+&lt;h3 id=&#34;核心思路用空间换时间&#34;&gt;核心思路：用空间换时间&lt;/h3&gt;
+&lt;p&gt;作为 LeetCode 的开篇之作，这道题完美地诠释了如何通过&amp;quot;空间换时间&amp;quot;的思想来优化算法。&lt;/p&gt;
+&lt;p&gt;暴力解法的瓶颈在于&amp;quot;寻找另一个数&amp;quot;的过程太慢。对于每个 &lt;code&gt;nums[i]&lt;/code&gt;，我们都需要在数组中寻找是否存在一个数 &lt;code&gt;target - nums[i]&lt;/code&gt;。这个寻找过程能否被加速呢？&lt;/p&gt;
+&lt;p&gt;答案是肯定的，&lt;strong&gt;哈希表&lt;/strong&gt;提供了近乎 $O(1)$ 的查找效率。&lt;/p&gt;
+&lt;p&gt;我们可以使用一个哈希表（HashMap）来存储已经遍历过的数字及其对应的索引，即 &lt;code&gt;Map&amp;lt;数值, 索引&amp;gt;&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;具体的算法流程如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;创建一个空的哈希表 &lt;code&gt;map&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;遍历 &lt;code&gt;nums&lt;/code&gt; 数组，对于当前的元素 &lt;code&gt;nums[i]&lt;/code&gt;：
+a.  计算我们需要寻找的&amp;quot;另一半&amp;quot;：&lt;code&gt;complement = target - nums[i]&lt;/code&gt;。
+b.  &lt;strong&gt;在哈希表中查找&lt;/strong&gt; &lt;code&gt;complement&lt;/code&gt; 是否存在。
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;如果存在&lt;/strong&gt;，说明我们找到了解！&lt;code&gt;complement&lt;/code&gt; 的索引已经存在 &lt;code&gt;map&lt;/code&gt; 中，当前元素的索引是 &lt;code&gt;i&lt;/code&gt;。我们立即返回 &lt;code&gt;[map.get(complement), i]&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;如果不存在&lt;/strong&gt;，说明到目前为止还没遇到能和 &lt;code&gt;nums[i]&lt;/code&gt; 配对的数。我们将当前数字和它的索引存入哈希表 &lt;code&gt;map.put(nums[i], i)&lt;/code&gt;，以便后续的元素能用它来配对。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这个&amp;quot;一边遍历，一边查找，一边插入&amp;quot;的&lt;strong&gt;单遍哈希表&lt;/strong&gt;解法，非常巧妙地在一次循环中完成了所有工作。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

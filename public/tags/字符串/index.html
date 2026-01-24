@@ -187,27 +187,6 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/哈希表】LeetCode 49. 字母异位词分组
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。
-字母异位词 是由相同字母按不同顺序排列组成的单词。
-示例 1:
-输入: strs = [&#34;eat&#34;, &#34;tea&#34;, &#34;tan&#34;, &#34;ate&#34;, &#34;nat&#34;, &#34;bat&#34;] 输出: [[&#34;bat&#34;],[&#34;nat&#34;,&#34;tan&#34;],[&#34;ate&#34;,&#34;eat&#34;,&#34;tea&#34;]]
-核心思路：寻找唯一标识 除了字母完全相同，字母异位词的另一个充要条件是每个字母出现的频率完全相同。因此，我们也可以根据一个单词的字符频率来生成 key。
-例如，对于 &#34;aab&#34;，其字符频率可以表示为一个长度为 26 的数组 [2, 1, 0, 0, ...]。为了把这个数组用作哈希表的 key，我们需要将它转换成一个不可变的字符串。
-我们可以简单地将计数拼接起来，例如用 &#34;#&#34; 分隔：&#34;2#1#0#0#...&#34;。这样，所有异位词（如 &#34;aba&#34;, &#34;baa&#34;）都会生成这个完全相同的字符串 key。
-你提供的答案正是采用了这种思路，通过一个辅助函数 strToCount 将频率数组转换成一个固定格式的字符串，同样起到了唯一标识的作用。
-代码实现 (Java) class Solution { public List&lt;List&lt;String&gt;&gt; groupAnagrams(String[] strs) { Map&lt;String, List&lt;String&gt;&gt; map = new HashMap&lt;&gt;(); for (String str : strs) { // 1. 将每个字符串的字符计数转换为唯一的 key String key = generateCountKey(str); // 2. 从 map 中获取该 key 对应的列表，若不存在则创建新列表 List&lt;String&gt; list = map.getOrDefault(key, new ArrayList&lt;&gt;()); // 3. 将当前字符串加入列表 list.add(str); // 4. 将更新后的列表放回 map map.put(key, list); } // 返回 map 中所有的值（即分组后的列表） return new ArrayList&lt;&gt;(map.values()); } // 将字符串转换为基于字符计数的 key private String generateCountKey(String str) { int[] counts = new int[26]; for (char c : str.toCharArray()) { counts[c - &#39;a&#39;]&#43;&#43;; } StringBuilder sb = new StringBuilder(); for (int i = 0; i &lt; 26; i&#43;&#43;) { // 用特殊字符分隔，防止歧义，例如 &#34;b1c2&#34; vs &#34;bc12&#34; sb.append((char)(&#39;a&#39; &#43; i)); sb.append(counts[i]); } return sb.toString(); } } 复杂度分析 设 N 是字符串数组 strs 的长度，K 是数组中字符串的最大长度。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-09-20 14:45:00 +0900 JST'>September 20, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/哈希表】LeetCode 49. 字母异位词分组" href="http://localhost:1313/posts/2025-09-20-49-group-anagrams/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
     <h2 class="entry-hint-parent">【HOT100/哈希表 / 数组】LeetCode 383. 赎金信
     </h2>
   </header>
