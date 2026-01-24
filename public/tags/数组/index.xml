@@ -521,38 +521,6 @@ $$&lt;/p&gt;</description>
 &lt;p&gt;这道题最容易出错的地方就是去重。&lt;/p&gt;</description>
     </item>
     <item>
-      <title>【HOT100/双指针】LeetCode 11. 盛最多水的容器</title>
-      <link>http://localhost:1313/posts/2025-12-17-11-container-with-most-water/</link>
-      <pubDate>Wed, 17 Dec 2025 19:10:00 +0900</pubDate>
-      <guid>http://localhost:1313/posts/2025-12-17-11-container-with-most-water/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给定一个长度为 &lt;code&gt;n&lt;/code&gt; 的整数数组 &lt;code&gt;height&lt;/code&gt; 。有 &lt;code&gt;n&lt;/code&gt; 条垂线，第 &lt;code&gt;i&lt;/code&gt; 条线的两个端点是 &lt;code&gt;(i, 0)&lt;/code&gt; 和 &lt;code&gt;(i, height[i])&lt;/code&gt; 。&lt;/p&gt;
-&lt;p&gt;找出其中的两条线，使得它们与 &lt;code&gt;x&lt;/code&gt; 轴共同构成的容器可以容纳最多的水。&lt;/p&gt;
-&lt;p&gt;返回容器可以储存的最大水量。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;说明：&lt;/strong&gt; 你不能倾斜容器。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;height = [1,8,6,2,5,4,8,3,7]&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;49&lt;/code&gt;
-&lt;strong&gt;解释：&lt;/strong&gt; 图中垂直线代表输入数组 &lt;code&gt;[1,8,6,2,5,4,8,3,7]&lt;/code&gt;。在此情况下，容器能够容纳水（表示为蓝色部分）的最大值为 49。&lt;/p&gt;
-&lt;h2 id=&#34;核心思路双指针与贪心策略&#34;&gt;核心思路：双指针与贪心策略&lt;/h2&gt;
-&lt;p&gt;这道题是经典的&lt;strong&gt;双指针&lt;/strong&gt;（Two Pointers）应用题，同时也蕴含了&lt;strong&gt;贪心&lt;/strong&gt;（Greedy）的思想。&lt;/p&gt;
-&lt;p&gt;如果我们使用暴力解法，两两组合计算面积，时间复杂度会达到 $O(n^2)$，这在 &lt;code&gt;n&lt;/code&gt; 很大时会超时。我们需要寻找一种 $O(n)$ 的线性扫描方法。&lt;/p&gt;
-&lt;h3 id=&#34;面积公式分析&#34;&gt;面积公式分析&lt;/h3&gt;
-&lt;p&gt;容器的蓄水量（面积）由以下公式决定：&lt;/p&gt;
-&lt;p&gt;$
-\text{Area} = \min(height[l], height[r]) \times (r - l)
-$&lt;/p&gt;
-&lt;p&gt;即：&lt;strong&gt;取决于两板之间较短的那块板的高度 × 两板之间的距离&lt;/strong&gt;。这就像&amp;quot;木桶效应&amp;quot;，装多少水取决于最短的那块木板。&lt;/p&gt;
-&lt;h3 id=&#34;双指针的决策逻辑&#34;&gt;双指针的决策逻辑&lt;/h3&gt;
-&lt;p&gt;我们从数组的两端开始向内收缩，初始化左指针 &lt;code&gt;l = 0&lt;/code&gt;，右指针 &lt;code&gt;r = n - 1&lt;/code&gt;。此时&lt;strong&gt;宽度最大&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;在每一步迭代中，我们需要决定移动哪一边的指针。这里有一个关键的贪心策略：
-&lt;strong&gt;总是移动高度较小的那一端指针。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;为什么？&lt;/strong&gt;
-假设当前 &lt;code&gt;height[l] &amp;lt; height[r]&lt;/code&gt;：&lt;/p&gt;</description>
-    </item>
-    <item>
       <title>【HOT100/滑动窗口/Middle】LeetCode 438. 找到字符串中所有字母异位词</title>
       <link>http://localhost:1313/posts/2025-09-23-438-find-all-anagrams-in-a-string/</link>
       <pubDate>Tue, 23 Sep 2025 09:52:00 +0900</pubDate>
