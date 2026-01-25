@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto" data-theme="auto">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>[Golang] LeetCode 热题 100 - 哈希 | 个人技术博客</title>
-<meta name="keywords" content="哈希, 题解">
+<meta name="keywords" content="Go, 哈希, 题解">
 <meta name="description" content="哈希
 1. 两数之和 - Easy
 题目回顾
@@ -39,16 +39,16 @@ b.  在哈希表中查找 complement 是否存在。
 
 这个&quot;一边遍历，一边查找，一边插入&quot;的单遍哈希表解法，非常巧妙地在一次循环中完成了所有工作。">
 <meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/posts/2026-01-24-hash/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.343cc480b9ffc8f04ccbe5e968ad674880cab773ec19905e93033065c1e7a804.css" integrity="sha256-NDzEgLn/yPBMy&#43;XpaK1nSIDKt3PsGZBekwMwZcHnqAQ=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<link rel="canonical" href="https://amemiya02.github.io/posts/2026-01-24-hash/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.da3211e5ef867bf2b75fd5a6515cfed7195c011e8ab735694e203810a827097b.css" integrity="sha256-2jIR5e&#43;Ge/K3X9WmUVz&#43;1xlcAR6KtzVpTiA4EKgnCXs=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://amemiya02.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://amemiya02.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://amemiya02.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://amemiya02.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://amemiya02.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2026-01-24-hash/">
+<link rel="alternate" hreflang="en" href="https://amemiya02.github.io/posts/2026-01-24-hash/">
 <noscript>
     <style>
         #theme-toggle,
@@ -100,7 +100,7 @@ b.  在哈希表中查找 complement 是否存在。
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta property="og:url" content="http://localhost:1313/posts/2026-01-24-hash/">
+</script><meta property="og:url" content="https://amemiya02.github.io/posts/2026-01-24-hash/">
   <meta property="og:site_name" content="个人技术博客">
   <meta property="og:title" content="[Golang] LeetCode 热题 100 - 哈希">
   <meta property="og:description" content="哈希 1. 两数之和 - Easy 题目回顾 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target 的那 两个 整数，并返回它们的数组下标。
@@ -119,6 +119,7 @@ b.  在哈希表中查找 complement 是否存在。
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2026-01-24T19:00:00+09:00">
     <meta property="article:modified_time" content="2026-01-24T19:00:00+09:00">
+    <meta property="article:tag" content="Go">
     <meta property="article:tag" content="哈希">
     <meta property="article:tag" content="题解">
 <meta name="twitter:card" content="summary">
@@ -165,13 +166,13 @@ b.  在哈希表中查找 complement 是否存在。
       "@type": "ListItem",
       "position":  1 ,
       "name": "Posts",
-      "item": "http://localhost:1313/posts/"
+      "item": "https://amemiya02.github.io/posts/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "[Golang] LeetCode 热题 100 - 哈希",
-      "item": "http://localhost:1313/posts/2026-01-24-hash/"
+      "item": "https://amemiya02.github.io/posts/2026-01-24-hash/"
     }
   ]
 }
@@ -184,7 +185,7 @@ b.  在哈希表中查找 complement 是否存在。
   "name": "[Golang] LeetCode 热题 100 - 哈希",
   "description": "哈希 1. 两数之和 - Easy 题目回顾 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target 的那 两个 整数，并返回它们的数组下标。\n你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。\n你可以按任意顺序返回答案。\n示例 1：\n输入： nums = [2,7,11,15], target = 9 输出： [0,1] 解释： 因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。\n核心思路：用空间换时间 作为 LeetCode 的开篇之作，这道题完美地诠释了如何通过\u0026quot;空间换时间\u0026quot;的思想来优化算法。\n暴力解法的瓶颈在于\u0026quot;寻找另一个数\u0026quot;的过程太慢。对于每个 nums[i]，我们都需要在数组中寻找是否存在一个数 target - nums[i]。这个寻找过程能否被加速呢？\n答案是肯定的，哈希表提供了近乎 $O(1)$ 的查找效率。\n我们可以使用一个哈希表（HashMap）来存储已经遍历过的数字及其对应的索引，即 Map\u0026lt;数值, 索引\u0026gt;。\n具体的算法流程如下：\n创建一个空的哈希表 map。 遍历 nums 数组，对于当前的元素 nums[i]： a. 计算我们需要寻找的\u0026quot;另一半\u0026quot;：complement = target - nums[i]。 b. 在哈希表中查找 complement 是否存在。 如果存在，说明我们找到了解！complement 的索引已经存在 map 中，当前元素的索引是 i。我们立即返回 [map.get(complement), i]。 如果不存在，说明到目前为止还没遇到能和 nums[i] 配对的数。我们将当前数字和它的索引存入哈希表 map.put(nums[i], i)，以便后续的元素能用它来配对。 遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。 这个\u0026quot;一边遍历，一边查找，一边插入\u0026quot;的单遍哈希表解法，非常巧妙地在一次循环中完成了所有工作。\n",
   "keywords": [
-    "哈希", "题解"
+    "Go", "哈希", "题解"
   ],
   "articleBody": "哈希 1. 两数之和 - Easy 题目回顾 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target 的那 两个 整数，并返回它们的数组下标。\n你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。\n你可以按任意顺序返回答案。\n示例 1：\n输入： nums = [2,7,11,15], target = 9 输出： [0,1] 解释： 因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。\n核心思路：用空间换时间 作为 LeetCode 的开篇之作，这道题完美地诠释了如何通过\"空间换时间\"的思想来优化算法。\n暴力解法的瓶颈在于\"寻找另一个数\"的过程太慢。对于每个 nums[i]，我们都需要在数组中寻找是否存在一个数 target - nums[i]。这个寻找过程能否被加速呢？\n答案是肯定的，哈希表提供了近乎 $O(1)$ 的查找效率。\n我们可以使用一个哈希表（HashMap）来存储已经遍历过的数字及其对应的索引，即 Map\u003c数值, 索引\u003e。\n具体的算法流程如下：\n创建一个空的哈希表 map。 遍历 nums 数组，对于当前的元素 nums[i]： a. 计算我们需要寻找的\"另一半\"：complement = target - nums[i]。 b. 在哈希表中查找 complement 是否存在。 如果存在，说明我们找到了解！complement 的索引已经存在 map 中，当前元素的索引是 i。我们立即返回 [map.get(complement), i]。 如果不存在，说明到目前为止还没遇到能和 nums[i] 配对的数。我们将当前数字和它的索引存入哈希表 map.put(nums[i], i)，以便后续的元素能用它来配对。 遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。 这个\"一边遍历，一边查找，一边插入\"的单遍哈希表解法，非常巧妙地在一次循环中完成了所有工作。\n代码实现 func twoSum(nums []int, target int) []int { m := make(map[int]int) for i := 0; i \u003c len(nums); i++ { if val, ok := m[target-nums[i]]; ok { return []int{val, i} } m[nums[i]] = i } return []int{-1, -1} } 复杂度分析\n时间复杂度: O(n)。我们只需遍历数组一次。哈希表的插入和查找操作的平均时间复杂度都是 O(1)。 空间复杂度: O(n)。在最坏情况下，我们需要将数组中的所有元素都存入哈希表中。 49. 字母异位词分组 - Mid 题目回顾\n给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。\n字母异位词 是由相同字母按不同顺序排列组成的单词。\n示例 1:\n输入: strs = [\"eat\", \"tea\", \"tan\", \"ate\", \"nat\", \"bat\"] 输出: [[\"bat\"],[\"nat\",\"tan\"],[\"ate\",\"eat\",\"tea\"]]\n核心思路：寻找唯一标识 除了字母完全相同，字母异位词的另一个充要条件是每个字母出现的频率完全相同。因此，我们也可以根据一个单词的字符频率来生成 key。\n例如，对于 \"aab\"，其字符频率可以表示为一个长度为 26 的数组 [2, 1, 0, 0, ...]。为了把这个数组用作哈希表的 key，我们需要将它转换成一个不可变的字符串。\n我们可以简单地将计数拼接起来，例如用 \"#\" 分隔：\"2#1#0#0#...\"。这样，所有异位词（如 \"aba\", \"baa\"）都会生成这个完全相同的字符串 key。\n你提供的答案正是采用了这种思路，通过一个辅助函数 strToCount 将频率数组转换成一个固定格式的字符串，同样起到了唯一标识的作用。\n代码实现 func groupAnagrams(strs []string) [][]string { // 直接使用 [26]int 数组作为 key，避免了复杂的字符串转换 m := make(map[[26]int][]string) for _, str := range strs { cnt := [26]int{} for i := 0; i \u003c len(str); i++ { cnt[str[i]-'a']++ } // 直接追加，无需判断是否存在 m[cnt] = append(m[cnt], str) } res := make([][]string, 0, len(m)) for _, list := range m { res = append(res, list) } return res } 复杂度分析 设 N 是字符串数组 strs 的长度，K 是数组中字符串的最大长度。\n时间复杂度: O(N * K)。我们需要遍历 N 个字符串，对于每个长度为 K 的字符串，计算其字符频率的时间是 O(K)。 空间复杂度: O(N * K)。用于存储哈希表和结果。 128. 最长连续序列 - Mid 题目回顾 给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。\n请你设计并实现时间复杂度为 O(n) 的算法解决此问题。\n示例 1：\n输入： nums = [100,4,200,1,3,2] 输出： 4 解释： 最长数字连续序列是 [1, 2, 3, 4]。它的长度为 4。\n核心思路：哈希集合 + 智能枚举 这道题最核心的要求是 O(n) 的时间复杂度，这意味着我们不能使用排序 $O(nlogn)$。\n要实现 O(n)，关键在于快速查找某个数是否存在。这让我们自然而然地想到了哈希表。我们可以用一个哈希集合 (HashSet) 来优化查找过程。\n这题的关键是找出序列起点来剪枝\n空间换时间，初始化哈希集合\n创建一个 HashSet，并将数组 nums 中的所有元素都添加进去。 这一步有两个目的：一是方便后续以 O(1)的时间复杂度快速查找某个数是否存在；二是自动处理了数组中的重复元素。 智能遍历，只从序列的起点开始计算\n这是整个算法最精妙的地方。如果我们遍历集合中的每一个数，都尝试计算以它开头的序列长度，会有大量重复计算。例如，对于序列 [1, 2, 3, 4]，我们从 1 开始计算了一遍，又会从 2 开始再计算一遍 [2, 3, 4]，这是不必要的。 如何避免重复计算？ 答案是：只从一个连续序列的起点开始计算。 如何判断一个数 num 是不是起点？ 很简单，只要检查 num - 1 是否存在于哈希集合中。如果 num - 1 不存在，那么 num 就是一个潜在的序列起点。如果 num - 1 存在，那么 num 肯定不是起点，我们可以直接跳过它，因为它一定会被 num - 1 开始的计算所覆盖。 计算长度并更新结果\n遍历哈希集合，对于每个元素 num： 判断是否为起点：if)if _, ok := s[num-1]; !ok 如果是起点：就从 num 开始，不断检查 num + 1, num + 2, … 是否存在于集合中，以此计算出当前序列的长度。 更新最大值：将当前计算出的长度与全局的最大长度进行比较并更新。 通过这种\"只从起点开始\"的智能枚举，我们确保了每个数字作为序列的一部分，只会被内层循环访问一次，从而将总时间复杂度控制在 $O(n)$。\n代码实现 func longestConsecutive(nums []int) int { // 1. 初始化哈希表，存入数组中的每一个数值 s := make(map[int]struct{}) for _, num := range nums { s[num] = struct{}{} } ans := 0 // 2. 遍历哈希表 for num := range s { // 只有当 num-1 不存在时，才将 num 视为序列的起点 // 如果num-1存在，说明在前面已经便利过了 直接跳过 if _, ok := s[num-1]; !ok { currentNum := num currentLen := 1 // 3. 检查后续数字是否存在 for { if _, ok := s[currentNum+1]; ok { currentLen++ currentNum++ } else { break } } // 4. 更新最大长度（比 math.Max 更高效, 因为math.Max需转换为float） if currentLen \u003e ans { ans = currentLen } } } return ans } 复杂度分析\n时间复杂度: O(n)。\n虽然代码里有嵌套的 for 循环，但它依然是线性的：\n每个数字最多进入内层循环一次 。 只有序列的“最小元素”会触发内层循环。例如对于序列 [1, 2, 3, 4, 5]，只有当 num = 1 时才会进入 while 循环走 5 次；当 num 为 2, 3, 4, 5 时，都会因为 num-1 存在而被跳过。 结论： 每个元素在整个算法中最多被访问两次，时间复杂度为 $O(n)$。 空间复杂度: O(n)。在最坏情况下，数组中所有元素都不同，HashSet 需要存储 n 个元素。\n",
   "wordCount" : "500",
@@ -193,14 +194,14 @@ b.  在哈希表中查找 complement 是否存在。
   "dateModified": "2026-01-24T19:00:00+09:00",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "http://localhost:1313/posts/2026-01-24-hash/"
+    "@id": "https://amemiya02.github.io/posts/2026-01-24-hash/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "个人技术博客",
     "logo": {
       "@type": "ImageObject",
-      "url": "http://localhost:1313/favicon.ico"
+      "url": "https://amemiya02.github.io/favicon.ico"
     }
   }
 }
@@ -210,7 +211,7 @@ b.  在哈希表中查找 complement 是否存在。
     <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="个人技术博客 (Alt + H)">个人技术博客</a>
+            <a href="https://amemiya02.github.io/" accesskey="h" title="个人技术博客 (Alt + H)">个人技术博客</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -438,15 +439,16 @@ b.  <strong>在哈希表中查找</strong> <code>complement</code> 是否存在�
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/%E5%93%88%E5%B8%8C/">哈希</a></li>
-      <li><a href="http://localhost:1313/tags/%E9%A2%98%E8%A7%A3/">题解</a></li>
+      <li><a href="https://amemiya02.github.io/tags/go/">Go</a></li>
+      <li><a href="https://amemiya02.github.io/tags/%E5%93%88%E5%B8%8C/">哈希</a></li>
+      <li><a href="https://amemiya02.github.io/tags/%E9%A2%98%E8%A7%A3/">题解</a></li>
     </ul>
   </footer>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">个人技术博客</a></span> · 
+        <span>&copy; 2026 <a href="https://amemiya02.github.io/">个人技术博客</a></span> · 
 
     <span>
         Powered by
