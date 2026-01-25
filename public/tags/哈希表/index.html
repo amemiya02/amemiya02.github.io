@@ -162,28 +162,6 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/滑动窗口/Middle】LeetCode 438. 找到字符串中所有字母异位词
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给定两个字符串 s 和 p，找到 s 中所有 p 的 字母异位词 的子串，返回这些子串的起始索引。不考虑答案输出的顺序。
-字母异位词 指由相同字母按不同顺序排列组成的字符串。
-示例 1:
-输入: s = &#34;cbaebabacd&#34;, p = &#34;abc&#34; 输出: [0,6] 解释: 起始索引等于 0 的子串是 &#34;cba&#34;, 它是 &#34;abc&#34; 的异位词。 起始索引等于 6 的子串是 &#34;bac&#34;, 它是 &#34;abc&#34; 的异位词。
-核心思路：定长滑动窗口 &#43; 字符频率统计 这道题要求我们在一个长字符串 s 中，找出所有与短字符串 p 构成字母异位词的子串。
-“字母异位词&#34;的判断标准是：两个字符串长度相等，且包含的字符种类和数量完全相同。这提示我们，核心在于字符频率的比较。
-“找出所有…的子串&#34;则强烈地暗示了滑动窗口算法。由于 p 的长度是固定的，我们可以使用一个大小固定的滑动窗口来遍历 s。
-结合以上两点，我们的解题策略就清晰了：
-统计 p 的频率：首先，我们需要一个&#34;标准答案”，也就是字符串 p 的字符频率分布。因为题目只包含小写字母，我们可以用一个长度为 26 的数组 countP 来存储。
-创建固定大小的窗口：我们在 s 上维护一个长度与 p 相同的滑动窗口。我们同样用一个长度为 26 的数组 countS 来实时统计这个窗口内的字符频率。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-09-23 09:52:00 +0900 JST'>September 23, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/滑动窗口/Middle】LeetCode 438. 找到字符串中所有字母异位词" href="https://amemiya02.github.io/posts/2025-09-23-438-find-all-anagrams-in-a-string/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
     <h2 class="entry-hint-parent">【HOT100/哈希表 / 数组】LeetCode 383. 赎金信
     </h2>
   </header>
