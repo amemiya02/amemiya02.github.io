@@ -143,27 +143,6 @@
   <footer class="entry-footer"><span title='2026-01-02 22:15:00 +0900 JST'>January 2, 2026</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/矩阵】LeetCode 48. 旋转图像" href="https://amemiya02.github.io/posts/2026-01-02-48-rotate-image/"></a>
 </article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/数组】LeetCode 189. 轮转数组
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给定一个整数数组 nums，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。
-示例 1:
-输入: nums = [1,2,3,4,5,6,7], k = 3 输出: [5,6,7,1,2,3,4] 解释: 向右轮转 1 步: [7,1,2,3,4,5,6] 向右轮转 2 步: [6,7,1,2,3,4,5] 向右轮转 3 步: [5,6,7,1,2,3,4]
-示例 2:
-输入： nums = [-1,-100,3,99], k = 2 输出： [3,99,-1,-100]
-核心思路：三次翻转法 这道题最直观的解法是使用一个额外的数组，将每个元素放到正确的位置，但这需要 $O(N)$ 的空间。 如果要求原地算法（$O(1)$ 空间），最经典且容易理解的方法是数组翻转法。
-我们可以观察一下规律，以 nums = [1,2,3,4,5,6,7], k = 3 为例：
-原始数组：[1, 2, 3, 4, 5, 6, 7] 我们可以把数组分为两部分：
-第一部分（前 n-k 个）：[1, 2, 3, 4] 第二部分（后 k 个）：[5, 6, 7] (这部分实际上是要移动到数组头部的) 第一步：整体翻转 将整个数组翻转： [7, 6, 5, 4, 3, 2, 1] 此时，原本在尾部的 [5, 6, 7] 跑到了头部，但是顺序是反的（7, 6, 5）。原本在头部的 [1, 2, 3, 4] 跑到了尾部，顺序也是反的（4, 3, 2, 1）。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-02 17:05:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/数组】LeetCode 189. 轮转数组" href="https://amemiya02.github.io/posts/2026-01-02-189-rotate-array/"></a>
-</article>
     </main>
     
 <footer class="footer">
