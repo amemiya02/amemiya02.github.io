@@ -149,7 +149,7 @@
 &lt;li&gt;&lt;strong&gt;$O(M+N)$ 空间&lt;/strong&gt;：使用两个布尔数组 &lt;code&gt;row[]&lt;/code&gt; 和 &lt;code&gt;col[]&lt;/code&gt;，分别记录哪一行、哪一列需要置零。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;$O(1)$ 空间&lt;/strong&gt;：直接利用矩阵的第一行和第一列来替代上面的两个布尔数组。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id=&#34;算法流程-o1-方案&#34;&gt;算法流程 ($O(1)$ 方案)&lt;/h3&gt;
+&lt;h3 id=&#34;算法流程--方案&#34;&gt;算法流程 ($O(1)$ 方案)&lt;/h3&gt;
 &lt;p&gt;既然我们要用第一行和第一列来记录&amp;quot;该行/列是否需要置零&amp;quot;，那么第一行和第一列原本的状态（是否包含 0）就需要先被保存下来，否则会被后续的标记覆盖。&lt;/p&gt;
 &lt;p&gt;步骤如下：&lt;/p&gt;
 &lt;ol&gt;
@@ -219,7 +219,7 @@
 &lt;li&gt;&lt;strong&gt;计算后缀积&lt;/strong&gt;：先算出每个位置&lt;strong&gt;右边&lt;/strong&gt;所有元素的乘积。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;计算前缀积并合并&lt;/strong&gt;：再算出每个位置&lt;strong&gt;左边&lt;/strong&gt;所有元素的乘积，并乘上刚才算好的后缀积。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id=&#34;空间优化-o1-额外空间&#34;&gt;空间优化 ($O(1)$ 额外空间)&lt;/h3&gt;
+&lt;h3 id=&#34;空间优化--额外空间&#34;&gt;空间优化 ($O(1)$ 额外空间)&lt;/h3&gt;
 &lt;p&gt;为了满足进阶要求的 $O(1)$ 额外空间（输出数组不计入空间复杂度），我们可以直接利用返回的数组 &lt;code&gt;answer&lt;/code&gt;（代码中为 &lt;code&gt;suf&lt;/code&gt;）来作为中间容器。&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;

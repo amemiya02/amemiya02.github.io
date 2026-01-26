@@ -103,7 +103,16 @@
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta property="og:url" content="https://amemiya02.github.io/posts/2025-09-17-392-is-subsequence/">
+</script><script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)'], ['$', '$']],
+    },
+    loader: { load: ['ui/safe'] },
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:url" content="https://amemiya02.github.io/posts/2025-09-17-392-is-subsequence/">
   <meta property="og:site_name" content="个人技术博客">
   <meta property="og:title" content="【HOT100/双指针】LeetCode 392. 判断子序列">
   <meta property="og:description" content="题目回顾 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。

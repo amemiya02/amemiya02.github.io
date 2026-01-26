@@ -101,7 +101,16 @@
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta property="og:url" content="https://amemiya02.github.io/posts/2025-09-13-26-remove-duplicates-from-sorted-array/">
+</script><script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)'], ['$', '$']],
+    },
+    loader: { load: ['ui/safe'] },
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:url" content="https://amemiya02.github.io/posts/2025-09-13-26-remove-duplicates-from-sorted-array/">
   <meta property="og:site_name" content="个人技术博客">
   <meta property="og:title" content="【HOT100/快慢指针】LeetCode 26.删除有序数组中的重复项">
   <meta property="og:description" content="题目回顾 给你一个 非严格递增排列 的数组 nums ，请你 原地 删除重复出现的元素，使每个元素 只出现一次 ，返回删除后数组的新长度。元素的 相对顺序 应该保持 一致 。

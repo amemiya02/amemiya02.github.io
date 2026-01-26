@@ -30,17 +30,17 @@
 &lt;p&gt;这道题如果使用暴力解法，枚举所有的子数组并计算和，时间复杂度会达到 $O(n^2)$ 甚至 $O(n^3)$，无法通过所有测试用例。我们需要利用&lt;strong&gt;前缀和&lt;/strong&gt;的性质进行优化。&lt;/p&gt;
 &lt;h4 id=&#34;1-前缀和转化&#34;&gt;1. 前缀和转化&lt;/h4&gt;
 &lt;p&gt;定义 &lt;code&gt;pre[i]&lt;/code&gt; 为 &lt;code&gt;[0..i]&lt;/code&gt; 里所有数的和。那么 &lt;code&gt;[j..i]&lt;/code&gt; 这个子数组的和可以表示为：
+&lt;/p&gt;
 $$
 sum[j..i] = pre[i] - pre[j-1]
-$$
+$$&lt;p&gt;
 题目要求找到和为 &lt;code&gt;k&lt;/code&gt; 的子数组，即寻找满足以下条件的 &lt;code&gt;j&lt;/code&gt; 和 &lt;code&gt;i&lt;/code&gt;：
+&lt;/p&gt;
 $$
 pre[i] - pre[j-1] == k
-$$
+$$&lt;p&gt;
 移项得：
-$$
-pre[j-1] == pre[i] - k
-$$&lt;/p&gt;</description>
+&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

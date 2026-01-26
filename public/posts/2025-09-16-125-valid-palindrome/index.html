@@ -111,7 +111,16 @@
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta property="og:url" content="https://amemiya02.github.io/posts/2025-09-16-125-valid-palindrome/">
+</script><script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)'], ['$', '$']],
+    },
+    loader: { load: ['ui/safe'] },
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:url" content="https://amemiya02.github.io/posts/2025-09-16-125-valid-palindrome/">
   <meta property="og:site_name" content="个人技术博客">
   <meta property="og:title" content="【HOT100/双指针】LeetCode 125. 验证回文串">
   <meta property="og:description" content="题目回顾 如果在将所有大写字符转换为小写字符、并移除所有非字母数字字符之后，短语正着读和反着读都一样。则可以认为该短语是一个 回文串 。

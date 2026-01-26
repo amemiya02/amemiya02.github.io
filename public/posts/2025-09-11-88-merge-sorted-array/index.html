@@ -81,7 +81,16 @@
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta property="og:url" content="https://amemiya02.github.io/posts/2025-09-11-88-merge-sorted-array/">
+</script><script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)'], ['$', '$']],
+    },
+    loader: { load: ['ui/safe'] },
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:url" content="https://amemiya02.github.io/posts/2025-09-11-88-merge-sorted-array/">
   <meta property="og:site_name" content="个人技术博客">
   <meta property="og:title" content="【HOT100/双指针】LeetCode 88. 合并两个有序数组">
   <meta property="og:description" content="题目回顾 给你两个按 非递减顺序 排列的整数数组 nums1 和 nums2，另有两个整数 m 和 n ，分别表示 nums1 和 nums2 中的元素数目。

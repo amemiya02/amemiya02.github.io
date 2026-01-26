@@ -98,7 +98,16 @@ r (right)：右边界，初始为 n-1
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta property="og:url" content="https://amemiya02.github.io/posts/2026-01-02-54-spiral-matrix/">
+</script><script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)'], ['$', '$']],
+    },
+    loader: { load: ['ui/safe'] },
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:url" content="https://amemiya02.github.io/posts/2026-01-02-54-spiral-matrix/">
   <meta property="og:site_name" content="个人技术博客">
   <meta property="og:title" content="【HOT100/矩阵】LeetCode 54. 螺旋矩阵">
   <meta property="og:description" content="题目回顾 给你一个 m 行 n 列的矩阵 matrix ，请按照 顺时针螺旋顺序 ，返回矩阵中的所有元素。

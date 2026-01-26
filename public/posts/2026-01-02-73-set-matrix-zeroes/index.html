@@ -104,7 +104,16 @@ $O(1)$ 空间：直接利用矩阵的第一行和第一列来替代上面的两�
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta property="og:url" content="https://amemiya02.github.io/posts/2026-01-02-73-set-matrix-zeroes/">
+</script><script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)'], ['$', '$']],
+    },
+    loader: { load: ['ui/safe'] },
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:url" content="https://amemiya02.github.io/posts/2026-01-02-73-set-matrix-zeroes/">
   <meta property="og:site_name" content="个人技术博客">
   <meta property="og:title" content="【HOT100/矩阵】LeetCode 73. 矩阵置零">
   <meta property="og:description" content="题目回顾 给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。请使用 原地 算法。
@@ -282,7 +291,7 @@ $O(1)$ 空间：直接利用矩阵的第一行和第一列来替代上面的两�
 <li><strong>$O(M+N)$ 空间</strong>：使用两个布尔数组 <code>row[]</code> 和 <code>col[]</code>，分别记录哪一行、哪一列需要置零。</li>
 <li><strong>$O(1)$ 空间</strong>：直接利用矩阵的第一行和第一列来替代上面的两个布尔数组。</li>
 </ol>
-<h3 id="算法流程-o1-方案">算法流程 ($O(1)$ 方案)<a hidden class="anchor" aria-hidden="true" href="#算法流程-o1-方案">#</a></h3>
+<h3 id="算法流程--方案">算法流程 ($O(1)$ 方案)<a hidden class="anchor" aria-hidden="true" href="#算法流程--方案">#</a></h3>
 <p>既然我们要用第一行和第一列来记录&quot;该行/列是否需要置零&quot;，那么第一行和第一列原本的状态（是否包含 0）就需要先被保存下来，否则会被后续的标记覆盖。</p>
 <p>步骤如下：</p>
 <ol>

@@ -42,9 +42,7 @@
 &lt;/ol&gt;
 &lt;h4 id=&#34;状态转移方程&#34;&gt;状态转移方程&lt;/h4&gt;
 &lt;p&gt;根据上述分析，我们可以得到状态转移方程：&lt;/p&gt;
-&lt;p&gt;$$
-dp[i] = \max(dp[i-1] + \text{nums}[i], \text{nums}[i])
-$$&lt;/p&gt;</description>
+&lt;p&gt;These are block equations:&lt;/p&gt;</description>
     </item>
     <item>
       <title>[Golang] LeetCode 热题 100 - 子串</title>
@@ -68,17 +66,17 @@ $$&lt;/p&gt;</description>
 &lt;p&gt;这道题如果使用暴力解法，枚举所有的子数组并计算和，时间复杂度会达到 $O(n^2)$ 甚至 $O(n^3)$，无法通过所有测试用例。我们需要利用&lt;strong&gt;前缀和&lt;/strong&gt;的性质进行优化。&lt;/p&gt;
 &lt;h4 id=&#34;1-前缀和转化&#34;&gt;1. 前缀和转化&lt;/h4&gt;
 &lt;p&gt;定义 &lt;code&gt;pre[i]&lt;/code&gt; 为 &lt;code&gt;[0..i]&lt;/code&gt; 里所有数的和。那么 &lt;code&gt;[j..i]&lt;/code&gt; 这个子数组的和可以表示为：
+&lt;/p&gt;
 $$
 sum[j..i] = pre[i] - pre[j-1]
-$$
+$$&lt;p&gt;
 题目要求找到和为 &lt;code&gt;k&lt;/code&gt; 的子数组，即寻找满足以下条件的 &lt;code&gt;j&lt;/code&gt; 和 &lt;code&gt;i&lt;/code&gt;：
+&lt;/p&gt;
 $$
 pre[i] - pre[j-1] == k
-$$
+$$&lt;p&gt;
 移项得：
-$$
-pre[j-1] == pre[i] - k
-$$&lt;/p&gt;</description>
+&lt;/p&gt;</description>
     </item>
     <item>
       <title>[Golang] LeetCode 热题 100 - 滑动窗口</title>
@@ -357,7 +355,7 @@ b.  &lt;strong&gt;在哈希表中查找&lt;/strong&gt; &lt;code&gt;complement&lt
 &lt;li&gt;&lt;strong&gt;$O(M+N)$ 空间&lt;/strong&gt;：使用两个布尔数组 &lt;code&gt;row[]&lt;/code&gt; 和 &lt;code&gt;col[]&lt;/code&gt;，分别记录哪一行、哪一列需要置零。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;$O(1)$ 空间&lt;/strong&gt;：直接利用矩阵的第一行和第一列来替代上面的两个布尔数组。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id=&#34;算法流程-o1-方案&#34;&gt;算法流程 ($O(1)$ 方案)&lt;/h3&gt;
+&lt;h3 id=&#34;算法流程--方案&#34;&gt;算法流程 ($O(1)$ 方案)&lt;/h3&gt;
 &lt;p&gt;既然我们要用第一行和第一列来记录&amp;quot;该行/列是否需要置零&amp;quot;，那么第一行和第一列原本的状态（是否包含 0）就需要先被保存下来，否则会被后续的标记覆盖。&lt;/p&gt;
 &lt;p&gt;步骤如下：&lt;/p&gt;
 &lt;ol&gt;
@@ -481,7 +479,7 @@ b.  &lt;strong&gt;在哈希表中查找&lt;/strong&gt; &lt;code&gt;complement&lt
 &lt;li&gt;&lt;strong&gt;计算后缀积&lt;/strong&gt;：先算出每个位置&lt;strong&gt;右边&lt;/strong&gt;所有元素的乘积。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;计算前缀积并合并&lt;/strong&gt;：再算出每个位置&lt;strong&gt;左边&lt;/strong&gt;所有元素的乘积，并乘上刚才算好的后缀积。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id=&#34;空间优化-o1-额外空间&#34;&gt;空间优化 ($O(1)$ 额外空间)&lt;/h3&gt;
+&lt;h3 id=&#34;空间优化--额外空间&#34;&gt;空间优化 ($O(1)$ 额外空间)&lt;/h3&gt;
 &lt;p&gt;为了满足进阶要求的 $O(1)$ 额外空间（输出数组不计入空间复杂度），我们可以直接利用返回的数组 &lt;code&gt;answer&lt;/code&gt;（代码中为 &lt;code&gt;suf&lt;/code&gt;）来作为中间容器。&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;

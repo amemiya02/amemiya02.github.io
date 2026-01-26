@@ -71,7 +71,16 @@
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta property="og:url" content="https://amemiya02.github.io/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+</script><script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)'], ['$', '$']],
+    },
+    loader: { load: ['ui/safe'] },
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:url" content="https://amemiya02.github.io/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
   <meta property="og:site_name" content="个人技术博客">
   <meta property="og:title" content="动态规划">
   <meta property="og:locale" content="zh-CN">
@@ -139,7 +148,7 @@
 状态定义 我们要思考：以当前数字 nums[i] 结尾的子数组，它的最大和是多少？
 假设 dp[i] 表示以 nums[i] 结尾的连续子数组的最大和。那么对于 nums[i] 来说，它面临两个选择：
 加入前面的队伍：如果前面的子数组和 dp[i-1] 是正数，那么加上它肯定比自己单干强，即 dp[i-1] &#43; nums[i]。 另起炉灶：如果前面的子数组和 dp[i-1] 是负数，加上它只会拖累自己，不如从自己重新开始计算，即 nums[i]。 状态转移方程 根据上述分析，我们可以得到状态转移方程：
-$$ dp[i] = \max(dp[i-1] &#43; \text{nums}[i], \text{nums}[i]) $$
+These are block equations:
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2026-01-26 09:00:00 +0900 JST'>January 26, 2026</span></footer>
