@@ -6,8 +6,47 @@
     <description>Recent content in 题解 on 个人技术博客</description>
     <generator>Hugo -- 0.154.1</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 26 Jan 2026 09:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 27 Jan 2026 09:00:00 +0900</lastBuildDate>
     <atom:link href="https://amemiya02.github.io/tags/%E9%A2%98%E8%A7%A3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Golang] LeetCode 热题 100 - 矩阵</title>
+      <link>https://amemiya02.github.io/posts/2026-01-27-matrix/</link>
+      <pubDate>Tue, 27 Jan 2026 09:00:00 +0900</pubDate>
+      <guid>https://amemiya02.github.io/posts/2026-01-27-matrix/</guid>
+      <description>&lt;h1 id=&#34;矩阵&#34;&gt;矩阵&lt;/h1&gt;
+&lt;h2 id=&#34;73-矩阵置零---mid&#34;&gt;&lt;a href=&#34;https://leetcode.cn/problems/set-matrix-zeroes/&#34;&gt;73. 矩阵置零 - Mid&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个 &lt;code&gt;m x n&lt;/code&gt; 的矩阵，如果一个元素为 &lt;code&gt;0&lt;/code&gt; ，则将其所在行和列的所有元素都设为 &lt;code&gt;0&lt;/code&gt; 。请使用 &lt;strong&gt;原地&lt;/strong&gt; 算法。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;matrix = [[1,1,1],[1,0,1],[1,1,1]]&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;[[1,0,1],[0,0,0],[1,0,1]]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;示例 2：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;[[0,0,0,0],[0,4,5,0],[0,3,1,0]]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;进阶：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一个直观的解决方案是使用 $O(mn)$ 的额外空间，但这并不是一个好的解决方案。&lt;/li&gt;
+&lt;li&gt;一个简单的改进方案是使用 $O(m + n)$ 的额外空间，但这仍然不是最好的解决方案。&lt;/li&gt;
+&lt;li&gt;你能想出一个仅使用常量空间的解决方案吗？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;核心思路利用首行首列做标记&#34;&gt;核心思路：利用首行首列做标记&lt;/h3&gt;
+&lt;p&gt;这道题的难点在于&lt;strong&gt;污染&lt;/strong&gt;问题：如果我们一边遍历一边将 0 所在的行列置零，那么修改后的 0 会干扰后续的遍历，导致整个矩阵最后全变成了 0。&lt;/p&gt;
+&lt;h4 id=&#34;空间复杂度优化路径&#34;&gt;空间复杂度优化路径&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;$O(MN)$ 空间&lt;/strong&gt;：新建一个同样的矩阵做标记。太浪费。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;$O(M+N)$ 空间&lt;/strong&gt;：使用两个布尔数组 &lt;code&gt;row[]&lt;/code&gt; 和 &lt;code&gt;col[]&lt;/code&gt;，分别记录哪一行、哪一列需要置零。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;$O(1)$ 空间&lt;/strong&gt;：直接利用矩阵的第一行和第一列来替代上面的两个布尔数组。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;算法流程--方案&#34;&gt;算法流程 ($O(1)$ 方案)&lt;/h4&gt;
+&lt;p&gt;既然我们要用第一行和第一列来记录&amp;quot;该行/列是否需要置零&amp;quot;，那么第一行和第一列原本的状态（是否包含 0）就需要先被保存下来，否则会被后续的标记覆盖。&lt;/p&gt;
+&lt;p&gt;步骤如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;记录首行首列状态&lt;/strong&gt;：
+定义两个变量 &lt;code&gt;firstRowHasZero&lt;/code&gt; 和 &lt;code&gt;firstColHasZero&lt;/code&gt;，遍历第一行和第一列，如果发现 0，则将对应的变量置为 &lt;code&gt;true&lt;/code&gt;。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>[Golang] LeetCode 热题 100 - 普通数组</title>
       <link>https://amemiya02.github.io/posts/2026-01-26-array/</link>
