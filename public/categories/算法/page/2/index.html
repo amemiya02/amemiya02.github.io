@@ -131,50 +131,6 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/哈希表 / 数组】LeetCode 383. 赎金信
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给你两个字符串：ransomNote 和 magazine ，判断 ransomNote 能不能由 magazine 里面的字符构成。
-如果可以，返回 true ；否则返回 false 。
-magazine 中的每个字符只能在 ransomNote 中使用一次。
-示例 1：
-输入： ransomNote = &#34;a&#34;, magazine = &#34;b&#34; 输出： false
-示例 2：
-输入： ransomNote = &#34;aa&#34;, magazine = &#34;aab&#34; 输出： true
-核心思路：字符计数 这道题的本质是判断 magazine 字符串中的字符数量，是否足够&#34;支付&#34; ransomNote 中所需的字符数量。字符的顺序无关紧要，我们只关心每个字符的可用频率。
-这是一个典型的哈希表或频率统计问题。
-统计资源：首先，我们需要清点我们拥有的&#34;资源&#34;，即 magazine 中每个字符的数量。
-我们可以遍历 magazine 字符串。 由于题目中只包含小写英文字母，我们可以使用一个长度为 26 的整型数组 counts 来充当哈希表，这比使用 HashMap 更高效。数组的索引 c - &#39;a&#39; 对应字符 c。 遍历 magazine 时，将对应字符的计数值加 1。 消耗资源：统计完 magazine 的字符后，我们再遍历 ransomNote，看看我们的资源是否足够。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-09-18 18:18:00 +0900 JST'>September 18, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/哈希表 / 数组】LeetCode 383. 赎金信" href="https://amemiya02.github.io/posts/2025-09-18-383-ransom-note/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/双指针】LeetCode 392. 判断子序列
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
-字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，&#34;ace&#34;是&#34;abcde&#34;的一个子序列，而&#34;aec&#34;不是）。
-示例：
-输入： s = &#34;abc&#34;, t = &#34;ahbgdc&#34; 输出： true
-输入： s = &#34;axc&#34;, t = &#34;ahbgdc&#34; 输出： false
-核心思路：双指针 这道题的核心是匹配字符，同时要保持相对顺序。这种&#34;按顺序查找&#34;的场景，是双指针大显身手的地方。我们可以使用两个指针，一个指向子序列 s，一个指向主串 t，然后同步向前扫描。
-初始化指针：
-定义指针 p 指向 s 的起始位置 0。 定义指针 q 指向 t 的起始位置 0。 贪心匹配：
-我们使用指针 q 遍历主串 t，同时用指针 p 来标记我们当前正在 s 中寻找的字符。 当 p 和 q 都在各自的字符串范围内时，进行循环比较： 如果 s.charAt(p) 与 t.charAt(q) 相等，意味着我们在 t 中找到了 s 的一个字符。接下来我们应该去寻找 s 的下一个字符了，所以将 p 和 q 都向后移动一位 (p&#43;&#43;, q&#43;&#43;)。 如果 s.charAt(p) 与 t.charAt(q) 不相等，说明当前 t 中的这个字符不是我们想要的。我们应该继续在 t 的后续部分寻找 s.charAt(p)，所以只将 q 向后移动一位 (q&#43;&#43;)。 判断结果：
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-09-17 20:13:00 +0900 JST'>September 17, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/双指针】LeetCode 392. 判断子序列" href="https://amemiya02.github.io/posts/2025-09-17-392-is-subsequence/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
     <h2 class="entry-hint-parent">【HOT100/双指针】LeetCode 125. 验证回文串
     </h2>
   </header>

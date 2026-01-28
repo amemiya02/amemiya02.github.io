@@ -6,76 +6,24 @@
     <description>Recent content in 链表 on 个人技术博客</description>
     <generator>Hugo -- 0.154.1</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 02 Jan 2026 20:01:00 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 27 Jan 2026 09:00:00 +0900</lastBuildDate>
     <atom:link href="https://amemiya02.github.io/tags/%E9%93%BE%E8%A1%A8/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>【HOT100/链表】LeetCode 206. 反转链表</title>
-      <link>https://amemiya02.github.io/posts/2026-01-02-206-reverse-linked-list/</link>
-      <pubDate>Fri, 02 Jan 2026 20:01:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2026-01-02-206-reverse-linked-list/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给你单链表的头节点 &lt;code&gt;head&lt;/code&gt; ，请你反转链表，并返回反转后的链表。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;输入：head = [1,2,3,4,5]
-输出：[5,4,3,2,1]
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;示例 2：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;输入：head = [1,2]
-输出：[2,1]
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;示例 3：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;输入：head = []
-输出：[]
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;核心思路&#34;&gt;核心思路&lt;/h2&gt;
-&lt;h3 id=&#34;思路一迭代法双指针&#34;&gt;思路一：迭代法（双指针）&lt;/h3&gt;
-&lt;p&gt;这是最直观的解法。我们需要遍历链表，在遍历过程中改变每个节点的 &lt;code&gt;next&lt;/code&gt; 指针指向。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;三个指针&lt;/strong&gt;：我们需要三个指针来完成反转：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;prev&lt;/code&gt;：指向当前节点的前一个节点（初始为 &lt;code&gt;null&lt;/code&gt;）&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;curr&lt;/code&gt;：指向当前节点（初始为 &lt;code&gt;head&lt;/code&gt;）&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;next&lt;/code&gt;：临时存储当前节点的下一个节点&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;遍历反转&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;保存 &lt;code&gt;curr.next&lt;/code&gt; 到 &lt;code&gt;next&lt;/code&gt;（防止断链）&lt;/li&gt;
-&lt;li&gt;将 &lt;code&gt;curr.next&lt;/code&gt; 指向 &lt;code&gt;prev&lt;/code&gt;（反转当前节点）&lt;/li&gt;
-&lt;li&gt;将 &lt;code&gt;prev&lt;/code&gt; 移动到 &lt;code&gt;curr&lt;/code&gt; 位置&lt;/li&gt;
-&lt;li&gt;将 &lt;code&gt;curr&lt;/code&gt; 移动到 &lt;code&gt;next&lt;/code&gt; 位置&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;返回结果&lt;/strong&gt;：遍历结束后，&lt;code&gt;prev&lt;/code&gt; 就是新链表的头节点&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;这个方法就像把一列火车车厢的方向逐个反转，需要临时标记下一个车厢的位置。&lt;/p&gt;
-&lt;h3 id=&#34;思路二递归法&#34;&gt;思路二：递归法&lt;/h3&gt;
-&lt;p&gt;递归法的思路是：先递归到链表末尾，然后在回溯的过程中逐个反转节点。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;递归终止条件&lt;/strong&gt;：当 &lt;code&gt;head&lt;/code&gt; 为 &lt;code&gt;null&lt;/code&gt; 或 &lt;code&gt;head.next&lt;/code&gt; 为 &lt;code&gt;null&lt;/code&gt; 时，直接返回 &lt;code&gt;head&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;递归调用&lt;/strong&gt;：先递归处理 &lt;code&gt;head.next&lt;/code&gt;，得到反转后的子链表&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;反转当前节点&lt;/strong&gt;：将 &lt;code&gt;head.next.next&lt;/code&gt; 指向 &lt;code&gt;head&lt;/code&gt;，将 &lt;code&gt;head.next&lt;/code&gt; 设为 &lt;code&gt;null&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;返回结果&lt;/strong&gt;：返回子链表的头节点（即新链表的头节点）&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;递归法的优点是代码简洁，但缺点是可能会因为链表过长导致栈溢出。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/双指针 / 链表】LeetCode 160. 相交链表</title>
-      <link>https://amemiya02.github.io/posts/2025-09-24-160-intersection-of-two-linked-lists/</link>
-      <pubDate>Wed, 24 Sep 2025 20:01:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-24-160-intersection-of-two-linked-lists/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+      <title>[Golang] LeetCode 热题 100 - 链表</title>
+      <link>https://amemiya02.github.io/posts/2026-01-28-linkedlist/</link>
+      <pubDate>Tue, 27 Jan 2026 09:00:00 +0900</pubDate>
+      <guid>https://amemiya02.github.io/posts/2026-01-28-linkedlist/</guid>
+      <description>&lt;h1 id=&#34;链表&#34;&gt;链表&lt;/h1&gt;
+&lt;h2 id=&#34;160-相交链表---easy&#34;&gt;&lt;a href=&#34;https://leetcode.cn/problems/intersection-of-two-linked-lists/&#34;&gt;160. 相交链表 - Easy&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给你两个单链表的头节点 &lt;code&gt;headA&lt;/code&gt; 和 &lt;code&gt;headB&lt;/code&gt; ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点, 返回 &lt;code&gt;null&lt;/code&gt; 。&lt;/p&gt;
 &lt;p&gt;题目数据 &lt;strong&gt;保证&lt;/strong&gt; 整个链式结构中不存在环，并且函数返回结果后，链表必须 &lt;strong&gt;保持其原始结构&lt;/strong&gt; 。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;img alt=&#34;示意图&#34; loading=&#34;lazy&#34; src=&#34;https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_statement.png&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;核心思路&#34;&gt;核心思路&lt;/h2&gt;
-&lt;h3 id=&#34;思路0hashset去重&#34;&gt;思路0：HashSet去重&lt;/h3&gt;
-&lt;h3 id=&#34;思路一双指针--长度对齐&#34;&gt;思路一：双指针 + 长度对齐&lt;/h3&gt;
+&lt;h3 id=&#34;核心思路&#34;&gt;核心思路&lt;/h3&gt;
+&lt;h4 id=&#34;思路0hashset去重&#34;&gt;思路0：HashSet去重&lt;/h4&gt;
+&lt;h4 id=&#34;思路一双指针--长度对齐&#34;&gt;思路一：双指针 + 长度对齐&lt;/h4&gt;
 &lt;p&gt;这是最直观的解法。既然相交前的部分长度可能不同，导致我们无法直接同步遍历，那我们想办法让它们变得一样长就可以了。&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -92,7 +40,7 @@
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;这个方法就像两个人去同一个终点，路程长的人先出发一段距离，然后两个人再同时出发，这样他们就能同时到达终点。&lt;/p&gt;
-&lt;h3 id=&#34;思路二双指针浪漫相遇法&#34;&gt;思路二：双指针&amp;quot;浪漫&amp;quot;相遇法&lt;/h3&gt;
+&lt;h4 id=&#34;思路二双指针浪漫相遇法&#34;&gt;思路二：双指针&amp;quot;浪漫&amp;quot;相遇法&lt;/h4&gt;
 &lt;p&gt;这是一个更巧妙，代码也更简洁的解法，它避免了显式地计算长度。&lt;/p&gt;
 &lt;p&gt;想象有两个指针 &lt;code&gt;pA&lt;/code&gt; 和 &lt;code&gt;pB&lt;/code&gt;，分别从 &lt;code&gt;headA&lt;/code&gt; 和 &lt;code&gt;headB&lt;/code&gt; 出发。它们同时前进，当任何一个指针走到自己链表的末尾时，就&lt;strong&gt;跳到对方链表的头节点&lt;/strong&gt;继续前进。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;为什么这个方法可行？&lt;/strong&gt;&lt;/p&gt;

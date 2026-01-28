@@ -153,6 +153,32 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 链表
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>链表 160. 相交链表 - Easy 题目回顾 给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点, 返回 null 。
+题目数据 保证 整个链式结构中不存在环，并且函数返回结果后，链表必须 保持其原始结构 。
+核心思路 思路0：HashSet去重 思路一：双指针 &#43; 长度对齐 这是最直观的解法。既然相交前的部分长度可能不同，导致我们无法直接同步遍历，那我们想办法让它们变得一样长就可以了。
+计算长度：首先，分别遍历两个链表，得到它们的长度 lenA 和 lenB。
+对齐指针：计算出长度差 diff = |lenA - lenB|。让较长的那个链表的指针先走 diff 步。这样操作之后，两个指针距离各自链表的末尾就有了相同的距离。
+同步遍历：现在两个指针位于同一起跑线（相对终点而言），我们让它们同步向后移动，一次一步。
+寻找交点：在同步移动的过程中，第一次出现两个指针相等 (headA == headB) 的地方，就是它们的第一个相交节点。如果一直走到末尾 (null) 都没有相遇，则说明两个链表不相交。
+这个方法就像两个人去同一个终点，路程长的人先出发一段距离，然后两个人再同时出发，这样他们就能同时到达终点。
+思路二：双指针&#34;浪漫&#34;相遇法 这是一个更巧妙，代码也更简洁的解法，它避免了显式地计算长度。
+想象有两个指针 pA 和 pB，分别从 headA 和 headB 出发。它们同时前进，当任何一个指针走到自己链表的末尾时，就跳到对方链表的头节点继续前进。
+为什么这个方法可行？
+路径长度相等：
+pA 走过的路径：链表A的长度 &#43; 链表B的长度 pB 走过的路径：链表B的长度 &#43; 链表A的长度 两个指针走过的总路程是完全相同的。 相遇点：
+如果相交：设 A 不相交部分长 a，B 不相交部分长 b，相交部分长 c。pA 走 a&#43;c 到达终点，然后从 B 的头部走 b 步。pB 走 b&#43;c 到达终点，然后从 A 的头部走 a 步。当它们都走了 a&#43;b&#43;c 的路程时，会在相交点相遇。 如果不相交：pA 走完 A 再走完 B，pB 走完 B 再走完 A。它们会同时到达终点 null，此时 pA == pB == null，循环结束，正确返回 null。 这个方法可以理解为，通过让两个指针都走一遍 A&#43;B 和 B&#43;A 的路程，从而消除了长度差，使得它们能够在终点前相遇。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-27 09:00:00 +0900 JST'>January 27, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 链表" href="https://amemiya02.github.io/posts/2026-01-28-linkedlist/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 普通数组
     </h2>
   </header>
@@ -267,77 +293,6 @@ $$ dp[i] = \max(dp[i-1] &#43; \text{nums}[i], \text{nums}[i]) $$空间优化 观
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/矩阵】LeetCode 240. 搜索二维矩阵 II
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target 。该矩阵具有以下特性：
-每行的元素从左到右升序排列。 每列的元素从上到下升序排列。 示例 1：
-输入： matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5 输出： true
-示例 2：
-输入： matrix = ... (同上), target = 20 输出： false
-核心思路：抽象 BST (从角落出发) 如果把矩阵的每一个位置看作一个节点，我们要利用&#34;行有序&#34;和&#34;列有序&#34;这两个条件来快速缩小查找范围。
-如果我们从左上角出发，当前值小于 target 时，我们既可以向右走（变大），也可以向下走（变大），这就产生了歧义，无法确定唯一的搜索方向。
-但是，如果我们选择左下角（或者右上角）作为起点，情况就完全不同了。
-以左下角 (m-1, 0) 为例：
-当前值 &gt; target： 因为当前行是升序的，左下角已经是该行最小的数了，如果连它都比 target 大，说明这一行所有的数都比 target 大。 -&gt; 结论：排除当前行，向上移动 (i--)。 当前值 &lt; target： 因为当前列是升序的，左下角已经是该列最大的数了（在剩下的范围内），如果连它都比 target 小，说明这一列所有的数都比 target 小。 -&gt; 结论：排除当前列，向右移动 (j&#43;&#43;)。 这个过程就像是在遍历一棵二叉搜索树 (BST)，左下角就是根节点，往上走是找更小的（类似左子树），往右走是找更大的（类似右子树）。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-02 23:00:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/矩阵】LeetCode 240. 搜索二维矩阵 II" href="https://amemiya02.github.io/posts/2026-01-02-240-search-a-2d-matrix-ii/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/链表】LeetCode 206. 反转链表
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。
-示例 1：
-输入：head = [1,2,3,4,5] 输出：[5,4,3,2,1] 示例 2：
-输入：head = [1,2] 输出：[2,1] 示例 3：
-输入：head = [] 输出：[] 核心思路 思路一：迭代法（双指针） 这是最直观的解法。我们需要遍历链表，在遍历过程中改变每个节点的 next 指针指向。
-三个指针：我们需要三个指针来完成反转：
-prev：指向当前节点的前一个节点（初始为 null） curr：指向当前节点（初始为 head） next：临时存储当前节点的下一个节点 遍历反转：
-保存 curr.next 到 next（防止断链） 将 curr.next 指向 prev（反转当前节点） 将 prev 移动到 curr 位置 将 curr 移动到 next 位置 返回结果：遍历结束后，prev 就是新链表的头节点
-这个方法就像把一列火车车厢的方向逐个反转，需要临时标记下一个车厢的位置。
-思路二：递归法 递归法的思路是：先递归到链表末尾，然后在回溯的过程中逐个反转节点。
-递归终止条件：当 head 为 null 或 head.next 为 null 时，直接返回 head 递归调用：先递归处理 head.next，得到反转后的子链表 反转当前节点：将 head.next.next 指向 head，将 head.next 设为 null 返回结果：返回子链表的头节点（即新链表的头节点） 递归法的优点是代码简洁，但缺点是可能会因为链表过长导致栈溢出。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-02 20:01:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/链表】LeetCode 206. 反转链表" href="https://amemiya02.github.io/posts/2026-01-02-206-reverse-linked-list/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/双指针 / 链表】LeetCode 160. 相交链表
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点, 返回 null 。
-题目数据 保证 整个链式结构中不存在环，并且函数返回结果后，链表必须 保持其原始结构 。
-核心思路 思路0：HashSet去重 思路一：双指针 &#43; 长度对齐 这是最直观的解法。既然相交前的部分长度可能不同，导致我们无法直接同步遍历，那我们想办法让它们变得一样长就可以了。
-计算长度：首先，分别遍历两个链表，得到它们的长度 lenA 和 lenB。
-对齐指针：计算出长度差 diff = |lenA - lenB|。让较长的那个链表的指针先走 diff 步。这样操作之后，两个指针距离各自链表的末尾就有了相同的距离。
-同步遍历：现在两个指针位于同一起跑线（相对终点而言），我们让它们同步向后移动，一次一步。
-寻找交点：在同步移动的过程中，第一次出现两个指针相等 (headA == headB) 的地方，就是它们的第一个相交节点。如果一直走到末尾 (null) 都没有相遇，则说明两个链表不相交。
-这个方法就像两个人去同一个终点，路程长的人先出发一段距离，然后两个人再同时出发，这样他们就能同时到达终点。
-思路二：双指针&#34;浪漫&#34;相遇法 这是一个更巧妙，代码也更简洁的解法，它避免了显式地计算长度。
-想象有两个指针 pA 和 pB，分别从 headA 和 headB 出发。它们同时前进，当任何一个指针走到自己链表的末尾时，就跳到对方链表的头节点继续前进。
-为什么这个方法可行？
-路径长度相等：
-pA 走过的路径：链表A的长度 &#43; 链表B的长度 pB 走过的路径：链表B的长度 &#43; 链表A的长度 两个指针走过的总路程是完全相同的。 相遇点：
-如果相交：设 A 不相交部分长 a，B 不相交部分长 b，相交部分长 c。pA 走 a&#43;c 到达终点，然后从 B 的头部走 b 步。pB 走 b&#43;c 到达终点，然后从 A 的头部走 a 步。当它们都走了 a&#43;b&#43;c 的路程时，会在相交点相遇。 如果不相交：pA 走完 A 再走完 B，pB 走完 B 再走完 A。它们会同时到达终点 null，此时 pA == pB == null，循环结束，正确返回 null。 这个方法可以理解为，通过让两个指针都走一遍 A&#43;B 和 B&#43;A 的路程，从而消除了长度差，使得它们能够在终点前相遇。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-09-24 20:01:00 +0900 JST'>September 24, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/双指针 / 链表】LeetCode 160. 相交链表" href="https://amemiya02.github.io/posts/2025-09-24-160-intersection-of-two-linked-lists/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
     <h2 class="entry-hint-parent">【HOT100/哈希集合/Middle】LeetCode 128. 最长连续序列
     </h2>
   </header>
@@ -356,6 +311,50 @@ pA 走过的路径：链表A的长度 &#43; 链表B的长度 pB 走过的路径�
   </div>
   <footer class="entry-footer"><span title='2025-09-21 11:03:00 +0900 JST'>September 21, 2025</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/哈希集合/Middle】LeetCode 128. 最长连续序列" href="https://amemiya02.github.io/posts/2025-09-21-128-longest-consecutive-sequence/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/哈希表 / 数组】LeetCode 383. 赎金信
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 给你两个字符串：ransomNote 和 magazine ，判断 ransomNote 能不能由 magazine 里面的字符构成。
+如果可以，返回 true ；否则返回 false 。
+magazine 中的每个字符只能在 ransomNote 中使用一次。
+示例 1：
+输入： ransomNote = &#34;a&#34;, magazine = &#34;b&#34; 输出： false
+示例 2：
+输入： ransomNote = &#34;aa&#34;, magazine = &#34;aab&#34; 输出： true
+核心思路：字符计数 这道题的本质是判断 magazine 字符串中的字符数量，是否足够&#34;支付&#34; ransomNote 中所需的字符数量。字符的顺序无关紧要，我们只关心每个字符的可用频率。
+这是一个典型的哈希表或频率统计问题。
+统计资源：首先，我们需要清点我们拥有的&#34;资源&#34;，即 magazine 中每个字符的数量。
+我们可以遍历 magazine 字符串。 由于题目中只包含小写英文字母，我们可以使用一个长度为 26 的整型数组 counts 来充当哈希表，这比使用 HashMap 更高效。数组的索引 c - &#39;a&#39; 对应字符 c。 遍历 magazine 时，将对应字符的计数值加 1。 消耗资源：统计完 magazine 的字符后，我们再遍历 ransomNote，看看我们的资源是否足够。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-09-18 18:18:00 +0900 JST'>September 18, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/哈希表 / 数组】LeetCode 383. 赎金信" href="https://amemiya02.github.io/posts/2025-09-18-383-ransom-note/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/双指针】LeetCode 392. 判断子序列
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
+字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，&#34;ace&#34;是&#34;abcde&#34;的一个子序列，而&#34;aec&#34;不是）。
+示例：
+输入： s = &#34;abc&#34;, t = &#34;ahbgdc&#34; 输出： true
+输入： s = &#34;axc&#34;, t = &#34;ahbgdc&#34; 输出： false
+核心思路：双指针 这道题的核心是匹配字符，同时要保持相对顺序。这种&#34;按顺序查找&#34;的场景，是双指针大显身手的地方。我们可以使用两个指针，一个指向子序列 s，一个指向主串 t，然后同步向前扫描。
+初始化指针：
+定义指针 p 指向 s 的起始位置 0。 定义指针 q 指向 t 的起始位置 0。 贪心匹配：
+我们使用指针 q 遍历主串 t，同时用指针 p 来标记我们当前正在 s 中寻找的字符。 当 p 和 q 都在各自的字符串范围内时，进行循环比较： 如果 s.charAt(p) 与 t.charAt(q) 相等，意味着我们在 t 中找到了 s 的一个字符。接下来我们应该去寻找 s 的下一个字符了，所以将 p 和 q 都向后移动一位 (p&#43;&#43;, q&#43;&#43;)。 如果 s.charAt(p) 与 t.charAt(q) 不相等，说明当前 t 中的这个字符不是我们想要的。我们应该继续在 t 的后续部分寻找 s.charAt(p)，所以只将 q 向后移动一位 (q&#43;&#43;)。 判断结果：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-09-17 20:13:00 +0900 JST'>September 17, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/双指针】LeetCode 392. 判断子序列" href="https://amemiya02.github.io/posts/2025-09-17-392-is-subsequence/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

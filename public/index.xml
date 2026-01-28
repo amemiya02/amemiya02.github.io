@@ -48,6 +48,61 @@
 定义两个变量 &lt;code&gt;firstRowHasZero&lt;/code&gt; 和 &lt;code&gt;firstColHasZero&lt;/code&gt;，遍历第一行和第一列，如果发现 0，则将对应的变量置为 &lt;code&gt;true&lt;/code&gt;。&lt;/p&gt;</description>
     </item>
     <item>
+      <title>[Golang] LeetCode 热题 100 - 链表</title>
+      <link>https://amemiya02.github.io/posts/2026-01-28-linkedlist/</link>
+      <pubDate>Tue, 27 Jan 2026 09:00:00 +0900</pubDate>
+      <guid>https://amemiya02.github.io/posts/2026-01-28-linkedlist/</guid>
+      <description>&lt;h1 id=&#34;链表&#34;&gt;链表&lt;/h1&gt;
+&lt;h2 id=&#34;160-相交链表---easy&#34;&gt;&lt;a href=&#34;https://leetcode.cn/problems/intersection-of-two-linked-lists/&#34;&gt;160. 相交链表 - Easy&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给你两个单链表的头节点 &lt;code&gt;headA&lt;/code&gt; 和 &lt;code&gt;headB&lt;/code&gt; ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点, 返回 &lt;code&gt;null&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;题目数据 &lt;strong&gt;保证&lt;/strong&gt; 整个链式结构中不存在环，并且函数返回结果后，链表必须 &lt;strong&gt;保持其原始结构&lt;/strong&gt; 。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img alt=&#34;示意图&#34; loading=&#34;lazy&#34; src=&#34;https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_statement.png&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;核心思路&#34;&gt;核心思路&lt;/h3&gt;
+&lt;h4 id=&#34;思路0hashset去重&#34;&gt;思路0：HashSet去重&lt;/h4&gt;
+&lt;h4 id=&#34;思路一双指针--长度对齐&#34;&gt;思路一：双指针 + 长度对齐&lt;/h4&gt;
+&lt;p&gt;这是最直观的解法。既然相交前的部分长度可能不同，导致我们无法直接同步遍历，那我们想办法让它们变得一样长就可以了。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;计算长度&lt;/strong&gt;：首先，分别遍历两个链表，得到它们的长度 &lt;code&gt;lenA&lt;/code&gt; 和 &lt;code&gt;lenB&lt;/code&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;对齐指针&lt;/strong&gt;：计算出长度差 &lt;code&gt;diff = |lenA - lenB|&lt;/code&gt;。让&lt;strong&gt;较长&lt;/strong&gt;的那个链表的指针先走 &lt;code&gt;diff&lt;/code&gt; 步。这样操作之后，两个指针距离各自链表的末尾就有了相同的距离。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;同步遍历&lt;/strong&gt;：现在两个指针位于同一起跑线（相对终点而言），我们让它们同步向后移动，一次一步。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;寻找交点&lt;/strong&gt;：在同步移动的过程中，第一次出现两个指针相等 (&lt;code&gt;headA == headB&lt;/code&gt;) 的地方，就是它们的第一个相交节点。如果一直走到末尾 (&lt;code&gt;null&lt;/code&gt;) 都没有相遇，则说明两个链表不相交。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这个方法就像两个人去同一个终点，路程长的人先出发一段距离，然后两个人再同时出发，这样他们就能同时到达终点。&lt;/p&gt;
+&lt;h4 id=&#34;思路二双指针浪漫相遇法&#34;&gt;思路二：双指针&amp;quot;浪漫&amp;quot;相遇法&lt;/h4&gt;
+&lt;p&gt;这是一个更巧妙，代码也更简洁的解法，它避免了显式地计算长度。&lt;/p&gt;
+&lt;p&gt;想象有两个指针 &lt;code&gt;pA&lt;/code&gt; 和 &lt;code&gt;pB&lt;/code&gt;，分别从 &lt;code&gt;headA&lt;/code&gt; 和 &lt;code&gt;headB&lt;/code&gt; 出发。它们同时前进，当任何一个指针走到自己链表的末尾时，就&lt;strong&gt;跳到对方链表的头节点&lt;/strong&gt;继续前进。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;为什么这个方法可行？&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;路径长度相等&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;pA&lt;/code&gt; 走过的路径：&lt;code&gt;链表A的长度&lt;/code&gt; + &lt;code&gt;链表B的长度&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pB&lt;/code&gt; 走过的路径：&lt;code&gt;链表B的长度&lt;/code&gt; + &lt;code&gt;链表A的长度&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;两个指针走过的总路程是完全相同的。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;相遇点&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;如果相交&lt;/strong&gt;：设 A 不相交部分长 &lt;code&gt;a&lt;/code&gt;，B 不相交部分长 &lt;code&gt;b&lt;/code&gt;，相交部分长 &lt;code&gt;c&lt;/code&gt;。&lt;code&gt;pA&lt;/code&gt; 走 &lt;code&gt;a+c&lt;/code&gt; 到达终点，然后从 B 的头部走 &lt;code&gt;b&lt;/code&gt; 步。&lt;code&gt;pB&lt;/code&gt; 走 &lt;code&gt;b+c&lt;/code&gt; 到达终点，然后从 A 的头部走 &lt;code&gt;a&lt;/code&gt; 步。当它们都走了 &lt;code&gt;a+b+c&lt;/code&gt; 的路程时，会在相交点相遇。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;如果不相交&lt;/strong&gt;：&lt;code&gt;pA&lt;/code&gt; 走完 A 再走完 B，&lt;code&gt;pB&lt;/code&gt; 走完 B 再走完 A。它们会同时到达终点 &lt;code&gt;null&lt;/code&gt;，此时 &lt;code&gt;pA == pB == null&lt;/code&gt;，循环结束，正确返回 &lt;code&gt;null&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这个方法可以理解为，通过让两个指针都走一遍 &lt;code&gt;A+B&lt;/code&gt; 和 &lt;code&gt;B+A&lt;/code&gt; 的路程，从而消除了长度差，使得它们能够在终点前相遇。&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>[Golang] LeetCode 热题 100 - 普通数组</title>
       <link>https://amemiya02.github.io/posts/2026-01-26-array/</link>
       <pubDate>Mon, 26 Jan 2026 09:00:00 +0900</pubDate>
@@ -255,147 +310,6 @@ b.  &lt;strong&gt;在哈希表中查找&lt;/strong&gt; &lt;code&gt;complement&lt
 &lt;li&gt;遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;这个&amp;quot;一边遍历，一边查找，一边插入&amp;quot;的&lt;strong&gt;单遍哈希表&lt;/strong&gt;解法，非常巧妙地在一次循环中完成了所有工作。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/矩阵】LeetCode 240. 搜索二维矩阵 II</title>
-      <link>https://amemiya02.github.io/posts/2026-01-02-240-search-a-2d-matrix-ii/</link>
-      <pubDate>Fri, 02 Jan 2026 23:00:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2026-01-02-240-search-a-2d-matrix-ii/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;编写一个高效的算法来搜索 &lt;code&gt;m x n&lt;/code&gt; 矩阵 &lt;code&gt;matrix&lt;/code&gt; 中的一个目标值 &lt;code&gt;target&lt;/code&gt; 。该矩阵具有以下特性：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;每行的元素从左到右升序排列。&lt;/li&gt;
-&lt;li&gt;每列的元素从上到下升序排列。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;示例 2：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;matrix = ... (同上), target = 20&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id=&#34;核心思路抽象-bst-从角落出发&#34;&gt;核心思路：抽象 BST (从角落出发)&lt;/h2&gt;
-&lt;p&gt;如果把矩阵的每一个位置看作一个节点，我们要利用&amp;quot;行有序&amp;quot;和&amp;quot;列有序&amp;quot;这两个条件来快速缩小查找范围。&lt;/p&gt;
-&lt;p&gt;如果我们从&lt;strong&gt;左上角&lt;/strong&gt;出发，当前值小于 &lt;code&gt;target&lt;/code&gt; 时，我们既可以向右走（变大），也可以向下走（变大），这就产生了歧义，无法确定唯一的搜索方向。&lt;/p&gt;
-&lt;p&gt;但是，如果我们选择&lt;strong&gt;左下角&lt;/strong&gt;（或者右上角）作为起点，情况就完全不同了。&lt;/p&gt;
-&lt;p&gt;以&lt;strong&gt;左下角&lt;/strong&gt; &lt;code&gt;(m-1, 0)&lt;/code&gt; 为例：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;当前值 &amp;gt; target&lt;/strong&gt;：
-因为当前行是升序的，左下角已经是该行最小的数了，如果连它都比 &lt;code&gt;target&lt;/code&gt; 大，说明&lt;strong&gt;这一行所有的数都比 &lt;code&gt;target&lt;/code&gt; 大&lt;/strong&gt;。
--&amp;gt; 结论：&lt;strong&gt;排除当前行&lt;/strong&gt;，向上移动 (&lt;code&gt;i--&lt;/code&gt;)。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;当前值 &amp;lt; target&lt;/strong&gt;：
-因为当前列是升序的，左下角已经是该列最大的数了（在剩下的范围内），如果连它都比 &lt;code&gt;target&lt;/code&gt; 小，说明&lt;strong&gt;这一列所有的数都比 &lt;code&gt;target&lt;/code&gt; 小&lt;/strong&gt;。
--&amp;gt; 结论：&lt;strong&gt;排除当前列&lt;/strong&gt;，向右移动 (&lt;code&gt;j++&lt;/code&gt;)。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;这个过程就像是在遍历一棵&lt;strong&gt;二叉搜索树 (BST)&lt;/strong&gt;，左下角就是根节点，往上走是找更小的（类似左子树），往右走是找更大的（类似右子树）。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/链表】LeetCode 206. 反转链表</title>
-      <link>https://amemiya02.github.io/posts/2026-01-02-206-reverse-linked-list/</link>
-      <pubDate>Fri, 02 Jan 2026 20:01:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2026-01-02-206-reverse-linked-list/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给你单链表的头节点 &lt;code&gt;head&lt;/code&gt; ，请你反转链表，并返回反转后的链表。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;输入：head = [1,2,3,4,5]
-输出：[5,4,3,2,1]
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;示例 2：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;输入：head = [1,2]
-输出：[2,1]
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;示例 3：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;输入：head = []
-输出：[]
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;核心思路&#34;&gt;核心思路&lt;/h2&gt;
-&lt;h3 id=&#34;思路一迭代法双指针&#34;&gt;思路一：迭代法（双指针）&lt;/h3&gt;
-&lt;p&gt;这是最直观的解法。我们需要遍历链表，在遍历过程中改变每个节点的 &lt;code&gt;next&lt;/code&gt; 指针指向。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;三个指针&lt;/strong&gt;：我们需要三个指针来完成反转：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;prev&lt;/code&gt;：指向当前节点的前一个节点（初始为 &lt;code&gt;null&lt;/code&gt;）&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;curr&lt;/code&gt;：指向当前节点（初始为 &lt;code&gt;head&lt;/code&gt;）&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;next&lt;/code&gt;：临时存储当前节点的下一个节点&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;遍历反转&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;保存 &lt;code&gt;curr.next&lt;/code&gt; 到 &lt;code&gt;next&lt;/code&gt;（防止断链）&lt;/li&gt;
-&lt;li&gt;将 &lt;code&gt;curr.next&lt;/code&gt; 指向 &lt;code&gt;prev&lt;/code&gt;（反转当前节点）&lt;/li&gt;
-&lt;li&gt;将 &lt;code&gt;prev&lt;/code&gt; 移动到 &lt;code&gt;curr&lt;/code&gt; 位置&lt;/li&gt;
-&lt;li&gt;将 &lt;code&gt;curr&lt;/code&gt; 移动到 &lt;code&gt;next&lt;/code&gt; 位置&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;返回结果&lt;/strong&gt;：遍历结束后，&lt;code&gt;prev&lt;/code&gt; 就是新链表的头节点&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;这个方法就像把一列火车车厢的方向逐个反转，需要临时标记下一个车厢的位置。&lt;/p&gt;
-&lt;h3 id=&#34;思路二递归法&#34;&gt;思路二：递归法&lt;/h3&gt;
-&lt;p&gt;递归法的思路是：先递归到链表末尾，然后在回溯的过程中逐个反转节点。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;递归终止条件&lt;/strong&gt;：当 &lt;code&gt;head&lt;/code&gt; 为 &lt;code&gt;null&lt;/code&gt; 或 &lt;code&gt;head.next&lt;/code&gt; 为 &lt;code&gt;null&lt;/code&gt; 时，直接返回 &lt;code&gt;head&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;递归调用&lt;/strong&gt;：先递归处理 &lt;code&gt;head.next&lt;/code&gt;，得到反转后的子链表&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;反转当前节点&lt;/strong&gt;：将 &lt;code&gt;head.next.next&lt;/code&gt; 指向 &lt;code&gt;head&lt;/code&gt;，将 &lt;code&gt;head.next&lt;/code&gt; 设为 &lt;code&gt;null&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;返回结果&lt;/strong&gt;：返回子链表的头节点（即新链表的头节点）&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;递归法的优点是代码简洁，但缺点是可能会因为链表过长导致栈溢出。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/双指针 / 链表】LeetCode 160. 相交链表</title>
-      <link>https://amemiya02.github.io/posts/2025-09-24-160-intersection-of-two-linked-lists/</link>
-      <pubDate>Wed, 24 Sep 2025 20:01:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-24-160-intersection-of-two-linked-lists/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给你两个单链表的头节点 &lt;code&gt;headA&lt;/code&gt; 和 &lt;code&gt;headB&lt;/code&gt; ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点, 返回 &lt;code&gt;null&lt;/code&gt; 。&lt;/p&gt;
-&lt;p&gt;题目数据 &lt;strong&gt;保证&lt;/strong&gt; 整个链式结构中不存在环，并且函数返回结果后，链表必须 &lt;strong&gt;保持其原始结构&lt;/strong&gt; 。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;img alt=&#34;示意图&#34; loading=&#34;lazy&#34; src=&#34;https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_statement.png&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;核心思路&#34;&gt;核心思路&lt;/h2&gt;
-&lt;h3 id=&#34;思路0hashset去重&#34;&gt;思路0：HashSet去重&lt;/h3&gt;
-&lt;h3 id=&#34;思路一双指针--长度对齐&#34;&gt;思路一：双指针 + 长度对齐&lt;/h3&gt;
-&lt;p&gt;这是最直观的解法。既然相交前的部分长度可能不同，导致我们无法直接同步遍历，那我们想办法让它们变得一样长就可以了。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;计算长度&lt;/strong&gt;：首先，分别遍历两个链表，得到它们的长度 &lt;code&gt;lenA&lt;/code&gt; 和 &lt;code&gt;lenB&lt;/code&gt;。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;对齐指针&lt;/strong&gt;：计算出长度差 &lt;code&gt;diff = |lenA - lenB|&lt;/code&gt;。让&lt;strong&gt;较长&lt;/strong&gt;的那个链表的指针先走 &lt;code&gt;diff&lt;/code&gt; 步。这样操作之后，两个指针距离各自链表的末尾就有了相同的距离。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;同步遍历&lt;/strong&gt;：现在两个指针位于同一起跑线（相对终点而言），我们让它们同步向后移动，一次一步。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;寻找交点&lt;/strong&gt;：在同步移动的过程中，第一次出现两个指针相等 (&lt;code&gt;headA == headB&lt;/code&gt;) 的地方，就是它们的第一个相交节点。如果一直走到末尾 (&lt;code&gt;null&lt;/code&gt;) 都没有相遇，则说明两个链表不相交。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;这个方法就像两个人去同一个终点，路程长的人先出发一段距离，然后两个人再同时出发，这样他们就能同时到达终点。&lt;/p&gt;
-&lt;h3 id=&#34;思路二双指针浪漫相遇法&#34;&gt;思路二：双指针&amp;quot;浪漫&amp;quot;相遇法&lt;/h3&gt;
-&lt;p&gt;这是一个更巧妙，代码也更简洁的解法，它避免了显式地计算长度。&lt;/p&gt;
-&lt;p&gt;想象有两个指针 &lt;code&gt;pA&lt;/code&gt; 和 &lt;code&gt;pB&lt;/code&gt;，分别从 &lt;code&gt;headA&lt;/code&gt; 和 &lt;code&gt;headB&lt;/code&gt; 出发。它们同时前进，当任何一个指针走到自己链表的末尾时，就&lt;strong&gt;跳到对方链表的头节点&lt;/strong&gt;继续前进。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;为什么这个方法可行？&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;路径长度相等&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;pA&lt;/code&gt; 走过的路径：&lt;code&gt;链表A的长度&lt;/code&gt; + &lt;code&gt;链表B的长度&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pB&lt;/code&gt; 走过的路径：&lt;code&gt;链表B的长度&lt;/code&gt; + &lt;code&gt;链表A的长度&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;两个指针走过的总路程是完全相同的。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;相遇点&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;如果相交&lt;/strong&gt;：设 A 不相交部分长 &lt;code&gt;a&lt;/code&gt;，B 不相交部分长 &lt;code&gt;b&lt;/code&gt;，相交部分长 &lt;code&gt;c&lt;/code&gt;。&lt;code&gt;pA&lt;/code&gt; 走 &lt;code&gt;a+c&lt;/code&gt; 到达终点，然后从 B 的头部走 &lt;code&gt;b&lt;/code&gt; 步。&lt;code&gt;pB&lt;/code&gt; 走 &lt;code&gt;b+c&lt;/code&gt; 到达终点，然后从 A 的头部走 &lt;code&gt;a&lt;/code&gt; 步。当它们都走了 &lt;code&gt;a+b+c&lt;/code&gt; 的路程时，会在相交点相遇。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;如果不相交&lt;/strong&gt;：&lt;code&gt;pA&lt;/code&gt; 走完 A 再走完 B，&lt;code&gt;pB&lt;/code&gt; 走完 B 再走完 A。它们会同时到达终点 &lt;code&gt;null&lt;/code&gt;，此时 &lt;code&gt;pA == pB == null&lt;/code&gt;，循环结束，正确返回 &lt;code&gt;null&lt;/code&gt;。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;这个方法可以理解为，通过让两个指针都走一遍 &lt;code&gt;A+B&lt;/code&gt; 和 &lt;code&gt;B+A&lt;/code&gt; 的路程，从而消除了长度差，使得它们能够在终点前相遇。&lt;/p&gt;</description>
     </item>
     <item>
       <title>【HOT100/哈希集合/Middle】LeetCode 128. 最长连续序列</title>

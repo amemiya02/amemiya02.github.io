@@ -199,8 +199,8 @@ $O(1)$ 空间：直接利用矩阵的第一行和第一列来替代上面的两�
   "keywords": [
     "Go", "矩阵", "题解"
   ],
-  "articleBody": "矩阵 73. 矩阵置零 - Mid 题目回顾 给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。请使用 原地 算法。\n示例 1：\n输入： matrix = [[1,1,1],[1,0,1],[1,1,1]] 输出： [[1,0,1],[0,0,0],[1,0,1]]\n示例 2：\n输入： matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]] 输出： [[0,0,0,0],[0,4,5,0],[0,3,1,0]]\n进阶：\n一个直观的解决方案是使用 $O(mn)$ 的额外空间，但这并不是一个好的解决方案。 一个简单的改进方案是使用 $O(m + n)$ 的额外空间，但这仍然不是最好的解决方案。 你能想出一个仅使用常量空间的解决方案吗？ 核心思路：利用首行首列做标记 这道题的难点在于污染问题：如果我们一边遍历一边将 0 所在的行列置零，那么修改后的 0 会干扰后续的遍历，导致整个矩阵最后全变成了 0。\n空间复杂度优化路径 $O(MN)$ 空间：新建一个同样的矩阵做标记。太浪费。 $O(M+N)$ 空间：使用两个布尔数组 row[] 和 col[]，分别记录哪一行、哪一列需要置零。 $O(1)$ 空间：直接利用矩阵的第一行和第一列来替代上面的两个布尔数组。 算法流程 ($O(1)$ 方案) 既然我们要用第一行和第一列来记录\"该行/列是否需要置零\"，那么第一行和第一列原本的状态（是否包含 0）就需要先被保存下来，否则会被后续的标记覆盖。\n步骤如下：\n记录首行首列状态： 定义两个变量 firstRowHasZero 和 firstColHasZero，遍历第一行和第一列，如果发现 0，则将对应的变量置为 true。\n利用首行首列做标记： 遍历矩阵的其余部分（从 (1,1) 开始）。如果发现 matrix[i][j] == 0，就将它对应的行首 matrix[i][0] 和列首 matrix[0][j] 设为 0。\n根据标记置零内部： 再次遍历矩阵的其余部分（从 (1,1) 开始）。检查当前位置对应的行首或列首是否为 0，如果是，则将 matrix[i][j] 置为 0。\n处理首行首列： 最后，根据第 1 步记录的 firstRowHasZero 和 firstColHasZero，决定是否要将第一行或第一列全部置零。\n注意：处理顺序很重要，必须先处理内部，最后再根据布尔变量处理首行首列，否则首行首列作为\"控制位\"如果先被置零了，内部的逻辑就乱了。\n代码实现 func setZeroes(matrix [][]int) { if len(matrix) == 0 { return } m, n := len(matrix), len(matrix[0]) firstRowHasZero := false firstColHasZero := false // 1. 检查第一列是否有 0 for i := 0; i \u003c m; i++ { if matrix[i][0] == 0 { firstColHasZero = true break } } // 2. 检查第一行是否有 0 for j := 0; j \u003c n; j++ { if matrix[0][j] == 0 { firstRowHasZero = true break } } // 3. 使用第一行和第一列作为“看板”记录标记位 // 从 (1,1) 开始遍历，如果发现 0，就把对应的表头（第一行、第一列）置 0 for i := 1; i \u003c m; i++ { for j := 1; j \u003c n; j++ { if matrix[i][j] == 0 { matrix[i][0] = 0 matrix[0][j] = 0 } } } // 4. 根据“看板”标记，将内部元素置零 for i := 1; i \u003c m; i++ { for j := 1; j \u003c n; j++ { if matrix[i][0] == 0 || matrix[0][j] == 0 { matrix[i][j] = 0 } } } // 5. 独立处理第一行 if firstRowHasZero { for j := 0; j \u003c n; j++ { matrix[0][j] = 0 } } // 6. 独立处理第一列 if firstColHasZero { for i := 0; i \u003c m; i++ { matrix[i][0] = 0 } } } 复杂度分析\n时间复杂度: $O(M \\times N)$。我们对矩阵进行了几次遍历，但总体操作次数与元素总数呈线性关系。 空间复杂度: $O(1)$。我们只使用了两个布尔变量，利用矩阵本身的空间存储了状态，满足了进阶要求。 54. 螺旋矩阵 - Mid 题目回顾 给你一个 m 行 n 列的矩阵 matrix ，请按照 顺时针螺旋顺序 ，返回矩阵中的所有元素。\n示例 1：\n输入： matrix = [[1,2,3],[4,5,6],[7,8,9]] 输出： [1,2,3,6,9,8,7,4,5]\n示例 2：\n输入： matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]] 输出： [1,2,3,4,8,12,11,10,9,5,6,7]\n核心思路：四边界模拟法 这道题没有太多的算法技巧，本质上是一道模拟题。我们需要模拟一个机器人在矩阵中按照\"右 -\u003e 下 -\u003e 左 -\u003e 上\"的顺序一直走，直到填满所有格子。\n虽然思路简单，但如果不加设计地直接写，很容易陷入各种边界判断的泥潭（比如拐角处怎么处理、什么时候停止）。\n最优雅的解法是设定四个边界：\nt (top)：上边界，初始为 0 b (bottom)：下边界，初始为 m-1 l (left)：左边界，初始为 0 r (right)：右边界，初始为 n-1 算法流程 我们要在一个循环中按照顺时针方向依次处理四条边。每处理完一条边，就将对应的边界向内收缩，并立即检查是否越界（越界意味着遍历结束）。\n向右移动：遍历从 l 到 r。处理完后，上边界下移 (++t)。如果 t \u003e b，说明上下边界交错，遍历结束。 向下移动：遍历从 t 到 b。处理完后，右边界左移 (--r)。如果 l \u003e r，说明左右边界交错，遍历结束。 向左移动：遍历从 r 到 l。处理完后，下边界上移 (--b)。如果 t \u003e b，遍历结束。 向上移动：遍历从 b 到 t。处理完后，左边界右移 (++l)。如果 l \u003e r，遍历结束。 这种写法将边界检查巧妙地融合在每一步操作之后，不需要在循环头部写复杂的 count \u003c total 判断，代码逻辑非常清晰。\n代码实现 func spiralOrder(matrix [][]int) []int { // 边界检查 if len(matrix) == 0 || len(matrix[0]) == 0 { return []int{} } m, n := len(matrix), len(matrix[0]) // 预分配切片容量，避免频繁扩容带来的性能开销 res := make([]int, 0, m*n) // 定义四个边界 t, b := 0, m-1 // Top, Bottom l, r := 0, n-1 // Left, Right for { // 1. 从左到右：遍历上边界所在的行 for i := l; i \u003c= r; i++ { res = append(res, matrix[t][i]) } t++ // 上边界下移 if t \u003e b { break } // 2. 从上到下：遍历右边界所在的列 for i := t; i \u003c= b; i++ { res = append(res, matrix[i][r]) } r-- // 右边界左移 if l \u003e r { break } // 3. 从右到左：遍历下边界所在的行 for i := r; i \u003e= l; i-- { res = append(res, matrix[b][i]) } b-- // 下边界上移 if t \u003e b { break } // 4. 从下到上：遍历左边界所在的列 for i := b; i \u003e= t; i-- { res = append(res, matrix[i][l]) } l++ // 左边界右移 if l \u003e r { break } } return res } 复杂度分析\n时间复杂度: $O(M \\times N)$。矩阵中的每个元素都被访问且仅被访问一次。 空间复杂度: $O(1)$。除了用于返回结果的 res 列表外，我们只使用了 4 个变量来记录边界，不需要额外的存储空间。 48. 旋转图像 - Mid 题目回顾 给定一个 n × n 的二维矩阵 matrix 表示一个图像。请你将图像顺时针旋转 90 度。\n你必须在 原地 旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要 使用另一个矩阵来旋转图像。\n示例 1：\n输入： matrix = [[1,2,3],[4,5,6],[7,8,9]] 输出： [[7,4,1],[8,5,2],[9,6,3]]\n示例 2：\n输入： matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]] 输出： [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]\n核心思路：数学变换 这道题最直接的思路是找出每个元素旋转后的坐标规律。对于一个坐标为 (i, j) 的元素，顺时针旋转 90 度后，它的新位置是 (j, n-1-i)。 如果直接模拟这个过程，我们需要小心翼翼地进行四角交换，逻辑容易出错。\n更优雅的解法是利用矩阵运算的性质。顺时针旋转 90 度可以拆解为两步简单的变换：\n转置 (Transpose)：将矩阵的行列互换（沿对角线翻转）。 matrix[i][j] $\\leftrightarrow$ matrix[j][i] 水平镜像 (Reverse Rows)：将每一行左右翻转。 matrix[i][j] $\\leftrightarrow$ matrix[i][n-1-j] 演示过程：\n假设输入为：\n1 2 3 4 5 6 7 8 9 第一步：转置（对角线翻转）\n1 4 7 2 5 8 3 6 9 第二步：每行左右翻转\n7 4 1 8 5 2 9 6 3 我们可以看到，结果正好是顺时针旋转 90 度的样子。这种方法代码非常简洁且不易出错。\n代码实现 func rotate(matrix [][]int) { n := len(matrix) if n == 0 { return } // 1. 转置矩阵 (Transpose) // 沿着主对角线翻转，将 matrix[i][j] 与 matrix[j][i] 交换 for i := 0; i \u003c n; i++ { for j := i + 1; j \u003c n; j++ { // Go 的多重赋值直接完成交换 matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j] } } // 2. 沿垂直轴翻转每一行 (Reflect) // 将每一行进行左右镜像对称交换 for i := 0; i \u003c n; i++ { for j := 0; j \u003c n/2; j++ { // 对第 i 行的元素进行左右交换 matrix[i][j], matrix[i][n-j-1] = matrix[i][n-j-1], matrix[i][j] } } } 复杂度分析\n时间复杂度: $O(N^2)$。\n空间复杂度: $O(1)$。我们是原地修改矩阵，没有使用额外的存储空间。\n",
-  "wordCount" : "751",
+  "articleBody": "矩阵 73. 矩阵置零 - Mid 题目回顾 给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。请使用 原地 算法。\n示例 1：\n输入： matrix = [[1,1,1],[1,0,1],[1,1,1]] 输出： [[1,0,1],[0,0,0],[1,0,1]]\n示例 2：\n输入： matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]] 输出： [[0,0,0,0],[0,4,5,0],[0,3,1,0]]\n进阶：\n一个直观的解决方案是使用 $O(mn)$ 的额外空间，但这并不是一个好的解决方案。 一个简单的改进方案是使用 $O(m + n)$ 的额外空间，但这仍然不是最好的解决方案。 你能想出一个仅使用常量空间的解决方案吗？ 核心思路：利用首行首列做标记 这道题的难点在于污染问题：如果我们一边遍历一边将 0 所在的行列置零，那么修改后的 0 会干扰后续的遍历，导致整个矩阵最后全变成了 0。\n空间复杂度优化路径 $O(MN)$ 空间：新建一个同样的矩阵做标记。太浪费。 $O(M+N)$ 空间：使用两个布尔数组 row[] 和 col[]，分别记录哪一行、哪一列需要置零。 $O(1)$ 空间：直接利用矩阵的第一行和第一列来替代上面的两个布尔数组。 算法流程 ($O(1)$ 方案) 既然我们要用第一行和第一列来记录\"该行/列是否需要置零\"，那么第一行和第一列原本的状态（是否包含 0）就需要先被保存下来，否则会被后续的标记覆盖。\n步骤如下：\n记录首行首列状态： 定义两个变量 firstRowHasZero 和 firstColHasZero，遍历第一行和第一列，如果发现 0，则将对应的变量置为 true。\n利用首行首列做标记： 遍历矩阵的其余部分（从 (1,1) 开始）。如果发现 matrix[i][j] == 0，就将它对应的行首 matrix[i][0] 和列首 matrix[0][j] 设为 0。\n根据标记置零内部： 再次遍历矩阵的其余部分（从 (1,1) 开始）。检查当前位置对应的行首或列首是否为 0，如果是，则将 matrix[i][j] 置为 0。\n处理首行首列： 最后，根据第 1 步记录的 firstRowHasZero 和 firstColHasZero，决定是否要将第一行或第一列全部置零。\n注意：处理顺序很重要，必须先处理内部，最后再根据布尔变量处理首行首列，否则首行首列作为\"控制位\"如果先被置零了，内部的逻辑就乱了。\n代码实现 func setZeroes(matrix [][]int) { if len(matrix) == 0 { return } m, n := len(matrix), len(matrix[0]) firstRowHasZero := false firstColHasZero := false // 1. 检查第一列是否有 0 for i := 0; i \u003c m; i++ { if matrix[i][0] == 0 { firstColHasZero = true break } } // 2. 检查第一行是否有 0 for j := 0; j \u003c n; j++ { if matrix[0][j] == 0 { firstRowHasZero = true break } } // 3. 使用第一行和第一列作为“看板”记录标记位 // 从 (1,1) 开始遍历，如果发现 0，就把对应的表头（第一行、第一列）置 0 for i := 1; i \u003c m; i++ { for j := 1; j \u003c n; j++ { if matrix[i][j] == 0 { matrix[i][0] = 0 matrix[0][j] = 0 } } } // 4. 根据“看板”标记，将内部元素置零 for i := 1; i \u003c m; i++ { for j := 1; j \u003c n; j++ { if matrix[i][0] == 0 || matrix[0][j] == 0 { matrix[i][j] = 0 } } } // 5. 独立处理第一行 if firstRowHasZero { for j := 0; j \u003c n; j++ { matrix[0][j] = 0 } } // 6. 独立处理第一列 if firstColHasZero { for i := 0; i \u003c m; i++ { matrix[i][0] = 0 } } } 复杂度分析\n时间复杂度: $O(M \\times N)$。我们对矩阵进行了几次遍历，但总体操作次数与元素总数呈线性关系。 空间复杂度: $O(1)$。我们只使用了两个布尔变量，利用矩阵本身的空间存储了状态，满足了进阶要求。 54. 螺旋矩阵 - Mid 题目回顾 给你一个 m 行 n 列的矩阵 matrix ，请按照 顺时针螺旋顺序 ，返回矩阵中的所有元素。\n示例 1：\n输入： matrix = [[1,2,3],[4,5,6],[7,8,9]] 输出： [1,2,3,6,9,8,7,4,5]\n示例 2：\n输入： matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]] 输出： [1,2,3,4,8,12,11,10,9,5,6,7]\n核心思路：四边界模拟法 这道题没有太多的算法技巧，本质上是一道模拟题。我们需要模拟一个机器人在矩阵中按照\"右 -\u003e 下 -\u003e 左 -\u003e 上\"的顺序一直走，直到填满所有格子。\n虽然思路简单，但如果不加设计地直接写，很容易陷入各种边界判断的泥潭（比如拐角处怎么处理、什么时候停止）。\n最优雅的解法是设定四个边界：\nt (top)：上边界，初始为 0 b (bottom)：下边界，初始为 m-1 l (left)：左边界，初始为 0 r (right)：右边界，初始为 n-1 算法流程 我们要在一个循环中按照顺时针方向依次处理四条边。每处理完一条边，就将对应的边界向内收缩，并立即检查是否越界（越界意味着遍历结束）。\n向右移动：遍历从 l 到 r。处理完后，上边界下移 (++t)。如果 t \u003e b，说明上下边界交错，遍历结束。 向下移动：遍历从 t 到 b。处理完后，右边界左移 (--r)。如果 l \u003e r，说明左右边界交错，遍历结束。 向左移动：遍历从 r 到 l。处理完后，下边界上移 (--b)。如果 t \u003e b，遍历结束。 向上移动：遍历从 b 到 t。处理完后，左边界右移 (++l)。如果 l \u003e r，遍历结束。 这种写法将边界检查巧妙地融合在每一步操作之后，不需要在循环头部写复杂的 count \u003c total 判断，代码逻辑非常清晰。\n代码实现 func spiralOrder(matrix [][]int) []int { // 边界检查 if len(matrix) == 0 || len(matrix[0]) == 0 { return []int{} } m, n := len(matrix), len(matrix[0]) // 预分配切片容量，避免频繁扩容带来的性能开销 res := make([]int, 0, m*n) // 定义四个边界 t, b := 0, m-1 // Top, Bottom l, r := 0, n-1 // Left, Right for { // 1. 从左到右：遍历上边界所在的行 for i := l; i \u003c= r; i++ { res = append(res, matrix[t][i]) } t++ // 上边界下移 if t \u003e b { break } // 2. 从上到下：遍历右边界所在的列 for i := t; i \u003c= b; i++ { res = append(res, matrix[i][r]) } r-- // 右边界左移 if l \u003e r { break } // 3. 从右到左：遍历下边界所在的行 for i := r; i \u003e= l; i-- { res = append(res, matrix[b][i]) } b-- // 下边界上移 if t \u003e b { break } // 4. 从下到上：遍历左边界所在的列 for i := b; i \u003e= t; i-- { res = append(res, matrix[i][l]) } l++ // 左边界右移 if l \u003e r { break } } return res } 复杂度分析\n时间复杂度: $O(M \\times N)$。矩阵中的每个元素都被访问且仅被访问一次。 空间复杂度: $O(1)$。除了用于返回结果的 res 列表外，我们只使用了 4 个变量来记录边界，不需要额外的存储空间。 48. 旋转图像 - Mid 题目回顾 给定一个 n × n 的二维矩阵 matrix 表示一个图像。请你将图像顺时针旋转 90 度。\n你必须在 原地 旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要 使用另一个矩阵来旋转图像。\n示例 1：\n输入： matrix = [[1,2,3],[4,5,6],[7,8,9]] 输出： [[7,4,1],[8,5,2],[9,6,3]]\n示例 2：\n输入： matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]] 输出： [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]\n核心思路：数学变换 这道题最直接的思路是找出每个元素旋转后的坐标规律。对于一个坐标为 (i, j) 的元素，顺时针旋转 90 度后，它的新位置是 (j, n-1-i)。 如果直接模拟这个过程，我们需要小心翼翼地进行四角交换，逻辑容易出错。\n更优雅的解法是利用矩阵运算的性质。顺时针旋转 90 度可以拆解为两步简单的变换：\n转置 (Transpose)：将矩阵的行列互换（沿对角线翻转）。 matrix[i][j] $\\leftrightarrow$ matrix[j][i] 水平镜像 (Reverse Rows)：将每一行左右翻转。 matrix[i][j] $\\leftrightarrow$ matrix[i][n-1-j] 演示过程：\n假设输入为：\n1 2 3 4 5 6 7 8 9 第一步：转置（对角线翻转）\n1 4 7 2 5 8 3 6 9 第二步：每行左右翻转\n7 4 1 8 5 2 9 6 3 我们可以看到，结果正好是顺时针旋转 90 度的样子。这种方法代码非常简洁且不易出错。\n代码实现 func rotate(matrix [][]int) { n := len(matrix) if n == 0 { return } // 1. 转置矩阵 (Transpose) // 沿着主对角线翻转，将 matrix[i][j] 与 matrix[j][i] 交换 for i := 0; i \u003c n; i++ { for j := i + 1; j \u003c n; j++ { // Go 的多重赋值直接完成交换 matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j] } } // 2. 沿垂直轴翻转每一行 (Reflect) // 将每一行进行左右镜像对称交换 for i := 0; i \u003c n; i++ { for j := 0; j \u003c n/2; j++ { // 对第 i 行的元素进行左右交换 matrix[i][j], matrix[i][n-j-1] = matrix[i][n-j-1], matrix[i][j] } } } 复杂度分析\n时间复杂度: $O(N^2)$。\n空间复杂度: $O(1)$。我们是原地修改矩阵，没有使用额外的存储空间。\n240. 搜索二维矩阵 II - Mid 题目回顾 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target 。该矩阵具有以下特性：\n每行的元素从左到右升序排列。 每列的元素从上到下升序排列。 示例 1：\n输入： matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5 输出： true\n示例 2：\n输入： matrix = ... (同上), target = 20 输出： false\n核心思路：抽象 BST (从角落出发) 如果把矩阵的每一个位置看作一个节点，我们要利用\"行有序\"和\"列有序\"这两个条件来快速缩小查找范围。\n如果我们从左上角出发，当前值小于 target 时，我们既可以向右走（变大），也可以向下走（变大），这就产生了歧义，无法确定唯一的搜索方向。\n但是，如果我们选择左下角（或者右上角）作为起点，情况就完全不同了。\n以左下角 (m-1, 0) 为例：\n当前值 \u003e target： 因为当前行是升序的，左下角已经是该行最小的数了，如果连它都比 target 大，说明这一行所有的数都比 target 大。 -\u003e 结论：排除当前行，向上移动 (i--)。 当前值 \u003c target： 因为当前列是升序的，左下角已经是该列最大的数了（在剩下的范围内），如果连它都比 target 小，说明这一列所有的数都比 target 小。 -\u003e 结论：排除当前列，向右移动 (j++)。 这个过程就像是在遍历一棵二叉搜索树 (BST)，左下角就是根节点，往上走是找更小的（类似左子树），往右走是找更大的（类似右子树）。\n算法流程 初始化指针 i 指向最后一行，j 指向第一列。 循环条件：只要 i 没有超出上边界，且 j 没有超出右边界。 比较 matrix[i][j] 和 target： 相等：找到目标，返回 true。 matrix[i][j] \u003e target：i-- (往上找小的)。 matrix[i][j] \u003c target：j++ (往右找大的)。 如果循环结束还没找到，返回 false。 代码实现 func searchMatrix(matrix [][]int, target int) bool { // 基础边界检查 if len(matrix) == 0 || len(matrix[0]) == 0 { return false } m := len(matrix) n := len(matrix[0]) // 从左下角开始搜索 // i: 行索引，初始化为最后一行 // j: 列索引，初始化为第一列 i := m - 1 j := 0 // 只要索引在矩阵范围内，就持续收缩搜索范围 for i \u003e= 0 \u0026\u0026 j \u003c n { current := matrix[i][j] if current == target { // 匹配成功 return true } else if current \u003e target { // 当前值太大，因为该行右侧元素更火， // 排除当前行，向上移动 i-- } else { // current \u003c target // 当前值太小，因为该列上方元素更小， // 排除当前列，向右移动 j++ } } // 走出边界还没找到，说明目标不存在 return false } 复杂度分析\n时间复杂度: $O(M + N)$。在最坏的情况下（比如目标值就在右上角，或者不存在），我们需要从左下角一路走到右上角。每次迭代要么行索引减少，要么列索引增加，最多移动 m + n 次。 空间复杂度: $O(1)$。只使用了常数个变量作为指针。 ",
+  "wordCount" : "962",
   "inLanguage": "en",
   "datePublished": "2026-01-27T09:00:00+09:00",
   "dateModified": "2026-01-27T09:00:00+09:00",
@@ -533,6 +533,91 @@ $O(1)$ 空间：直接利用矩阵的第一行和第一列来替代上面的两�
 <li>
 <p>空间复杂度: $O(1)$。我们是原地修改矩阵，没有使用额外的存储空间。</p>
 </li>
+</ul>
+<h2 id="240-搜索二维矩阵-ii---mid"><a href="https://leetcode.cn/problems/search-a-2d-matrix-ii/">240. 搜索二维矩阵 II - Mid</a><a hidden class="anchor" aria-hidden="true" href="#240-搜索二维矩阵-ii---mid">#</a></h2>
+<h3 id="题目回顾-3">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾-3">#</a></h3>
+<blockquote>
+<p>编写一个高效的算法来搜索 <code>m x n</code> 矩阵 <code>matrix</code> 中的一个目标值 <code>target</code> 。该矩阵具有以下特性：</p>
+<ul>
+<li>每行的元素从左到右升序排列。</li>
+<li>每列的元素从上到下升序排列。</li>
+</ul>
+</blockquote>
+<p><strong>示例 1：</strong></p>
+<p><strong>输入：</strong> <code>matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5</code>
+<strong>输出：</strong> <code>true</code></p>
+<p><strong>示例 2：</strong></p>
+<p><strong>输入：</strong> <code>matrix = ... (同上), target = 20</code>
+<strong>输出：</strong> <code>false</code></p>
+<h3 id="核心思路抽象-bst-从角落出发">核心思路：抽象 BST (从角落出发)<a hidden class="anchor" aria-hidden="true" href="#核心思路抽象-bst-从角落出发">#</a></h3>
+<p>如果把矩阵的每一个位置看作一个节点，我们要利用&quot;行有序&quot;和&quot;列有序&quot;这两个条件来快速缩小查找范围。</p>
+<p>如果我们从<strong>左上角</strong>出发，当前值小于 <code>target</code> 时，我们既可以向右走（变大），也可以向下走（变大），这就产生了歧义，无法确定唯一的搜索方向。</p>
+<p>但是，如果我们选择<strong>左下角</strong>（或者右上角）作为起点，情况就完全不同了。</p>
+<p>以<strong>左下角</strong> <code>(m-1, 0)</code> 为例：</p>
+<ul>
+<li><strong>当前值 &gt; target</strong>：
+因为当前行是升序的，左下角已经是该行最小的数了，如果连它都比 <code>target</code> 大，说明<strong>这一行所有的数都比 <code>target</code> 大</strong>。
+-&gt; 结论：<strong>排除当前行</strong>，向上移动 (<code>i--</code>)。</li>
+<li><strong>当前值 &lt; target</strong>：
+因为当前列是升序的，左下角已经是该列最大的数了（在剩下的范围内），如果连它都比 <code>target</code> 小，说明<strong>这一列所有的数都比 <code>target</code> 小</strong>。
+-&gt; 结论：<strong>排除当前列</strong>，向右移动 (<code>j++</code>)。</li>
+</ul>
+<p>这个过程就像是在遍历一棵<strong>二叉搜索树 (BST)</strong>，左下角就是根节点，往上走是找更小的（类似左子树），往右走是找更大的（类似右子树）。</p>
+<h4 id="算法流程-1">算法流程<a hidden class="anchor" aria-hidden="true" href="#算法流程-1">#</a></h4>
+<ol>
+<li>初始化指针 <code>i</code> 指向最后一行，<code>j</code> 指向第一列。</li>
+<li>循环条件：只要 <code>i</code> 没有超出上边界，且 <code>j</code> 没有超出右边界。</li>
+<li>比较 <code>matrix[i][j]</code> 和 <code>target</code>：
+<ul>
+<li>相等：找到目标，返回 <code>true</code>。</li>
+<li><code>matrix[i][j] &gt; target</code>：<code>i--</code> (往上找小的)。</li>
+<li><code>matrix[i][j] &lt; target</code>：<code>j++</code> (往右找大的)。</li>
+</ul>
+</li>
+<li>如果循环结束还没找到，返回 <code>false</code>。</li>
+</ol>
+<h3 id="代码实现-3">代码实现<a hidden class="anchor" aria-hidden="true" href="#代码实现-3">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">searchMatrix</span>(<span style="color:#a6e22e">matrix</span> [][]<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">target</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 基础边界检查</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">matrix</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> len(<span style="color:#a6e22e">matrix</span>[<span style="color:#ae81ff">0</span>]) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">m</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">matrix</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">matrix</span>[<span style="color:#ae81ff">0</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 从左下角开始搜索</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// i: 行索引，初始化为最后一行</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// j: 列索引，初始化为第一列</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">m</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 只要索引在矩阵范围内，就持续收缩搜索范围</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">n</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">current</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">matrix</span>[<span style="color:#a6e22e">i</span>][<span style="color:#a6e22e">j</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">current</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">target</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 匹配成功</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">current</span> &gt; <span style="color:#a6e22e">target</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 当前值太大，因为该行右侧元素更火，</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 排除当前行，向上移动</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">i</span><span style="color:#f92672">--</span>
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// current &lt; target</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 当前值太小，因为该列上方元素更小，</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 排除当前列，向右移动</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 走出边界还没找到，说明目标不存在</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>复杂度分析</strong></p>
+<ul>
+<li>时间复杂度: $O(M + N)$。在最坏的情况下（比如目标值就在右上角，或者不存在），我们需要从左下角一路走到右上角。每次迭代要么行索引减少，要么列索引增加，最多移动 m + n 次。</li>
+<li>空间复杂度: $O(1)$。只使用了常数个变量作为指针。</li>
 </ul>
 
 
