@@ -123,7 +123,7 @@
     </nav>
 </header>
 <main class="main"> 
-<header class="page-header">
+<header class="page-header"><div class="breadcrumbs"><a href="https://amemiya02.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://amemiya02.github.io/tags/">Tags</a></div>
   <h1>
     O(n)
   </h1>
@@ -147,7 +147,7 @@
 这是整个算法最精妙的地方。如果我们遍历集合中的每一个数，都尝试计算以它开头的序列长度，会有大量重复计算。例如，对于序列 [1, 2, 3, 4]，我们从 1 开始计算了一遍，又会从 2 开始再计算一遍 [2, 3, 4]，这是不必要的。 如何避免重复计算？ 答案是：只从一个连续序列的起点开始计算。 如何判断一个数 num 是不是起点？ 很简单，只要检查 num - 1 是否存在于哈希集合中。如果 num - 1 不存在，那么 num 就是一个潜在的序列起点。如果 num - 1 存在，那么 num 肯定不是起点，我们可以直接跳过它，因为它一定会被 num - 1 开始的计算所覆盖。 计算长度并更新结果
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-09-21 11:03:00 +0900 JST'>September 21, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-09-21 11:03:00 +0900 JST'>September 21, 2025</span>&nbsp;·&nbsp;<span>2 min</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/哈希集合/Middle】LeetCode 128. 最长连续序列" href="https://amemiya02.github.io/posts/2025-09-21-128-longest-consecutive-sequence/"></a>
 </article>
     </main>

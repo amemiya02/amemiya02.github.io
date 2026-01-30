@@ -17,7 +17,12 @@ theme = "PaperMod"
     env = "production"
     math = true
     ShowFullPagination = true
-
+    ShowReadingTime = true
+    ShowShareButtons = true
+    ShowPostNavLinks = true
+    ShowBreadCrumbs = true
+    ShowCodeCopyButtons = true
+    ShowToc = true
     # 个人主页模式
     [params.profileMode]
         enabled = true

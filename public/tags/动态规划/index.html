@@ -123,7 +123,7 @@
     </nav>
 </header>
 <main class="main"> 
-<header class="page-header">
+<header class="page-header"><div class="breadcrumbs"><a href="https://amemiya02.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://amemiya02.github.io/tags/">Tags</a></div>
   <h1>
     动态规划
   </h1>
@@ -151,7 +151,7 @@
 $$ dp[i] = \max(dp[i-1] &#43; \text{nums}[i], \text{nums}[i]) $$空间优化 观察转移方程发现，当前状态 dp[i] 只与前一个状态 dp[i-1] 有关。因此，我们不需要维护一个完整的 dp 数组，只需要用一个变量 pre 来记录&#34;前一个位置的最大子数组和&#34;即可。这也就是代码中 pre 变量的作用。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-01-26 09:00:00 +0900 JST'>January 26, 2026</span></footer>
+  <footer class="entry-footer"><span title='2026-01-26 09:00:00 +0900 JST'>January 26, 2026</span>&nbsp;·&nbsp;<span>5 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 普通数组" href="https://amemiya02.github.io/posts/2026-01-26-array/"></a>
 </article>
 
@@ -174,7 +174,7 @@ $$ dp[i] = \max(dp[i-1] &#43; \text{nums}[i], \text{nums}[i]) $$空间优化 观
 初始化 p 和 q 都指向数组的起始位置 0。 快指针 q 开始向后遍历数组。 当 q 遇到一个非零元素时，说明这个元素需要被保留并放到前面。于是，我们执行两个操作： 将这个非零元素 nums[q] 赋值给慢指针 p 所在的位置 nums[p]。 将慢指针 p 向后移动一位 (p&#43;&#43;)，为下一个非零元素腾出位置。 如果 q 遇到的是 0，则慢指针 p 保持不动，只有快指针 q 继续向后移动。 填充末尾的零：
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-01-24 21:00:00 +0900 JST'>January 24, 2026</span></footer>
+  <footer class="entry-footer"><span title='2026-01-24 21:00:00 +0900 JST'>January 24, 2026</span>&nbsp;·&nbsp;<span>5 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 双指针" href="https://amemiya02.github.io/posts/2026-01-24-two-pointer/"></a>
 </article>
 
@@ -192,7 +192,7 @@ $$ dp[i] = \max(dp[i-1] &#43; \text{nums}[i], \text{nums}[i]) $$空间优化 观
 爬 1 阶楼梯 (n=1): 只有 1 种方法 (1)。 -&gt; $f(1) = 1$ 爬 2 阶楼梯 (n=2): 有 2 种方法 (1&#43;1, 2)。 -&gt; $f(2) = 2$ 爬 3 阶楼梯 (n=3): 有 3 种方法 (1&#43;1&#43;1, 1&#43;2, 2&#43;1)。 -&gt; $f(3) = 3$ 我们思考一下，要想到达第 n 阶，我们的最后一步是怎么迈出去的？
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-09-13 10:40:00 +0900 JST'>September 13, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-09-13 10:40:00 +0900 JST'>September 13, 2025</span>&nbsp;·&nbsp;<span>2 min</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/动态规划】LeetCode 70.爬楼梯" href="https://amemiya02.github.io/posts/2025-09-13-70-climbing-stairs/"></a>
 </article>
     </main>

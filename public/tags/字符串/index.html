@@ -123,7 +123,7 @@
     </nav>
 </header>
 <main class="main"> 
-<header class="page-header">
+<header class="page-header"><div class="breadcrumbs"><a href="https://amemiya02.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://amemiya02.github.io/tags/">Tags</a></div>
   <h1>
     字符串
   </h1>
@@ -148,7 +148,7 @@ magazine 中的每个字符只能在 ransomNote 中使用一次。
 我们可以遍历 magazine 字符串。 由于题目中只包含小写英文字母，我们可以使用一个长度为 26 的整型数组 counts 来充当哈希表，这比使用 HashMap 更高效。数组的索引 c - &#39;a&#39; 对应字符 c。 遍历 magazine 时，将对应字符的计数值加 1。 消耗资源：统计完 magazine 的字符后，我们再遍历 ransomNote，看看我们的资源是否足够。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-09-18 18:18:00 +0900 JST'>September 18, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-09-18 18:18:00 +0900 JST'>September 18, 2025</span>&nbsp;·&nbsp;<span>1 min</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/哈希表 / 数组】LeetCode 383. 赎金信" href="https://amemiya02.github.io/posts/2025-09-18-383-ransom-note/"></a>
 </article>
 
@@ -169,7 +169,7 @@ magazine 中的每个字符只能在 ransomNote 中使用一次。
 我们使用指针 q 遍历主串 t，同时用指针 p 来标记我们当前正在 s 中寻找的字符。 当 p 和 q 都在各自的字符串范围内时，进行循环比较： 如果 s.charAt(p) 与 t.charAt(q) 相等，意味着我们在 t 中找到了 s 的一个字符。接下来我们应该去寻找 s 的下一个字符了，所以将 p 和 q 都向后移动一位 (p&#43;&#43;, q&#43;&#43;)。 如果 s.charAt(p) 与 t.charAt(q) 不相等，说明当前 t 中的这个字符不是我们想要的。我们应该继续在 t 的后续部分寻找 s.charAt(p)，所以只将 q 向后移动一位 (q&#43;&#43;)。 判断结果：
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-09-17 20:13:00 +0900 JST'>September 17, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-09-17 20:13:00 +0900 JST'>September 17, 2025</span>&nbsp;·&nbsp;<span>1 min</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/双指针】LeetCode 392. 判断子序列" href="https://amemiya02.github.io/posts/2025-09-17-392-is-subsequence/"></a>
 </article>
 
@@ -192,7 +192,7 @@ magazine 中的每个字符只能在 ransomNote 中使用一次。
 当左右指针都停留在有效的字母数字字符上时，将它们统一转换为小写进行比较。 如果 Character.toLowerCase(s.charAt(left)) 不等于 Character.toLowerCase(s.charAt(right))，说明字符串不是回文串，可以直接返回 false。 向中心移动：
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-09-16 21:02:00 +0900 JST'>September 16, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-09-16 21:02:00 +0900 JST'>September 16, 2025</span>&nbsp;·&nbsp;<span>1 min</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/双指针】LeetCode 125. 验证回文串" href="https://amemiya02.github.io/posts/2025-09-16-125-valid-palindrome/"></a>
 </article>
     </main>
