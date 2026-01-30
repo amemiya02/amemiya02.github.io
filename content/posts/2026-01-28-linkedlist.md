@@ -732,3 +732,416 @@ func swapPairs(head *ListNode) *ListNode {
 ### 复杂度分析
 - 时间复杂度: $O(n)$。其中 n 是链表的长度，所有方法都需要遍历整个链表一次。
 - 空间复杂度: $O(1)$。
+
+
+## [25. K 个一组翻转链表 - Hard](https://leetcode.cn/problems/reverse-nodes-in-k-group/)
+
+### 题目回顾
+
+> 给你链表的头节点 head ，每 k 个节点一组进行翻转，请你返回修改后的链表。
+> k 是一个正整数，它的值小于或等于链表的长度。如果节点总数不是 k 的整数倍，那么请将最后剩余的节点保持原有顺序。
+>你不能只是单纯的改变节点内部的值，而是需要实际进行节点交换。
+
+### 核心思路
+
+分治思想：将大问题拆解。
+1. 我们复用了之前学过的 reverse 函数来翻转长度为 $k$ 的短链表。
+2. 断开连接 (end.Next = nil)：这是为了让 reverse 函数知道在哪里停止。
+3. 如果不切断，reverse 会一路翻转到整个链表的末尾。
+4. 重新桥接：pre.Next = reverse(start)：让上一组的结尾指向这一组翻转后的新头。
+5. start.Next = nextGroup：让这一组翻转后的新尾（原 start）指向下一组的开头。
+6. 不足 $k$ 个的处理：题目要求不足 $k$ 个保持原样，所以 if end == nil { break } 的判断至关重要。
+
+### 代码实现
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ * Val int
+ * Next *ListNode
+ * }
+ */
+func reverseKGroup(head *ListNode, k int) *ListNode {
+	// 1. 创建虚拟头节点
+	dummy := &ListNode{Next: head}
+	// pre 指向每一组待翻转部分的前驱节点
+	pre := dummy
+	// end 指向每一组待翻转部分的末尾节点
+	end := dummy
+
+	for end.Next != nil {
+		// 2. 尝试向后移动 end 指针 k 次，定位当前组的结尾
+		for i := 0; i < k && end != nil; i++ {
+			end = end.Next
+		}
+		// 如果剩余节点不足 k 个，则不需要翻转，直接结束
+		if end == nil {
+			break
+		}
+
+		// 3. 记录当前组的起始节点和下一组的开头
+		start := pre.Next
+		nextGroup := end.Next
+
+		// 4. 断开当前组与后面部分的连接，以便进行翻转
+		end.Next = nil
+
+		// 5. 翻转当前组，并接回原链表
+		// 翻转后的新头节点接到 pre.Next 上
+		pre.Next = reverse(start)
+		// 翻转后的尾节点（即原 start）接到下一组开头上
+		start.Next = nextGroup
+
+		// 6. 重置 pre 和 end，准备处理下一组
+		pre = start
+		end = pre
+	}
+
+	return dummy.Next
+}
+
+// 辅助函数：翻转一个完整的单链表
+func reverse(head *ListNode) *ListNode {
+	var prev *ListNode
+	curr := head
+	for curr != nil {
+		next := curr.Next
+		curr.Next = prev
+		prev = curr
+		curr = next
+	}
+	return prev
+}
+```
+
+### 复杂度分析
+- 时间复杂度: $O(n)$。其中 n 是链表的长度。
+- 空间复杂度: $O(1)$。
+
+
+## [138. 随机链表的复制 - Mid](https://leetcode.cn/problems/copy-list-with-random-pointer/)
+
+### 题目回顾
+
+> 给你一个长度为 n 的链表，每个节点包含一个额外增加的随机指针 random ，该指针可以指向链表中的任何节点或空节点。
+>构造这个链表的 深拷贝。 深拷贝应该正好由 n 个 全新 节点组成，其中每个新节点的值都设为其对应的原节点的值。新节点的 next 指针和 random 指针也都应指向复制链表中的新节点，并使原链表和复制链表中的这些指针能够表示相同的链表状态。复制链表中的指针都不应指向原链表中的节点 。
+>例如，如果原链表中有 X 和 Y 两个节点，其中 X.random --> Y 。那么在复制链表中对应的两个节点 x 和 y ，同样有 x.random --> y 。
+>返回复制链表的头节点。
+>用一个由 n 个节点组成的链表来表示输入/输出中的链表。每个节点用一个 [val, random_index] 表示：
+>val：一个表示 Node.val 的整数。
+>random_index：随机指针指向的节点索引（范围从 0 到 n-1）；如果不指向任何节点，则为  null 。
+>你的代码 只 接受原链表的头节点 head 作为传入参数。
+
+### 核心思路
+这个算法通过将新旧节点交叉链接，巧妙地解决了 random 指针的定位问题：
+1. 原地克隆 (Interweaving)：我们在每个原节点 $A$ 后面立即插入它的克隆节点 $A'$。这样做的好处是，我们可以通过 $A.Next$ 瞬间找到 $A'$，而不需要任何哈希表映射。
+2. 建立随机链接 (Linking Randoms)：如果 $A.Random$ 指向 $C$，那么显然 $A'.Random$ 应该指向 $C'$。在我们的混合链表中，$C'$ 就在 $C.Next$。所以逻辑就是：cur.Next.Random = cur.Random.Next。
+3. 拆解 (Decoupling)：最后一步类似于“拉链分拣”，我们需要小心地把奇数位置的节点连回原链表，把偶数位置的节点连成结果链表。
+
+### 代码实现
+```go
+/**
+ * Definition for a Node.
+ * type Node struct {
+ * Val int
+ * Next *Node
+ * Random *Node
+ * }
+ */
+
+func copyRandomList(head *Node) *Node {
+	if head == nil {
+		return nil
+	}
+
+	// 1. 复制节点，插入到原节点之后
+	// A -> B -> C  变成  A -> A' -> B -> B' -> C -> C'
+	cur := head
+	for cur != nil {
+		newNode := &Node{
+			Val:  cur.Val,
+			Next: cur.Next,
+		}
+		cur.Next = newNode
+		cur = newNode.Next
+	}
+
+	// 2. 复制 random 指针
+	// 新节点的 random 应该指向原节点 random 的下一个节点（即对应的复制节点）
+	cur = head
+	for cur != nil {
+		if cur.Random != nil {
+			cur.Next.Random = cur.Random.Next
+		}
+		cur = cur.Next.Next
+	}
+
+	// 3. 拆分链表
+	// 将 A -> A' -> B -> B' 恢复为 A -> B 和 A' -> B'
+	cur = head
+	newHead := head.Next
+	copyCur := newHead
+
+	for cur != nil {
+		// 恢复原链表的 Next
+		cur.Next = cur.Next.Next
+		cur = cur.Next
+
+		// 恢复新链表的 Next
+		if cur != nil {
+			copyCur.Next = cur.Next
+			copyCur = copyCur.Next
+		}
+	}
+
+	return newHead
+}
+```
+
+### 复杂度分析
+- 时间复杂度: $O(n)$，其中 n 是链表的长度。
+- 空间复杂度: $O(1)$，我们只使用了常数级别的额外空间。
+
+
+## [148. 排序链表 - Mid](https://leetcode.cn/problems/sort-list/)
+
+### 题目回顾
+
+> 给你链表的头结点 head ，请将其按 升序 排列并返回 排序后的链表 。
+
+
+### 核心思路
+
+归并排序在链表上比在数组上更有优势，因为链表合并只需要修改指针，不需要额外的数组空间。
+
+1. 切分 (Divide)通过快慢指针找到中点。注意点：为了防止死循环（特别是只有两个节点时），我们将 fast 初始化为 head.Next。这样对于两个节点 [4, 2]，slow 会停在 4，我们从 4 后面切断，成功分为 [4] 和 [2]。
+
+2. 递归 (Conquer)不断递归调用直到链表长度为 1（天然有序）。3. 合并 (Merge)将两个有序链表“穿针引线”式地合并。这步的时间复杂度是 $O(n)$。
+
+### 代码实现
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ * Val int
+ * Next *ListNode
+ * }
+ */
+
+func sortList(head *ListNode) *ListNode {
+    // 1. 递归终止条件：节点为空或只有一个节点
+    if head == nil || head.Next == nil {
+        return head
+    }
+
+    // 2. 找到中点并切断链表
+    // 使用快慢指针，注意 fast 从 head.Next 开始，可以确保在偶数节点时 slow 停在前半段末尾
+    slow, fast := head, head.Next
+    for fast != nil && fast.Next != nil {
+        slow = slow.Next
+        fast = fast.Next.Next
+    }
+
+    // tmp 是后半部分的头，断开 slow.Next 以彻底切分
+    mid := slow.Next
+    slow.Next = nil
+
+    // 3. 递归排序左右两半
+    left := sortList(head)
+    right := sortList(mid)
+
+    // 4. 合并两个已排序的链表
+    return merge(left, right)
+}
+
+// 辅助函数：合并两个有序链表（逻辑同 21 题）
+func merge(l1, l2 *ListNode) *ListNode {
+    dummy := &ListNode{}
+    curr := dummy
+
+    for l1 != nil && l2 != nil {
+        if l1.Val < l2.Val {
+            curr.Next = l1
+            l1 = l1.Next
+        } else {
+            curr.Next = l2
+            l2 = l2.Next
+        }
+        curr = curr.Next
+    }
+
+    if l1 != nil {
+        curr.Next = l1
+    } else {
+        curr.Next = l2
+    }
+
+    return dummy.Next
+}
+```
+
+### 复杂度分析
+
+- 时间复杂度: $O(n \log n)$。其中 n 是链表的长度。归并排序的时间复杂度是 $O(n \log n)$。
+- 空间复杂度: $O(\log n)$。递归调用栈的空间复杂度是 $O(\log n)$。
+
+
+## [23. 合并 K 个升序链表 - Hard](https://leetcode.cn/problems/merge-k-sorted-lists/)
+
+### 题目回顾
+给你一个链表数组，每个链表都已经按升序排列。
+
+请你将所有链表合并到一个升序链表中，返回合并后的链表。
+
+### 核心思路
+
+优先队列+多路归并
+
+核心逻辑多路赛马：想象 K 个赛道，每个赛道都已经按速度排好序了。我们只需要每次把每个赛道里最快的那匹马（头节点）拉出来比一下，挑出最快的一匹。
+
+堆的作用：如果我们每次都手动遍历 K 个节点找最小值，时间复杂度是 $O(K \cdot N)$。使用小顶堆，每次获取最小值并重新调整只需 $O(\log K)$。
+
+动态维护：当一个链表的节点被取走后，我们需要立即把它的下一个节点（如果有）补充进堆里，确保堆中始终持有每个链表当前的“领头羊”。
+
+
+### 代码实现(Java)
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        PriorityQueue<ListNode> pq = new PriorityQueue<>((n1,n2)->n1.val-n2.val);
+        int n = lists.length;
+        ListNode newHead = new ListNode();
+        ListNode p = newHead;
+        if (n == 0) {
+            return null;
+        }
+        for (int i = 0; i < n; i++) {
+            if (lists[i] != null) {
+                pq.offer(lists[i]);
+            }
+        }
+
+        while (!pq.isEmpty()) {
+            ListNode node = pq.poll();
+            p.next = node;
+            p = p.next;
+            if (node.next != null) {
+                pq.offer(node.next);
+            }
+        }
+
+        return newHead.next;
+    }
+}
+
+```
+
+### 代码实现(Go)
+
+```go
+
+import "container/heap"
+
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ * Val int
+ * Next *ListNode
+ * }
+ */
+
+// 1. 定义一个类型（切片），用于实现堆接口
+type ListNodeHeap []*ListNode
+
+// 实现 sort.Interface
+func (h ListNodeHeap) Len() int           { return len(h) }
+func (h ListNodeHeap) Less(i, j int) bool { return h[i].Val < h[j].Val }
+func (h ListNodeHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+
+// 实现 heap.Interface 的 Push 和 Pop
+// 注意：Push 和 Pop 必须使用指针接收者，因为它们会修改切片的长度
+func (h *ListNodeHeap) Push(x interface{}) {
+	*h = append(*h, x.(*ListNode))
+}
+
+func (h *ListNodeHeap) Pop() interface{} {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[0 : n-1]
+	return x
+}
+
+func mergeKLists(lists []*ListNode) *ListNode {
+	// 2. 初始化小顶堆
+	h := &ListNodeHeap{}
+	heap.Init(h)
+
+	// 3. 将所有链表的头节点放入堆中
+	for _, l := range lists {
+		if l != nil {
+			heap.Push(h, l)
+		}
+	}
+
+	// 4. 构建新链表
+	dummy := &ListNode{}
+	curr := dummy
+
+	for h.Len() > 0 {
+		// 弹出堆顶（当前最小的节点）
+		node := heap.Pop(h).(*ListNode)
+		curr.Next = node
+		curr = curr.Next
+
+		// 如果该节点还有下一个节点，将其入堆
+		if node.Next != nil {
+			heap.Push(h, node.Next)
+		}
+	}
+
+	return dummy.Next
+}
+```
+
+### 复杂度分析
+- 时间复杂度: `O(N log k)`，其中 N 是所有链表中节点的总数，k 是链表的数量。每个节点都被插入和弹出堆一次，堆操作的时间复杂度是 `O(log k)`。
+- 空间复杂度: `O(k)`，堆中最多存储 k 个节点。
+
+
+## [146. LRU 缓存 - Hard](https://leetcode.cn/problems/lru-cache/)
+
+### 题目回顾
+
+>请你设计并实现一个满足  LRU (最近最少使用) 缓存 约束的数据结构。
+>实现 LRUCache 类：
+>LRUCache(int capacity) 以 正整数 作为容量 capacity 初始化 LRU 缓存
+>int get(int key) 如果关键字 key 存在于缓存中，则返回关键字的值，否则返回 -1 。
+>void put(int key, int value) 如果关键字 key 已经存在，则变更其数据值 value ；如果不存在，则向缓存中插入该组 key-value 。如果插入操作导致关键字数量超过 capacity ，则应该 逐出 最久未使用的关键字。
+>函数 get 和 put 必须以 O(1) 的平均时间复杂度运行。
+
+### 核心思路
+
+1. 为什么用双向链表？如果用单链表，删除一个节点需要找到它的 prev，这需要 $O(n)$ 遍历。而双向链表每个节点都存了 prev，删除操作是真正的 $O(1)$。
+
+2. 哨兵节点 (Dummy Nodes) 的妙用我们在头部和尾部各放一个不存数据的 head 和 tail。好处：在插入和删除节点时，不需要判断 if head == nil 或者 if node == tail，逻辑非常统一，能有效避免复杂的边界 Bug。
+
+3. 操作逻辑Get：在 Map 里找。找不到回 -1；找到了，把该节点从当前位置撕下来，插到 head 后面。Put：Key 已存在：更新值，提到 head。Key 不存在：新建节点插到 head。如果满了，把 tail.prev（最久没用的）删掉，并从 Map 里也删掉。
+
+### 代码实现
+
+- 时间复杂度：Get 和 Put 均为 $O(1)$。Map 查找是常数级，双向链表断开和重连指针也是常数级。
+- 空间复杂度：$O(capacity)$。哈希表和链表最多同时存储 capacity + 2 个节点。
