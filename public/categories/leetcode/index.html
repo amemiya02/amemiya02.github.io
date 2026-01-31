@@ -131,6 +131,21 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 二叉树
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>二叉树 94. 二叉树的中序遍历 - Easy 题目回顾 给定一个二叉树的根节点 root ，返回它的 中序 遍历。
+核心思路 递归或者迭代
+代码实现 /** * Definition for a binary tree node. * type TreeNode struct { * Val int * Left *TreeNode * Right *TreeNode * } */ func inorderTraversal(root *TreeNode) []int { res := []int{} stack := []*TreeNode{} curr := root for curr != nil || len(stack) &gt; 0 { // 1. 一路向左，把所有左孩子入栈 for curr != nil { stack = append(stack, curr) curr = curr.Left } // 2. 弹出栈顶（当前最左的节点） curr = stack[len(stack)-1] stack = stack[:len(stack)-1] // 3. 记录结果 res = append(res, curr.Val) // 4. 转向右子树 curr = curr.Right } return res } 复杂度分析 时间复杂度：$O(N)$，其中 N 是二叉树的节点数。每个节点恰好被访问一次。 空间复杂度：$O(H)$，其中 H 是二叉树的高度。 104. 二叉树的最大深度 - Easy 题目回顾 给定一个二叉树，找出其最大深度。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-31 09:00:00 +0900 JST'>January 31, 2026</span>&nbsp;·&nbsp;<span>3 min</span></footer>
+  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 二叉树" href="https://amemiya02.github.io/posts/2026-01-31-binary-tree/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 链表
     </h2>
   </header>
@@ -152,7 +167,7 @@ pA 走过的路径：链表A的长度 &#43; 链表B的长度 pB 走过的路径�
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2026-01-28 09:00:00 +0900 JST'>January 28, 2026</span>&nbsp;·&nbsp;<span>15 min</span></footer>
-  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 链表" href="https://amemiya02.github.io/posts/2026-01-28-linkedlist/"></a>
+  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 链表" href="https://amemiya02.github.io/posts/2026-01-28-linked-list/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -334,27 +349,6 @@ magazine 中的每个字符只能在 ransomNote 中使用一次。
   </div>
   <footer class="entry-footer"><span title='2025-09-18 18:18:00 +0900 JST'>September 18, 2025</span>&nbsp;·&nbsp;<span>1 min</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/哈希表 / 数组】LeetCode 383. 赎金信" href="https://amemiya02.github.io/posts/2025-09-18-383-ransom-note/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/双指针】LeetCode 392. 判断子序列
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
-字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，&#34;ace&#34;是&#34;abcde&#34;的一个子序列，而&#34;aec&#34;不是）。
-示例：
-输入： s = &#34;abc&#34;, t = &#34;ahbgdc&#34; 输出： true
-输入： s = &#34;axc&#34;, t = &#34;ahbgdc&#34; 输出： false
-核心思路：双指针 这道题的核心是匹配字符，同时要保持相对顺序。这种&#34;按顺序查找&#34;的场景，是双指针大显身手的地方。我们可以使用两个指针，一个指向子序列 s，一个指向主串 t，然后同步向前扫描。
-初始化指针：
-定义指针 p 指向 s 的起始位置 0。 定义指针 q 指向 t 的起始位置 0。 贪心匹配：
-我们使用指针 q 遍历主串 t，同时用指针 p 来标记我们当前正在 s 中寻找的字符。 当 p 和 q 都在各自的字符串范围内时，进行循环比较： 如果 s.charAt(p) 与 t.charAt(q) 相等，意味着我们在 t 中找到了 s 的一个字符。接下来我们应该去寻找 s 的下一个字符了，所以将 p 和 q 都向后移动一位 (p&#43;&#43;, q&#43;&#43;)。 如果 s.charAt(p) 与 t.charAt(q) 不相等，说明当前 t 中的这个字符不是我们想要的。我们应该继续在 t 的后续部分寻找 s.charAt(p)，所以只将 q 向后移动一位 (q&#43;&#43;)。 判断结果：
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-09-17 20:13:00 +0900 JST'>September 17, 2025</span>&nbsp;·&nbsp;<span>1 min</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/双指针】LeetCode 392. 判断子序列" href="https://amemiya02.github.io/posts/2025-09-17-392-is-subsequence/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

@@ -15,8 +15,6 @@ tags: [Go, 链表, 题解]
 >
 > 题目数据 **保证** 整个链式结构中不存在环，并且函数返回结果后，链表必须 **保持其原始结构** 。
 
-![示意图](https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_statement.png)
-
 ### 核心思路
 
 #### 思路0：HashSet去重
