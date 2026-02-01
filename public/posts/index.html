@@ -155,7 +155,7 @@
 代码实现 /** * Definition for a binary tree node. * type TreeNode struct { * Val int * Left *TreeNode * Right *TreeNode * } */ func inorderTraversal(root *TreeNode) []int { res := []int{} stack := []*TreeNode{} curr := root for curr != nil || len(stack) &gt; 0 { // 1. 一路向左，把所有左孩子入栈 for curr != nil { stack = append(stack, curr) curr = curr.Left } // 2. 弹出栈顶（当前最左的节点） curr = stack[len(stack)-1] stack = stack[:len(stack)-1] // 3. 记录结果 res = append(res, curr.Val) // 4. 转向右子树 curr = curr.Right } return res } 复杂度分析 时间复杂度：$O(N)$，其中 N 是二叉树的节点数。每个节点恰好被访问一次。 空间复杂度：$O(H)$，其中 H 是二叉树的高度。 104. 二叉树的最大深度 - Easy 题目回顾 给定一个二叉树，找出其最大深度。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-01-31 09:00:00 +0900 JST'>January 31, 2026</span>&nbsp;·&nbsp;<span>3 min</span></footer>
+  <footer class="entry-footer"><span title='2026-01-31 09:00:00 +0900 JST'>January 31, 2026</span>&nbsp;·&nbsp;<span>7 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 二叉树" href="https://amemiya02.github.io/posts/2026-01-31-binary-tree/"></a>
 </article>
 
