@@ -622,3 +622,364 @@ func rightSideView(root *TreeNode) []int {
 ### 复杂度分析
 - 时间复杂度：$O(N)$，其中 N 是二叉树的节点数。每个节点恰好被访问一次。
 - 空间复杂度：$O(M)$，其中 M 是二叉树的最大宽度（即某一层节点的最大数量）。在最坏情况下，队列中会存储整棵树的一层节点（例如完全二叉树的最后一层）。
+
+
+## [114. 二叉树展开为链表 - Medium](https://leetcode.cn/problems/flatten-binary-tree-to-linked-list/)
+
+### 题目回顾
+
+> 给你二叉树的根节点 `root` ，请你将它展开为一个单链表：
+> - 展开后的单链表应该同样使用 `TreeNode` ，其中 `right` 子指针指向链表中下一个节点，而 `left` 子指针始终为 `null` 。
+> - 展开后的单链表应该与二叉树 **先序遍历** 顺序相同。
+
+### 核心思路
+
+寻找“前驱节点”
+展开后的链表顺序其实就是二叉树的 先序遍历（根 -> 左 -> 右）。
+
+为什么这个逻辑有效？
+先序遍历的性质：在先序遍历中，root 的右子树一定紧跟在左子树的最后一个节点（左子树的最右节点）后面。
+
+原地转移：
+
+我们先找到左子树的“最右节点” pre。
+
+把整个 curr.Right 挪动到 pre.Right。
+
+这时，原来的左子树就可以安全地变成右子树，同时把左边清空。
+
+循环往复：通过 curr = curr.Right 不断向下推进，直到整棵树变成一个细长的“右斜杆”。
+
+除了上述思路外，还有递归的写法。递归的关键在于我们需要从下往上处理节点（即后序遍历的变种），这样才能确保在处理当前节点时，已经处理好了它的右子树和左子树。
+### 代码实现
+
+```go
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ * Val int
+ * Left *TreeNode
+ * Right *TreeNode
+ * }
+ */
+func flatten(root *TreeNode) {
+    curr := root
+    for curr != nil {
+        if curr.Left != nil {
+            // 1. 找到左子树中最右边的节点（即左子树中序遍历的最后一个节点）
+            pre := curr.Left
+            for pre.Right != nil {
+                pre = pre.Right
+            }
+
+            // 2. 将原先的右子树接到左子树最右节点的右边
+            pre.Right = curr.Right
+
+            // 3. 将左子树插到右边，并将左边置空
+            curr.Right = curr.Left
+            curr.Left = nil
+        }
+        // 4. 继续处理下一个右节点
+        curr = curr.Right
+    }
+}
+```
+
+递归写法
+
+```go
+func flatten(root *TreeNode) {
+    var prev *TreeNode
+    var dfs func(*TreeNode)
+    dfs = func(node *TreeNode) {
+        if node == nil {
+            return
+        }
+        // 按照 右 -> 左 -> 根 的顺序倒着处理
+        dfs(node.Right)
+        dfs(node.Left)
+
+        node.Right = prev
+        node.Left = nil
+        prev = node
+    }
+    dfs(root)
+}
+```
+
+### 复杂度分析
+
+- 时间复杂度：$O(N)$，其中 N 是二叉树的节点数。每个节点恰好被访问一次。
+- 空间复杂度：$O(1)$，我们只使用了常数级别的额外空间。递归写法的空间复杂度为 $O(H)$，其中 H 是二叉树的高度。
+
+## [105. 从前序与中序遍历序列构造二叉树 - Medium](https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+
+### 题目回顾
+> 给定两个整数数组 `preorder` 和 `inorder` ，其中 `preorder` 是二叉树的前序遍历，`inorder` 是同一棵树的中序遍历，请你构造并返回这棵二叉树。
+
+### 核心思路
+
+分治策略
+核心步骤：
+确定根节点：从 preorder 数组中按顺序取出元素作为根。
+
+划分区间：在 inorder 数组中找到该根节点的位置 mid。
+
+[inLeft, mid-1] 构成左子树的中序序列。
+
+[mid+1, inRight] 构成右子树的中序序列。
+
+递归填充：
+
+由于前序遍历的顺序是“根-左-右”，我们在递归时必须先调用 build(左区间)，再调用 build(右区间)。
+
+### 代码实现
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ * Val int
+ * Left *TreeNode
+ * Right *TreeNode
+ * }
+ */
+func buildTree(preorder []int, inorder []int) *TreeNode {
+    // 1. 使用 map 存储中序遍历的值与索引的映射，提高查找效率
+    indexMap := make(map[int]int)
+    for i, v := range inorder {
+        indexMap[v] = i
+    }
+
+    // preorderIdx 用于记录当前处理到前序遍历的第几个节点
+    preorderIdx := 0
+
+    // 2. 定义递归函数
+    var build func(inLeft, inRight int) *TreeNode
+    build = func(inLeft, inRight int) *TreeNode {
+        // 如果左边界大于右边界，说明该子树为空
+        if inLeft > inRight {
+            return nil
+        }
+
+        // 前序遍历的第一个节点就是当前的根节点
+        rootVal := preorder[preorderIdx]
+        preorderIdx++
+        root := &TreeNode{Val: rootVal}
+
+        // 在中序遍历中找到根节点的索引，以此划分左右子树
+        mid := indexMap[rootVal]
+
+        // 3. 递归构造左右子树
+        // 注意：必须先构造左子树，因为前序遍历中根节点后面紧跟的是左子树
+        root.Left = build(inLeft, mid-1)
+        root.Right = build(mid+1, inRight)
+
+        return root
+    }
+
+    return build(0, len(inorder)-1)
+}
+```
+### 复杂度分析
+- 时间复杂度：$O(N)$，其中 N 是二叉树的节点数。每个节点恰好被访问一次。
+- 空间复杂度：$O(N)$，用于存储中序遍历的值与索引的映射，以及递归调用栈的空间。
+
+## [437. 路径总和 III - Medium](https://leetcode.cn/problems/path-sum-iii/)
+
+### 题目回顾
+> 给定一个二叉树的根节点 `root` ，和一个整数目标和 `targetSum` ，求该二叉树中 **和为目标和** 的路径数
+
+### 核心思路
+前缀和在树的路径中，如果“根节点到当前节点 A”的路径和为 $S_1$，
+而“根节点到其祖先节点 B”的路径和为 $S_2$，那么 B 到 A 的路径和 就是 $S_1 - S_2$。
+我们要找的是 $S_1 - S_2 = targetSum$，即在当前路径的祖先节点中，
+有多少个节点的前缀和等于 $S_1 - targetSum$。
+
+### 代码实现
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ * Val int
+ * Left *TreeNode
+ * Right *TreeNode
+ * }
+ */
+func pathSum(root *TreeNode, targetSum int) int {
+	// prefixSumMap 存储从根节点开始的路径和及其出现的次数
+	// key: 前缀和, value: 出现次数
+	prefixSumMap := make(map[int64]int)
+
+	// 初始化：前缀和为 0 的路径默认有 1 条（代表从根节点开始的路径）
+	prefixSumMap[0] = 1
+
+	return dfs(root, 0, int64(targetSum), prefixSumMap)
+}
+
+func dfs(node *TreeNode, currSum int64, target int64, prefixSumMap map[int64]int) int {
+	if node == nil {
+		return 0
+	}
+
+	// 1. 更新当前路径和
+	currSum += int64(node.Val)
+
+	// 2. 检查是否存在满足条件的前缀和
+	// currSum - target = 祖先节点的前缀和
+	count := prefixSumMap[currSum-target]
+
+	// 3. 将当前前缀和加入 map，供子节点使用
+	prefixSumMap[currSum]++
+
+	// 4. 递归处理左右子树
+	count += dfs(node.Left, currSum, target, prefixSumMap)
+	count += dfs(node.Right, currSum, target, prefixSumMap)
+
+	// 5. 回溯：在返回父节点前，移除当前节点的前缀和
+	// 这是为了防止“左子树”的前缀和影响到“右子树”的路径计算
+	prefixSumMap[currSum]--
+
+	return count
+}
+```
+### 复杂度分析
+- 时间复杂度：$O(N)$，其中 N 是二叉树的节点数。每个节点恰好被访问一次。
+- 空间复杂度：$O(N)$，用于存储前缀和的哈希表，以及递归调用栈的空间。
+
+
+## [236. 二叉树的最近公共祖先 - Medium](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/)
+
+### 题目回顾
+
+> 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
+
+### 核心思路
+三种情况的博弈我们在递归回溯的过程中，
+
+left 和 right 的含义是：在该子树中找到的 $p$ 或 $q$（或者它们的公共祖先）。
+
+
+- 左右逢源：如果 left 和 right 同时不为空，说明 $p$ 和 $q$ 分别分布在当前节点的左右子树中，那么当前节点 root 必然是 LCA。
+
+- 一侧全包：如果一边为空，另一边不为空，说明 $p$ 和 $q$ 都在不为空的那一侧。此时我们继续向上返回那个不为空的节点。
+
+- 空手而归：如果两边都为空，说明这棵子树里既没有 $p$ 也没有 $q$，返回 nil。为什么 root == p || root == q 时直接返回？这是一个巧妙的提前阻断。如果我们在某个节点遇到了 $p$，即使 $q$ 在 $p$ 的子树下面，根据 LCA 的定义，$p$ 本身就是它们的最近公共祖先。所以我们不需要再往下找了，直接把 $p$ 向上返回即可。
+
+
+### 代码实现
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ * Val   int
+ * Left  *TreeNode
+ * Right *TreeNode
+ * }
+ */
+func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+    // 1. 基准情况：如果节点为空，或者找到了 p 或 q，直接返回当前节点
+    if root == nil || root == p || root == q {
+        return root
+    }
+
+    // 2. 递归在左右子树中寻找 p 和 q
+    left := lowestCommonAncestor(root.Left, p, q)
+    right := lowestCommonAncestor(root.Right, p, q)
+
+    // 3. 根据左右子树的返回值进行逻辑判断：
+
+    // 如果左子树没找到，说明 p 和 q 都在右子树，返回右子树的结果
+    if left == nil {
+        return right
+    }
+
+    // 如果右子树没找到，说明都在左子树，返回左子树的结果
+    if right == nil {
+        return left
+    }
+
+    // 如果左、右子树都各找到了一个（都不为 nil），
+    // 说明当前 root 就是它们分叉的地方，即最近公共祖先
+    return root
+}
+```
+### 复杂度分析
+- 时间复杂度：$O(N)$，其中 N 是二叉树的节点数。每个节点恰好被访问一次。
+- 空间复杂度：$O(H)$，其中 H 是二叉树的高度。递归调用栈的最大深度为 H。
+
+## [124. 二叉树中的最大路径和 - Hard](https://leetcode.cn/problems/binary-tree-maximum-path-sum/)
+
+### 题目回顾
+> 给你一个二叉树的根节点 `root` ，返回其 最大路径和 。
+> 二叉树中的 路径 被定义为一条节点序列，序列中每对相邻节点之间都存在一条边。同一个节点在一条路径序列中 至多出现一次 。该路径 至少包含一个 节点，且不一定经过根节点。
+> 路径和 是路径中各节点值的总和。
+> 给你一个二叉树的根节点 root ，返回其 最大路径和 。
+
+
+### 核心思路
+
+单边贡献 vs. 完整路径
+
+1. 概念区分完整路径 (Current PathSum)：以当前节点为“转折点”的路径，即 leftGain + node.Val + rightGain。我们用它来更新全局的 maxSum。单边贡献 (Gain)：当前节点向上级汇报的值。由于路径不能有分叉，所以汇报给父节点时，只能选 node.Val + leftGain 或 node.Val + rightGain。
+
+2. 负数处理（贪心）如果某个子树的路径和算出来是 $-5$，那么根节点加上它只会让结果变小。此时 max(0, gain) 的逻辑就会起作用，将其视为 $0$，相当于“斩断”了通往该子树的路径。
+
+### 代码实现
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ * Val int
+ * Left *TreeNode
+ * Right *TreeNode
+ * }
+ */
+import "math"
+
+func maxPathSum(root *TreeNode) int {
+    // 初始化为最小整数，防止树中全是负数
+    maxSum := math.MinInt32
+
+    var gain func(*TreeNode) int
+    gain = func(node *TreeNode) int {
+        if node == nil {
+            return 0
+        }
+
+        // 1. 递归计算左右子树能提供的最大贡献
+        // 如果贡献是负数，我们直接取 0（表示不经过该子树）
+        leftGain := max(0, gain(node.Left))
+        rightGain := max(0, gain(node.Right))
+
+        // 2. 计算经过当前节点的最大路径和（左 + 根 + 右）
+        // 并尝试更新全局最大值
+        currentPathSum := node.Val + leftGain + rightGain
+        if currentPathSum > maxSum {
+            maxSum = currentPathSum
+        }
+
+        // 3. 返回该节点能提供给父节点的最大单侧路径
+        // 因为路径不能分支，所以只能选左或右其中一条
+        return node.Val + max(leftGain, rightGain)
+    }
+
+    gain(root)
+    return maxSum
+}
+
+// 辅助函数：返回两个整数中的较大值
+func max(a, b int) int {
+    if a > b {
+        return a
+    }
+    return b
+}
+```
+### 复杂度分析
+- 时间复杂度：$O(N)$，其中 N 是二叉树的节点数。每个节点恰好被访问一次。
+- 空间复杂度：$O(H)$，其中 H 是二叉树的高度。递归调用栈的最大深度为 H。
