@@ -146,6 +146,41 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 回溯
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>回溯 46. 全排列 - Medium 题目回顾 给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。你可以 按任意顺序 返回答案。
+核心思路 回溯算法可以抽象为一个决策树的遍历过程：
+路径与选择列表 路径 (Path)：已经做出的选择（代码中的 path）。 选择列表 (Used)：当前还可以做的选择（代码中的 !used[i]）。
+终止条件 当到达叶子节点（len(path) == len(nums)），说明找到了一组完整的排列。
+撤销选择 (Backtrack) 这是最关键的一步。在递归返回后，我们需要把最后加入 path 的元素弹出，并将 used 标记改回 false。这就像是在走迷宫时，发现死胡同后退回到上一个分叉口。
+代码实现 func permute(nums []int) [][]int { var res [][]int path := []int{} used := make([]bool, len(nums)) var backtrack func() backtrack = func() { // 终止条件：路径长度等于数组长度 if len(path) == len(nums) { // 注意：Go 中切片是引用传递，必须进行拷贝 temp := make([]int, len(path)) copy(temp, path) res = append(res, temp) return } for i := 0; i &lt; len(nums); i&#43;&#43; { // 如果该数字已经用过，跳过 if used[i] { continue } // 1. 做选择 used[i] = true path = append(path, nums[i]) // 2. 递归进入下一层 backtrack() // 3. 撤销选择（回溯） path = path[:len(path)-1] used[i] = false } } backtrack() return res } 复杂度分析 时间复杂度：O(n * n!)，其中 n 是数组的长度。全排列的数量是 n!，每个排列需要 O(n) 的时间来构建和复制到结果中。 空间复杂度：O(n)，用于存储递归栈和路径。 </p>
+  </div>
+  <footer class="entry-footer"><span title='2026-02-03 09:01:00 +0900 JST'>February 3, 2026</span>&nbsp;·&nbsp;<span>1 min</span></footer>
+  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 回溯" href="https://amemiya02.github.io/posts/2026-02-03-backtracking/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 图论
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>图论 200. 岛屿数量 - Mid 题目回顾 给你一个由 ‘1’（陆地）和 ‘0’（水）组成的二维网格，请你计算网格中岛屿的数量。岛屿总是被水包围，并且每座岛屿只能由水平方向和竖直方向上相邻的陆地连接形成。你可以假设网格的四个边均被水包围。
+核心思路 扫描：像扫描仪一样遍历每一个格点。
+触发搜索：遇到 ‘1’ 时，说明找到了一个岛屿。
+消除影响：为了不重复计算同一个岛屿，必须在发现它的瞬间，通过 DFS 把这个岛屿所有的土地全部标记为 ‘0’。这就像是在地图上把发现的岛屿“涂黑”。
+计数：触发 DFS 的次数，就是岛屿的总数。
+代码实现 func numIslands(grid [][]byte) int { if len(grid) == 0 { return 0 } m, n := len(grid), len(grid[0]) count := 0 // 遍历整个网格 for i := 0; i &lt; m; i&#43;&#43; { for j := 0; j &lt; n; j&#43;&#43; { // 如果发现陆地 if grid[i][j] == &#39;1&#39; { dfs(grid, i, j) // 发现一个岛屿，计数加 1 count&#43;&#43; } } } return count } func dfs(grid [][]byte, i, j int) { m, n := len(grid), len(grid[0]) // 越界检查或遇到水（&#39;0&#39;），直接返回 if i &lt; 0 || i &gt;= m || j &lt; 0 || j &gt;= n || grid[i][j] == &#39;0&#39; { return } // 标记当前陆地已被访问（淹没），防止死循环 grid[i][j] = &#39;0&#39; // 向四个方向扩散 dfs(grid, i&#43;1, j) // 下 dfs(grid, i-1, j) // 上 dfs(grid, i, j&#43;1) // 右 dfs(grid, i, j-1) // 左 } 复杂度分析 时间复杂度：$O(M * N)$，其中 M 和 N 分别是网格的行数和列数。每个格点最多被访问一次。 空间复杂度：$O(M * N)$，在最坏情况下，递归栈的深度可能达到 M * N。 994. 腐烂的橘子 - Mid 题目回顾 在给定的网格中，每个单元格可以有以下三个值之一：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-02-03 09:00:00 +0900 JST'>February 3, 2026</span>&nbsp;·&nbsp;<span>4 min</span></footer>
+  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 图论" href="https://amemiya02.github.io/posts/2026-02-03-graph/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 二叉树
     </h2>
   </header>
@@ -319,51 +354,6 @@ $$ dp[i] = \max(dp[i-1] &#43; \text{nums}[i], \text{nums}[i]) $$空间优化 观
   </div>
   <footer class="entry-footer"><span title='2026-01-24 19:00:00 +0900 JST'>January 24, 2026</span>&nbsp;·&nbsp;<span>3 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 哈希" href="https://amemiya02.github.io/posts/2026-01-24-hash/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/哈希集合/Middle】LeetCode 128. 最长连续序列
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。
-请你设计并实现时间复杂度为 O(n) 的算法解决此问题。
-示例 1：
-输入： nums = [100,4,200,1,3,2] 输出： 4 解释： 最长数字连续序列是 [1, 2, 3, 4]。它的长度为 4。
-核心思路：哈希集合 &#43; 智能枚举 这道题最核心的要求是 O(n) 的时间复杂度，这意味着我们不能使用排序 $O(nlogn)$。
-要实现 O(n)，关键在于快速查找某个数是否存在。这让我们自然而然地想到了哈希表。我们可以用一个哈希集合 (HashSet) 来优化查找过程。
-这题的关键是找出序列起点来剪枝
-空间换时间，初始化哈希集合
-创建一个 HashSet，并将数组 nums 中的所有元素都添加进去。 这一步有两个目的：一是方便后续以 $O(1)$ 的时间复杂度快速查找某个数是否存在；二是自动处理了数组中的重复元素。 智能遍历，只从序列的起点开始计算
-这是整个算法最精妙的地方。如果我们遍历集合中的每一个数，都尝试计算以它开头的序列长度，会有大量重复计算。例如，对于序列 [1, 2, 3, 4]，我们从 1 开始计算了一遍，又会从 2 开始再计算一遍 [2, 3, 4]，这是不必要的。 如何避免重复计算？ 答案是：只从一个连续序列的起点开始计算。 如何判断一个数 num 是不是起点？ 很简单，只要检查 num - 1 是否存在于哈希集合中。如果 num - 1 不存在，那么 num 就是一个潜在的序列起点。如果 num - 1 存在，那么 num 肯定不是起点，我们可以直接跳过它，因为它一定会被 num - 1 开始的计算所覆盖。 计算长度并更新结果
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-09-21 11:03:00 +0900 JST'>September 21, 2025</span>&nbsp;·&nbsp;<span>2 min</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/哈希集合/Middle】LeetCode 128. 最长连续序列" href="https://amemiya02.github.io/posts/2025-09-21-128-longest-consecutive-sequence/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/哈希表 / 数组】LeetCode 383. 赎金信
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给你两个字符串：ransomNote 和 magazine ，判断 ransomNote 能不能由 magazine 里面的字符构成。
-如果可以，返回 true ；否则返回 false 。
-magazine 中的每个字符只能在 ransomNote 中使用一次。
-示例 1：
-输入： ransomNote = &#34;a&#34;, magazine = &#34;b&#34; 输出： false
-示例 2：
-输入： ransomNote = &#34;aa&#34;, magazine = &#34;aab&#34; 输出： true
-核心思路：字符计数 这道题的本质是判断 magazine 字符串中的字符数量，是否足够&#34;支付&#34; ransomNote 中所需的字符数量。字符的顺序无关紧要，我们只关心每个字符的可用频率。
-这是一个典型的哈希表或频率统计问题。
-统计资源：首先，我们需要清点我们拥有的&#34;资源&#34;，即 magazine 中每个字符的数量。
-我们可以遍历 magazine 字符串。 由于题目中只包含小写英文字母，我们可以使用一个长度为 26 的整型数组 counts 来充当哈希表，这比使用 HashMap 更高效。数组的索引 c - &#39;a&#39; 对应字符 c。 遍历 magazine 时，将对应字符的计数值加 1。 消耗资源：统计完 magazine 的字符后，我们再遍历 ransomNote，看看我们的资源是否足够。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-09-18 18:18:00 +0900 JST'>September 18, 2025</span>&nbsp;·&nbsp;<span>1 min</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/哈希表 / 数组】LeetCode 383. 赎金信" href="https://amemiya02.github.io/posts/2025-09-18-383-ransom-note/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
