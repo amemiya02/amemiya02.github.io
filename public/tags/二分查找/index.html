@@ -123,7 +123,7 @@
     </nav>
 </header>
 <main class="main"> 
-<header class="page-header">
+<header class="page-header"><div class="breadcrumbs"><a href="https://amemiya02.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://amemiya02.github.io/tags/">Tags</a></div>
   <h1>
     二分查找
   </h1>
@@ -131,24 +131,19 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/矩阵】LeetCode 240. 搜索二维矩阵 II
+    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 二分查找
     </h2>
   </header>
   <div class="entry-content">
-    <p>题目回顾 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target 。该矩阵具有以下特性：
-每行的元素从左到右升序排列。 每列的元素从上到下升序排列。 示例 1：
-输入： matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5 输出： true
-示例 2：
-输入： matrix = ... (同上), target = 20 输出： false
-核心思路：抽象 BST (从角落出发) 如果把矩阵的每一个位置看作一个节点，我们要利用&#34;行有序&#34;和&#34;列有序&#34;这两个条件来快速缩小查找范围。
-如果我们从左上角出发，当前值小于 target 时，我们既可以向右走（变大），也可以向下走（变大），这就产生了歧义，无法确定唯一的搜索方向。
-但是，如果我们选择左下角（或者右上角）作为起点，情况就完全不同了。
-以左下角 (m-1, 0) 为例：
-当前值 &gt; target： 因为当前行是升序的，左下角已经是该行最小的数了，如果连它都比 target 大，说明这一行所有的数都比 target 大。 -&gt; 结论：排除当前行，向上移动 (i--)。 当前值 &lt; target： 因为当前列是升序的，左下角已经是该列最大的数了（在剩下的范围内），如果连它都比 target 小，说明这一列所有的数都比 target 小。 -&gt; 结论：排除当前列，向右移动 (j&#43;&#43;)。 这个过程就像是在遍历一棵二叉搜索树 (BST)，左下角就是根节点，往上走是找更小的（类似左子树），往右走是找更大的（类似右子树）。
+    <p>二分查找 35. 搜索插入位置 - Easy 题目回顾 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。 请必须使用时间复杂度为 $O(log n)$ 的算法。
+核心思路 为什么最后返回 left？ 当循环 left &lt;= right 结束时，必然满足 left &gt; right。 如果 target 大于数组中所有元素，left 会一直右移直到 len(nums)。
+如果 target 小于数组中所有元素，right 会一直左移，最后 left 停在 0。
+在中间某处没找到时，left 最终会停在第一个大于 target 的元素位置上，这正是插入点。
+防止溢出的写法 在 Go（以及其他语言）中，写 mid = (left &#43; right) / 2 在 left 和 right 很大时可能导致整数溢出。使用 mid = left &#43; (right-left)/2 是一种更健壮、更地道的写法。 代码实现 func searchInsert(nums []int, target int) int { left := 0 right := len(nums) - 1 for left &lt;= right { // 使用这种方式防止 (left &#43; right) 溢出 mid := left &#43; (right-left)/2 if nums[mid] == target { // 找到目标值，直接返回索引 return mid } else if nums[mid] &lt; target { // 目标值在右半部分，更新左边界 left = mid &#43; 1 } else { // 目标值在左半部分，更新右边界 right = mid - 1 } } // 如果循环结束未找到，left 指向的正是它应该被插入的位置 return left } 复杂度分析 时间复杂度：$O(log n)$，每次迭代将搜索空间减半。 空间复杂度：$O(1)$，只使用了常数级别的额外空间。 74. 搜索二维矩阵 - Medium 题目回顾 编写一个高效的算法来判断 m x n 矩阵中，是否存在一个目标值。该矩阵具有以下特性：
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-01-02 23:00:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/矩阵】LeetCode 240. 搜索二维矩阵 II" href="https://amemiya02.github.io/posts/2026-01-02-240-search-a-2d-matrix-ii/"></a>
+  <footer class="entry-footer"><span title='2026-02-05 08:00:00 +0900 JST'>February 5, 2026</span>&nbsp;·&nbsp;<span>3 min</span></footer>
+  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 二分查找" href="https://amemiya02.github.io/posts/2026-02-05-binary-search/"></a>
 </article>
     </main>
     

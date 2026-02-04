@@ -6,8 +6,67 @@
     <description>Recent content in 算法 on 个人技术博客</description>
     <generator>Hugo -- 0.154.1</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 03 Feb 2026 09:01:00 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 05 Feb 2026 08:00:00 +0900</lastBuildDate>
     <atom:link href="https://amemiya02.github.io/categories/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Golang] LeetCode 热题 100 - 二分查找</title>
+      <link>https://amemiya02.github.io/posts/2026-02-05-binary-search/</link>
+      <pubDate>Thu, 05 Feb 2026 08:00:00 +0900</pubDate>
+      <guid>https://amemiya02.github.io/posts/2026-02-05-binary-search/</guid>
+      <description>&lt;h1 id=&#34;二分查找&#34;&gt;二分查找&lt;/h1&gt;
+&lt;h2 id=&#34;35-搜索插入位置---easy&#34;&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/search-insert-position/&#34;&gt;35. 搜索插入位置 - Easy&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
+请必须使用时间复杂度为 $O(log n)$ 的算法。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;核心思路&#34;&gt;核心思路&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;为什么最后返回 left？
+当循环 left &amp;lt;= right 结束时，必然满足 left &amp;gt; right。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;如果 target 大于数组中所有元素，left 会一直右移直到 len(nums)。&lt;/p&gt;
+&lt;p&gt;如果 target 小于数组中所有元素，right 会一直左移，最后 left 停在 0。&lt;/p&gt;
+&lt;p&gt;在中间某处没找到时，left 最终会停在第一个大于 target 的元素位置上，这正是插入点。&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;防止溢出的写法
+在 Go（以及其他语言）中，写 mid = (left + right) / 2 在 left 和 right 很大时可能导致整数溢出。使用 mid = left + (right-left)/2 是一种更健壮、更地道的写法。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;代码实现&#34;&gt;代码实现&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;searchInsert&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt; []&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;target&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;left&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;right&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; len(&lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;left&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;right&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// 使用这种方式防止 (left + right) 溢出&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;mid&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;left&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;right&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;left&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;mid&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;target&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// 找到目标值，直接返回索引&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;mid&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;mid&lt;/span&gt;] &amp;lt; &lt;span style=&#34;color:#a6e22e&#34;&gt;target&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// 目标值在右半部分，更新左边界&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a6e22e&#34;&gt;left&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;mid&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// 目标值在左半部分，更新右边界&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a6e22e&#34;&gt;right&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;mid&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 如果循环结束未找到，left 指向的正是它应该被插入的位置&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;left&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;复杂度分析&#34;&gt;复杂度分析&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;时间复杂度：$O(log n)$，每次迭代将搜索空间减半。&lt;/li&gt;
+&lt;li&gt;空间复杂度：$O(1)$，只使用了常数级别的额外空间。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;74-搜索二维矩阵---medium&#34;&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/search-a-2d-matrix/&#34;&gt;74. 搜索二维矩阵 - Medium&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;题目回顾-1&#34;&gt;题目回顾&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;编写一个高效的算法来判断 m x n 矩阵中，是否存在一个目标值。该矩阵具有以下特性：&lt;/p&gt;</description>
+    </item>
     <item>
       <title>[Golang] LeetCode 热题 100 - 回溯</title>
       <link>https://amemiya02.github.io/posts/2026-02-03-backtracking/</link>

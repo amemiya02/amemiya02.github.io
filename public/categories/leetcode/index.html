@@ -131,6 +131,23 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 二分查找
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>二分查找 35. 搜索插入位置 - Easy 题目回顾 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。 请必须使用时间复杂度为 $O(log n)$ 的算法。
+核心思路 为什么最后返回 left？ 当循环 left &lt;= right 结束时，必然满足 left &gt; right。 如果 target 大于数组中所有元素，left 会一直右移直到 len(nums)。
+如果 target 小于数组中所有元素，right 会一直左移，最后 left 停在 0。
+在中间某处没找到时，left 最终会停在第一个大于 target 的元素位置上，这正是插入点。
+防止溢出的写法 在 Go（以及其他语言）中，写 mid = (left &#43; right) / 2 在 left 和 right 很大时可能导致整数溢出。使用 mid = left &#43; (right-left)/2 是一种更健壮、更地道的写法。 代码实现 func searchInsert(nums []int, target int) int { left := 0 right := len(nums) - 1 for left &lt;= right { // 使用这种方式防止 (left &#43; right) 溢出 mid := left &#43; (right-left)/2 if nums[mid] == target { // 找到目标值，直接返回索引 return mid } else if nums[mid] &lt; target { // 目标值在右半部分，更新左边界 left = mid &#43; 1 } else { // 目标值在左半部分，更新右边界 right = mid - 1 } } // 如果循环结束未找到，left 指向的正是它应该被插入的位置 return left } 复杂度分析 时间复杂度：$O(log n)$，每次迭代将搜索空间减半。 空间复杂度：$O(1)$，只使用了常数级别的额外空间。 74. 搜索二维矩阵 - Medium 题目回顾 编写一个高效的算法来判断 m x n 矩阵中，是否存在一个目标值。该矩阵具有以下特性：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-02-05 08:00:00 +0900 JST'>February 5, 2026</span>&nbsp;·&nbsp;<span>3 min</span></footer>
+  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 二分查找" href="https://amemiya02.github.io/posts/2026-02-05-binary-search/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 回溯
     </h2>
   </header>
@@ -143,7 +160,7 @@
 代码实现 func permute(nums []int) [][]int { var res [][]int path := []int{} used := make([]bool, len(nums)) var backtrack func() backtrack = func() { // 终止条件：路径长度等于数组长度 if len(path) == len(nums) { // 注意：Go 中切片是引用传递，必须进行拷贝 temp := make([]int, len(path)) copy(temp, path) res = append(res, temp) return } for i := 0; i &lt; len(nums); i&#43;&#43; { // 如果该数字已经用过，跳过 if used[i] { continue } // 1. 做选择 used[i] = true path = append(path, nums[i]) // 2. 递归进入下一层 backtrack() // 3. 撤销选择（回溯） path = path[:len(path)-1] used[i] = false } } backtrack() return res } 复杂度分析 时间复杂度：$O(n * n!)$，其中 n 是数组的长度。全排列的数量是 n!，每个排列需要 O(n) 的时间来构建和复制到结果中。 空间复杂度：$O(n)$，用于存储递归栈和路径。 78. 子集 - Medium 题目回顾 给你一个整数数组 nums ，数组中的元素 互不相同 。返回该数组所有可能的子集（幂集）。解集 不能 包含重复的子集。你可以按 任意顺序 返回解集。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-02-03 09:01:00 +0900 JST'>February 3, 2026</span>&nbsp;·&nbsp;<span>5 min</span></footer>
+  <footer class="entry-footer"><span title='2026-02-03 09:01:00 +0900 JST'>February 3, 2026</span>&nbsp;·&nbsp;<span>8 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 回溯" href="https://amemiya02.github.io/posts/2026-02-03-backtracking/"></a>
 </article>
 
@@ -317,29 +334,6 @@ $$ dp[i] = \max(dp[i-1] &#43; \text{nums}[i], \text{nums}[i]) $$空间优化 观
   </div>
   <footer class="entry-footer"><span title='2026-01-24 21:00:00 +0900 JST'>January 24, 2026</span>&nbsp;·&nbsp;<span>5 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 双指针" href="https://amemiya02.github.io/posts/2026-01-24-two-pointer/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 哈希
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>哈希 1. 两数之和 - Easy 题目回顾 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target 的那 两个 整数，并返回它们的数组下标。
-你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。
-你可以按任意顺序返回答案。
-示例 1：
-输入： nums = [2,7,11,15], target = 9 输出： [0,1] 解释： 因为 nums[0] &#43; nums[1] == 9 ，返回 [0, 1] 。
-核心思路：用空间换时间 作为 LeetCode 的开篇之作，这道题完美地诠释了如何通过&#34;空间换时间&#34;的思想来优化算法。
-暴力解法的瓶颈在于&#34;寻找另一个数&#34;的过程太慢。对于每个 nums[i]，我们都需要在数组中寻找是否存在一个数 target - nums[i]。这个寻找过程能否被加速呢？
-答案是肯定的，哈希表提供了近乎 $O(1)$ 的查找效率。
-我们可以使用一个哈希表（HashMap）来存储已经遍历过的数字及其对应的索引，即 Map&lt;数值, 索引&gt;。
-具体的算法流程如下：
-创建一个空的哈希表 map。 遍历 nums 数组，对于当前的元素 nums[i]： a. 计算我们需要寻找的&#34;另一半&#34;：complement = target - nums[i]。 b. 在哈希表中查找 complement 是否存在。 如果存在，说明我们找到了解！complement 的索引已经存在 map 中，当前元素的索引是 i。我们立即返回 [map.get(complement), i]。 如果不存在，说明到目前为止还没遇到能和 nums[i] 配对的数。我们将当前数字和它的索引存入哈希表 map.put(nums[i], i)，以便后续的元素能用它来配对。 遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。 这个&#34;一边遍历，一边查找，一边插入&#34;的单遍哈希表解法，非常巧妙地在一次循环中完成了所有工作。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-24 19:00:00 +0900 JST'>January 24, 2026</span>&nbsp;·&nbsp;<span>3 min</span></footer>
-  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 哈希" href="https://amemiya02.github.io/posts/2026-01-24-hash/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
