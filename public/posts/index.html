@@ -155,9 +155,10 @@
 路径与选择列表 路径 (Path)：已经做出的选择（代码中的 path）。 选择列表 (Used)：当前还可以做的选择（代码中的 !used[i]）。
 终止条件 当到达叶子节点（len(path) == len(nums)），说明找到了一组完整的排列。
 撤销选择 (Backtrack) 这是最关键的一步。在递归返回后，我们需要把最后加入 path 的元素弹出，并将 used 标记改回 false。这就像是在走迷宫时，发现死胡同后退回到上一个分叉口。
-代码实现 func permute(nums []int) [][]int { var res [][]int path := []int{} used := make([]bool, len(nums)) var backtrack func() backtrack = func() { // 终止条件：路径长度等于数组长度 if len(path) == len(nums) { // 注意：Go 中切片是引用传递，必须进行拷贝 temp := make([]int, len(path)) copy(temp, path) res = append(res, temp) return } for i := 0; i &lt; len(nums); i&#43;&#43; { // 如果该数字已经用过，跳过 if used[i] { continue } // 1. 做选择 used[i] = true path = append(path, nums[i]) // 2. 递归进入下一层 backtrack() // 3. 撤销选择（回溯） path = path[:len(path)-1] used[i] = false } } backtrack() return res } 复杂度分析 时间复杂度：$O(n * n!)$，其中 n 是数组的长度。全排列的数量是 n!，每个排列需要 O(n) 的时间来构建和复制到结果中。 空间复杂度：$O(n)$，用于存储递归栈和路径。 </p>
+代码实现 func permute(nums []int) [][]int { var res [][]int path := []int{} used := make([]bool, len(nums)) var backtrack func() backtrack = func() { // 终止条件：路径长度等于数组长度 if len(path) == len(nums) { // 注意：Go 中切片是引用传递，必须进行拷贝 temp := make([]int, len(path)) copy(temp, path) res = append(res, temp) return } for i := 0; i &lt; len(nums); i&#43;&#43; { // 如果该数字已经用过，跳过 if used[i] { continue } // 1. 做选择 used[i] = true path = append(path, nums[i]) // 2. 递归进入下一层 backtrack() // 3. 撤销选择（回溯） path = path[:len(path)-1] used[i] = false } } backtrack() return res } 复杂度分析 时间复杂度：$O(n * n!)$，其中 n 是数组的长度。全排列的数量是 n!，每个排列需要 O(n) 的时间来构建和复制到结果中。 空间复杂度：$O(n)$，用于存储递归栈和路径。 78. 子集 - Medium 题目回顾 给你一个整数数组 nums ，数组中的元素 互不相同 。返回该数组所有可能的子集（幂集）。解集 不能 包含重复的子集。你可以按 任意顺序 返回解集。
+...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-02-03 09:01:00 +0900 JST'>February 3, 2026</span>&nbsp;·&nbsp;<span>1 min</span></footer>
+  <footer class="entry-footer"><span title='2026-02-03 09:01:00 +0900 JST'>February 3, 2026</span>&nbsp;·&nbsp;<span>5 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 回溯" href="https://amemiya02.github.io/posts/2026-02-03-backtracking/"></a>
 </article>
 
