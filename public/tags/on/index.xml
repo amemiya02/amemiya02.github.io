@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>O(n) on 个人技术博客</title>
-    <link>http://localhost:1313/tags/on/</link>
+    <link>https://amemiya02.github.io/tags/on/</link>
     <description>Recent content in O(n) on 个人技术博客</description>
     <generator>Hugo -- 0.154.1</generator>
     <language>zh-CN</language>
     <lastBuildDate>Sun, 21 Sep 2025 11:03:00 +0900</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/on/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://amemiya02.github.io/tags/on/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>【HOT100/哈希集合/Middle】LeetCode 128. 最长连续序列</title>
-      <link>http://localhost:1313/posts/2025-09-21-128-longest-consecutive-sequence/</link>
+      <link>https://amemiya02.github.io/posts/2025-09-21-128-longest-consecutive-sequence/</link>
       <pubDate>Sun, 21 Sep 2025 11:03:00 +0900</pubDate>
-      <guid>http://localhost:1313/posts/2025-09-21-128-longest-consecutive-sequence/</guid>
+      <guid>https://amemiya02.github.io/posts/2025-09-21-128-longest-consecutive-sequence/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给定一个未排序的整数数组 &lt;code&gt;nums&lt;/code&gt; ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。&lt;/p&gt;

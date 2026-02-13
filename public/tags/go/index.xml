@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>题解 on 个人技术博客</title>
-    <link>https://amemiya02.github.io/tags/%E9%A2%98%E8%A7%A3/</link>
-    <description>Recent content in 题解 on 个人技术博客</description>
+    <title>Go on 个人技术博客</title>
+    <link>https://amemiya02.github.io/tags/go/</link>
+    <description>Recent content in Go on 个人技术博客</description>
     <generator>Hugo -- 0.154.1</generator>
     <language>zh-CN</language>
     <lastBuildDate>Sat, 24 Jan 2026 21:00:00 +0900</lastBuildDate>
-    <atom:link href="https://amemiya02.github.io/tags/%E9%A2%98%E8%A7%A3/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://amemiya02.github.io/tags/go/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[Golang] LeetCode 热题 100 - 双指针</title>
       <link>https://amemiya02.github.io/posts/2026-01-24-two-pointer/</link>
@@ -93,82 +93,6 @@ b.  &lt;strong&gt;在哈希表中查找&lt;/strong&gt; &lt;code&gt;complement&lt
 &lt;li&gt;遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;这个&amp;quot;一边遍历，一边查找，一边插入&amp;quot;的&lt;strong&gt;单遍哈希表&lt;/strong&gt;解法，非常巧妙地在一次循环中完成了所有工作。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/动态规划】LeetCode 70.爬楼梯</title>
-      <link>https://amemiya02.github.io/posts/2025-09-13-70-climbing-stairs/</link>
-      <pubDate>Sat, 13 Sep 2025 10:40:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-13-70-climbing-stairs/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;假设你正在爬楼梯。需要 &lt;code&gt;n&lt;/code&gt; 阶你才能到达楼顶。&lt;/p&gt;
-&lt;p&gt;每次你可以爬 &lt;code&gt;1&lt;/code&gt; 或 &lt;code&gt;2&lt;/code&gt; 个台阶。你有多少种不同的方法可以爬到楼顶呢？&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; n = 3
-&lt;strong&gt;输出：&lt;/strong&gt; 3
-&lt;strong&gt;解释：&lt;/strong&gt; 有三种方法可以爬到楼顶。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;1 阶 + 1 阶 + 1 阶&lt;/li&gt;
-&lt;li&gt;1 阶 + 2 阶&lt;/li&gt;
-&lt;li&gt;2 阶 + 1 阶&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;核心思路寻找递推关系&#34;&gt;核心思路：寻找递推关系&lt;/h2&gt;
-&lt;p&gt;直接计算 &lt;code&gt;n&lt;/code&gt; 阶楼梯的所有方法可能很复杂，我们不妨从小问题入手，寻找规律。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;爬 1 阶楼梯 (n=1)&lt;/strong&gt;: 只有 1 种方法 (1)。 -&amp;gt; $f(1) = 1$&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;爬 2 阶楼梯 (n=2)&lt;/strong&gt;: 有 2 种方法 (1+1, 2)。 -&amp;gt; $f(2) = 2$&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;爬 3 阶楼梯 (n=3)&lt;/strong&gt;: 有 3 种方法 (1+1+1, 1+2, 2+1)。 -&amp;gt; $f(3) = 3$&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;我们思考一下，要想到达第 &lt;code&gt;n&lt;/code&gt; 阶，我们的&lt;strong&gt;最后一步&lt;/strong&gt;是怎么迈出去的？&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/双指针】LeetCode 27. 原地移除数组元素</title>
-      <link>https://amemiya02.github.io/posts/2025-09-12-27-remove-element/</link>
-      <pubDate>Fri, 12 Sep 2025 21:00:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-12-27-remove-element/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给你一个数组 &lt;code&gt;nums&lt;/code&gt; 和一个值 &lt;code&gt;val&lt;/code&gt;，你需要 &lt;strong&gt;原地&lt;/strong&gt; 移除所有数值等于 &lt;code&gt;val&lt;/code&gt; 的元素。元素的顺序可能发生改变。然后返回 &lt;code&gt;nums&lt;/code&gt; 中与 &lt;code&gt;val&lt;/code&gt; 不同的元素的数量。&lt;/p&gt;
-&lt;p&gt;假设 &lt;code&gt;nums&lt;/code&gt; 中不等于 &lt;code&gt;val&lt;/code&gt; 的元素数量为 &lt;code&gt;k&lt;/code&gt;，要通过此题，您需要执行以下操作：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;更改 &lt;code&gt;nums&lt;/code&gt; 数组，使 &lt;code&gt;nums&lt;/code&gt; 的前 &lt;code&gt;k&lt;/code&gt; 个元素包含不等于 &lt;code&gt;val&lt;/code&gt; 的元素。&lt;code&gt;nums&lt;/code&gt; 的其余元素和 &lt;code&gt;nums&lt;/code&gt; 的大小并不重要。&lt;/li&gt;
-&lt;li&gt;返回 &lt;code&gt;k&lt;/code&gt;。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; nums = &lt;code&gt;[3,2,2,3]&lt;/code&gt;, val = &lt;code&gt;3&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;2&lt;/code&gt;, nums = &lt;code&gt;[2,2,_,_]&lt;/code&gt;
-&lt;strong&gt;解释：&lt;/strong&gt; 函数应该返回 &lt;code&gt;k = 2&lt;/code&gt;, 并且 &lt;code&gt;nums&lt;/code&gt; 中的前两个元素均为 &lt;code&gt;2&lt;/code&gt;。你的函数可以返回 &lt;code&gt;k&lt;/code&gt;，并且 &lt;code&gt;nums&lt;/code&gt; 的前 &lt;code&gt;k&lt;/code&gt; 个元素可以包含任何顺序的 &lt;code&gt;2&lt;/code&gt;。&lt;/p&gt;
-&lt;h2 id=&#34;核心思路相向双指针头尾指针&#34;&gt;核心思路：相向双指针（头尾指针）&lt;/h2&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;定义头尾指针&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;p&lt;/code&gt; 指针从数组头部 &lt;code&gt;0&lt;/code&gt; 开始，向后移动。它的任务是&lt;strong&gt;寻找值为 &lt;code&gt;val&lt;/code&gt; 的元素&lt;/strong&gt;。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;q&lt;/code&gt; 指针从数组尾部 &lt;code&gt;n-1&lt;/code&gt; 开始，向前移动。它的任务是&lt;strong&gt;寻找值不为 &lt;code&gt;val&lt;/code&gt; 的元素&lt;/strong&gt;。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;交换与移动&lt;/strong&gt;：&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/双指针】LeetCode 88. 合并两个有序数组</title>
-      <link>https://amemiya02.github.io/posts/2025-09-11-88-merge-sorted-array/</link>
-      <pubDate>Thu, 11 Sep 2025 18:46:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-11-88-merge-sorted-array/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给你两个按 &lt;strong&gt;非递减顺序&lt;/strong&gt; 排列的整数数组 &lt;code&gt;nums1&lt;/code&gt; 和 &lt;code&gt;nums2&lt;/code&gt;，另有两个整数 &lt;code&gt;m&lt;/code&gt; 和 &lt;code&gt;n&lt;/code&gt; ，分别表示 &lt;code&gt;nums1&lt;/code&gt; 和 &lt;code&gt;nums2&lt;/code&gt; 中的元素数目。&lt;/p&gt;
-&lt;p&gt;请你 &lt;strong&gt;合并&lt;/strong&gt; &lt;code&gt;nums2&lt;/code&gt; 到 &lt;code&gt;nums1&lt;/code&gt; 中，使合并后的数组同样按 &lt;strong&gt;非递减顺序&lt;/strong&gt; 排列。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：最终，合并后数组不应由函数返回，而是存储在数组 &lt;code&gt;nums1&lt;/code&gt; 中。为了应对这种情况，&lt;code&gt;nums1&lt;/code&gt; 的初始长度为 &lt;code&gt;m + n&lt;/code&gt;，其中前 &lt;code&gt;m&lt;/code&gt; 个元素表示应合并的元素，后 &lt;code&gt;n&lt;/code&gt; 个元素为 &lt;code&gt;0&lt;/code&gt; ，应忽略。&lt;code&gt;nums2&lt;/code&gt; 的长度为 &lt;code&gt;n&lt;/code&gt; 。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; nums1 = &lt;code&gt;[1,2,3,0,0,0]&lt;/code&gt;, m = &lt;code&gt;3&lt;/code&gt;, nums2 = &lt;code&gt;[2,5,6]&lt;/code&gt;, n = &lt;code&gt;3&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;[1,2,2,3,5,6]&lt;/code&gt;
-&lt;strong&gt;解释：&lt;/strong&gt; 需要合并 &lt;code&gt;[1,2,3]&lt;/code&gt; 和 &lt;code&gt;[2,5,6]&lt;/code&gt; 。合并结果是 &lt;code&gt;[1,2,2,3,5,6]&lt;/code&gt;。&lt;/p&gt;
-&lt;h2 id=&#34;最初的思考为何从前往后走不通&#34;&gt;最初的思考：为何从前往后走不通？&lt;/h2&gt;
-&lt;p&gt;看到这道题，我的第一反应非常直接：创建一个新的指针 &lt;code&gt;i&lt;/code&gt; 指向 &lt;code&gt;nums1&lt;/code&gt; 的开头，一个指针 &lt;code&gt;j&lt;/code&gt; 指向 &lt;code&gt;nums2&lt;/code&gt; 的开头，然后比较 &lt;code&gt;nums1[i]&lt;/code&gt; 和 &lt;code&gt;nums2[j]&lt;/code&gt; 的大小，把较小的那个放到一个新数组里。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
