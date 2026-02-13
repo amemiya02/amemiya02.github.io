@@ -1,14 +1,5 @@
----
-title: "[Golang] LeetCode 热题 100 - 技巧"
-date: 2026-02-11 9:00:00 +0900
-categories: [算法, LeetCode]
-tags: [Go, 技巧, 题解]
-author:
-  name: Amemiya
-  link:
-  email:
-  avatar: avatar.jpg
----
+# [Golang] LeetCode 热题 100 - 技巧
+
 # 技巧
 
 ## [136. 只出现一次的数字 - Easy](https://leetcode-cn.com/problems/single-number/)
@@ -293,3 +284,9 @@ func findDuplicate(nums []int) int {
 ### 复杂度分析
 - 时间复杂度：$O (n)$，快慢指针最多遍历两次数组。
 - 空间复杂度：$O (1)$，仅使用了常数级别的额外空间（几个变量）。
+
+---
+
+> 作者: Amemiya  
+> URL: https://amemiya02.github.io/posts/2026-02-11-trick/  
+

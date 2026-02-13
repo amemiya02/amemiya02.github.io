@@ -1,14 +1,5 @@
----
-title: "[Golang] LeetCode 热题 100 - 多维动态规划"
-date: 2026-02-11 9:00:00 +0900
-categories: [算法, LeetCode]
-tags: [Go, 多维动态规划, 题解]
-author:
-  name: Amemiya
-  link:
-  email:
-  avatar: avatar.jpg
----
+# [Golang] LeetCode 热题 100 - 多维动态规划
+
 # 多维动态规划
 
 ## [62. 不同路径 - Mid](https://leetcode.cn/problems/unique-paths/)
@@ -348,3 +339,10 @@ func min(a, b int) int {
 ### 复杂度分析
 - 时间复杂度：$O(m*n)$，需要填充整个 dp 数组。
 - 空间复杂度：$O(m*n)$，需要一个二维数组存储最少操作数。
+
+
+---
+
+> 作者: Amemiya  
+> URL: https://amemiya02.github.io/posts/2026-02-11-mddp/  
+
