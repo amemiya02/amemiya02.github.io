@@ -29,7 +29,7 @@ home:
 
 social:
   GitHub: amemiya02
-  RSS: true
+  RSS: false
 
 footer:
   enable: true
