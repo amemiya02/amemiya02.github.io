@@ -1,6 +1,6 @@
 ---
 title: "[Golang] LeetCode 热题 100 - 链表"
-date: 2026-01-27 9:00:00 +0900
+date: 2026-01-28 9:00:00 +0900
 categories: [算法, LeetCode]
 tags: [Go, 链表, 题解]
 ---
@@ -130,7 +130,7 @@ func getIntersectionNode(headA, headB *ListNode) *ListNode {
 }
 ```
 
-**复杂度分析**
+### 复杂度分析
 - 时间复杂度: `O(m + n)`。其中 m 和 n 分别是两个链表的长度。两种方法都需要线性遍历链表。
 - 空间复杂度: `O(1)`。两种方法都只使用了常数个额外指针变量。
 
@@ -243,7 +243,7 @@ func reverseList(head *ListNode) *ListNode {
 }
 ```
 
-**复杂度分析**
+### 复杂度分析
 - 时间复杂度: `O(n)`。其中 n 是链表的长度，所有方法都需要遍历整个链表一次。
 - 空间复杂度:
   - 迭代法：`O(1)`，只使用了常数个额外指针变量。
@@ -337,7 +337,7 @@ func reverseList(head *ListNode) *ListNode {
 }
 ```
 
-**复杂度分析**
+### 复杂度分析
 - 时间复杂度: `O(n)`。其中 n 是链表的长度，所有方法都需要遍历整个链表一次。
 - 空间复杂度: `O(1)`。只使用了常数个额外指针变量。
 
@@ -388,6 +388,347 @@ func hasCycle(head *ListNode) bool {
 }
 ```
 
-**复杂度分析**
+### 复杂度分析
 - 时间复杂度: `O(n)`。其中 n 是链表的长度，快慢指针最多遍历链表一次。
 - 空间复杂度: `O(1)`。只使用了常数个额外指针变量。
+
+## [142. 环形链表 II - Mid](https://leetcode.cn/problems/linked-list-cycle-ii/)
+
+### 题目回顾
+> 给定一个链表的头节点  head ，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
+>如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。如果 pos 是 -1，则在该链表中没有环。注意：pos 不作为参数进行传递，仅仅是为了标识链表的实际情况。
+>不允许修改 链表。
+
+### 核心思路
+为什么“一个指针从 head 出发，一个从相遇点出发，等速移动必会在入环点相遇”？我们来做个简单的算术题：
+
+定义距离：
+
+设从 起点 到 入环点 的距离为 $a$。
+
+设从 入环点 到 首次相遇点 的距离为 $b$。
+
+设从 首次相遇点 回到 入环点 的剩余距离为 $c$。
+
+环的总周长就是 $b + c$。
+
+指针走过的路程：
+
+慢指针 (slow) 走的距离：$s = a + b$
+
+快指针 (fast) 走的距离：$f = a + n(b + c) + b$ （$n$ 是快指针绕环的圈数）
+
+速度关系：
+
+因为快指针速度是慢指针的两倍，所以 $f = 2s$。
+
+代入公式：$a + n(b + c) + b = 2(a + b)$
+
+化简得：$n(b + c) = a + b$
+
+我们要找的是 $a$（起点到入环点的距离），所以把 $a$ 孤立出来：
+
+$a = n(b + c) - b$
+
+进一步整理：$a = (n - 1)(b + c) + c$
+
+结论：
+
+这个公式 $a = (n - 1) \times \text{周长} + c$ 告诉我们：从起点走 $a$ 步，等同于从相遇点走过 $n-1$ 圈后再走 $c$ 步。
+
+由于都在环里转圈，那 $n-1$ 圈可以忽略，结论简化为：走 $a$ 步的路程等于走 $c$ 步的路程。 所以两个指针再次相遇时，一定是在入环点。
+
+### 代码实现
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ * Val int
+ * Next *ListNode
+ * }
+ */
+func detectCycle(head *ListNode) *ListNode {
+    if head == nil || head.Next == nil {
+        return nil
+    }
+
+    slow, fast := head, head
+
+    // 第一阶段：判断是否有环（龟兔赛跑）
+    for fast != nil && fast.Next != nil {
+        slow = slow.Next
+        fast = fast.Next.Next
+
+        // 如果快慢指针相遇，说明有环
+        if slow == fast {
+            // 第二阶段：寻找入环点
+            // 将其中一个指针重置到 head，另一个留在相遇点
+            p := head
+            for p != slow {
+                p = p.Next
+                slow = slow.Next
+            }
+            // 它们再次相遇的地方就是入环点
+            return p
+        }
+    }
+
+    return nil
+}
+
+```
+
+### 复杂度分析
+
+* **时间复杂度**：。第一阶段快慢指针相遇最多 ，第二阶段寻找入环点最多 。
+* **空间复杂度**：。只使用了指针。
+
+
+## [21. 合并两个有序链表 - Easy](https://leetcode.cn/problems/merge-two-sorted-lists/)
+
+### 题目回顾
+
+> 将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
+
+### 核心思路
+
+核心步骤：
+哨兵节点（Dummy Node）：我们先造一个“假”的头节点。它的作用是作为新链表的起点，避免我们在循环里去写 if head == nil 这种逻辑判断。
+
+比较与连接：像拉链一样，比较 p 和 q 的值，谁小就把 curr.Next 指向谁，然后那个指针后移。
+
+收尾工作：因为两个链表长度可能不等，当一个遍历完后，另一个肯定还剩下一截。由于原链表已经是有序的，我们直接把剩余的那一整截挂在 curr.Next 上即可。
+
+### 代码实现
+
+```go
+
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ * Val int
+ * Next *ListNode
+ * }
+ */
+func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
+    // 1. 创建虚拟头节点，便于处理返回结果
+    // 在 Go 中，&ListNode{} 会分配内存并返回指针
+    dummy := &ListNode{}
+    curr := dummy
+
+    // 2. 同时遍历两个链表
+    p, q := list1, list2
+    for p != nil && q != nil {
+        if p.Val < q.Val {
+            curr.Next = p
+            p = p.Next
+        } else {
+            curr.Next = q
+            q = q.Next
+        }
+        curr = curr.Next
+    }
+
+    // 3. 处理剩余部分
+    // Go 没有三元运算符，直接用 if 赋值即可
+    if p != nil {
+        curr.Next = p
+    } else {
+        curr.Next = q
+    }
+
+    // 返回虚拟头节点的下一个节点，即合并后的真正头节点
+    return dummy.Next
+}
+```
+
+### 复杂度分析
+
+- `时间复杂度`：$O(n + m)$，其中 $n$ 和 $m$ 分别是两个链表的长度。我们只需要遍历每个节点一次。
+- `空间复杂度`：$O(1)$。我们只是在修改原有节点的指针指向，并没有创建 $n+m$ 个新节点。
+
+
+## [2. 两数相加 - Mid](https://leetcode.cn/problems/add-two-numbers/)
+
+### 题目回顾
+
+>给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。
+>请你将两个数相加，并以相同形式返回一个表示和的链表。
+>你可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+
+
+### 核心思路
+
+这道题的本质是 模拟竖式加法。由于链表已经是逆序存储的（个位在头），这反而降低了难度，因为我们可以直接从头开始加。
+
+### 代码实现
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ * Val int
+ * Next *ListNode
+ * }
+ */
+func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
+    dummy := &ListNode{} // 虚拟头节点
+    curr := dummy
+    carry := 0 // 进位
+
+    // 只要 l1, l2 没走完，或者最后还有一个进位没处理，就继续循环
+    for l1 != nil || l2 != nil || carry > 0 {
+        sum := carry // 开始计算当前位的和
+
+        if l1 != nil {
+            sum += l1.Val
+            l1 = l1.Next
+        }
+        if l2 != nil {
+            sum += l2.Val
+            l2 = l2.Next
+        }
+
+        // 计算新的进位和当前位的值
+        carry = sum / 10
+        val := sum % 10
+
+        // 创建新节点并移动指针
+        curr.Next = &ListNode{Val: val}
+        curr = curr.Next
+    }
+
+    return dummy.Next
+}
+```
+
+### 复杂度分析
+
+- 时间复杂度: $O(max(m, n))$，其中 m 和 n 分别是两个链表的长度。我们需要遍历最长的链表。
+- 空间复杂度: $O(1)$，用于存储结果
+
+
+## [19. 删除链表的倒数第 N 个结点 - Mid](https://leetcode.cn/problems/remove-nth-node-from-end-of-list/)
+
+### 题目回顾
+
+> 给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
+
+### 核心思路
+让快指针先走 $n+1$ 步，然后快慢指针同步移动。当快指针到达末尾时，慢指针正好指向倒数第 $n$ 个节点的前驱。
+
+或者把所有的节点入栈，弹出 $n$ 个节点后，栈顶节点就是倒数第 $n$ 个节点的前驱。
+
+### 代码实现
+
+```go
+func removeNthFromEnd(head *ListNode, n int) *ListNode {
+    // 1. 创建虚拟头节点，处理删除头节点的情况
+    dummy := &ListNode{Next: head}
+
+    // 2. 初始化快慢指针都指向 dummy
+    fast, slow := dummy, dummy
+
+    // 3. 快指针先走 n+1 步
+    // 为什么要走 n+1？因为我们要让 slow 停在被删节点的前一个位置
+    for i := 0; i <= n; i++ {
+        fast = fast.Next
+    }
+
+    // 4. 快慢指针同步移动，直到 fast 走到头
+    for fast != nil {
+        fast = fast.Next
+        slow = slow.Next
+    }
+
+    // 5. 此时 slow 就在待删除节点的前面，直接跳过目标节点
+    slow.Next = slow.Next.Next
+
+    return dummy.Next
+}
+```
+
+栈版本
+
+```go
+func removeNthFromEndStack(head *ListNode, n int) *ListNode {
+    dummy := &ListNode{Next: head}
+    stack := []*ListNode{}
+
+    // 入栈
+    curr := dummy
+    for curr != nil {
+        stack = append(stack, curr)
+        curr = curr.Next
+    }
+
+    // 出栈 n 次
+    stack = stack[:len(stack)-n]
+
+    // 栈顶就是待删除节点的前驱
+    prev := stack[len(stack)-1]
+    prev.Next = prev.Next.Next
+
+    return dummy.Next
+}
+```
+
+### 复杂度分析
+
+- 时间复杂度: $O(n)$。其中 n 是链表的长度，快指针需要遍历链表一次。
+- 空间复杂度: $O(1)$。只使用了常数个额外空间。或者栈版本的空间复杂度是 $O(n)$，因为需要存储所有节点。
+
+
+## [24. 两两交换链表中的节点 - Mid](https://leetcode.cn/problems/swap-nodes-in-pairs/)
+
+### 题目回顾
+
+> 给你一个链表，两两交换其中相邻的节点，并返回交换后链表的头节点。你必须在不修改节点内部的值的情况下完成本题（即，只能进行节点交换）。
+
+### 核心思路
+
+两两交换链表节点的关键在于顺序。我们需要改动三个指针的指向才能完成一次完整的内部易位：
+
+关键点解析
+为什么 prev = node1？ 交换前顺序是：prev -> node1 -> node2 -> node3。 交换后顺序是：prev -> node2 -> node1 -> node3。 为了处理下一对，我们的 prev 必须移动到 node1 的位置，因为 node1 现在是下一对节点的“前驱”。
+
+边界条件：
+
+如果链表为空或只有一个节点，prev.Next 或 prev.Next.Next 会为 nil，循环直接不执行，返回原链表。符合预期。
+
+### 代码实现
+
+```go
+func swapPairs(head *ListNode) *ListNode {
+    // 1. 创建虚拟头节点，指向当前的 head
+    dummy := &ListNode{Next: head}
+    // prev 指向待交换的一对节点之前的一个位置
+    prev := dummy
+
+    // 2. 只有当后面至少有两个节点时，才需要交换
+    for prev.Next != nil && prev.Next.Next != nil {
+        // 确定要交换的两个节点
+        node1 := prev.Next
+        node2 := prev.Next.Next
+
+        // 3. 执行交换逻辑 (三个指针的变动)
+        // 第一步：让前驱指向第二个节点
+        prev.Next = node2
+        // 第二步：让第一个节点指向第三个节点 (node2.Next)
+        node1.Next = node2.Next
+        // 第三步：让第二个节点指向第一个节点
+        node2.Next = node1
+
+        // 4. 更新 prev，准备处理下一对
+        // 此时 node1 已经换到了后面，所以它就是下一对的前驱
+        prev = node1
+    }
+
+    return dummy.Next
+}
+```
+
+### 复杂度分析
+- 时间复杂度: $O(n)$。其中 n 是链表的长度，所有方法都需要遍历整个链表一次。
+- 空间复杂度: $O(1)$。
