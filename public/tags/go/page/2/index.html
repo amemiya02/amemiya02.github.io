@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Categories | 个人技术博客</title>
+<title>Go | 个人技术博客</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="canonical" href="https://amemiya02.github.io/categories/">
+<link rel="canonical" href="https://amemiya02.github.io/tags/go/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.da3211e5ef867bf2b75fd5a6515cfed7195c011e8ab735694e203810a827097b.css" integrity="sha256-2jIR5e&#43;Ge/K3X9WmUVz&#43;1xlcAR6KtzVpTiA4EKgnCXs=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://amemiya02.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://amemiya02.github.io/favicon-16x16.png">
@@ -18,8 +18,8 @@
 <link rel="mask-icon" href="https://amemiya02.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://amemiya02.github.io/categories/index.xml" title="rss">
-<link rel="alternate" hreflang="en" href="https://amemiya02.github.io/categories/">
+<link rel="alternate" type="application/rss+xml" href="https://amemiya02.github.io/tags/go/index.xml" title="rss">
+<link rel="alternate" hreflang="en" href="https://amemiya02.github.io/tags/go/">
 <noscript>
     <style>
         #theme-toggle,
@@ -80,13 +80,13 @@
     loader: { load: ['ui/safe'] },
   };
 </script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:url" content="https://amemiya02.github.io/categories/">
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:url" content="https://amemiya02.github.io/tags/go/">
   <meta property="og:site_name" content="个人技术博客">
-  <meta property="og:title" content="Categories">
+  <meta property="og:title" content="Go">
   <meta property="og:locale" content="zh-CN">
   <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Categories">
+<meta name="twitter:title" content="Go">
 <meta name="twitter:description" content="">
 
 </head>
@@ -122,22 +122,42 @@
         </ul>
     </nav>
 </header>
-<main class="main">
-<header class="page-header">
-    <h1>Categories</h1>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://amemiya02.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://amemiya02.github.io/tags/">Tags</a></div>
+  <h1>
+    Go
+  </h1>
 </header>
 
-<ul class="terms-tags">
-    <li>
-        <a href="https://amemiya02.github.io/categories/leetcode/">LeetCode <sup><strong><sup>21</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://amemiya02.github.io/categories/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划 <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://amemiya02.github.io/categories/%E7%AE%97%E6%B3%95/">算法 <sup><strong><sup>21</sup></strong></sup> </a>
-    </li>
-</ul>
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 哈希
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>哈希 1. 两数之和 - Easy 题目回顾 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target 的那 两个 整数，并返回它们的数组下标。
+你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。
+你可以按任意顺序返回答案。
+示例 1：
+输入： nums = [2,7,11,15], target = 9 输出： [0,1] 解释： 因为 nums[0] &#43; nums[1] == 9 ，返回 [0, 1] 。
+核心思路：用空间换时间 作为 LeetCode 的开篇之作，这道题完美地诠释了如何通过&#34;空间换时间&#34;的思想来优化算法。
+暴力解法的瓶颈在于&#34;寻找另一个数&#34;的过程太慢。对于每个 nums[i]，我们都需要在数组中寻找是否存在一个数 target - nums[i]。这个寻找过程能否被加速呢？
+答案是肯定的，哈希表提供了近乎 $O(1)$ 的查找效率。
+我们可以使用一个哈希表（HashMap）来存储已经遍历过的数字及其对应的索引，即 Map&lt;数值, 索引&gt;。
+具体的算法流程如下：
+创建一个空的哈希表 map。 遍历 nums 数组，对于当前的元素 nums[i]： a. 计算我们需要寻找的&#34;另一半&#34;：complement = target - nums[i]。 b. 在哈希表中查找 complement 是否存在。 如果存在，说明我们找到了解！complement 的索引已经存在 map 中，当前元素的索引是 i。我们立即返回 [map.get(complement), i]。 如果不存在，说明到目前为止还没遇到能和 nums[i] 配对的数。我们将当前数字和它的索引存入哈希表 map.put(nums[i], i)，以便后续的元素能用它来配对。 遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。 这个&#34;一边遍历，一边查找，一边插入&#34;的单遍哈希表解法，非常巧妙地在一次循环中完成了所有工作。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-24 19:00:00 +0900 JST'>January 24, 2026</span>&nbsp;·&nbsp;<span>3 min</span></footer>
+  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 哈希" href="https://amemiya02.github.io/posts/2026-01-24-hash/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://amemiya02.github.io/tags/go/">
+      «&nbsp;Prev&nbsp;
+    </a>
+  </nav>
+</footer>
     </main>
     
 <footer class="footer">

@@ -397,3 +397,204 @@ func exist(board [][]byte, word string) bool {
 ### 复杂度分析
 - 时间复杂度：$O(m * n * 3^l)$，其中 m 和 n 分别是网格的行数和列数，l 是单词的长度。每个单元格作为起点进行 DFS，最多有 3 个方向可选（因为不能回到来时的路）。
 - 空间复杂度：$O(l)$，用于存储递归栈，最坏情况下递归深度为单词长度 l。
+
+## [131. 分割回文串 - Medium](https://leetcode-cn.com/problems/palindrome-partitioning/)
+
+### 题目回顾
+
+> 给你一个字符串 s，请你将 s 分割成一些子串，使每个子串都是 回文串 。返回 s 所有可能的分割方案。
+
+### 核心思路
+
+1. 决策树模型
+每一层递归：代表在当前剩余字符串中选择一个前缀。
+
+分支：如果前缀是回文，则进入下一层；如果不是，则剪枝（不继续往下走）。
+
+路径收集：当指针移动到字符串末尾，说明找到了一种完整的分割方案。
+
+2. 状态重置
+在 Go 中，path = path[:len(path)-1] 完成了回溯。这保证了在尝试不同的切割长度时，path 始终保持干净。
+
+### 代码实现
+
+```go
+
+func partition(s string) [][]string {
+    var res [][]string
+    var path []string
+
+    // backtrack 逻辑：从 index 开始尝试切割
+    var backtrack func(index int)
+    backtrack = func(index int) {
+        // 1. 终止条件：如果已经切到了字符串末尾
+        if index == len(s) {
+            // 拷贝 path 存入结果
+            temp := make([]string, len(path))
+            copy(temp, path)
+            res = append(res, temp)
+            return
+        }
+
+        // 2. 尝试从 index 到 i 进行切割
+        for i := index; i < len(s); i++ {
+            // 3. 剪枝：只有当前切割出的子串 [index, i] 是回文，才继续递归
+            if isPalindrome(s, index, i) {
+                // 做选择
+                path = append(path, s[index:i+1])
+                // 递归：从 i+1 位置继续切割剩余字符串
+                backtrack(i + 1)
+                // 撤销选择（回溯）
+                path = path[:len(path)-1]
+            }
+        }
+    }
+
+    backtrack(0)
+    return res
+}
+
+// 辅助函数：判断 s[left:right+1] 是否为回文
+func isPalindrome(s string, left, right int) bool {
+    for left < right {
+        if s[left] != s[right] {
+            return false
+        }
+        left++
+        right--
+    }
+    return true
+}
+```
+
+性能优化：动态规划预处理
+在上面的代码中，isPalindrome 可能会被重复调用多次。如果面试官要求优化时间，我们可以先用 动态规划 预处理出一个二维数组 dp[i][j]，用来记录 s[i:j+1] 是否为回文。
+
+```go
+func partition(s string) [][]string {
+    n := len(s)
+    // dp[i][j] 表示 s[i..j] 是否是回文
+    dp := make([][]bool, n)
+    for i := range dp {
+        dp[i] = make([]bool, n)
+    }
+
+    // 预处理回文状态
+    for j := 0; j < n; j++ {
+        for i := 0; i <= j; i++ {
+            if s[i] == s[j] && (j-i <= 2 || dp[i+1][j-1]) {
+                dp[i][j] = true
+            }
+        }
+    }
+
+    var res [][]string
+    var path []string
+    var backtrack func(int)
+    backtrack = func(start int) {
+        if start == n {
+            res = append(res, append([]string(nil), path...))
+            return
+        }
+        for i := start; i < n; i++ {
+            if dp[start][i] {
+                path = append(path, s[start:i+1])
+                backtrack(i + 1)
+                path = path[:len(path)-1]
+            }
+        }
+    }
+    backtrack(0)
+    return res
+}
+```
+
+
+### 复杂度分析
+
+- 时间复杂度：$O(n * 2^n)$，其中 n 是字符串的长度。最坏情况下，每个字符都可以单独成一个回文子串，导致组合数量达到 2^n。
+- 空间复杂度：$O(n)$，用于存储递归栈和路径。
+
+
+## [51. N 皇后 - Hard](https://leetcode-cn.com/problems/n-queens/)
+
+### 题目回顾
+> 按照国际象棋的规则，皇后可以攻击与之处在同一行或同一列或同一斜线上的棋子。
+> n 皇后问题 研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
+> 给你一个整数 n ，返回所有不同的 n 皇后问题 的解决方案。
+> 每一种解法包含一个不同的 n 皇后问题 的棋子放置方案，该方案中 'Q' 和 '.' 分别代表了皇后和空位。
+
+### 核心思路
+
+处理行和列的冲突很简单，但处理斜线是这道题的精髓。
+
+1. 捺斜线 (Backslash \)在同一条撇向斜线上，所有的坐标 $(row, col)$ 都满足 $row - col$ 是常数。例如：$(0,0), (1,1), (2,2)$ 的差值都是 $0$。注意：差值可能为负，但 Go 的 map 支持负数 key。
+
+2. 撇斜线 (Slash /)在同一条正向斜线上，所有的坐标 $(row, col)$ 都满足 $row + col$ 是常数。例如：$(0,2), (1,1), (2,0)$ 的和都是 $2$。
+
+### 代码实现
+
+```go
+func solveNQueens(n int) [][]string {
+    var res [][]string
+    // 棋盘初始化
+    board := make([][]byte, n)
+    for i := range board {
+        board[i] = make([]byte, n)
+        for j := range board[i] {
+            board[i][j] = '.'
+        }
+    }
+
+    // 用于快速检查冲突的状态记录
+    cols := make(map[int]bool)      // 列冲突
+    diag1 := make(map[int]bool)     // 捺冲突 (\): 行-列 = 定值
+    diag2 := make(map[int]bool)     // 撇冲突 (/): 行+列 = 定值
+
+    var backtrack func(row int)
+    backtrack = func(row int) {
+        // 1. 终止条件：成功放置了 n 个皇后
+        if row == n {
+            res = append(res, formatBoard(board))
+            return
+        }
+
+        // 2. 尝试在当前行的每一列放置皇后
+        for col := 0; col < n; col++ {
+            // 3. 剪枝：检查当前位置是否会被之前的皇后攻击
+            if cols[col] || diag1[row-col] || diag2[row+col] {
+                continue
+            }
+
+            // 4. 做选择
+            board[row][col] = 'Q'
+            cols[col], diag1[row-col], diag2[row+col] = true, true, true
+
+            // 5. 进入下一行递归
+            backtrack(row + 1)
+
+            // 6. 撤销选择（回溯）
+            board[row][col] = '.'
+            delete(cols, col)
+            delete(diag1, row-col)
+            delete(diag2, row+col)
+        }
+    }
+
+    backtrack(0)
+    return res
+}
+
+// 辅助函数：将二维 byte 棋盘转换为题目要求的字符串切片
+func formatBoard(board [][]byte) []string {
+    var s []string
+    for _, row := range board {
+        s = append(s, string(row))
+    }
+    return s
+}
+```
+
+### 复杂度分析
+- 时间复杂度：$O(N!)$，其中 N 是棋盘的大小。 每一行有 N 个选择，第二行有 N-1 个选择，依此类推，整体复杂度近似为 N!。
+- 空间复杂度：$O(N)$，用于存储递归栈和棋盘状态。
