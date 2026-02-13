@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>动态规划 on 个人技术博客</title>
+    <title>动态规划 - 标签 - 个人技术博客</title>
     <link>https://amemiya02.github.io/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
-    <description>Recent content in 动态规划 on 个人技术博客</description>
-    <generator>Hugo -- 0.154.1</generator>
+    <description>个人技术博客</description>
+    <generator>Hugo 0.154.1 &amp; FixIt v0.4.3-20260130042349-e23a50d7</generator>
     <language>zh-CN</language>
     <lastBuildDate>Tue, 10 Feb 2026 09:00:00 +0900</lastBuildDate>
     <atom:link href="https://amemiya02.github.io/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/index.xml" rel="self" type="application/rss+xml" />
@@ -13,156 +13,27 @@
       <link>https://amemiya02.github.io/posts/2026-02-10-dp/</link>
       <pubDate>Tue, 10 Feb 2026 09:00:00 +0900</pubDate>
       <guid>https://amemiya02.github.io/posts/2026-02-10-dp/</guid>
-      <description>&lt;h1 id=&#34;动态规划&#34;&gt;动态规划&lt;/h1&gt;
-&lt;h2 id=&#34;70-爬楼梯---easy&#34;&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/climbing-stairs/&#34;&gt;70. 爬楼梯 - Easy&lt;/a&gt;&lt;/h2&gt;
-&lt;h3 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
-每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
-注意：给定 n 是一个正整数。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&#34;核心思路&#34;&gt;核心思路&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;递推公式：&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ul&gt;
-&lt;li&gt;爬到第 n 阶的方法数 = 爬到第 n-1 阶的方法数（最后一步爬 1 阶） + 爬到第 n-2 阶的方法数（最后一步爬 2 阶）；&lt;/li&gt;
-&lt;li&gt;即 dp[n] = dp[n-1] + dp[n-2]；&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ol start=&#34;2&#34;&gt;
-&lt;li&gt;初始条件：&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ul&gt;
-&lt;li&gt;dp[1] = 1（1 阶只有 1 种方法：爬 1 阶）；&lt;/li&gt;
-&lt;li&gt;dp[2] = 2（2 阶有 2 种方法：1+1 或 2）；&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ol start=&#34;3&#34;&gt;
-&lt;li&gt;空间优化：无需维护完整的 dp 数组，只需用两个变量记录 dp[n-1] 和 dp[n-2]，空间复杂度从 O (n) 降到 O (1)。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;代码实现&#34;&gt;代码实现&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;climbStairs&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 边界条件：n=1 或 n=2 直接返回结果&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 用两个变量代替dp数组，节省空间&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;prevPrev&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;// 对应dp[n-2]，初始为dp[1]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;prev&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;     &lt;span style=&#34;color:#75715e&#34;&gt;// 对应dp[n-1]，初始为dp[2]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;current&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// 对应dp[n]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 从3阶开始递推到n阶&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;; &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;n&lt;/span&gt;; &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;current&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;prevPrev&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;prev&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;// dp[i] = dp[i-2] + dp[i-1]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// 更新变量，为下一次循环准备&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;prevPrev&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;prev&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;prev&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;current&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;current&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;复杂度分析&#34;&gt;复杂度分析&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;时间复杂度：$O (n)$，需要计算从 3 到 n 的每一阶的方法数；&lt;/li&gt;
-&lt;li&gt;空间复杂度：$O (1)$，只使用了常数个变量来存储状态。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;118-杨辉三角---easy&#34;&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/pascals-triangle/&#34;&gt;118. 杨辉三角 - Easy&lt;/a&gt;&lt;/h2&gt;
-&lt;h3 id=&#34;题目回顾-1&#34;&gt;题目回顾&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给定一个非负整数 numRows，生成杨辉三角的前 numRows 行。
-在杨辉三角中，每个数是它左上方和右上方的数的和。&lt;/p&gt;</description>
+      <category domain="https://amemiya02.github.io/categories/%E7%AE%97%E6%B3%95/">算法</category>
+      <category domain="https://amemiya02.github.io/categories/leetcode/">LeetCode</category>
+      <description>&lt;h1 class=&#34;heading-element&#34; id=&#34;动态规划&#34;&gt;&lt;span&gt;动态规划&lt;/span&gt;&#xA;  &lt;a href=&#34;#%e5%8a%a8%e6%80%81%e8%a7%84%e5%88%92&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&lt;h2 class=&#34;heading-element&#34; id=&#34;70-爬楼梯---easy&#34;&gt;&lt;span&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/climbing-stairs/&#34; target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;70. 爬楼梯 - Easy&lt;/a&gt;&lt;/span&gt;&#xA;  &lt;a href=&#34;#70-%e7%88%ac%e6%a5%bc%e6%a2%af---easy&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&lt;h3 class=&#34;heading-element&#34; id=&#34;题目回顾&#34;&gt;&lt;span&gt;题目回顾&lt;/span&gt;&#xA;  &lt;a href=&#34;#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h3&gt;&lt;blockquote&gt;&#xA;&lt;p&gt;假设你正在爬楼梯。需要 n 阶你才能到达楼顶。&#xA;每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？&#xA;注意：给定 n 是一个正整数。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[Golang] LeetCode 热题 100 - 普通数组</title>
       <link>https://amemiya02.github.io/posts/2026-01-26-array/</link>
       <pubDate>Mon, 26 Jan 2026 09:00:00 +0900</pubDate>
       <guid>https://amemiya02.github.io/posts/2026-01-26-array/</guid>
-      <description>&lt;h1 id=&#34;普通数组&#34;&gt;普通数组&lt;/h1&gt;
-&lt;h2 id=&#34;53-最大子数组和---mid&#34;&gt;&lt;a href=&#34;https://leetcode.cn/problems/maximum-subarray/&#34;&gt;53. 最大子数组和 - Mid&lt;/a&gt;&lt;/h2&gt;
-&lt;h3 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt; ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;子数组&lt;/strong&gt; 是数组中的一个连续部分。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;nums = [-2,1,-3,4,-1,2,1,-5,4]&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;6&lt;/code&gt;
-&lt;strong&gt;解释：&lt;/strong&gt; 连续子数组 &lt;code&gt;[4,-1,2,1]&lt;/code&gt; 的和最大，为 &lt;code&gt;6&lt;/code&gt; 。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;示例 2：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;nums = [1]&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;1&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;示例 3：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;nums = [5,4,-1,7,8]&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;23&lt;/code&gt;&lt;/p&gt;
-&lt;h3 id=&#34;核心思路动态规划与贪心&#34;&gt;核心思路：动态规划与贪心&lt;/h3&gt;
-&lt;p&gt;这道题是&lt;strong&gt;动态规划&lt;/strong&gt;的经典入门题。&lt;/p&gt;
-&lt;p&gt;如果我们用暴力法求解，枚举所有的起点和终点，时间复杂度会达到 $O(N^2)$，这显然不是最优解。我们需要找到一种遍历一次就能得出结果的方法。&lt;/p&gt;
-&lt;h4 id=&#34;状态定义&#34;&gt;状态定义&lt;/h4&gt;
-&lt;p&gt;我们要思考：&lt;strong&gt;以当前数字 &lt;code&gt;nums[i]&lt;/code&gt; 结尾的子数组，它的最大和是多少？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;假设 &lt;code&gt;dp[i]&lt;/code&gt; 表示以 &lt;code&gt;nums[i]&lt;/code&gt; &lt;strong&gt;结尾&lt;/strong&gt;的连续子数组的最大和。那么对于 &lt;code&gt;nums[i]&lt;/code&gt; 来说，它面临两个选择：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;加入前面的队伍&lt;/strong&gt;：如果前面的子数组和 &lt;code&gt;dp[i-1]&lt;/code&gt; 是正数，那么加上它肯定比自己单干强，即 &lt;code&gt;dp[i-1] + nums[i]&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;另起炉灶&lt;/strong&gt;：如果前面的子数组和 &lt;code&gt;dp[i-1]&lt;/code&gt; 是负数，加上它只会拖累自己，不如从自己重新开始计算，即 &lt;code&gt;nums[i]&lt;/code&gt;。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h4 id=&#34;状态转移方程&#34;&gt;状态转移方程&lt;/h4&gt;
-&lt;p&gt;根据上述分析，我们可以得到状态转移方程：&lt;/p&gt;
-$$
-dp[i] = \max(dp[i-1] + \text{nums}[i], \text{nums}[i])
-$$&lt;h4 id=&#34;空间优化&#34;&gt;空间优化&lt;/h4&gt;
-&lt;p&gt;观察转移方程发现，当前状态 &lt;code&gt;dp[i]&lt;/code&gt; 只与前一个状态 &lt;code&gt;dp[i-1]&lt;/code&gt; 有关。因此，我们不需要维护一个完整的 &lt;code&gt;dp&lt;/code&gt; 数组，只需要用一个变量 &lt;code&gt;pre&lt;/code&gt; 来记录&amp;quot;前一个位置的最大子数组和&amp;quot;即可。这也就是代码中 &lt;code&gt;pre&lt;/code&gt; 变量的作用。&lt;/p&gt;</description>
+      <category domain="https://amemiya02.github.io/categories/%E7%AE%97%E6%B3%95/">算法</category>
+      <category domain="https://amemiya02.github.io/categories/leetcode/">LeetCode</category>
+      <description>&lt;h1 class=&#34;heading-element&#34; id=&#34;普通数组&#34;&gt;&lt;span&gt;普通数组&lt;/span&gt;&#xA;  &lt;a href=&#34;#%e6%99%ae%e9%80%9a%e6%95%b0%e7%bb%84&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&lt;h2 class=&#34;heading-element&#34; id=&#34;53-最大子数组和---mid&#34;&gt;&lt;span&gt;&lt;a href=&#34;https://leetcode.cn/problems/maximum-subarray/&#34; target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;53. 最大子数组和 - Mid&lt;/a&gt;&lt;/span&gt;&#xA;  &lt;a href=&#34;#53-%e6%9c%80%e5%a4%a7%e5%ad%90%e6%95%b0%e7%bb%84%e5%92%8c---mid&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&lt;h3 class=&#34;heading-element&#34; id=&#34;题目回顾&#34;&gt;&lt;span&gt;题目回顾&lt;/span&gt;&#xA;  &lt;a href=&#34;#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h3&gt;&lt;blockquote&gt;&#xA;&lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt; ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[Golang] LeetCode 热题 100 - 双指针</title>
       <link>https://amemiya02.github.io/posts/2026-01-24-two-pointer/</link>
       <pubDate>Sat, 24 Jan 2026 21:00:00 +0900</pubDate>
       <guid>https://amemiya02.github.io/posts/2026-01-24-two-pointer/</guid>
-      <description>&lt;h1 id=&#34;双指针&#34;&gt;双指针&lt;/h1&gt;
-&lt;h2 id=&#34;283-移动零---easy&#34;&gt;&lt;a href=&#34;https://leetcode.cn/problems/move-zeroes/&#34;&gt;283. 移动零 - Easy&lt;/a&gt;&lt;/h2&gt;
-&lt;h3 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给定一个数组 &lt;code&gt;nums&lt;/code&gt;，编写一个函数将所有 &lt;code&gt;0&lt;/code&gt; 移动到数组的末尾，同时保持非零元素的相对顺序。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;请注意&lt;/strong&gt; ，必须在不复制数组的情况下&lt;strong&gt;原地&lt;/strong&gt;对数组进行操作。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例 1:&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入:&lt;/strong&gt; &lt;code&gt;nums = [0,1,0,3,12]&lt;/code&gt;
-&lt;strong&gt;输出:&lt;/strong&gt; &lt;code&gt;[1,3,12,0,0]&lt;/code&gt;&lt;/p&gt;
-&lt;h3 id=&#34;核心思路快慢指针一次遍历&#34;&gt;核心思路：快慢指针（一次遍历）&lt;/h3&gt;
-&lt;p&gt;这道题有两个核心要求：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;将所有 &lt;code&gt;0&lt;/code&gt; 移动到末尾。&lt;/li&gt;
-&lt;li&gt;保持所有&lt;strong&gt;非零&lt;/strong&gt;元素的相对顺序不变。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;第二个要求&amp;quot;保持相对顺序&amp;quot;是解题的关键。它告诉我们，不能简单地像&amp;quot;移除元素&amp;quot;那样，用头尾指针交换元素，因为那样会打乱非零元素的原有顺序。&lt;/p&gt;
-&lt;p&gt;这个问题的本质可以看作是：&lt;strong&gt;将所有非零元素，按原有的顺序，紧凑地移动到数组的前面，然后将剩余的位置全部填上零&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;这正是&lt;strong&gt;快慢指针&lt;/strong&gt;擅长的场景：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;定义指针&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;慢指针 &lt;code&gt;p&lt;/code&gt; (或 &lt;code&gt;slow&lt;/code&gt;)&lt;/strong&gt;: 这个指针用于标记&amp;quot;下一个非零元素应该被放置的位置&amp;quot;。在 &lt;code&gt;p&lt;/code&gt; 左边的所有元素（不含 &lt;code&gt;p&lt;/code&gt;）都是已经处理好的、按序排列的非零元素。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;快指针 &lt;code&gt;q&lt;/code&gt; (或 &lt;code&gt;fast&lt;/code&gt;)&lt;/strong&gt;: 这个指针负责遍历整个数组，去寻找非零元素。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;执行过程&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;初始化 &lt;code&gt;p&lt;/code&gt; 和 &lt;code&gt;q&lt;/code&gt; 都指向数组的起始位置 &lt;code&gt;0&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;快指针 &lt;code&gt;q&lt;/code&gt; 开始向后遍历数组。&lt;/li&gt;
-&lt;li&gt;当 &lt;code&gt;q&lt;/code&gt; 遇到一个&lt;strong&gt;非零&lt;/strong&gt;元素时，说明这个元素需要被保留并放到前面。于是，我们执行两个操作：
-&lt;ol&gt;
-&lt;li&gt;将这个非零元素 &lt;code&gt;nums[q]&lt;/code&gt; 赋值给慢指针 &lt;code&gt;p&lt;/code&gt; 所在的位置 &lt;code&gt;nums[p]&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;将慢指针 &lt;code&gt;p&lt;/code&gt; 向后移动一位 (&lt;code&gt;p++&lt;/code&gt;)，为下一个非零元素腾出位置。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;li&gt;如果 &lt;code&gt;q&lt;/code&gt; 遇到的是 &lt;code&gt;0&lt;/code&gt;，则慢指针 &lt;code&gt;p&lt;/code&gt; 保持不动，只有快指针 &lt;code&gt;q&lt;/code&gt; 继续向后移动。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;填充末尾的零&lt;/strong&gt;：&lt;/p&gt;</description>
+      <category domain="https://amemiya02.github.io/categories/%E7%AE%97%E6%B3%95/">算法</category>
+      <category domain="https://amemiya02.github.io/categories/leetcode/">LeetCode</category>
+      <description>&lt;h1 class=&#34;heading-element&#34; id=&#34;双指针&#34;&gt;&lt;span&gt;双指针&lt;/span&gt;&#xA;  &lt;a href=&#34;#%e5%8f%8c%e6%8c%87%e9%92%88&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&lt;h2 class=&#34;heading-element&#34; id=&#34;283-移动零---easy&#34;&gt;&lt;span&gt;&lt;a href=&#34;https://leetcode.cn/problems/move-zeroes/&#34; target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;283. 移动零 - Easy&lt;/a&gt;&lt;/span&gt;&#xA;  &lt;a href=&#34;#283-%e7%a7%bb%e5%8a%a8%e9%9b%b6---easy&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&lt;h3 class=&#34;heading-element&#34; id=&#34;题目回顾&#34;&gt;&lt;span&gt;题目回顾&lt;/span&gt;&#xA;  &lt;a href=&#34;#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h3&gt;&lt;blockquote&gt;&#xA;&lt;p&gt;给定一个数组 &lt;code&gt;nums&lt;/code&gt;，编写一个函数将所有 &lt;code&gt;0&lt;/code&gt; 移动到数组的末尾，同时保持非零元素的相对顺序。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

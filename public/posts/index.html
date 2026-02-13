@@ -1,406 +1,107 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto" data-theme="auto">
-
-<head><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
-<title>Posts | 个人技术博客</title>
-<meta name="keywords" content="">
-<meta name="description" content="Posts - 个人技术博客">
-<meta name="author" content="">
-<link rel="canonical" href="https://amemiya02.github.io/posts/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.da3211e5ef867bf2b75fd5a6515cfed7195c011e8ab735694e203810a827097b.css" integrity="sha256-2jIR5e&#43;Ge/K3X9WmUVz&#43;1xlcAR6KtzVpTiA4EKgnCXs=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://amemiya02.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://amemiya02.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://amemiya02.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://amemiya02.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://amemiya02.github.io/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://amemiya02.github.io/posts/index.xml" title="rss">
-<link rel="alternate" hreflang="en" href="https://amemiya02.github.io/posts/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-                color-scheme: dark;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .toc {
-                background: var(--entry);
-            }
-        }
-
-        @media (prefers-color-scheme: light) {
-            .list::-webkit-scrollbar-thumb {
-                border-color: var(--code-bg);
-            }
-        }
-
-    </style>
-</noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script><script>
-  MathJax = {
-    tex: {
-      displayMath: [['\\[', '\\]'], ['$$', '$$']],
-      inlineMath: [['\\(', '\\)'], ['$', '$']],
-    },
-    loader: { load: ['ui/safe'] },
-  };
-</script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:url" content="https://amemiya02.github.io/posts/">
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>所有文章 - 个人技术博客</title><meta name="author" content="">
+<meta name="description" content="">
+  <meta itemprop="name" content="Posts">
+  <meta itemprop="datePublished" content="2026-02-10T09:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-10T09:00:00+09:00"><meta property="og:url" content="https://amemiya02.github.io/posts/">
   <meta property="og:site_name" content="个人技术博客">
   <meta property="og:title" content="Posts">
-  <meta property="og:locale" content="zh-CN">
+  <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="website">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Posts">
-<meta name="twitter:description" content="">
 
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://amemiya02.github.io/posts/"
-    }
-  ]
-}
-</script>
-</head>
-<body class="list" id="top">
-    <header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="https://amemiya02.github.io/" accesskey="h" title="个人技术博客 (Alt + H)">个人技术博客</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu">
-        </ul>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Posts">
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://amemiya02.github.io/posts/" title="Posts - 个人技术博客" /><link rel="alternate" type="application/rss+xml" href="https://amemiya02.github.io/posts/index.xml" title="Posts - 个人技术博客"><link rel="stylesheet" href="/css/config.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-instant-intensity="viewport" data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="个人技术博客"><span class="header-title-text">个人技术博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-sm" aria-hidden="true"></i> Archives</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/"><i class="fa-solid fa-folder-tree fa-sm" aria-hidden="true"></i> Categories</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" role="button" aria-label="切换主题" title="切换主题"><i class="fa-solid fa-adjust" aria-hidden="true"></i></li></ul>
     </nav>
-</header>
-<main class="main"> 
-<header class="page-header"><div class="breadcrumbs"><a href="https://amemiya02.github.io/">Home</a></div>
-  <h1>
-    Posts
-  </h1>
-</header>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 动态规划
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>动态规划 70. 爬楼梯 - Easy 题目回顾 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？ 注意：给定 n 是一个正整数。
-核心思路 递推公式： 爬到第 n 阶的方法数 = 爬到第 n-1 阶的方法数（最后一步爬 1 阶） &#43; 爬到第 n-2 阶的方法数（最后一步爬 2 阶）； 即 dp[n] = dp[n-1] &#43; dp[n-2]； 初始条件： dp[1] = 1（1 阶只有 1 种方法：爬 1 阶）； dp[2] = 2（2 阶有 2 种方法：1&#43;1 或 2）； 空间优化：无需维护完整的 dp 数组，只需用两个变量记录 dp[n-1] 和 dp[n-2]，空间复杂度从 O (n) 降到 O (1)。 代码实现 func climbStairs(n int) int { // 边界条件：n=1 或 n=2 直接返回结果 if n == 1 { return 1 } if n == 2 { return 2 } // 用两个变量代替dp数组，节省空间 prevPrev := 1 // 对应dp[n-2]，初始为dp[1] prev := 2 // 对应dp[n-1]，初始为dp[2] current := 0 // 对应dp[n] // 从3阶开始递推到n阶 for i := 3; i &lt;= n; i&#43;&#43; { current = prevPrev &#43; prev // dp[i] = dp[i-2] &#43; dp[i-1] // 更新变量，为下一次循环准备 prevPrev = prev prev = current } return current } 复杂度分析 时间复杂度：$O (n)$，需要计算从 3 到 n 的每一阶的方法数； 空间复杂度：$O (1)$，只使用了常数个变量来存储状态。 118. 杨辉三角 - Easy 题目回顾 给定一个非负整数 numRows，生成杨辉三角的前 numRows 行。 在杨辉三角中，每个数是它左上方和右上方的数的和。
-...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-02-10 09:00:00 +0900 +0900'>February 10, 2026</span>&nbsp;·&nbsp;<span>9 min</span></footer>
-  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 动态规划" href="https://amemiya02.github.io/posts/2026-02-10-dp/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 贪心算法
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>贪心算法 121. 买卖股票的最佳时机 - Easy 题目回顾 给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。 你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。 返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。
-核心思路 这道题的核心是找到 “最低买入价” 和 “该价格之后的最高卖出价”，暴力解法（双层循环找所有买卖组合）时间复杂度 O (n²) 会超时，最优的贪心思路：
-遍历价格数组时，维护两个变量： minPrice：记录遍历到当前位置时的最低买入价格； maxProfit：记录遍历到当前位置时能获得的最大利润； 遍历过程中： 先更新 minPrice（取当前价格和 minPrice 的较小值）； 再计算当前价格卖出能获得的利润（当前价格 - minPrice），并更新 maxProfit（取当前利润和 maxProfit 的较大值）； 遍历结束后，maxProfit 即为最大利润（若为负数则返回 0）。 代码实现 func maxProfit(prices []int) int { // 边界条件：数组长度小于2，无法买卖，直接返回0 if len(prices) &lt; 2 { return 0 } // 初始化最小价格为第一个元素，最大利润为0 minPrice := prices[0] maxProfit := 0 // 遍历从第二个元素开始的所有价格 for i := 1; i &lt; len(prices); i&#43;&#43; { // 1. 更新当前遇到的最低价格 if prices[i] &lt; minPrice { minPrice = prices[i] } else { // 2. 计算当前价格卖出的利润，更新最大利润 currentProfit := prices[i] - minPrice if currentProfit &gt; maxProfit { maxProfit = currentProfit } } } return maxProfit } 复杂度分析 时间复杂度：$O(n)$，只需遍历一次价格数组。 空间复杂度：$O(1)$，只使用了常数级别的额外空间。 55. 跳跃游戏 - Medium 题目回顾 给你一个非负整数数组 nums ，你最初位于数组的 第一个下标 。数组中的每个元素代表你在该位置可以跳跃的最大长度。 判断你是否能够到达最后一个下标，如果可以，返回 true ；否则，返回 false 。
-...</p>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="个人技术博客"><span class="header-title-text">个人技术博客</span></a><span class="header-subtitle"></span></div>
+      <div class="theme-switch" role="button" aria-label="切换主题"><i class="fa-solid fa-adjust" aria-hidden="true"></i></div>
+      <div class="menu-toggle" id="menu-toggle-mobile" role="button" aria-labelledby="menu-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-sm" aria-hidden="true"></i> Archives</a></li><li class="menu-item"><a class="menu-link" href="/categories/"><i class="fa-solid fa-folder-tree fa-sm" aria-hidden="true"></i> Categories</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item menu-system"></li>
+      </ul>
+    </nav>
   </div>
-  <footer class="entry-footer"><span title='2026-02-10 09:00:00 +0900 +0900'>February 10, 2026</span>&nbsp;·&nbsp;<span>3 min</span></footer>
-  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 贪心算法" href="https://amemiya02.github.io/posts/2026-02-10-greedy/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 堆
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>堆 215. 数组中的第 K 个最大元素 - Medium 题目回顾 给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。
-核心思路 这道题的核心是用快速选择算法（快速排序的变种）在 O (n) 平均时间复杂度内找到第 k 大元素，核心思路：
-第 k 大元素等价于数组升序排序后第 nums.length - k 小的元素，将问题转化为找第 nums.length - k 小的元素； 快速选择的核心是 partition（分区）：选择基准值，将数组分为 “小于基准” 和 “大于基准” 两部分，返回基准值的索引； 若基准索引等于目标索引 k，直接返回该值；若基准索引大于 k，递归左区间；否则递归右区间； 优化点：提前判断区间是否已有序，若有序则直接返回目标索引值，减少不必要的分区操作。 代码实现 func findKthLargest(nums []int, k int) int { // 第k大元素 = 升序后第 len(nums)-k 小的元素 target := len(nums) - k return quickSelect(nums, 0, len(nums)-1, target) } // quickSelect 快速选择：找到 [left, right] 区间内第 k 小的元素 func quickSelect(nums []int, left, right, k int) int { // 区间只有一个元素，直接返回 if left == right { return nums[left] } // 优化：提前判断区间是否已有序，有序则直接返回目标值 ordered := true for i := left; i &lt; right; i&#43;&#43; { if nums[i] &gt; nums[i&#43;1] { ordered = false break } } if ordered { return nums[k] } // 分区操作，返回基准值的索引 p := partition(nums, left, right) // 根据基准索引递归查找 if p == k { return nums[p] } else if p &gt; k { return quickSelect(nums, left, p-1, k) } else { return quickSelect(nums, p&#43;1, right, k) } } // partition 分区函数：以右边界为基准，将小于基准的元素移到左侧，返回基准最终索引 func partition(nums []int, left, right int) int { pivot := nums[right] // 选择右边界为基准值 i := left - 1 // 小于基准的区域边界 // 遍历 [left, right-1] 区间 for j := left; j &lt; right; j&#43;&#43; { if nums[j] &lt; pivot { i&#43;&#43; swap(nums, i, j) // 交换到小于基准的区域 } } // 将基准值放到正确位置（小于基准的区域右侧） i&#43;&#43; swap(nums, i, right) return i } // swap 交换数组中两个位置的元素 func swap(nums []int, i, j int) { nums[i], nums[j] = nums[j], nums[i] } 复杂度分析 时间复杂度：平均 $O(n)$，最坏情况 $O(n^2)$（每次分区都极端不平衡）。 空间复杂度：$O(1)$，原地分区操作。 347. 前 K 个高频元素 - Medium 题目回顾 给定一个非空的整数数组，返回其中出现频率前 k 高的元素。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-02-09 10:00:00 +0900 +0900'>February 9, 2026</span>&nbsp;·&nbsp;<span>5 min</span></footer>
-  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 堆" href="https://amemiya02.github.io/posts/2026-02-09-heap/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 栈
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>栈 20. 有效的括号 - Easy 题目回顾 给定一个只包括 ‘(’，’)’，’{’，’}’，’[’，’]’ 的字符串 s ，判断字符串是否有效。 有效字符串需满足： 左括号必须用相同类型的右括号闭合。 左括号必须以正确的顺序闭合。 每个右括号都有一个对应的相同类型的左括号。
-核心思路 这道题的核心是利用栈的 “后进先出” 特性验证括号的匹配性：
-遍历字符串，遇到左括号（(/{/[）时入栈； 遇到右括号（)/}/]）时，检查栈是否为空（为空则无匹配的左括号，直接返回 false），再弹出栈顶元素，判断是否与当前右括号匹配； 若不匹配则返回 false，遍历结束后检查栈是否为空（不为空说明有未匹配的左括号）。 代码实现 func isValid(s string) bool { // 用切片模拟栈，存储左括号（rune 兼容 Unicode，等价于 char） stack := []rune{} // 遍历字符串中的每个字符 for _, c := range s { switch c { // 左括号：入栈 case &#39;(&#39;, &#39;{&#39;, &#39;[&#39;: stack = append(stack, c) // 右括号：匹配检查 case &#39;)&#39;: // 栈为空 或 栈顶不是对应的左括号，返回false if len(stack) == 0 || stack[len(stack)-1] != &#39;(&#39; { return false } // 匹配成功，弹出栈顶（切片截断） stack = stack[:len(stack)-1] case &#39;]&#39;: if len(stack) == 0 || stack[len(stack)-1] != &#39;[&#39; { return false } stack = stack[:len(stack)-1] case &#39;}&#39;: if len(stack) == 0 || stack[len(stack)-1] != &#39;{&#39; { return false } stack = stack[:len(stack)-1] } } // 遍历结束后栈必须为空（无剩余左括号） return len(stack) == 0 } 复杂度分析 时间复杂度：$O(n)$，其中 $n$ 是字符串的长度。每个字符被访问一次，入栈和出栈操作都是 $O(1)$。 空间复杂度：$O(n)$，在最坏情况下（例如所有都是左括号）栈中会存储所有字符。 155. 最小栈 - Easy 这道题要求实现一个能在常数时间 O(1) 内获取最小值的栈，核心思路是双栈法：
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-02-09 09:00:00 +0900 +0900'>February 9, 2026</span>&nbsp;·&nbsp;<span>4 min</span></footer>
-  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 栈" href="https://amemiya02.github.io/posts/2026-02-09-stack/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 二分查找
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>二分查找 35. 搜索插入位置 - Easy 题目回顾 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。 请必须使用时间复杂度为 $O(log n)$ 的算法。
-核心思路 为什么最后返回 left？ 当循环 left &lt;= right 结束时，必然满足 left &gt; right。 如果 target 大于数组中所有元素，left 会一直右移直到 len(nums)。
-如果 target 小于数组中所有元素，right 会一直左移，最后 left 停在 0。
-在中间某处没找到时，left 最终会停在第一个大于 target 的元素位置上，这正是插入点。
-防止溢出的写法 在 Go（以及其他语言）中，写 mid = (left &#43; right) / 2 在 left 和 right 很大时可能导致整数溢出。使用 mid = left &#43; (right-left)/2 是一种更健壮、更地道的写法。 代码实现 func searchInsert(nums []int, target int) int { left := 0 right := len(nums) - 1 for left &lt;= right { // 使用这种方式防止 (left &#43; right) 溢出 mid := left &#43; (right-left)/2 if nums[mid] == target { // 找到目标值，直接返回索引 return mid } else if nums[mid] &lt; target { // 目标值在右半部分，更新左边界 left = mid &#43; 1 } else { // 目标值在左半部分，更新右边界 right = mid - 1 } } // 如果循环结束未找到，left 指向的正是它应该被插入的位置 return left } 复杂度分析 时间复杂度：$O(log n)$，每次迭代将搜索空间减半。 空间复杂度：$O(1)$，只使用了常数级别的额外空间。 74. 搜索二维矩阵 - Medium 题目回顾 编写一个高效的算法来判断 m x n 矩阵中，是否存在一个目标值。该矩阵具有以下特性：
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-02-05 08:00:00 +0900 +0900'>February 5, 2026</span>&nbsp;·&nbsp;<span>6 min</span></footer>
-  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 二分查找" href="https://amemiya02.github.io/posts/2026-02-05-binary-search/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 回溯
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>回溯 46. 全排列 - Medium 题目回顾 给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。你可以 按任意顺序 返回答案。
-核心思路 回溯算法可以抽象为一个决策树的遍历过程：
-路径与选择列表 路径 (Path)：已经做出的选择（代码中的 path）。 选择列表 (Used)：当前还可以做的选择（代码中的 !used[i]）。
-终止条件 当到达叶子节点（len(path) == len(nums)），说明找到了一组完整的排列。
-撤销选择 (Backtrack) 这是最关键的一步。在递归返回后，我们需要把最后加入 path 的元素弹出，并将 used 标记改回 false。这就像是在走迷宫时，发现死胡同后退回到上一个分叉口。
-代码实现 func permute(nums []int) [][]int { var res [][]int path := []int{} used := make([]bool, len(nums)) var backtrack func() backtrack = func() { // 终止条件：路径长度等于数组长度 if len(path) == len(nums) { // 注意：Go 中切片是引用传递，必须进行拷贝 temp := make([]int, len(path)) copy(temp, path) res = append(res, temp) return } for i := 0; i &lt; len(nums); i&#43;&#43; { // 如果该数字已经用过，跳过 if used[i] { continue } // 1. 做选择 used[i] = true path = append(path, nums[i]) // 2. 递归进入下一层 backtrack() // 3. 撤销选择（回溯） path = path[:len(path)-1] used[i] = false } } backtrack() return res } 复杂度分析 时间复杂度：$O(n * n!)$，其中 n 是数组的长度。全排列的数量是 n!，每个排列需要 O(n) 的时间来构建和复制到结果中。 空间复杂度：$O(n)$，用于存储递归栈和路径。 78. 子集 - Medium 题目回顾 给你一个整数数组 nums ，数组中的元素 互不相同 。返回该数组所有可能的子集（幂集）。解集 不能 包含重复的子集。你可以按 任意顺序 返回解集。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-02-03 09:01:00 +0900 +0900'>February 3, 2026</span>&nbsp;·&nbsp;<span>8 min</span></footer>
-  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 回溯" href="https://amemiya02.github.io/posts/2026-02-03-backtracking/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 图论
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>图论 200. 岛屿数量 - Mid 题目回顾 给你一个由 ‘1’（陆地）和 ‘0’（水）组成的二维网格，请你计算网格中岛屿的数量。岛屿总是被水包围，并且每座岛屿只能由水平方向和竖直方向上相邻的陆地连接形成。你可以假设网格的四个边均被水包围。
-核心思路 扫描：像扫描仪一样遍历每一个格点。
-触发搜索：遇到 ‘1’ 时，说明找到了一个岛屿。
-消除影响：为了不重复计算同一个岛屿，必须在发现它的瞬间，通过 DFS 把这个岛屿所有的土地全部标记为 ‘0’。这就像是在地图上把发现的岛屿“涂黑”。
-计数：触发 DFS 的次数，就是岛屿的总数。
-代码实现 func numIslands(grid [][]byte) int { if len(grid) == 0 { return 0 } m, n := len(grid), len(grid[0]) count := 0 // 遍历整个网格 for i := 0; i &lt; m; i&#43;&#43; { for j := 0; j &lt; n; j&#43;&#43; { // 如果发现陆地 if grid[i][j] == &#39;1&#39; { dfs(grid, i, j) // 发现一个岛屿，计数加 1 count&#43;&#43; } } } return count } func dfs(grid [][]byte, i, j int) { m, n := len(grid), len(grid[0]) // 越界检查或遇到水（&#39;0&#39;），直接返回 if i &lt; 0 || i &gt;= m || j &lt; 0 || j &gt;= n || grid[i][j] == &#39;0&#39; { return } // 标记当前陆地已被访问（淹没），防止死循环 grid[i][j] = &#39;0&#39; // 向四个方向扩散 dfs(grid, i&#43;1, j) // 下 dfs(grid, i-1, j) // 上 dfs(grid, i, j&#43;1) // 右 dfs(grid, i, j-1) // 左 } 复杂度分析 时间复杂度：$O(M * N)$，其中 M 和 N 分别是网格的行数和列数。每个格点最多被访问一次。 空间复杂度：$O(M * N)$，在最坏情况下，递归栈的深度可能达到 M * N。 994. 腐烂的橘子 - Mid 题目回顾 在给定的网格中，每个单元格可以有以下三个值之一：
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-02-03 09:00:00 +0900 +0900'>February 3, 2026</span>&nbsp;·&nbsp;<span>4 min</span></footer>
-  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 图论" href="https://amemiya02.github.io/posts/2026-02-03-graph/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 二叉树
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>二叉树 94. 二叉树的中序遍历 - Easy 题目回顾 给定一个二叉树的根节点 root ，返回它的 中序 遍历。
-核心思路 递归或者迭代
-代码实现 /** * Definition for a binary tree node. * type TreeNode struct { * Val int * Left *TreeNode * Right *TreeNode * } */ func inorderTraversal(root *TreeNode) []int { res := []int{} stack := []*TreeNode{} curr := root for curr != nil || len(stack) &gt; 0 { // 1. 一路向左，把所有左孩子入栈 for curr != nil { stack = append(stack, curr) curr = curr.Left } // 2. 弹出栈顶（当前最左的节点） curr = stack[len(stack)-1] stack = stack[:len(stack)-1] // 3. 记录结果 res = append(res, curr.Val) // 4. 转向右子树 curr = curr.Right } return res } 复杂度分析 时间复杂度：$O(N)$，其中 N 是二叉树的节点数。每个节点恰好被访问一次。 空间复杂度：$O(H)$，其中 H 是二叉树的高度。 104. 二叉树的最大深度 - Easy 题目回顾 给定一个二叉树，找出其最大深度。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-31 09:00:00 +0900 +0900'>January 31, 2026</span>&nbsp;·&nbsp;<span>11 min</span></footer>
-  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 二叉树" href="https://amemiya02.github.io/posts/2026-01-31-binary-tree/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 链表
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>链表 160. 相交链表 - Easy 题目回顾 给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点, 返回 null 。
-题目数据 保证 整个链式结构中不存在环，并且函数返回结果后，链表必须 保持其原始结构 。
-核心思路 思路0：HashSet去重 思路一：双指针 &#43; 长度对齐 这是最直观的解法。既然相交前的部分长度可能不同，导致我们无法直接同步遍历，那我们想办法让它们变得一样长就可以了。
-计算长度：首先，分别遍历两个链表，得到它们的长度 lenA 和 lenB。
-对齐指针：计算出长度差 diff = |lenA - lenB|。让较长的那个链表的指针先走 diff 步。这样操作之后，两个指针距离各自链表的末尾就有了相同的距离。
-同步遍历：现在两个指针位于同一起跑线（相对终点而言），我们让它们同步向后移动，一次一步。
-寻找交点：在同步移动的过程中，第一次出现两个指针相等 (headA == headB) 的地方，就是它们的第一个相交节点。如果一直走到末尾 (null) 都没有相遇，则说明两个链表不相交。
-这个方法就像两个人去同一个终点，路程长的人先出发一段距离，然后两个人再同时出发，这样他们就能同时到达终点。
-思路二：双指针&#34;浪漫&#34;相遇法 这是一个更巧妙，代码也更简洁的解法，它避免了显式地计算长度。
-想象有两个指针 pA 和 pB，分别从 headA 和 headB 出发。它们同时前进，当任何一个指针走到自己链表的末尾时，就跳到对方链表的头节点继续前进。
-为什么这个方法可行？
-路径长度相等：
-pA 走过的路径：链表A的长度 &#43; 链表B的长度 pB 走过的路径：链表B的长度 &#43; 链表A的长度 两个指针走过的总路程是完全相同的。 相遇点：
-如果相交：设 A 不相交部分长 a，B 不相交部分长 b，相交部分长 c。pA 走 a&#43;c 到达终点，然后从 B 的头部走 b 步。pB 走 b&#43;c 到达终点，然后从 A 的头部走 a 步。当它们都走了 a&#43;b&#43;c 的路程时，会在相交点相遇。 如果不相交：pA 走完 A 再走完 B，pB 走完 B 再走完 A。它们会同时到达终点 null，此时 pA == pB == null，循环结束，正确返回 null。 这个方法可以理解为，通过让两个指针都走一遍 A&#43;B 和 B&#43;A 的路程，从而消除了长度差，使得它们能够在终点前相遇。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-28 09:00:00 +0900 +0900'>January 28, 2026</span>&nbsp;·&nbsp;<span>15 min</span></footer>
-  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 链表" href="https://amemiya02.github.io/posts/2026-01-28-linked-list/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 矩阵
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>矩阵 73. 矩阵置零 - Mid 题目回顾 给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。请使用 原地 算法。
-示例 1：
-输入： matrix = [[1,1,1],[1,0,1],[1,1,1]] 输出： [[1,0,1],[0,0,0],[1,0,1]]
-示例 2：
-输入： matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]] 输出： [[0,0,0,0],[0,4,5,0],[0,3,1,0]]
-进阶：
-一个直观的解决方案是使用 $O(mn)$ 的额外空间，但这并不是一个好的解决方案。 一个简单的改进方案是使用 $O(m &#43; n)$ 的额外空间，但这仍然不是最好的解决方案。 你能想出一个仅使用常量空间的解决方案吗？ 核心思路：利用首行首列做标记 这道题的难点在于污染问题：如果我们一边遍历一边将 0 所在的行列置零，那么修改后的 0 会干扰后续的遍历，导致整个矩阵最后全变成了 0。
-空间复杂度优化路径 $O(MN)$ 空间：新建一个同样的矩阵做标记。太浪费。 $O(M&#43;N)$ 空间：使用两个布尔数组 row[] 和 col[]，分别记录哪一行、哪一列需要置零。 $O(1)$ 空间：直接利用矩阵的第一行和第一列来替代上面的两个布尔数组。 算法流程 ($O(1)$ 方案) 既然我们要用第一行和第一列来记录&#34;该行/列是否需要置零&#34;，那么第一行和第一列原本的状态（是否包含 0）就需要先被保存下来，否则会被后续的标记覆盖。
-步骤如下：
-记录首行首列状态： 定义两个变量 firstRowHasZero 和 firstColHasZero，遍历第一行和第一列，如果发现 0，则将对应的变量置为 true。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-27 09:00:00 +0900 +0900'>January 27, 2026</span>&nbsp;·&nbsp;<span>5 min</span></footer>
-  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 矩阵" href="https://amemiya02.github.io/posts/2026-01-27-matrix/"></a>
-</article>
-<footer class="page-footer">
-  <nav class="pagination">
-    <a class="next" href="https://amemiya02.github.io/posts/page/2/">Next&nbsp;&nbsp;»
-    </a>
-  </nav>
-</footer>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2026 <a href="https://amemiya02.github.io/">个人技术博客</a></span> · 
-
-    <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a>
-
-<script>
-    let menu = document.getElementById('menu');
-    if (menu) {
-        
-        const scrollPosition = localStorage.getItem("menu-scroll-position");
-        if (scrollPosition) {
-            menu.scrollLeft = parseInt(scrollPosition, 10);
-        }
-        
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        const html = document.querySelector("html");
-        if (html.dataset.theme === "dark") {
-            html.dataset.theme = 'light';
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            html.dataset.theme = 'dark';
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-</body>
-
+</header><main class="fi-container"><div class="page archive">
+    <div class="header"><h1 class="single-title animate__animated animate__pulse animate__faster"><i class="fa-solid fa-feather me-1" aria-hidden="true"></i>所有文章 <sup>15</sup>
+      </h1><p class="single-subtitle total-word-count" title='总计约 17332 字'><i class="fa-regular fa-keyboard" aria-hidden="true"></i> 总计约 17.33K 字</p></div><h2 class="group-title"><i class="fa-regular fa-calendar me-1" aria-hidden="true"></i>2026</h2><article class="archive-item">
+            <a href="/posts/2026-02-10-greedy/" class="archive-item-link">[Golang] LeetCode 热题 100 - 贪心算法</a>
+            <span class="archive-item-date" title='2026-02-10 09:00:00'>02-10</span>
+          </article><article class="archive-item">
+            <a href="/posts/2026-02-10-dp/" class="archive-item-link">[Golang] LeetCode 热题 100 - 动态规划</a>
+            <span class="archive-item-date" title='2026-02-10 09:00:00'>02-10</span>
+          </article><article class="archive-item">
+            <a href="/posts/2026-02-09-heap/" class="archive-item-link">[Golang] LeetCode 热题 100 - 堆</a>
+            <span class="archive-item-date" title='2026-02-09 10:00:00'>02-09</span>
+          </article><article class="archive-item">
+            <a href="/posts/2026-02-09-stack/" class="archive-item-link">[Golang] LeetCode 热题 100 - 栈</a>
+            <span class="archive-item-date" title='2026-02-09 09:00:00'>02-09</span>
+          </article><article class="archive-item">
+            <a href="/posts/2026-02-05-binary-search/" class="archive-item-link">[Golang] LeetCode 热题 100 - 二分查找</a>
+            <span class="archive-item-date" title='2026-02-05 08:00:00'>02-05</span>
+          </article><article class="archive-item">
+            <a href="/posts/2026-02-03-backtracking/" class="archive-item-link">[Golang] LeetCode 热题 100 - 回溯</a>
+            <span class="archive-item-date" title='2026-02-03 09:01:00'>02-03</span>
+          </article><article class="archive-item">
+            <a href="/posts/2026-02-03-graph/" class="archive-item-link">[Golang] LeetCode 热题 100 - 图论</a>
+            <span class="archive-item-date" title='2026-02-03 09:00:00'>02-03</span>
+          </article><article class="archive-item">
+            <a href="/posts/2026-01-31-binary-tree/" class="archive-item-link">[Golang] LeetCode 热题 100 - 二叉树</a>
+            <span class="archive-item-date" title='2026-01-31 09:00:00'>01-31</span>
+          </article><article class="archive-item">
+            <a href="/posts/2026-01-28-linked-list/" class="archive-item-link">[Golang] LeetCode 热题 100 - 链表</a>
+            <span class="archive-item-date" title='2026-01-28 09:00:00'>01-28</span>
+          </article><article class="archive-item">
+            <a href="/posts/2026-01-27-matrix/" class="archive-item-link">[Golang] LeetCode 热题 100 - 矩阵</a>
+            <span class="archive-item-date" title='2026-01-27 09:00:00'>01-27</span>
+          </article><article class="archive-item">
+            <a href="/posts/2026-01-26-array/" class="archive-item-link">[Golang] LeetCode 热题 100 - 普通数组</a>
+            <span class="archive-item-date" title='2026-01-26 09:00:00'>01-26</span>
+          </article><article class="archive-item">
+            <a href="/posts/2026-01-25-substring/" class="archive-item-link">[Golang] LeetCode 热题 100 - 子串</a>
+            <span class="archive-item-date" title='2026-01-25 10:00:00'>01-25</span>
+          </article><article class="archive-item">
+            <a href="/posts/2026-01-25-sliding-window/" class="archive-item-link">[Golang] LeetCode 热题 100 - 滑动窗口</a>
+            <span class="archive-item-date" title='2026-01-25 09:00:00'>01-25</span>
+          </article><article class="archive-item">
+            <a href="/posts/2026-01-24-two-pointer/" class="archive-item-link">[Golang] LeetCode 热题 100 - 双指针</a>
+            <span class="archive-item-date" title='2026-01-24 21:00:00'>01-24</span>
+          </article><article class="archive-item">
+            <a href="/posts/2026-01-24-hash/" class="archive-item-link">[Golang] LeetCode 热题 100 - 哈希</a>
+            <span class="archive-item-date" title='2026-01-24 19:00:00'>01-24</span>
+          </article></div></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.154.1"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.4.3-20260130042349-e23a50d7"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons"><div class="fixed-button back-to-top animate__faster d-none" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"version":"v0.4.3-20260130042349-e23a50d7"};</script><script src="/js/theme.min.js" defer></script></body>
 </html>

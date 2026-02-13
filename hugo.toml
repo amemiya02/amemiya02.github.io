@@ -1,7 +1,7 @@
 baseURL = 'https://amemiya02.github.io'
 languageCode = 'zh-CN'
 title = '个人技术博客'
-theme = "PaperMod"
+theme = "FixIt"
 
 [pagination]
   pagerSize = 10
