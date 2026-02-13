@@ -1,0 +1,22 @@
+# config/_default/languages.yaml
+---
+# https://gohugo.io/content-management/multilingual/#configure-languages
+zh-cn:
+  # 这里大小写很重要，定义网站 html lang
+  languageCode: zh-CN
+  languageName: 简体中文
+  # If true, auto-detect Chinese/Japanese/Korean Languages in the content.
+  # This will make .Summary and .WordCount behave correctly for CJK languages.
+  hasCJKLanguage: true
+
+  title: Amemiya
+  params:
+    description: Amemiya的个人博客
+    home:
+      profile:
+        subtitle: 行百里者半九十。
+    header:
+      title:
+        name: Amemiya的个人博客
+    app:
+      title: Amemiya

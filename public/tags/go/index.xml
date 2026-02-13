@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Go - 标签 - 个人技术博客</title>
+    <title>Go - 标签 - Amemiya</title>
     <link>https://amemiya02.github.io/tags/go/</link>
-    <description>个人技术博客</description>
+    <description>Amemiya的个人博客</description>
     <generator>Hugo 0.154.1 &amp; FixIt v0.4.3-20260130042349-e23a50d7</generator>
     <language>zh-CN</language>
     <lastBuildDate>Tue, 10 Feb 2026 09:00:00 +0900</lastBuildDate>

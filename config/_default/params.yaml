@@ -1,0 +1,52 @@
+# config/_default/params.yaml
+---
+# https://fixit.lruihao.cn/documentation/basics/#search-configuration
+search:
+  enable: true
+  type: fuse
+  fuse:
+    # https://fusejs.io/api/options.html
+    isCaseSensitive: false
+header:
+  title:
+    logo: ""
+    name: Amemiya
+    pre: <i class="fa fa-code">&nbsp</i>
+    typeit: true
+
+githubCorner:
+  enable: true
+  permalink: "https://github.com/amemiya02"
+  title: "Visit Me on GitHub"
+  position: left
+
+home:
+  profile:
+    enable: true
+    subtitle: The last leg of a journey just marks the halfway point.
+    avatarMenu: github
+    avatarURL: avatar.jpg
+
+social:
+  GitHub: amemiya02
+  RSS: true
+
+footer:
+  enable: true
+  since: 2025
+  hugo: true
+  siteTime:
+    enable: true
+    value: "2025-01-01T00:00:00+08:00"
+  visitor:
+    enable: false
+  license: '<a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
+  order:
+    powered: 1
+    copyright: last
+    statistics: first
+ibruce:
+  enable: true
+  enablePost: true
+cdn:
+  data: jsdelivr.yml
