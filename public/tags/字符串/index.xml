@@ -130,61 +130,6 @@ e.  将右指针 &lt;code&gt;right&lt;/code&gt; 右移一位，考察下一个�
 &lt;p&gt;通过这种一扩一缩的动态调整，滑动窗口能够保证在一次遍历中就找到最优解。&lt;/p&gt;</description>
     </item>
     <item>
-      <title>【HOT100/哈希表】LeetCode 49. 字母异位词分组</title>
-      <link>http://localhost:1313/posts/2025-09-20-49-group-anagrams/</link>
-      <pubDate>Sat, 20 Sep 2025 14:45:00 +0900</pubDate>
-      <guid>http://localhost:1313/posts/2025-09-20-49-group-anagrams/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给你一个字符串数组，请你将 &lt;strong&gt;字母异位词&lt;/strong&gt; 组合在一起。可以按任意顺序返回结果列表。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;字母异位词&lt;/strong&gt; 是由相同字母按不同顺序排列组成的单词。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例 1:&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入:&lt;/strong&gt; &lt;code&gt;strs = [&amp;quot;eat&amp;quot;, &amp;quot;tea&amp;quot;, &amp;quot;tan&amp;quot;, &amp;quot;ate&amp;quot;, &amp;quot;nat&amp;quot;, &amp;quot;bat&amp;quot;]&lt;/code&gt;
-&lt;strong&gt;输出:&lt;/strong&gt; &lt;code&gt;[[&amp;quot;bat&amp;quot;],[&amp;quot;nat&amp;quot;,&amp;quot;tan&amp;quot;],[&amp;quot;ate&amp;quot;,&amp;quot;eat&amp;quot;,&amp;quot;tea&amp;quot;]]&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id=&#34;核心思路寻找唯一标识&#34;&gt;核心思路：寻找唯一标识&lt;/h2&gt;
-&lt;p&gt;除了字母完全相同，字母异位词的另一个充要条件是&lt;strong&gt;每个字母出现的频率完全相同&lt;/strong&gt;。因此，我们也可以根据一个单词的字符频率来生成 &lt;code&gt;key&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;例如，对于 &lt;code&gt;&amp;quot;aab&amp;quot;&lt;/code&gt;，其字符频率可以表示为一个长度为 26 的数组 &lt;code&gt;[2, 1, 0, 0, ...]&lt;/code&gt;。为了把这个数组用作哈希表的 &lt;code&gt;key&lt;/code&gt;，我们需要将它转换成一个不可变的字符串。&lt;/p&gt;
-&lt;p&gt;我们可以简单地将计数拼接起来，例如用 &lt;code&gt;&amp;quot;#&amp;quot;&lt;/code&gt; 分隔：&lt;code&gt;&amp;quot;2#1#0#0#...&amp;quot;&lt;/code&gt;。这样，所有异位词（如 &lt;code&gt;&amp;quot;aba&amp;quot;&lt;/code&gt;, &lt;code&gt;&amp;quot;baa&amp;quot;&lt;/code&gt;）都会生成这个完全相同的字符串 &lt;code&gt;key&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;你提供的答案正是采用了这种思路，通过一个辅助函数 &lt;code&gt;strToCount&lt;/code&gt; 将频率数组转换成一个固定格式的字符串，同样起到了唯一标识的作用。&lt;/p&gt;
-&lt;h2 id=&#34;代码实现-java&#34;&gt;代码实现 (Java)&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; List&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;List&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;String&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;groupAnagrams&lt;/span&gt;(String&lt;span style=&#34;color:#f92672&#34;&gt;[]&lt;/span&gt; strs) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        Map&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;String, List&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;String&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; map &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; HashMap&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;gt;&lt;/span&gt;();
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (String str : strs) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// 1. 将每个字符串的字符计数转换为唯一的 key&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            String key &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; generateCountKey(str);
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// 2. 从 map 中获取该 key 对应的列表，若不存在则创建新列表&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            List&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;String&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; list &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; map.&lt;span style=&#34;color:#a6e22e&#34;&gt;getOrDefault&lt;/span&gt;(key, &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; ArrayList&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;gt;&lt;/span&gt;());
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// 3. 将当前字符串加入列表&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            list.&lt;span style=&#34;color:#a6e22e&#34;&gt;add&lt;/span&gt;(str);
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// 4. 将更新后的列表放回 map&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            map.&lt;span style=&#34;color:#a6e22e&#34;&gt;put&lt;/span&gt;(key, list);
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// 返回 map 中所有的值（即分组后的列表）&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; ArrayList&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;gt;&lt;/span&gt;(map.&lt;span style=&#34;color:#a6e22e&#34;&gt;values&lt;/span&gt;());
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 将字符串转换为基于字符计数的 key&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; String &lt;span style=&#34;color:#a6e22e&#34;&gt;generateCountKey&lt;/span&gt;(String str) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[]&lt;/span&gt; counts &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;26&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; c : str.&lt;span style=&#34;color:#a6e22e&#34;&gt;toCharArray&lt;/span&gt;()) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            counts&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;c &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]++&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        StringBuilder sb &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; StringBuilder();
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; 0; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; 26; i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// 用特殊字符分隔，防止歧义，例如 &amp;#34;b1c2&amp;#34; vs &amp;#34;bc12&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            sb.&lt;span style=&#34;color:#a6e22e&#34;&gt;append&lt;/span&gt;((&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;)(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; i));
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            sb.&lt;span style=&#34;color:#a6e22e&#34;&gt;append&lt;/span&gt;(counts&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;);
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; sb.&lt;span style=&#34;color:#a6e22e&#34;&gt;toString&lt;/span&gt;();
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;复杂度分析&lt;/strong&gt;
-设 N 是字符串数组 strs 的长度，K 是数组中字符串的最大长度。&lt;/p&gt;</description>
-    </item>
-    <item>
       <title>【HOT100/哈希表 / 数组】LeetCode 383. 赎金信</title>
       <link>http://localhost:1313/posts/2025-09-18-383-ransom-note/</link>
       <pubDate>Thu, 18 Sep 2025 18:18:00 +0900</pubDate>

@@ -137,6 +137,52 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 双指针
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>双指针 283. 移动零 - Easy 题目回顾 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+请注意 ，必须在不复制数组的情况下原地对数组进行操作。
+示例 1:
+输入: nums = [0,1,0,3,12] 输出: [1,3,12,0,0]
+核心思路：快慢指针（一次遍历） 这道题有两个核心要求：
+将所有 0 移动到末尾。 保持所有非零元素的相对顺序不变。 第二个要求&#34;保持相对顺序&#34;是解题的关键。它告诉我们，不能简单地像&#34;移除元素&#34;那样，用头尾指针交换元素，因为那样会打乱非零元素的原有顺序。
+这个问题的本质可以看作是：将所有非零元素，按原有的顺序，紧凑地移动到数组的前面，然后将剩余的位置全部填上零。
+这正是快慢指针擅长的场景：
+定义指针：
+慢指针 p (或 slow): 这个指针用于标记&#34;下一个非零元素应该被放置的位置&#34;。在 p 左边的所有元素（不含 p）都是已经处理好的、按序排列的非零元素。 快指针 q (或 fast): 这个指针负责遍历整个数组，去寻找非零元素。 执行过程：
+初始化 p 和 q 都指向数组的起始位置 0。 快指针 q 开始向后遍历数组。 当 q 遇到一个非零元素时，说明这个元素需要被保留并放到前面。于是，我们执行两个操作： 将这个非零元素 nums[q] 赋值给慢指针 p 所在的位置 nums[p]。 将慢指针 p 向后移动一位 (p&#43;&#43;)，为下一个非零元素腾出位置。 如果 q 遇到的是 0，则慢指针 p 保持不动，只有快指针 q 继续向后移动。 填充末尾的零：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-24 21:00:00 +0900 JST'>January 24, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 双指针" href="http://localhost:1313/posts/2026-01-24-two-pointer/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 哈希
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>哈希 1. 两数之和 - Easy 题目回顾 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target 的那 两个 整数，并返回它们的数组下标。
+你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。
+你可以按任意顺序返回答案。
+示例 1：
+输入： nums = [2,7,11,15], target = 9 输出： [0,1] 解释： 因为 nums[0] &#43; nums[1] == 9 ，返回 [0, 1] 。
+核心思路：用空间换时间 作为 LeetCode 的开篇之作，这道题完美地诠释了如何通过&#34;空间换时间&#34;的思想来优化算法。
+暴力解法的瓶颈在于&#34;寻找另一个数&#34;的过程太慢。对于每个 nums[i]，我们都需要在数组中寻找是否存在一个数 target - nums[i]。这个寻找过程能否被加速呢？
+答案是肯定的，哈希表提供了近乎 $O(1)$ 的查找效率。
+我们可以使用一个哈希表（HashMap）来存储已经遍历过的数字及其对应的索引，即 Map&lt;数值, 索引&gt;。
+具体的算法流程如下：
+创建一个空的哈希表 map。 遍历 nums 数组，对于当前的元素 nums[i]： a. 计算我们需要寻找的&#34;另一半&#34;：complement = target - nums[i]。 b. 在哈希表中查找 complement 是否存在。 如果存在，说明我们找到了解！complement 的索引已经存在 map 中，当前元素的索引是 i。我们立即返回 [map.get(complement), i]。 如果不存在，说明到目前为止还没遇到能和 nums[i] 配对的数。我们将当前数字和它的索引存入哈希表 map.put(nums[i], i)，以便后续的元素能用它来配对。 遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。 这个&#34;一边遍历，一边查找，一边插入&#34;的单遍哈希表解法，非常巧妙地在一次循环中完成了所有工作。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-24 19:00:00 +0900 JST'>January 24, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 哈希" href="http://localhost:1313/posts/2026-01-24-hash/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">【HOT100/矩阵】LeetCode 240. 搜索二维矩阵 II
     </h2>
   </header>
@@ -315,52 +361,6 @@ prev：指向当前节点的前一个节点（初始为 null） curr：指向当
   </div>
   <footer class="entry-footer"><span title='2026-01-02 17:05:00 +0900 JST'>January 2, 2026</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/数组】LeetCode 189. 轮转数组" href="http://localhost:1313/posts/2026-01-02-189-rotate-array/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/排序】LeetCode 56. 合并区间
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 以数组 intervals 表示若干个区间的集合，其中单个区间为 intervals[i] = [start_i, end_i] 。请你合并所有重叠的区间，并返回一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间。
-示例 1：
-输入： intervals = [[1,3],[2,6],[8,10],[15,18]] 输出： [[1,6],[8,10],[15,18]] 解释： 区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6].
-示例 2：
-输入： intervals = [[1,4],[4,5]] 输出： [[1,5]] 解释： 区间 [1,4] 和 [4,5] 可被视为重叠区间。
-核心思路：排序 &#43; 贪心 区间问题最常见的痛点在于：输入的区间可能是乱序的。如果乱序处理，我们需要两两比较，复杂度会飙升到 $O(N^2)$。
-解决此类问题的&#34;银弹&#34;通常是先排序。
-1. 预处理：排序 我们首先按照区间的**左端点（Start Time）**进行从小到大的排序。 排序后，重叠的区间在数组中一定是相邻的。这使得我们只需要进行一次线性扫描就能完成合并。
-2. 遍历与合并 我们维护一个结果集 res，并遍历排序后的区间列表：
-初始状态：如果 res 为空，直接将当前区间加入。 无重叠：如果当前区间的左端点大于结果集中最后一个区间的右端点，说明它们断开了，没有交集。直接将当前区间加入 res。 有重叠：如果当前区间的左端点小于等于结果集中最后一个区间的右端点，说明发生了重叠（或者通过端点相连）。 此时我们需要合并：更新结果集中最后一个区间的右端点。 新的右端点应该是两者右端点的最大值：max(last_interval.end, current_interval.end)。 代码实现 (Java) class Solution { public int[][] merge(int[][] intervals) { // 边界检查 if (intervals.length == 0) { return new int[0][2]; } // 核心步骤 1：按照区间左端点进行排序 // 这一步将 O(N^2) 的两两比较降低为 O(N) 的线性扫描 Arrays.sort(intervals, (i1, i2) -&gt; i1[0] - i2[0]); List&lt;int[]&gt; res = new ArrayList&lt;&gt;(); for (int i = 0; i &lt; intervals.length; i&#43;&#43;) { int l = intervals[i][0]; int r = intervals[i][1]; // 核心步骤 2：判断是否重叠 // 如果结果集为空，或者当前区间的左端点 &gt; 结果集最后一个区间的右端点 // 说明无重叠，直接添加 if (res.isEmpty() || res.get(res.size() - 1)[1] &lt; l) { res.add(new int[]{l, r}); } else { // 发生重叠，合并区间 // 更新结果集最后一个区间的右端点，取两者最大值 res.get(res.size() - 1)[1] = Math.max(res.get(res.size() - 1)[1], r); } } // 转换回题目要求的 int[][] 格式 return res.toArray(new int[res.size()][0]); } } 复杂度分析 时间复杂度: $O(N \log N)$。虽然遍历是一次线性的 $O(N)$，但排序的开销是 $O(N \log N)$，它是整个算法的瓶颈。 空间复杂度: $O(\log N)$。这里指的是 Java 排序算法（通常是快排或归并排序的变种）所需的栈空间。如果算上存储结果的 res 列表，则是 $O(N)$。 </p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-02 16:20:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/排序】LeetCode 56. 合并区间" href="http://localhost:1313/posts/2026-01-02-56-merge-intervals/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/动态规划】LeetCode 53. 最大子数组和
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
-子数组 是数组中的一个连续部分。
-示例 1：
-输入： nums = [-2,1,-3,4,-1,2,1,-5,4] 输出： 6 解释： 连续子数组 [4,-1,2,1] 的和最大，为 6 。
-示例 2：
-输入： nums = [1] 输出： 1
-示例 3：
-输入： nums = [5,4,-1,7,8] 输出： 23
-核心思路：动态规划与贪心 这道题是**动态规划（Dynamic Programming）**的经典入门题。
-如果我们用暴力法求解，枚举所有的起点和终点，时间复杂度会达到 $O(N^2)$，这显然不是最优解。我们需要找到一种遍历一次就能得出结果的方法。
-状态定义 我们要思考：以当前数字 nums[i] 结尾的子数组，它的最大和是多少？
-假设 dp[i] 表示以 nums[i] 结尾的连续子数组的最大和。那么对于 nums[i] 来说，它面临两个选择：
-加入前面的队伍：如果前面的子数组和 dp[i-1] 是正数，那么加上它肯定比自己单干强，即 dp[i-1] &#43; nums[i]。 另起炉灶：如果前面的子数组和 dp[i-1] 是负数，加上它只会拖累自己，不如从自己重新开始计算，即 nums[i]。 状态转移方程 根据上述分析，我们可以得到状态转移方程： $$ dp[i] = \max(dp[i-1] &#43; \text{nums}[i], \text{nums}[i]) $$
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-02 15:10:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/动态规划】LeetCode 53. 最大子数组和" href="http://localhost:1313/posts/2026-01-02-53-maximum-subarray/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

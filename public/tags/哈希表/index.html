@@ -184,50 +184,6 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/哈希表】LeetCode 1. 两数之和
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target 的那 两个 整数，并返回它们的数组下标。
-你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。
-你可以按任意顺序返回答案。
-示例 1：
-输入： nums = [2,7,11,15], target = 9 输出： [0,1] 解释： 因为 nums[0] &#43; nums[1] == 9 ，返回 [0, 1] 。
-核心思路：用空间换时间 作为 LeetCode 的开篇之作，这道题完美地诠释了如何通过&#34;空间换时间&#34;的思想来优化算法。
-暴力解法的瓶颈在于&#34;寻找另一个数&#34;的过程太慢。对于每个 nums[i]，我们都需要在数组中寻找是否存在一个数 target - nums[i]。这个寻找过程能否被加速呢？
-答案是肯定的，哈希表提供了近乎 $O(1)$ 的查找效率。
-我们可以使用一个哈希表（HashMap）来存储已经遍历过的数字及其对应的索引，即 Map&lt;数值, 索引&gt;。
-具体的算法流程如下：
-创建一个空的哈希表 map。 遍历 nums 数组，对于当前的元素 nums[i]： a. 计算我们需要寻找的&#34;另一半&#34;：complement = target - nums[i]。 b. 在哈希表中查找 complement 是否存在。 * 如果存在，说明我们找到了解！complement 的索引已经存在 map 中，当前元素的索引是 i。我们立即返回 [map.get(complement), i]。 * 如果不存在，说明到目前为止还没遇到能和 nums[i] 配对的数。我们将当前数字和它的索引存入哈希表 map.put(nums[i], i)，以便后续的元素能用它来配对。 遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。 这个&#34;一边遍历，一边查找，一边插入&#34;的单遍哈希表解法，非常巧妙地在一次循环中完成了所有工作。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-09-20 14:50:00 +0900 JST'>September 20, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/哈希表】LeetCode 1. 两数之和" href="http://localhost:1313/posts/2025-09-20-1-two-sum/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/哈希表】LeetCode 49. 字母异位词分组
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。
-字母异位词 是由相同字母按不同顺序排列组成的单词。
-示例 1:
-输入: strs = [&#34;eat&#34;, &#34;tea&#34;, &#34;tan&#34;, &#34;ate&#34;, &#34;nat&#34;, &#34;bat&#34;] 输出: [[&#34;bat&#34;],[&#34;nat&#34;,&#34;tan&#34;],[&#34;ate&#34;,&#34;eat&#34;,&#34;tea&#34;]]
-核心思路：寻找唯一标识 除了字母完全相同，字母异位词的另一个充要条件是每个字母出现的频率完全相同。因此，我们也可以根据一个单词的字符频率来生成 key。
-例如，对于 &#34;aab&#34;，其字符频率可以表示为一个长度为 26 的数组 [2, 1, 0, 0, ...]。为了把这个数组用作哈希表的 key，我们需要将它转换成一个不可变的字符串。
-我们可以简单地将计数拼接起来，例如用 &#34;#&#34; 分隔：&#34;2#1#0#0#...&#34;。这样，所有异位词（如 &#34;aba&#34;, &#34;baa&#34;）都会生成这个完全相同的字符串 key。
-你提供的答案正是采用了这种思路，通过一个辅助函数 strToCount 将频率数组转换成一个固定格式的字符串，同样起到了唯一标识的作用。
-代码实现 (Java) class Solution { public List&lt;List&lt;String&gt;&gt; groupAnagrams(String[] strs) { Map&lt;String, List&lt;String&gt;&gt; map = new HashMap&lt;&gt;(); for (String str : strs) { // 1. 将每个字符串的字符计数转换为唯一的 key String key = generateCountKey(str); // 2. 从 map 中获取该 key 对应的列表，若不存在则创建新列表 List&lt;String&gt; list = map.getOrDefault(key, new ArrayList&lt;&gt;()); // 3. 将当前字符串加入列表 list.add(str); // 4. 将更新后的列表放回 map map.put(key, list); } // 返回 map 中所有的值（即分组后的列表） return new ArrayList&lt;&gt;(map.values()); } // 将字符串转换为基于字符计数的 key private String generateCountKey(String str) { int[] counts = new int[26]; for (char c : str.toCharArray()) { counts[c - &#39;a&#39;]&#43;&#43;; } StringBuilder sb = new StringBuilder(); for (int i = 0; i &lt; 26; i&#43;&#43;) { // 用特殊字符分隔，防止歧义，例如 &#34;b1c2&#34; vs &#34;bc12&#34; sb.append((char)(&#39;a&#39; &#43; i)); sb.append(counts[i]); } return sb.toString(); } } 复杂度分析 设 N 是字符串数组 strs 的长度，K 是数组中字符串的最大长度。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-09-20 14:45:00 +0900 JST'>September 20, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/哈希表】LeetCode 49. 字母异位词分组" href="http://localhost:1313/posts/2025-09-20-49-group-anagrams/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
     <h2 class="entry-hint-parent">【HOT100/哈希表 / 数组】LeetCode 383. 赎金信
     </h2>
   </header>

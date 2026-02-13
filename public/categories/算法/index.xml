@@ -6,8 +6,94 @@
     <description>Recent content in 算法 on 个人技术博客</description>
     <generator>Hugo -- 0.154.1</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 02 Jan 2026 23:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 24 Jan 2026 21:00:00 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/categories/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Golang] LeetCode 热题 100 - 双指针</title>
+      <link>http://localhost:1313/posts/2026-01-24-two-pointer/</link>
+      <pubDate>Sat, 24 Jan 2026 21:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2026-01-24-two-pointer/</guid>
+      <description>&lt;h1 id=&#34;双指针&#34;&gt;双指针&lt;/h1&gt;
+&lt;h2 id=&#34;283-移动零---easy&#34;&gt;&lt;a href=&#34;https://leetcode.cn/problems/move-zeroes/&#34;&gt;283. 移动零 - Easy&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个数组 &lt;code&gt;nums&lt;/code&gt;，编写一个函数将所有 &lt;code&gt;0&lt;/code&gt; 移动到数组的末尾，同时保持非零元素的相对顺序。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;请注意&lt;/strong&gt; ，必须在不复制数组的情况下&lt;strong&gt;原地&lt;/strong&gt;对数组进行操作。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入:&lt;/strong&gt; &lt;code&gt;nums = [0,1,0,3,12]&lt;/code&gt;
+&lt;strong&gt;输出:&lt;/strong&gt; &lt;code&gt;[1,3,12,0,0]&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;核心思路快慢指针一次遍历&#34;&gt;核心思路：快慢指针（一次遍历）&lt;/h3&gt;
+&lt;p&gt;这道题有两个核心要求：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;将所有 &lt;code&gt;0&lt;/code&gt; 移动到末尾。&lt;/li&gt;
+&lt;li&gt;保持所有&lt;strong&gt;非零&lt;/strong&gt;元素的相对顺序不变。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;第二个要求&amp;quot;保持相对顺序&amp;quot;是解题的关键。它告诉我们，不能简单地像&amp;quot;移除元素&amp;quot;那样，用头尾指针交换元素，因为那样会打乱非零元素的原有顺序。&lt;/p&gt;
+&lt;p&gt;这个问题的本质可以看作是：&lt;strong&gt;将所有非零元素，按原有的顺序，紧凑地移动到数组的前面，然后将剩余的位置全部填上零&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;这正是&lt;strong&gt;快慢指针&lt;/strong&gt;擅长的场景：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;定义指针&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;慢指针 &lt;code&gt;p&lt;/code&gt; (或 &lt;code&gt;slow&lt;/code&gt;)&lt;/strong&gt;: 这个指针用于标记&amp;quot;下一个非零元素应该被放置的位置&amp;quot;。在 &lt;code&gt;p&lt;/code&gt; 左边的所有元素（不含 &lt;code&gt;p&lt;/code&gt;）都是已经处理好的、按序排列的非零元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;快指针 &lt;code&gt;q&lt;/code&gt; (或 &lt;code&gt;fast&lt;/code&gt;)&lt;/strong&gt;: 这个指针负责遍历整个数组，去寻找非零元素。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;执行过程&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;初始化 &lt;code&gt;p&lt;/code&gt; 和 &lt;code&gt;q&lt;/code&gt; 都指向数组的起始位置 &lt;code&gt;0&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;快指针 &lt;code&gt;q&lt;/code&gt; 开始向后遍历数组。&lt;/li&gt;
+&lt;li&gt;当 &lt;code&gt;q&lt;/code&gt; 遇到一个&lt;strong&gt;非零&lt;/strong&gt;元素时，说明这个元素需要被保留并放到前面。于是，我们执行两个操作：
+&lt;ol&gt;
+&lt;li&gt;将这个非零元素 &lt;code&gt;nums[q]&lt;/code&gt; 赋值给慢指针 &lt;code&gt;p&lt;/code&gt; 所在的位置 &lt;code&gt;nums[p]&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;将慢指针 &lt;code&gt;p&lt;/code&gt; 向后移动一位 (&lt;code&gt;p++&lt;/code&gt;)，为下一个非零元素腾出位置。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;如果 &lt;code&gt;q&lt;/code&gt; 遇到的是 &lt;code&gt;0&lt;/code&gt;，则慢指针 &lt;code&gt;p&lt;/code&gt; 保持不动，只有快指针 &lt;code&gt;q&lt;/code&gt; 继续向后移动。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;填充末尾的零&lt;/strong&gt;：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[Golang] LeetCode 热题 100 - 哈希</title>
+      <link>http://localhost:1313/posts/2026-01-24-hash/</link>
+      <pubDate>Sat, 24 Jan 2026 19:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2026-01-24-hash/</guid>
+      <description>&lt;h1 id=&#34;哈希&#34;&gt;哈希&lt;/h1&gt;
+&lt;h2 id=&#34;1-两数之和---easy&#34;&gt;&lt;a href=&#34;https://leetcode.cn/problems/two-sum/&#34;&gt;1. 两数之和 - Easy&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个整数数组 &lt;code&gt;nums&lt;/code&gt; 和一个整数目标值 &lt;code&gt;target&lt;/code&gt;，请你在该数组中找出 &lt;strong&gt;和为目标值 &lt;code&gt;target&lt;/code&gt;&lt;/strong&gt; 的那 &lt;strong&gt;两个&lt;/strong&gt; 整数，并返回它们的数组下标。&lt;/p&gt;
+&lt;p&gt;你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。&lt;/p&gt;
+&lt;p&gt;你可以按任意顺序返回答案。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;nums = [2,7,11,15]&lt;/code&gt;, &lt;code&gt;target = 9&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;[0,1]&lt;/code&gt;
+&lt;strong&gt;解释：&lt;/strong&gt; 因为 &lt;code&gt;nums[0] + nums[1] == 9&lt;/code&gt; ，返回 &lt;code&gt;[0, 1]&lt;/code&gt; 。&lt;/p&gt;
+&lt;h3 id=&#34;核心思路用空间换时间&#34;&gt;核心思路：用空间换时间&lt;/h3&gt;
+&lt;p&gt;作为 LeetCode 的开篇之作，这道题完美地诠释了如何通过&amp;quot;空间换时间&amp;quot;的思想来优化算法。&lt;/p&gt;
+&lt;p&gt;暴力解法的瓶颈在于&amp;quot;寻找另一个数&amp;quot;的过程太慢。对于每个 &lt;code&gt;nums[i]&lt;/code&gt;，我们都需要在数组中寻找是否存在一个数 &lt;code&gt;target - nums[i]&lt;/code&gt;。这个寻找过程能否被加速呢？&lt;/p&gt;
+&lt;p&gt;答案是肯定的，&lt;strong&gt;哈希表&lt;/strong&gt;提供了近乎 $O(1)$ 的查找效率。&lt;/p&gt;
+&lt;p&gt;我们可以使用一个哈希表（HashMap）来存储已经遍历过的数字及其对应的索引，即 &lt;code&gt;Map&amp;lt;数值, 索引&amp;gt;&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;具体的算法流程如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;创建一个空的哈希表 &lt;code&gt;map&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;遍历 &lt;code&gt;nums&lt;/code&gt; 数组，对于当前的元素 &lt;code&gt;nums[i]&lt;/code&gt;：
+a.  计算我们需要寻找的&amp;quot;另一半&amp;quot;：&lt;code&gt;complement = target - nums[i]&lt;/code&gt;。
+b.  &lt;strong&gt;在哈希表中查找&lt;/strong&gt; &lt;code&gt;complement&lt;/code&gt; 是否存在。
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;如果存在&lt;/strong&gt;，说明我们找到了解！&lt;code&gt;complement&lt;/code&gt; 的索引已经存在 &lt;code&gt;map&lt;/code&gt; 中，当前元素的索引是 &lt;code&gt;i&lt;/code&gt;。我们立即返回 &lt;code&gt;[map.get(complement), i]&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;如果不存在&lt;/strong&gt;，说明到目前为止还没遇到能和 &lt;code&gt;nums[i]&lt;/code&gt; 配对的数。我们将当前数字和它的索引存入哈希表 &lt;code&gt;map.put(nums[i], i)&lt;/code&gt;，以便后续的元素能用它来配对。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这个&amp;quot;一边遍历，一边查找，一边插入&amp;quot;的&lt;strong&gt;单遍哈希表&lt;/strong&gt;解法，非常巧妙地在一次循环中完成了所有工作。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>【HOT100/矩阵】LeetCode 240. 搜索二维矩阵 II</title>
       <link>http://localhost:1313/posts/2026-01-02-240-search-a-2d-matrix-ii/</link>
@@ -816,140 +902,6 @@ e.  将右指针 &lt;code&gt;right&lt;/code&gt; 右移一位，考察下一个�
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;计算长度并更新结果&lt;/strong&gt;&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/快慢指针】LeetCode 283. 移动零</title>
-      <link>http://localhost:1313/posts/2025-09-20-283-move-zeroes/</link>
-      <pubDate>Sat, 20 Sep 2025 14:55:00 +0900</pubDate>
-      <guid>http://localhost:1313/posts/2025-09-20-283-move-zeroes/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给定一个数组 &lt;code&gt;nums&lt;/code&gt;，编写一个函数将所有 &lt;code&gt;0&lt;/code&gt; 移动到数组的末尾，同时保持非零元素的相对顺序。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;请注意&lt;/strong&gt; ，必须在不复制数组的情况下&lt;strong&gt;原地&lt;/strong&gt;对数组进行操作。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例 1:&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入:&lt;/strong&gt; &lt;code&gt;nums = [0,1,0,3,12]&lt;/code&gt;
-&lt;strong&gt;输出:&lt;/strong&gt; &lt;code&gt;[1,3,12,0,0]&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id=&#34;核心思路快慢指针一次遍历&#34;&gt;核心思路：快慢指针（一次遍历）&lt;/h2&gt;
-&lt;p&gt;这道题有两个核心要求：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;将所有 &lt;code&gt;0&lt;/code&gt; 移动到末尾。&lt;/li&gt;
-&lt;li&gt;保持所有&lt;strong&gt;非零&lt;/strong&gt;元素的相对顺序不变。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;第二个要求&amp;quot;保持相对顺序&amp;quot;是解题的关键。它告诉我们，不能简单地像&amp;quot;移除元素&amp;quot;那样，用头尾指针交换元素，因为那样会打乱非零元素的原有顺序。&lt;/p&gt;
-&lt;p&gt;这个问题的本质可以看作是：&lt;strong&gt;将所有非零元素，按原有的顺序，紧凑地移动到数组的前面，然后将剩余的位置全部填上零&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;这正是&lt;strong&gt;快慢指针&lt;/strong&gt;擅长的场景：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;定义指针&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;慢指针 &lt;code&gt;p&lt;/code&gt; (或 &lt;code&gt;slow&lt;/code&gt;)&lt;/strong&gt;: 这个指针用于标记&amp;quot;下一个非零元素应该被放置的位置&amp;quot;。在 &lt;code&gt;p&lt;/code&gt; 左边的所有元素（不含 &lt;code&gt;p&lt;/code&gt;）都是已经处理好的、按序排列的非零元素。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;快指针 &lt;code&gt;q&lt;/code&gt; (或 &lt;code&gt;fast&lt;/code&gt;)&lt;/strong&gt;: 这个指针负责遍历整个数组，去寻找非零元素。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;执行过程&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;初始化 &lt;code&gt;p&lt;/code&gt; 和 &lt;code&gt;q&lt;/code&gt; 都指向数组的起始位置 &lt;code&gt;0&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;快指针 &lt;code&gt;q&lt;/code&gt; 开始向后遍历数组。&lt;/li&gt;
-&lt;li&gt;当 &lt;code&gt;q&lt;/code&gt; 遇到一个&lt;strong&gt;非零&lt;/strong&gt;元素时，说明这个元素需要被保留并放到前面。于是，我们执行两个操作：
-&lt;ol&gt;
-&lt;li&gt;将这个非零元素 &lt;code&gt;nums[q]&lt;/code&gt; 赋值给慢指针 &lt;code&gt;p&lt;/code&gt; 所在的位置 &lt;code&gt;nums[p]&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;将慢指针 &lt;code&gt;p&lt;/code&gt; 向后移动一位 (&lt;code&gt;p++&lt;/code&gt;)，为下一个非零元素腾出位置。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;li&gt;如果 &lt;code&gt;q&lt;/code&gt; 遇到的是 &lt;code&gt;0&lt;/code&gt;，则慢指针 &lt;code&gt;p&lt;/code&gt; 保持不动，只有快指针 &lt;code&gt;q&lt;/code&gt; 继续向后移动。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;填充末尾的零&lt;/strong&gt;：&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/哈希表】LeetCode 1. 两数之和</title>
-      <link>http://localhost:1313/posts/2025-09-20-1-two-sum/</link>
-      <pubDate>Sat, 20 Sep 2025 14:50:00 +0900</pubDate>
-      <guid>http://localhost:1313/posts/2025-09-20-1-two-sum/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给定一个整数数组 &lt;code&gt;nums&lt;/code&gt; 和一个整数目标值 &lt;code&gt;target&lt;/code&gt;，请你在该数组中找出 &lt;strong&gt;和为目标值 &lt;code&gt;target&lt;/code&gt;&lt;/strong&gt; 的那 &lt;strong&gt;两个&lt;/strong&gt; 整数，并返回它们的数组下标。&lt;/p&gt;
-&lt;p&gt;你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。&lt;/p&gt;
-&lt;p&gt;你可以按任意顺序返回答案。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;nums = [2,7,11,15]&lt;/code&gt;, &lt;code&gt;target = 9&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;[0,1]&lt;/code&gt;
-&lt;strong&gt;解释：&lt;/strong&gt; 因为 &lt;code&gt;nums[0] + nums[1] == 9&lt;/code&gt; ，返回 &lt;code&gt;[0, 1]&lt;/code&gt; 。&lt;/p&gt;
-&lt;h2 id=&#34;核心思路用空间换时间&#34;&gt;核心思路：用空间换时间&lt;/h2&gt;
-&lt;p&gt;作为 LeetCode 的开篇之作，这道题完美地诠释了如何通过&amp;quot;空间换时间&amp;quot;的思想来优化算法。&lt;/p&gt;
-&lt;p&gt;暴力解法的瓶颈在于&amp;quot;寻找另一个数&amp;quot;的过程太慢。对于每个 &lt;code&gt;nums[i]&lt;/code&gt;，我们都需要在数组中寻找是否存在一个数 &lt;code&gt;target - nums[i]&lt;/code&gt;。这个寻找过程能否被加速呢？&lt;/p&gt;
-&lt;p&gt;答案是肯定的，&lt;strong&gt;哈希表&lt;/strong&gt;提供了近乎 $O(1)$ 的查找效率。&lt;/p&gt;
-&lt;p&gt;我们可以使用一个哈希表（HashMap）来存储已经遍历过的数字及其对应的索引，即 &lt;code&gt;Map&amp;lt;数值, 索引&amp;gt;&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;具体的算法流程如下：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;创建一个空的哈希表 &lt;code&gt;map&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;遍历 &lt;code&gt;nums&lt;/code&gt; 数组，对于当前的元素 &lt;code&gt;nums[i]&lt;/code&gt;：
-a.  计算我们需要寻找的&amp;quot;另一半&amp;quot;：&lt;code&gt;complement = target - nums[i]&lt;/code&gt;。
-b.  &lt;strong&gt;在哈希表中查找&lt;/strong&gt; &lt;code&gt;complement&lt;/code&gt; 是否存在。
-* &lt;strong&gt;如果存在&lt;/strong&gt;，说明我们找到了解！&lt;code&gt;complement&lt;/code&gt; 的索引已经存在 &lt;code&gt;map&lt;/code&gt; 中，当前元素的索引是 &lt;code&gt;i&lt;/code&gt;。我们立即返回 &lt;code&gt;[map.get(complement), i]&lt;/code&gt;。
-* &lt;strong&gt;如果不存在&lt;/strong&gt;，说明到目前为止还没遇到能和 &lt;code&gt;nums[i]&lt;/code&gt; 配对的数。我们将当前数字和它的索引存入哈希表 &lt;code&gt;map.put(nums[i], i)&lt;/code&gt;，以便后续的元素能用它来配对。&lt;/li&gt;
-&lt;li&gt;遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;这个&amp;quot;一边遍历，一边查找，一边插入&amp;quot;的&lt;strong&gt;单遍哈希表&lt;/strong&gt;解法，非常巧妙地在一次循环中完成了所有工作。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/哈希表】LeetCode 49. 字母异位词分组</title>
-      <link>http://localhost:1313/posts/2025-09-20-49-group-anagrams/</link>
-      <pubDate>Sat, 20 Sep 2025 14:45:00 +0900</pubDate>
-      <guid>http://localhost:1313/posts/2025-09-20-49-group-anagrams/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给你一个字符串数组，请你将 &lt;strong&gt;字母异位词&lt;/strong&gt; 组合在一起。可以按任意顺序返回结果列表。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;字母异位词&lt;/strong&gt; 是由相同字母按不同顺序排列组成的单词。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例 1:&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入:&lt;/strong&gt; &lt;code&gt;strs = [&amp;quot;eat&amp;quot;, &amp;quot;tea&amp;quot;, &amp;quot;tan&amp;quot;, &amp;quot;ate&amp;quot;, &amp;quot;nat&amp;quot;, &amp;quot;bat&amp;quot;]&lt;/code&gt;
-&lt;strong&gt;输出:&lt;/strong&gt; &lt;code&gt;[[&amp;quot;bat&amp;quot;],[&amp;quot;nat&amp;quot;,&amp;quot;tan&amp;quot;],[&amp;quot;ate&amp;quot;,&amp;quot;eat&amp;quot;,&amp;quot;tea&amp;quot;]]&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id=&#34;核心思路寻找唯一标识&#34;&gt;核心思路：寻找唯一标识&lt;/h2&gt;
-&lt;p&gt;除了字母完全相同，字母异位词的另一个充要条件是&lt;strong&gt;每个字母出现的频率完全相同&lt;/strong&gt;。因此，我们也可以根据一个单词的字符频率来生成 &lt;code&gt;key&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;例如，对于 &lt;code&gt;&amp;quot;aab&amp;quot;&lt;/code&gt;，其字符频率可以表示为一个长度为 26 的数组 &lt;code&gt;[2, 1, 0, 0, ...]&lt;/code&gt;。为了把这个数组用作哈希表的 &lt;code&gt;key&lt;/code&gt;，我们需要将它转换成一个不可变的字符串。&lt;/p&gt;
-&lt;p&gt;我们可以简单地将计数拼接起来，例如用 &lt;code&gt;&amp;quot;#&amp;quot;&lt;/code&gt; 分隔：&lt;code&gt;&amp;quot;2#1#0#0#...&amp;quot;&lt;/code&gt;。这样，所有异位词（如 &lt;code&gt;&amp;quot;aba&amp;quot;&lt;/code&gt;, &lt;code&gt;&amp;quot;baa&amp;quot;&lt;/code&gt;）都会生成这个完全相同的字符串 &lt;code&gt;key&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;你提供的答案正是采用了这种思路，通过一个辅助函数 &lt;code&gt;strToCount&lt;/code&gt; 将频率数组转换成一个固定格式的字符串，同样起到了唯一标识的作用。&lt;/p&gt;
-&lt;h2 id=&#34;代码实现-java&#34;&gt;代码实现 (Java)&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; List&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;List&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;String&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;groupAnagrams&lt;/span&gt;(String&lt;span style=&#34;color:#f92672&#34;&gt;[]&lt;/span&gt; strs) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        Map&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;String, List&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;String&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; map &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; HashMap&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;gt;&lt;/span&gt;();
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (String str : strs) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// 1. 将每个字符串的字符计数转换为唯一的 key&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            String key &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; generateCountKey(str);
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// 2. 从 map 中获取该 key 对应的列表，若不存在则创建新列表&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            List&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;String&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; list &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; map.&lt;span style=&#34;color:#a6e22e&#34;&gt;getOrDefault&lt;/span&gt;(key, &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; ArrayList&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;gt;&lt;/span&gt;());
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// 3. 将当前字符串加入列表&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            list.&lt;span style=&#34;color:#a6e22e&#34;&gt;add&lt;/span&gt;(str);
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// 4. 将更新后的列表放回 map&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            map.&lt;span style=&#34;color:#a6e22e&#34;&gt;put&lt;/span&gt;(key, list);
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// 返回 map 中所有的值（即分组后的列表）&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; ArrayList&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;gt;&lt;/span&gt;(map.&lt;span style=&#34;color:#a6e22e&#34;&gt;values&lt;/span&gt;());
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 将字符串转换为基于字符计数的 key&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; String &lt;span style=&#34;color:#a6e22e&#34;&gt;generateCountKey&lt;/span&gt;(String str) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[]&lt;/span&gt; counts &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;26&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; c : str.&lt;span style=&#34;color:#a6e22e&#34;&gt;toCharArray&lt;/span&gt;()) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            counts&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;c &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]++&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        StringBuilder sb &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; StringBuilder();
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; 0; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; 26; i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// 用特殊字符分隔，防止歧义，例如 &amp;#34;b1c2&amp;#34; vs &amp;#34;bc12&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            sb.&lt;span style=&#34;color:#a6e22e&#34;&gt;append&lt;/span&gt;((&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;)(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; i));
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            sb.&lt;span style=&#34;color:#a6e22e&#34;&gt;append&lt;/span&gt;(counts&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;);
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; sb.&lt;span style=&#34;color:#a6e22e&#34;&gt;toString&lt;/span&gt;();
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;复杂度分析&lt;/strong&gt;
-设 N 是字符串数组 strs 的长度，K 是数组中字符串的最大长度。&lt;/p&gt;</description>
     </item>
     <item>
       <title>【HOT100/哈希表 / 数组】LeetCode 383. 赎金信</title>
