@@ -6,8 +6,42 @@
     <description>Recent content in Go on 个人技术博客</description>
     <generator>Hugo -- 0.154.1</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 25 Jan 2026 09:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 25 Jan 2026 10:00:00 +0900</lastBuildDate>
     <atom:link href="https://amemiya02.github.io/tags/go/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Golang] LeetCode 热题 100 - 子串</title>
+      <link>https://amemiya02.github.io/posts/2026-01-25-substring/</link>
+      <pubDate>Sun, 25 Jan 2026 10:00:00 +0900</pubDate>
+      <guid>https://amemiya02.github.io/posts/2026-01-25-substring/</guid>
+      <description>&lt;h1 id=&#34;子串&#34;&gt;子串&lt;/h1&gt;
+&lt;h2 id=&#34;560-和为-k-的子数组---mid&#34;&gt;&lt;a href=&#34;https://leetcode.cn/problems/subarray-sum-equals-k/&#34;&gt;560. 和为 K 的子数组 - Mid&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt; 和一个整数 &lt;code&gt;k&lt;/code&gt; ，请你统计并返回 &lt;strong&gt;该数组中和为 &lt;code&gt;k&lt;/code&gt; 的子数组的个数&lt;/strong&gt; 。&lt;/p&gt;
+&lt;p&gt;子数组是数组中元素的连续非空序列。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;nums = [1,1,1], k = 2&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;2&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;示例 2：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;nums = [1,2,3], k = 3&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;2&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;核心思路前缀和--哈希表优化&#34;&gt;核心思路：前缀和 + 哈希表优化&lt;/h3&gt;
+&lt;p&gt;这道题如果使用暴力解法，枚举所有的子数组并计算和，时间复杂度会达到 $O(n^2)$ 甚至 $O(n^3)$，无法通过所有测试用例。我们需要利用&lt;strong&gt;前缀和&lt;/strong&gt;的性质进行优化。&lt;/p&gt;
+&lt;h4 id=&#34;1-前缀和转化&#34;&gt;1. 前缀和转化&lt;/h4&gt;
+&lt;p&gt;定义 &lt;code&gt;pre[i]&lt;/code&gt; 为 &lt;code&gt;[0..i]&lt;/code&gt; 里所有数的和。那么 &lt;code&gt;[j..i]&lt;/code&gt; 这个子数组的和可以表示为：
+$$
+sum[j..i] = pre[i] - pre[j-1]
+$$
+题目要求找到和为 &lt;code&gt;k&lt;/code&gt; 的子数组，即寻找满足以下条件的 &lt;code&gt;j&lt;/code&gt; 和 &lt;code&gt;i&lt;/code&gt;：
+$$
+pre[i] - pre[j-1] == k
+$$
+移项得：
+$$
+pre[j-1] == pre[i] - k
+$$&lt;/p&gt;</description>
+    </item>
     <item>
       <title>[Golang] LeetCode 热题 100 - 滑动窗口</title>
       <link>https://amemiya02.github.io/posts/2026-01-25-sliding-window/</link>

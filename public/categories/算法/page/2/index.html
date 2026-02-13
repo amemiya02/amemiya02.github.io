@@ -122,6 +122,30 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/数组】LeetCode 238. 除了自身以外数组的乘积
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 给你一个整数数组 nums，返回 数组 answer ，其中 answer[i] 等于 nums 中除了 nums[i] 之外其余各元素的乘积。
+题目数据 保证 数组 nums 之中任意元素的全部前缀元素和后缀的乘积都在 32 位 整数范围内。
+请不要使用除法，且在 $O(n)$ 时间复杂度内完成此题。
+示例 1:
+输入: nums = [1,2,3,4] 输出: [24,12,8,6]
+示例 2:
+输入: nums = [-1,1,0,-3,3] 输出: [0,0,9,0,0]
+核心思路：左右乘积列表 这道题如果允许使用除法，那非常简单：算出所有元素的总乘积，然后除以当前元素即可（注意需要处理 0 的情况）。但题目明确禁止除法，我们需要另辟蹊径。
+对于数组中的任意一个元素 nums[i]，除了它自身以外的乘积，实际上等于： （它左边所有元素的乘积） $\times$ （它右边所有元素的乘积）
+因此，我们可以通过两次遍历来解决这个问题：
+计算后缀积：先算出每个位置右边所有元素的乘积。 计算前缀积并合并：再算出每个位置左边所有元素的乘积，并乘上刚才算好的后缀积。 空间优化 ($O(1)$ 额外空间) 为了满足进阶要求的 $O(1)$ 额外空间（输出数组不计入空间复杂度），我们可以直接利用返回的数组 answer（代码中为 suf）来作为中间容器。
+第一轮遍历（从右向左）： 我们在 suf 数组中存储后缀积。 suf[i] 表示 i 之后所有元素的乘积。 初始化 suf[n-1] = 1（因为最后一个元素右边没有元素）。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-02 18:00:00 +0900 JST'>January 2, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/数组】LeetCode 238. 除了自身以外数组的乘积" href="https://amemiya02.github.io/posts/2026-01-02-238-product-of-array-except-self/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">【HOT100/数组】LeetCode 189. 轮转数组
     </h2>
   </header>
@@ -230,26 +254,6 @@
   </div>
   <footer class="entry-footer"><span title='2025-12-18 14:00:00 +0800 +0800'>December 18, 2025</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/滑动窗口】LeetCode 76. Minimum Window Substring" href="https://amemiya02.github.io/posts/2025-12-18-76-minimum-window-substring/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/前缀和】LeetCode 560. 和为 K 的子数组
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给你一个整数数组 nums 和一个整数 k ，请你统计并返回 该数组中和为 k 的子数组的个数 。
-子数组是数组中元素的连续非空序列。
-示例 1：
-输入： nums = [1,1,1], k = 2 输出： 2
-示例 2：
-输入： nums = [1,2,3], k = 3 输出： 2
-核心思路：前缀和 &#43; 哈希表优化 这道题如果使用暴力解法，枚举所有的子数组并计算和，时间复杂度会达到 $O(n^2)$ 甚至 $O(n^3)$，无法通过所有测试用例。我们需要利用前缀和的性质进行优化。
-1. 前缀和转化 定义 pre[i] 为 [0..i] 里所有数的和。那么 [j..i] 这个子数组的和可以表示为： $$ sum[j..i] = pre[i] - pre[j-1] $$ 题目要求找到和为 k 的子数组，即寻找满足以下条件的 j 和 i： $$ pre[i] - pre[j-1] == k $$ 移项得： $$ pre[j-1] == pre[i] - k $$
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-12-17 21:55:00 +0900 JST'>December 17, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/前缀和】LeetCode 560. 和为 K 的子数组" href="https://amemiya02.github.io/posts/2025-12-17-560-subarray-sum-equals-k/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 

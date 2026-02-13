@@ -1,11 +1,16 @@
 ---
-title: "【HOT100/前缀和】LeetCode 560. 和为 K 的子数组"
-date: 2025-12-17 21:55:00 +0900
+title: "[Golang] LeetCode 热题 100 - 子串"
+date: 2026-01-25 10:00:00 +0900
 categories: [算法, LeetCode]
-tags: [数组, 哈希表, 前缀和]
+tags: [Go, 子串, 题解]
 ---
+# 子串
 
-## 题目回顾
+## [560. 和为 K 的子数组 - Mid](https://leetcode.cn/problems/subarray-sum-equals-k/)
+
+
+
+### 题目回顾
 
 > 给你一个整数数组 `nums` 和一个整数 `k` ，请你统计并返回 **该数组中和为 `k` 的子数组的个数** 。
 >
@@ -21,11 +26,11 @@ tags: [数组, 哈希表, 前缀和]
 **输入：** `nums = [1,2,3], k = 3`
 **输出：** `2`
 
-## 核心思路：前缀和 + 哈希表优化
+### 核心思路：前缀和 + 哈希表优化
 
 这道题如果使用暴力解法，枚举所有的子数组并计算和，时间复杂度会达到 $O(n^2)$ 甚至 $O(n^3)$，无法通过所有测试用例。我们需要利用**前缀和**的性质进行优化。
 
-### 1. 前缀和转化
+#### 1. 前缀和转化
 定义 `pre[i]` 为 `[0..i]` 里所有数的和。那么 `[j..i]` 这个子数组的和可以表示为：
 $$
 sum[j..i] = pre[i] - pre[j-1]
@@ -39,14 +44,14 @@ $$
 pre[j-1] == pre[i] - k
 $$
 
-### 2. 哈希表优化
+#### 2. 哈希表优化
 这意味着，当我们遍历到位置 `i` 时，我们需要统计**在 `i` 之前**，有多少个位置 `j-1` 的前缀和等于 `pre[i] - k`。
 
 为了快速查找和统计，我们可以使用一个 **哈希表 (HashMap)**：
 * **Key**: 前缀和的值。
 * **Value**: 该前缀和出现的次数。
 
-### 3. 算法流程
+#### 3. 算法流程
 1.  初始化变量 `sum = 0` (当前前缀和) 和 `count = 0` (结果计数)。
 2.  初始化哈希表 `map`，并**预先插入 `map.put(0, 1)`**。
     * **重点解释**：这是为了处理那些从数组下标 0 开始的子数组。如果某个子数组就是 `nums[0..i]` 且和为 `k`，那么 `pre[i] - k` 将等于 `0`。我们需要保证这种情况下能找到匹配项。
@@ -55,39 +60,40 @@ $$
     * 查询 `map` 中是否存在 `sum - k`。如果存在，说明找到了对应个数的子数组，将 `map.get(sum - k)` 累加到 `count` 中。
     * 将当前的 `sum` 存入 `map`，更新其出现次数。
 
-## 代码实现 (Java)
+### 代码实现
 
-```java
-class Solution {
-    public int subarraySum(int[] nums, int k) {
-        int count = 0;
-        int sum = 0;
-        // Key: 前缀和, Value: 该前缀和出现的次数
-        Map<Integer, Integer> map = new HashMap<>();
-        
-        // 针对特殊case: nums=[1], k=1 或者 nums=[1,2,3], k=6 等
-        // 即子数组从头开始的情况 (前缀和本身就等于 k)
-        // 记录第一次出现某处索引 preSum(i) = k, preSum(i) - k = 0, 需要 count+1
-        map.put(0, 1);
+```go
 
-        for (int i = 0; i < nums.length; i++) {
-            sum += nums[i];
-            
-            // 核心逻辑：找前面有多少个前缀和等于 (当前前缀和 - k)
-            if (map.containsKey(sum - k)) {
-                count += map.get(sum - k);
-            }
-            
-            // 记录当前前缀和出现的次数
-            map.put(sum, map.getOrDefault(sum, 0) + 1);
-        }
+func subarraySum(nums []int, k int) int {
+	// countMap: key 是前缀和, value 是该前缀和出现的次数
+	countMap := make(map[int]int)
 
-        return count;
-    }
+	// 初始化：前缀和为 0 默认出现 1 次
+	// 这是为了处理从数组第一个元素开始就满足和为 k 的情况
+	countMap[0] = 1
+
+	count := 0
+	preSum := 0
+
+	for _, num := range nums {
+		preSum += num
+
+		// 如果 preSum - k 在 map 中存在，说明从某个旧的前缀和到当前位置的子数组和为 k
+		if v, ok := countMap[preSum-k]; ok {
+			count += v
+		}
+
+		// 更新当前前缀和出现的次数
+		countMap[preSum]++
+	}
+
+	return count
 }
+
 
 ```
 
-## 复杂度分析
+**复杂度分析**
 - 时间复杂度: $O(n)$。我们只需要遍历数组一次，哈希表的插入和查询操作平均时间复杂度为 $O(1)$。
 - 空间复杂度: $O(n)$。哈希表在最坏情况下（所有前缀和都不同）需要存储 n 个键值对。
+
