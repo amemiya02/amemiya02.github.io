@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto" data-theme="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -9,17 +9,17 @@
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="canonical" href="https://amemiya02.github.io/categories/%E7%AE%97%E6%B3%95/">
+<link rel="canonical" href="http://localhost:1313/categories/%E7%AE%97%E6%B3%95/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.343cc480b9ffc8f04ccbe5e968ad674880cab773ec19905e93033065c1e7a804.css" integrity="sha256-NDzEgLn/yPBMy&#43;XpaK1nSIDKt3PsGZBekwMwZcHnqAQ=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://amemiya02.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://amemiya02.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://amemiya02.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://amemiya02.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://amemiya02.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://amemiya02.github.io/categories/%E7%AE%97%E6%B3%95/index.xml" title="rss">
-<link rel="alternate" hreflang="en" href="https://amemiya02.github.io/categories/%E7%AE%97%E6%B3%95/">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/categories/%E7%AE%97%E6%B3%95/index.xml" title="rss">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/categories/%E7%AE%97%E6%B3%95/">
 <noscript>
     <style>
         #theme-toggle,
@@ -71,7 +71,7 @@
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta property="og:url" content="https://amemiya02.github.io/categories/%E7%AE%97%E6%B3%95/">
+</script><meta property="og:url" content="http://localhost:1313/categories/%E7%AE%97%E6%B3%95/">
   <meta property="og:site_name" content="个人技术博客">
   <meta property="og:title" content="算法">
   <meta property="og:locale" content="zh-CN">
@@ -85,7 +85,7 @@
     <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://amemiya02.github.io/" accesskey="h" title="个人技术博客 (Alt + H)">个人技术博客</a>
+            <a href="http://localhost:1313/" accesskey="h" title="个人技术博客 (Alt + H)">个人技术博客</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -122,6 +122,120 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/矩阵】LeetCode 240. 搜索二维矩阵 II
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target 。该矩阵具有以下特性：
+每行的元素从左到右升序排列。 每列的元素从上到下升序排列。 示例 1：
+输入： matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5 输出： true
+示例 2：
+输入： matrix = ... (同上), target = 20 输出： false
+核心思路：抽象 BST (从角落出发) 如果把矩阵的每一个位置看作一个节点，我们要利用&#34;行有序&#34;和&#34;列有序&#34;这两个条件来快速缩小查找范围。
+如果我们从左上角出发，当前值小于 target 时，我们既可以向右走（变大），也可以向下走（变大），这就产生了歧义，无法确定唯一的搜索方向。
+但是，如果我们选择左下角（或者右上角）作为起点，情况就完全不同了。
+以左下角 (m-1, 0) 为例：
+当前值 &gt; target： 因为当前行是升序的，左下角已经是该行最小的数了，如果连它都比 target 大，说明这一行所有的数都比 target 大。 -&gt; 结论：排除当前行，向上移动 (i--)。 当前值 &lt; target： 因为当前列是升序的，左下角已经是该列最大的数了（在剩下的范围内），如果连它都比 target 小，说明这一列所有的数都比 target 小。 -&gt; 结论：排除当前列，向右移动 (j&#43;&#43;)。 这个过程就像是在遍历一棵二叉搜索树 (BST)，左下角就是根节点，往上走是找更小的（类似左子树），往右走是找更大的（类似右子树）。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-02 23:00:00 +0900 JST'>January 2, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/矩阵】LeetCode 240. 搜索二维矩阵 II" href="http://localhost:1313/posts/2026-01-02-240-search-a-2d-matrix-ii/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/矩阵】LeetCode 48. 旋转图像
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 给定一个 n × n 的二维矩阵 matrix 表示一个图像。请你将图像顺时针旋转 90 度。
+你必须在 原地 旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要 使用另一个矩阵来旋转图像。
+示例 1：
+输入： matrix = [[1,2,3],[4,5,6],[7,8,9]] 输出： [[7,4,1],[8,5,2],[9,6,3]]
+示例 2：
+输入： matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]] 输出： [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
+核心思路：数学变换 这道题最直接的思路是找出每个元素旋转后的坐标规律。对于一个坐标为 (i, j) 的元素，顺时针旋转 90 度后，它的新位置是 (j, n-1-i)。 如果直接模拟这个过程，我们需要小心翼翼地进行四角交换，逻辑容易出错。
+更优雅的解法是利用矩阵运算的性质。顺时针旋转 90 度可以拆解为两步简单的变换：
+转置 (Transpose)：将矩阵的行列互换（沿对角线翻转）。 matrix[i][j] $\leftrightarrow$ matrix[j][i] 水平镜像 (Reverse Rows)：将每一行左右翻转。 matrix[i][j] $\leftrightarrow$ matrix[i][n-1-j] 演示过程：
+假设输入为：
+1 2 3 4 5 6 7 8 9 第一步：转置（对角线翻转）
+1 4 7 2 5 8 3 6 9 第二步：每行左右翻转
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-02 22:15:00 +0900 JST'>January 2, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/矩阵】LeetCode 48. 旋转图像" href="http://localhost:1313/posts/2026-01-02-48-rotate-image/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/矩阵】LeetCode 54. 螺旋矩阵
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 给你一个 m 行 n 列的矩阵 matrix ，请按照 顺时针螺旋顺序 ，返回矩阵中的所有元素。
+示例 1：
+输入： matrix = [[1,2,3],[4,5,6],[7,8,9]] 输出： [1,2,3,6,9,8,7,4,5]
+示例 2：
+输入： matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]] 输出： [1,2,3,4,8,12,11,10,9,5,6,7]
+核心思路：四边界模拟法 这道题没有太多的算法技巧，本质上是一道模拟题。我们需要模拟一个机器人在矩阵中按照&#34;右 -&gt; 下 -&gt; 左 -&gt; 上&#34;的顺序一直走，直到填满所有格子。
+虽然思路简单，但如果不加设计地直接写，很容易陷入各种边界判断的泥潭（比如拐角处怎么处理、什么时候停止）。
+最优雅的解法是设定四个边界：
+t (top)：上边界，初始为 0 b (bottom)：下边界，初始为 m-1 l (left)：左边界，初始为 0 r (right)：右边界，初始为 n-1 算法流程 我们要在一个循环中按照顺时针方向依次处理四条边。每处理完一条边，就将对应的边界向内收缩，并立即检查是否越界（越界意味着遍历结束）。
+向右移动：遍历从 l 到 r。处理完后，上边界下移 (&#43;&#43;t)。如果 t &gt; b，说明上下边界交错，遍历结束。 向下移动：遍历从 t 到 b。处理完后，右边界左移 (--r)。如果 l &gt; r，说明左右边界交错，遍历结束。 向左移动：遍历从 r 到 l。处理完后，下边界上移 (--b)。如果 t &gt; b，遍历结束。 向上移动：遍历从 b 到 t。处理完后，左边界右移 (&#43;&#43;l)。如果 l &gt; r，遍历结束。 这种写法将边界检查巧妙地融合在每一步操作之后，不需要在循环头部写复杂的 count &lt; total 判断，代码逻辑非常清晰。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-02 21:30:00 +0900 JST'>January 2, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/矩阵】LeetCode 54. 螺旋矩阵" href="http://localhost:1313/posts/2026-01-02-54-spiral-matrix/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/矩阵】LeetCode 73. 矩阵置零
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。请使用 原地 算法。
+示例 1：
+输入： matrix = [[1,1,1],[1,0,1],[1,1,1]] 输出： [[1,0,1],[0,0,0],[1,0,1]]
+示例 2：
+输入： matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]] 输出： [[0,0,0,0],[0,4,5,0],[0,3,1,0]]
+进阶：
+一个直观的解决方案是使用 $O(mn)$ 的额外空间，但这并不是一个好的解决方案。 一个简单的改进方案是使用 $O(m &#43; n)$ 的额外空间，但这仍然不是最好的解决方案。 你能想出一个仅使用常量空间的解决方案吗？ 核心思路：利用首行首列做标记 这道题的难点在于**“污染”**问题：如果我们一边遍历一边将 0 所在的行列置零，那么修改后的 0 会干扰后续的遍历，导致整个矩阵最后全变成了 0。
+空间复杂度优化路径 $O(MN)$ 空间：新建一个同样的矩阵做标记。太浪费。 $O(M&#43;N)$ 空间：使用两个布尔数组 row[] 和 col[]，分别记录哪一行、哪一列需要置零。 $O(1)$ 空间：直接利用矩阵的第一行和第一列来替代上面的两个布尔数组。 算法流程 ($O(1)$ 方案) 既然我们要用第一行和第一列来记录&#34;该行/列是否需要置零&#34;，那么第一行和第一列原本的状态（是否包含 0）就需要先被保存下来，否则会被后续的标记覆盖。
+步骤如下：
+记录首行首列状态： 定义两个变量 firstRowHasZero 和 firstColHasZero，遍历第一行和第一列，如果发现 0，则将对应的变量置为 true。
+利用首行首列做标记： 遍历矩阵的其余部分（从 (1,1) 开始）。如果发现 matrix[i][j] == 0，就将它对应的行首 matrix[i][0] 和列首 matrix[0][j] 设为 0。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-02 20:45:00 +0900 JST'>January 2, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/矩阵】LeetCode 73. 矩阵置零" href="http://localhost:1313/posts/2026-01-02-73-set-matrix-zeroes/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/链表】LeetCode 206. 反转链表
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。
+示例 1：
+输入：head = [1,2,3,4,5] 输出：[5,4,3,2,1] 示例 2：
+输入：head = [1,2] 输出：[2,1] 示例 3：
+输入：head = [] 输出：[] 核心思路 思路一：迭代法（双指针） 这是最直观的解法。我们需要遍历链表，在遍历过程中改变每个节点的 next 指针指向。
+三个指针：我们需要三个指针来完成反转：
+prev：指向当前节点的前一个节点（初始为 null） curr：指向当前节点（初始为 head） next：临时存储当前节点的下一个节点 遍历反转：
+保存 curr.next 到 next（防止断链） 将 curr.next 指向 prev（反转当前节点） 将 prev 移动到 curr 位置 将 curr 移动到 next 位置 返回结果：遍历结束后，prev 就是新链表的头节点
+这个方法就像把一列火车车厢的方向逐个反转，需要临时标记下一个车厢的位置。
+思路二：递归法 递归法的思路是：先递归到链表末尾，然后在回溯的过程中逐个反转节点。
+递归终止条件：当 head 为 null 或 head.next 为 null 时，直接返回 head 递归调用：先递归处理 head.next，得到反转后的子链表 反转当前节点：将 head.next.next 指向 head，将 head.next 设为 null 返回结果：返回子链表的头节点（即新链表的头节点） 递归法的优点是代码简洁，但缺点是可能会因为链表过长导致栈溢出。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-02 20:01:00 +0900 JST'>January 2, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/链表】LeetCode 206. 反转链表" href="http://localhost:1313/posts/2026-01-02-206-reverse-linked-list/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">【HOT100/数组】LeetCode 41. 缺失的第一个正数
     </h2>
   </header>
@@ -140,7 +254,7 @@
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2026-01-02 19:30:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/数组】LeetCode 41. 缺失的第一个正数" href="https://amemiya02.github.io/posts/2026-01-02-41-first-missing-positive/"></a>
+  <a class="entry-link" aria-label="post link to 【HOT100/数组】LeetCode 41. 缺失的第一个正数" href="http://localhost:1313/posts/2026-01-02-41-first-missing-positive/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -164,7 +278,7 @@
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2026-01-02 18:00:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/数组】LeetCode 238. 除了自身以外数组的乘积" href="https://amemiya02.github.io/posts/2026-01-02-238-product-of-array-except-self/"></a>
+  <a class="entry-link" aria-label="post link to 【HOT100/数组】LeetCode 238. 除了自身以外数组的乘积" href="http://localhost:1313/posts/2026-01-02-238-product-of-array-except-self/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -185,7 +299,7 @@
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2026-01-02 17:05:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/数组】LeetCode 189. 轮转数组" href="https://amemiya02.github.io/posts/2026-01-02-189-rotate-array/"></a>
+  <a class="entry-link" aria-label="post link to 【HOT100/数组】LeetCode 189. 轮转数组" href="http://localhost:1313/posts/2026-01-02-189-rotate-array/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -206,7 +320,7 @@
 初始状态：如果 res 为空，直接将当前区间加入。 无重叠：如果当前区间的左端点大于结果集中最后一个区间的右端点，说明它们断开了，没有交集。直接将当前区间加入 res。 有重叠：如果当前区间的左端点小于等于结果集中最后一个区间的右端点，说明发生了重叠（或者通过端点相连）。 此时我们需要合并：更新结果集中最后一个区间的右端点。 新的右端点应该是两者右端点的最大值：max(last_interval.end, current_interval.end)。 代码实现 (Java) class Solution { public int[][] merge(int[][] intervals) { // 边界检查 if (intervals.length == 0) { return new int[0][2]; } // 核心步骤 1：按照区间左端点进行排序 // 这一步将 O(N^2) 的两两比较降低为 O(N) 的线性扫描 Arrays.sort(intervals, (i1, i2) -&gt; i1[0] - i2[0]); List&lt;int[]&gt; res = new ArrayList&lt;&gt;(); for (int i = 0; i &lt; intervals.length; i&#43;&#43;) { int l = intervals[i][0]; int r = intervals[i][1]; // 核心步骤 2：判断是否重叠 // 如果结果集为空，或者当前区间的左端点 &gt; 结果集最后一个区间的右端点 // 说明无重叠，直接添加 if (res.isEmpty() || res.get(res.size() - 1)[1] &lt; l) { res.add(new int[]{l, r}); } else { // 发生重叠，合并区间 // 更新结果集最后一个区间的右端点，取两者最大值 res.get(res.size() - 1)[1] = Math.max(res.get(res.size() - 1)[1], r); } } // 转换回题目要求的 int[][] 格式 return res.toArray(new int[res.size()][0]); } } 复杂度分析 时间复杂度: $O(N \log N)$。虽然遍历是一次线性的 $O(N)$，但排序的开销是 $O(N \log N)$，它是整个算法的瓶颈。 空间复杂度: $O(\log N)$。这里指的是 Java 排序算法（通常是快排或归并排序的变种）所需的栈空间。如果算上存储结果的 res 列表，则是 $O(N)$。 </p>
   </div>
   <footer class="entry-footer"><span title='2026-01-02 16:20:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/排序】LeetCode 56. 合并区间" href="https://amemiya02.github.io/posts/2026-01-02-56-merge-intervals/"></a>
+  <a class="entry-link" aria-label="post link to 【HOT100/排序】LeetCode 56. 合并区间" href="http://localhost:1313/posts/2026-01-02-56-merge-intervals/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -231,130 +345,18 @@
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2026-01-02 15:10:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/动态规划】LeetCode 53. 最大子数组和" href="https://amemiya02.github.io/posts/2026-01-02-53-maximum-subarray/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/动态规划】LeetCode 42. 接雨水
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
-示例 1：
-输入： height = [0,1,0,2,1,0,1,3,2,1,2,1] 输出： 6 解释： 上面是由数组 [0,1,0,2,1,0,1,3,2,1,2,1] 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）。
-示例 2：
-输入： height = [4,2,0,3,2,5] 输出： 9
-核心思路：按列求值的动态规划 这道题是 LeetCode Top 100 中非常经典的 Hard 题目，也是大厂面试的常客。解决这道题的关键在于化繁为简：不要试图一次性算出所有雨水，而是思考每一根柱子上方能存多少水。
-对于数组中索引为 i 的位置，它能接到的雨水量取决于什么？ 根据&#34;木桶效应&#34;，它能存的水，取决于它左边最高的柱子和右边最高的柱子中较矮的那一个，减去它自身的高度。
-公式如下：
-$$ \text{water}[i] = \min(\text{maxleft}[i], \text{maxright}[i]) - \text{height}[i] $$
-当然，如果计算结果小于 0，说明当前柱子比两边都高，存不了水，结果取 0。
-为什么需要动态规划？ 如果我们对每个位置 i 都向左、向右扫描寻找最大值，时间复杂度会达到 $O(N^2)$，这在数据量大时会超时。
-为了优化，我们可以使用空间换时间的策略（预处理）：
-左侧最大值数组 (left)：从左往右遍历，left[i] 表示 [0...i] 区间内的最大高度。递推公式为 left[i] = max(left[i-1], height[i])。 右侧最大值数组 (right)：从右往左遍历，right[i] 表示 [i...n-1] 区间内的最大高度。递推公式为 right[i] = max(right[i&#43;1], height[i])。 这样，我们在最后计算雨水时，只需要 $O(1)$ 的时间就能获取到左右两边的限制高度。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-02 14:35:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/动态规划】LeetCode 42. 接雨水" href="https://amemiya02.github.io/posts/2026-01-02-42-trapping-rain-water/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/单调队列】LeetCode 239. 滑动窗口最大值
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给你一个整数数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。
-返回滑动窗口中的最大值。
-示例：
-输入： nums = [1,3,-1,-3,5,3,6,7], k = 3
-输出： [3,3,5,5,6,7]
-解释：
-滑动窗口的位置 最大值
-[1 3 -1] -3 5 3 6 7 3
-1 [3 -1 -3] 5 3 6 7 3
-1 3 [-1 -3 5] 3 6 7 5
-1 3 -1 [-3 5 3] 6 7 5
-1 3 -1 -3 [5 3 6] 7 6
-1 3 -1 -3 5 [3 6 7] 7
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-12-18 15:30:00 +0800 +0800'>December 18, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/单调队列】LeetCode 239. 滑动窗口最大值" href="https://amemiya02.github.io/posts/2025-12-18-239-sliding-window-maximum/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/滑动窗口】LeetCode 76. Minimum Window Substring
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给定两个字符串 s 和 t，长度分别是 m 和 n，返回 s 中的 最短窗口 子串，使得该子串包含 t 中的每一个字符（包括重复字符）。如果没有这样的子串，返回空字符串 &#34;&#34;。
-测试用例保证答案唯一。
-示例：
-输入： s = &#34;ADOBECODEBANC&#34;, t = &#34;ABC&#34;
-输出： &#34;BANC&#34;
-解释： 最小覆盖子串 &#34;BANC&#34; 包含 t 中所有字符 &#39;A&#39;, &#39;B&#39;, &#39;C&#39;。
-核心思路：滑动窗口 &#43; 哈希计数 本题是「滑动窗口」的经典应用，核心目标是：在 s 中找到一个最短连续子串，使其字符频次 ≥ t 的字符频次（即完全覆盖 t）。
-关键观察点： 窗口有效性判定：不能只看字符是否出现，而要看频次是否足够。例如 t = &#34;AAB&#34;，窗口中至少要有 2 个 &#39;A&#39; 和 1 个 &#39;B&#39;。 扩展与收缩策略： 右指针 r 扩展窗口：直到窗口首次满足覆盖条件； 左指针 l 收缩窗口：在满足条件的前提下，尽可能缩小窗口，尝试找到更优解； 重复上述过程，维护全局最小窗口。 实现细节： 使用两个哈希表： ori：统计 t 中各字符的目标频次； cnt：动态维护当前窗口 [l, r] 中各字符的实际频次； 辅助函数 check()：遍历 ori，检查 cnt 中每个字符频次是否 ≥ ori 中对应值； ✅ 优化点：可改用「需匹配字符种类数」&#43;「当前达标种类数」实现 O(1) 判断（见文末优化提示），但为清晰起见，此处保留原写法。 ⚠️ 注意边界：当 r 向右移动后需先判断是否越界再访问 s.charAt(r)。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-12-18 14:00:00 +0800 +0800'>December 18, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/滑动窗口】LeetCode 76. Minimum Window Substring" href="https://amemiya02.github.io/posts/2025-12-18-76-minimum-window-substring/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/前缀和】LeetCode 560. 和为 K 的子数组
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给你一个整数数组 nums 和一个整数 k ，请你统计并返回 该数组中和为 k 的子数组的个数 。
-子数组是数组中元素的连续非空序列。
-示例 1：
-输入： nums = [1,1,1], k = 2 输出： 2
-示例 2：
-输入： nums = [1,2,3], k = 3 输出： 2
-核心思路：前缀和 &#43; 哈希表优化 这道题如果使用暴力解法，枚举所有的子数组并计算和，时间复杂度会达到 $O(n^2)$ 甚至 $O(n^3)$，无法通过所有测试用例。我们需要利用前缀和的性质进行优化。
-1. 前缀和转化 定义 pre[i] 为 [0..i] 里所有数的和。那么 [j..i] 这个子数组的和可以表示为： $$ sum[j..i] = pre[i] - pre[j-1] $$ 题目要求找到和为 k 的子数组，即寻找满足以下条件的 j 和 i： $$ pre[i] - pre[j-1] == k $$ 移项得： $$ pre[j-1] == pre[i] - k $$
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-12-17 21:55:00 +0900 JST'>December 17, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/前缀和】LeetCode 560. 和为 K 的子数组" href="https://amemiya02.github.io/posts/2025-12-17-560-subarray-sum-equals-k/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/双指针】LeetCode 15. 三数之和
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给你一个整数数组 nums ，判断是否存在三元组 [nums[i], nums[j], nums[k]] 满足 i != j、i != k 且 j != k ，同时还满足 nums[i] &#43; nums[j] &#43; nums[k] == 0 。
-请你返回所有和为 0 且不重复的三元组。
-注意： 答案中不可以包含重复的三元组。
-示例 1：
-输入： nums = [-1,0,1,2,-1,-4] 输出： [[-1,-1,2],[-1,0,1]] 解释： 不同的三元组是 [-1,0,1] 和 [-1,-1,2] 。 注意，输出的顺序和三元组的顺序并不重要。
-核心思路：排序 &#43; 双指针 这道题是“两数之和”的进阶版。如果直接使用三重循环暴力求解，时间复杂度为 $O(n^3)$，这显然会超时。我们需要寻找 $O(n^2)$ 级别的解法。
-1. 为什么先排序？ 排序是解决这道题的关键步骤（通常花费 $O(n \log n)$）。
-便于双指针操作：排序后，我们可以利用单调性，通过移动左右指针来调整两数之和的大小。 便于去重：题目要求不包含重复的三元组。排序后，相同的元素会相邻，我们在遍历时很容易判断并跳过重复元素。 2. 算法流程 我们将三数之和问题转化为：固定一个数 nums[i]，在剩下的数组中寻找两个数，使它们的和等于 -nums[i]。
-具体步骤如下：
-特判：如果数组为空或长度小于3，直接返回空列表。 排序：对数组进行升序排序。 遍历：枚举第一个数 nums[i]（索引 i 从 0 到 n-2）： 剪枝优化：因为数组已排序，如果 nums[i] &gt; 0，那么后面的数一定都比它大，三数之和不可能为 0，直接结束循环。 外层去重：如果 i &gt; 0 且 nums[i] == nums[i-1]，说明这个数作为第一个数的情况已经处理过了，跳过以避免重复。 双指针查找：令左指针 L = i &#43; 1，右指针 R = n - 1。当 L &lt; R 时： 计算 sum = nums[i] &#43; nums[L] &#43; nums[R]。 若 sum == 0：找到一组解，加入结果集。 内层去重：为了防止结果重复，需要将 L 向右移过所有重复值，将 R 向左移过所有重复值。 移动指针：L&#43;&#43;, R--。 若 sum &lt; 0：说明和太小，需要变大，因此 L&#43;&#43;。 若 sum &gt; 0：说明和太大，需要变小，因此 R--。 3. 去重的细节 这道题最容易出错的地方就是去重。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-12-17 19:25:00 +0900 JST'>December 17, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/双指针】LeetCode 15. 三数之和" href="https://amemiya02.github.io/posts/2025-12-17-15-3sum/"></a>
+  <a class="entry-link" aria-label="post link to 【HOT100/动态规划】LeetCode 53. 最大子数组和" href="http://localhost:1313/posts/2026-01-02-53-maximum-subarray/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
-    <a class="next" href="https://amemiya02.github.io/categories/%E7%AE%97%E6%B3%95/page/2/">Next&nbsp;&nbsp;»
+    <a class="next" href="http://localhost:1313/categories/%E7%AE%97%E6%B3%95/page/2/">Next&nbsp;&nbsp;»
     </a>
   </nav>
 </footer>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="https://amemiya02.github.io/">个人技术博客</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:1313/">个人技术博客</a></span> · 
 
     <span>
         Powered by

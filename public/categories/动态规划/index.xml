@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>动态规划 on 个人技术博客</title>
-    <link>https://amemiya02.github.io/categories/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
+    <link>http://localhost:1313/categories/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
     <description>Recent content in 动态规划 on 个人技术博客</description>
     <generator>Hugo -- 0.154.1</generator>
     <language>zh-CN</language>
     <lastBuildDate>Sat, 13 Sep 2025 10:40:00 +0900</lastBuildDate>
-    <atom:link href="https://amemiya02.github.io/categories/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/categories/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>【HOT100/动态规划】LeetCode 70.爬楼梯</title>
-      <link>https://amemiya02.github.io/posts/2025-09-13-70-climbing-stairs/</link>
+      <link>http://localhost:1313/posts/2025-09-13-70-climbing-stairs/</link>
       <pubDate>Sat, 13 Sep 2025 10:40:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-13-70-climbing-stairs/</guid>
+      <guid>http://localhost:1313/posts/2025-09-13-70-climbing-stairs/</guid>
       <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;假设你正在爬楼梯。需要 &lt;code&gt;n&lt;/code&gt; 阶你才能到达楼顶。&lt;/p&gt;

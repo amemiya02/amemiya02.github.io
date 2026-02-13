@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>矩阵 | 个人技术博客</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/tags/%E7%9F%A9%E9%98%B5/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.343cc480b9ffc8f04ccbe5e968ad674880cab773ec19905e93033065c1e7a804.css" integrity="sha256-NDzEgLn/yPBMy&#43;XpaK1nSIDKt3PsGZBekwMwZcHnqAQ=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/tags/%E7%9F%A9%E9%98%B5/index.xml" title="rss">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/tags/%E7%9F%A9%E9%98%B5/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="http://localhost:1313/tags/%E7%9F%A9%E9%98%B5/">
+  <meta property="og:site_name" content="个人技术博客">
+  <meta property="og:title" content="矩阵">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="矩阵">
+<meta name="twitter:description" content="">
+
+</head>
+<body class="list" id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="个人技术博客 (Alt + H)">个人技术博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    矩阵
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/矩阵】LeetCode 240. 搜索二维矩阵 II
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target 。该矩阵具有以下特性：
+每行的元素从左到右升序排列。 每列的元素从上到下升序排列。 示例 1：
+输入： matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5 输出： true
+示例 2：
+输入： matrix = ... (同上), target = 20 输出： false
+核心思路：抽象 BST (从角落出发) 如果把矩阵的每一个位置看作一个节点，我们要利用&#34;行有序&#34;和&#34;列有序&#34;这两个条件来快速缩小查找范围。
+如果我们从左上角出发，当前值小于 target 时，我们既可以向右走（变大），也可以向下走（变大），这就产生了歧义，无法确定唯一的搜索方向。
+但是，如果我们选择左下角（或者右上角）作为起点，情况就完全不同了。
+以左下角 (m-1, 0) 为例：
+当前值 &gt; target： 因为当前行是升序的，左下角已经是该行最小的数了，如果连它都比 target 大，说明这一行所有的数都比 target 大。 -&gt; 结论：排除当前行，向上移动 (i--)。 当前值 &lt; target： 因为当前列是升序的，左下角已经是该列最大的数了（在剩下的范围内），如果连它都比 target 小，说明这一列所有的数都比 target 小。 -&gt; 结论：排除当前列，向右移动 (j&#43;&#43;)。 这个过程就像是在遍历一棵二叉搜索树 (BST)，左下角就是根节点，往上走是找更小的（类似左子树），往右走是找更大的（类似右子树）。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-02 23:00:00 +0900 JST'>January 2, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/矩阵】LeetCode 240. 搜索二维矩阵 II" href="http://localhost:1313/posts/2026-01-02-240-search-a-2d-matrix-ii/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/矩阵】LeetCode 48. 旋转图像
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 给定一个 n × n 的二维矩阵 matrix 表示一个图像。请你将图像顺时针旋转 90 度。
+你必须在 原地 旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要 使用另一个矩阵来旋转图像。
+示例 1：
+输入： matrix = [[1,2,3],[4,5,6],[7,8,9]] 输出： [[7,4,1],[8,5,2],[9,6,3]]
+示例 2：
+输入： matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]] 输出： [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
+核心思路：数学变换 这道题最直接的思路是找出每个元素旋转后的坐标规律。对于一个坐标为 (i, j) 的元素，顺时针旋转 90 度后，它的新位置是 (j, n-1-i)。 如果直接模拟这个过程，我们需要小心翼翼地进行四角交换，逻辑容易出错。
+更优雅的解法是利用矩阵运算的性质。顺时针旋转 90 度可以拆解为两步简单的变换：
+转置 (Transpose)：将矩阵的行列互换（沿对角线翻转）。 matrix[i][j] $\leftrightarrow$ matrix[j][i] 水平镜像 (Reverse Rows)：将每一行左右翻转。 matrix[i][j] $\leftrightarrow$ matrix[i][n-1-j] 演示过程：
+假设输入为：
+1 2 3 4 5 6 7 8 9 第一步：转置（对角线翻转）
+1 4 7 2 5 8 3 6 9 第二步：每行左右翻转
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-02 22:15:00 +0900 JST'>January 2, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/矩阵】LeetCode 48. 旋转图像" href="http://localhost:1313/posts/2026-01-02-48-rotate-image/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/矩阵】LeetCode 54. 螺旋矩阵
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 给你一个 m 行 n 列的矩阵 matrix ，请按照 顺时针螺旋顺序 ，返回矩阵中的所有元素。
+示例 1：
+输入： matrix = [[1,2,3],[4,5,6],[7,8,9]] 输出： [1,2,3,6,9,8,7,4,5]
+示例 2：
+输入： matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]] 输出： [1,2,3,4,8,12,11,10,9,5,6,7]
+核心思路：四边界模拟法 这道题没有太多的算法技巧，本质上是一道模拟题。我们需要模拟一个机器人在矩阵中按照&#34;右 -&gt; 下 -&gt; 左 -&gt; 上&#34;的顺序一直走，直到填满所有格子。
+虽然思路简单，但如果不加设计地直接写，很容易陷入各种边界判断的泥潭（比如拐角处怎么处理、什么时候停止）。
+最优雅的解法是设定四个边界：
+t (top)：上边界，初始为 0 b (bottom)：下边界，初始为 m-1 l (left)：左边界，初始为 0 r (right)：右边界，初始为 n-1 算法流程 我们要在一个循环中按照顺时针方向依次处理四条边。每处理完一条边，就将对应的边界向内收缩，并立即检查是否越界（越界意味着遍历结束）。
+向右移动：遍历从 l 到 r。处理完后，上边界下移 (&#43;&#43;t)。如果 t &gt; b，说明上下边界交错，遍历结束。 向下移动：遍历从 t 到 b。处理完后，右边界左移 (--r)。如果 l &gt; r，说明左右边界交错，遍历结束。 向左移动：遍历从 r 到 l。处理完后，下边界上移 (--b)。如果 t &gt; b，遍历结束。 向上移动：遍历从 b 到 t。处理完后，左边界右移 (&#43;&#43;l)。如果 l &gt; r，遍历结束。 这种写法将边界检查巧妙地融合在每一步操作之后，不需要在循环头部写复杂的 count &lt; total 判断，代码逻辑非常清晰。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-02 21:30:00 +0900 JST'>January 2, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/矩阵】LeetCode 54. 螺旋矩阵" href="http://localhost:1313/posts/2026-01-02-54-spiral-matrix/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/矩阵】LeetCode 73. 矩阵置零
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。请使用 原地 算法。
+示例 1：
+输入： matrix = [[1,1,1],[1,0,1],[1,1,1]] 输出： [[1,0,1],[0,0,0],[1,0,1]]
+示例 2：
+输入： matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]] 输出： [[0,0,0,0],[0,4,5,0],[0,3,1,0]]
+进阶：
+一个直观的解决方案是使用 $O(mn)$ 的额外空间，但这并不是一个好的解决方案。 一个简单的改进方案是使用 $O(m &#43; n)$ 的额外空间，但这仍然不是最好的解决方案。 你能想出一个仅使用常量空间的解决方案吗？ 核心思路：利用首行首列做标记 这道题的难点在于**“污染”**问题：如果我们一边遍历一边将 0 所在的行列置零，那么修改后的 0 会干扰后续的遍历，导致整个矩阵最后全变成了 0。
+空间复杂度优化路径 $O(MN)$ 空间：新建一个同样的矩阵做标记。太浪费。 $O(M&#43;N)$ 空间：使用两个布尔数组 row[] 和 col[]，分别记录哪一行、哪一列需要置零。 $O(1)$ 空间：直接利用矩阵的第一行和第一列来替代上面的两个布尔数组。 算法流程 ($O(1)$ 方案) 既然我们要用第一行和第一列来记录&#34;该行/列是否需要置零&#34;，那么第一行和第一列原本的状态（是否包含 0）就需要先被保存下来，否则会被后续的标记覆盖。
+步骤如下：
+记录首行首列状态： 定义两个变量 firstRowHasZero 和 firstColHasZero，遍历第一行和第一列，如果发现 0，则将对应的变量置为 true。
+利用首行首列做标记： 遍历矩阵的其余部分（从 (1,1) 开始）。如果发现 matrix[i][j] == 0，就将它对应的行首 matrix[i][0] 和列首 matrix[0][j] 设为 0。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-02 20:45:00 +0900 JST'>January 2, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/矩阵】LeetCode 73. 矩阵置零" href="http://localhost:1313/posts/2026-01-02-73-set-matrix-zeroes/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">个人技术博客</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
