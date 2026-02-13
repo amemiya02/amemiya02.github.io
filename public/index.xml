@@ -31,7 +31,7 @@
 &lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;nums = [5,4,-1,7,8]&lt;/code&gt;
 &lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;23&lt;/code&gt;&lt;/p&gt;
 &lt;h3 id=&#34;核心思路动态规划与贪心&#34;&gt;核心思路：动态规划与贪心&lt;/h3&gt;
-&lt;p&gt;这道题是**动态规划（Dynamic Programming）**的经典入门题。&lt;/p&gt;
+&lt;p&gt;这道题是&lt;strong&gt;动态规划&lt;/strong&gt;的经典入门题。&lt;/p&gt;
 &lt;p&gt;如果我们用暴力法求解，枚举所有的起点和终点，时间复杂度会达到 $O(N^2)$，这显然不是最优解。我们需要找到一种遍历一次就能得出结果的方法。&lt;/p&gt;
 &lt;h4 id=&#34;状态定义&#34;&gt;状态定义&lt;/h4&gt;
 &lt;p&gt;我们要思考：&lt;strong&gt;以当前数字 &lt;code&gt;nums[i]&lt;/code&gt; 结尾的子数组，它的最大和是多少？&lt;/strong&gt;&lt;/p&gt;
@@ -41,8 +41,8 @@
 &lt;li&gt;&lt;strong&gt;另起炉灶&lt;/strong&gt;：如果前面的子数组和 &lt;code&gt;dp[i-1]&lt;/code&gt; 是负数，加上它只会拖累自己，不如从自己重新开始计算，即 &lt;code&gt;nums[i]&lt;/code&gt;。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h4 id=&#34;状态转移方程&#34;&gt;状态转移方程&lt;/h4&gt;
-&lt;p&gt;根据上述分析，我们可以得到状态转移方程：
-$$
+&lt;p&gt;根据上述分析，我们可以得到状态转移方程：&lt;/p&gt;
+&lt;p&gt;$$
 dp[i] = \max(dp[i-1] + \text{nums}[i], \text{nums}[i])
 $$&lt;/p&gt;</description>
     </item>
