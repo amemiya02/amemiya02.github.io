@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>[Golang] LeetCode 热题 100 - 贪心算法 | 个人技术博客</title>
+<meta name="keywords" content="Go, 贪心算法, 题解">
+<meta name="description" content="贪心算法
+121. 买卖股票的最佳时机 - Easy
+题目回顾
+
+给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。
+你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。
+返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。
+
+核心思路
+这道题的核心是找到 “最低买入价” 和 “该价格之后的最高卖出价”，暴力解法（双层循环找所有买卖组合）时间复杂度 O (n²) 会超时，最优的贪心思路：
+
+遍历价格数组时，维护两个变量：
+
+
+minPrice：记录遍历到当前位置时的最低买入价格；
+maxProfit：记录遍历到当前位置时能获得的最大利润；
+
+
+遍历过程中：
+
+
+先更新 minPrice（取当前价格和 minPrice 的较小值）；
+再计算当前价格卖出能获得的利润（当前价格 - minPrice），并更新 maxProfit（取当前利润和 maxProfit 的较大值）；
+
+
+遍历结束后，maxProfit 即为最大利润（若为负数则返回 0）。
+
+代码实现
+
+
+
+func maxProfit(prices []int) int {
+    // 边界条件：数组长度小于2，无法买卖，直接返回0
+    if len(prices) &lt; 2 {
+        return 0
+    }
+
+    // 初始化最小价格为第一个元素，最大利润为0
+    minPrice := prices[0]
+    maxProfit := 0
+
+    // 遍历从第二个元素开始的所有价格
+    for i := 1; i &lt; len(prices); i&#43;&#43; {
+        // 1. 更新当前遇到的最低价格
+        if prices[i] &lt; minPrice {
+            minPrice = prices[i]
+        } else {
+            // 2. 计算当前价格卖出的利润，更新最大利润
+            currentProfit := prices[i] - minPrice
+            if currentProfit &gt; maxProfit {
+                maxProfit = currentProfit
+            }
+        }
+    }
+
+    return maxProfit
+}
+复杂度分析
+
+时间复杂度：$O(n)$，只需遍历一次价格数组。
+空间复杂度：$O(1)$，只使用了常数级别的额外空间。
+
+55. 跳跃游戏 - Medium
+题目回顾
+
+给你一个非负整数数组 nums ，你最初位于数组的 第一个下标 。数组中的每个元素代表你在该位置可以跳跃的最大长度。
+判断你是否能够到达最后一个下标，如果可以，返回 true ；否则，返回 false 。">
+<meta name="author" content="">
+<link rel="canonical" href="https://amemiya02.github.io/posts/2026-02-10-greedy/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.da3211e5ef867bf2b75fd5a6515cfed7195c011e8ab735694e203810a827097b.css" integrity="sha256-2jIR5e&#43;Ge/K3X9WmUVz&#43;1xlcAR6KtzVpTiA4EKgnCXs=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://amemiya02.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://amemiya02.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://amemiya02.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://amemiya02.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://amemiya02.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://amemiya02.github.io/posts/2026-02-10-greedy/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)'], ['$', '$']],
+    },
+    loader: { load: ['ui/safe'] },
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:url" content="https://amemiya02.github.io/posts/2026-02-10-greedy/">
+  <meta property="og:site_name" content="个人技术博客">
+  <meta property="og:title" content="[Golang] LeetCode 热题 100 - 贪心算法">
+  <meta property="og:description" content="贪心算法 121. 买卖股票的最佳时机 - Easy 题目回顾 给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。 你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。 返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。
+核心思路 这道题的核心是找到 “最低买入价” 和 “该价格之后的最高卖出价”，暴力解法（双层循环找所有买卖组合）时间复杂度 O (n²) 会超时，最优的贪心思路：
+遍历价格数组时，维护两个变量： minPrice：记录遍历到当前位置时的最低买入价格； maxProfit：记录遍历到当前位置时能获得的最大利润； 遍历过程中： 先更新 minPrice（取当前价格和 minPrice 的较小值）； 再计算当前价格卖出能获得的利润（当前价格 - minPrice），并更新 maxProfit（取当前利润和 maxProfit 的较大值）； 遍历结束后，maxProfit 即为最大利润（若为负数则返回 0）。 代码实现 func maxProfit(prices []int) int { // 边界条件：数组长度小于2，无法买卖，直接返回0 if len(prices) &lt; 2 { return 0 } // 初始化最小价格为第一个元素，最大利润为0 minPrice := prices[0] maxProfit := 0 // 遍历从第二个元素开始的所有价格 for i := 1; i &lt; len(prices); i&#43;&#43; { // 1. 更新当前遇到的最低价格 if prices[i] &lt; minPrice { minPrice = prices[i] } else { // 2. 计算当前价格卖出的利润，更新最大利润 currentProfit := prices[i] - minPrice if currentProfit &gt; maxProfit { maxProfit = currentProfit } } } return maxProfit } 复杂度分析 时间复杂度：$O(n)$，只需遍历一次价格数组。 空间复杂度：$O(1)$，只使用了常数级别的额外空间。 55. 跳跃游戏 - Medium 题目回顾 给你一个非负整数数组 nums ，你最初位于数组的 第一个下标 。数组中的每个元素代表你在该位置可以跳跃的最大长度。 判断你是否能够到达最后一个下标，如果可以，返回 true ；否则，返回 false 。">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-02-10T09:00:00+09:00">
+    <meta property="article:modified_time" content="2026-02-10T09:00:00+09:00">
+    <meta property="article:tag" content="Go">
+    <meta property="article:tag" content="贪心算法">
+    <meta property="article:tag" content="题解">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[Golang] LeetCode 热题 100 - 贪心算法">
+<meta name="twitter:description" content="贪心算法
+121. 买卖股票的最佳时机 - Easy
+题目回顾
+
+给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。
+你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。
+返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。
+
+核心思路
+这道题的核心是找到 “最低买入价” 和 “该价格之后的最高卖出价”，暴力解法（双层循环找所有买卖组合）时间复杂度 O (n²) 会超时，最优的贪心思路：
+
+遍历价格数组时，维护两个变量：
+
+
+minPrice：记录遍历到当前位置时的最低买入价格；
+maxProfit：记录遍历到当前位置时能获得的最大利润；
+
+
+遍历过程中：
+
+
+先更新 minPrice（取当前价格和 minPrice 的较小值）；
+再计算当前价格卖出能获得的利润（当前价格 - minPrice），并更新 maxProfit（取当前利润和 maxProfit 的较大值）；
+
+
+遍历结束后，maxProfit 即为最大利润（若为负数则返回 0）。
+
+代码实现
+
+
+
+func maxProfit(prices []int) int {
+    // 边界条件：数组长度小于2，无法买卖，直接返回0
+    if len(prices) &lt; 2 {
+        return 0
+    }
+
+    // 初始化最小价格为第一个元素，最大利润为0
+    minPrice := prices[0]
+    maxProfit := 0
+
+    // 遍历从第二个元素开始的所有价格
+    for i := 1; i &lt; len(prices); i&#43;&#43; {
+        // 1. 更新当前遇到的最低价格
+        if prices[i] &lt; minPrice {
+            minPrice = prices[i]
+        } else {
+            // 2. 计算当前价格卖出的利润，更新最大利润
+            currentProfit := prices[i] - minPrice
+            if currentProfit &gt; maxProfit {
+                maxProfit = currentProfit
+            }
+        }
+    }
+
+    return maxProfit
+}
+复杂度分析
+
+时间复杂度：$O(n)$，只需遍历一次价格数组。
+空间复杂度：$O(1)$，只使用了常数级别的额外空间。
+
+55. 跳跃游戏 - Medium
+题目回顾
+
+给你一个非负整数数组 nums ，你最初位于数组的 第一个下标 。数组中的每个元素代表你在该位置可以跳跃的最大长度。
+判断你是否能够到达最后一个下标，如果可以，返回 true ；否则，返回 false 。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://amemiya02.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "[Golang] LeetCode 热题 100 - 贪心算法",
+      "item": "https://amemiya02.github.io/posts/2026-02-10-greedy/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "[Golang] LeetCode 热题 100 - 贪心算法",
+  "name": "[Golang] LeetCode 热题 100 - 贪心算法",
+  "description": "贪心算法 121. 买卖股票的最佳时机 - Easy 题目回顾 给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。 你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。 返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。\n核心思路 这道题的核心是找到 “最低买入价” 和 “该价格之后的最高卖出价”，暴力解法（双层循环找所有买卖组合）时间复杂度 O (n²) 会超时，最优的贪心思路：\n遍历价格数组时，维护两个变量： minPrice：记录遍历到当前位置时的最低买入价格； maxProfit：记录遍历到当前位置时能获得的最大利润； 遍历过程中： 先更新 minPrice（取当前价格和 minPrice 的较小值）； 再计算当前价格卖出能获得的利润（当前价格 - minPrice），并更新 maxProfit（取当前利润和 maxProfit 的较大值）； 遍历结束后，maxProfit 即为最大利润（若为负数则返回 0）。 代码实现 func maxProfit(prices []int) int { // 边界条件：数组长度小于2，无法买卖，直接返回0 if len(prices) \u0026lt; 2 { return 0 } // 初始化最小价格为第一个元素，最大利润为0 minPrice := prices[0] maxProfit := 0 // 遍历从第二个元素开始的所有价格 for i := 1; i \u0026lt; len(prices); i++ { // 1. 更新当前遇到的最低价格 if prices[i] \u0026lt; minPrice { minPrice = prices[i] } else { // 2. 计算当前价格卖出的利润，更新最大利润 currentProfit := prices[i] - minPrice if currentProfit \u0026gt; maxProfit { maxProfit = currentProfit } } } return maxProfit } 复杂度分析 时间复杂度：$O(n)$，只需遍历一次价格数组。 空间复杂度：$O(1)$，只使用了常数级别的额外空间。 55. 跳跃游戏 - Medium 题目回顾 给你一个非负整数数组 nums ，你最初位于数组的 第一个下标 。数组中的每个元素代表你在该位置可以跳跃的最大长度。 判断你是否能够到达最后一个下标，如果可以，返回 true ；否则，返回 false 。\n",
+  "keywords": [
+    "Go", "贪心算法", "题解"
+  ],
+  "articleBody": "贪心算法 121. 买卖股票的最佳时机 - Easy 题目回顾 给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。 你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。 返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。\n核心思路 这道题的核心是找到 “最低买入价” 和 “该价格之后的最高卖出价”，暴力解法（双层循环找所有买卖组合）时间复杂度 O (n²) 会超时，最优的贪心思路：\n遍历价格数组时，维护两个变量： minPrice：记录遍历到当前位置时的最低买入价格； maxProfit：记录遍历到当前位置时能获得的最大利润； 遍历过程中： 先更新 minPrice（取当前价格和 minPrice 的较小值）； 再计算当前价格卖出能获得的利润（当前价格 - minPrice），并更新 maxProfit（取当前利润和 maxProfit 的较大值）； 遍历结束后，maxProfit 即为最大利润（若为负数则返回 0）。 代码实现 func maxProfit(prices []int) int { // 边界条件：数组长度小于2，无法买卖，直接返回0 if len(prices) \u003c 2 { return 0 } // 初始化最小价格为第一个元素，最大利润为0 minPrice := prices[0] maxProfit := 0 // 遍历从第二个元素开始的所有价格 for i := 1; i \u003c len(prices); i++ { // 1. 更新当前遇到的最低价格 if prices[i] \u003c minPrice { minPrice = prices[i] } else { // 2. 计算当前价格卖出的利润，更新最大利润 currentProfit := prices[i] - minPrice if currentProfit \u003e maxProfit { maxProfit = currentProfit } } } return maxProfit } 复杂度分析 时间复杂度：$O(n)$，只需遍历一次价格数组。 空间复杂度：$O(1)$，只使用了常数级别的额外空间。 55. 跳跃游戏 - Medium 题目回顾 给你一个非负整数数组 nums ，你最初位于数组的 第一个下标 。数组中的每个元素代表你在该位置可以跳跃的最大长度。 判断你是否能够到达最后一个下标，如果可以，返回 true ；否则，返回 false 。\n核心思路 这道题的核心是通过贪心策略维护 “当前能到达的最远位置”，暴力递归会超时，贪心是最优解：\n遍历数组时，维护变量 maxReach，表示当前能到达的最远下标； 对于每个下标 i： 若 i 超过 maxReach，说明该位置无法到达，直接返回 false； 否则，更新 maxReach 为 max(maxReach, i + nums[i])（当前位置能跳到的最远位置）； 若 maxReach 已覆盖最后一个下标，可提前返回 true（优化）； 遍历结束后，判断 maxReach 是否 ≥ 最后一个下标。 代码实现 func canJump(nums []int) bool { n := len(nums) // 边界条件：数组只有一个元素，已在最后一个下标，直接返回true if n == 1 { return true } // maxReach：当前能到达的最远下标 maxReach := 0 for i := 0; i \u003c n; i++ { // 若当前下标超过能到达的最远位置，说明无法继续前进，返回false if i \u003e maxReach { return false } // 更新能到达的最远位置 currentReach := i + nums[i] if currentReach \u003e maxReach { maxReach = currentReach } // 提前终止：已能到达最后一个下标，无需继续遍历 if maxReach \u003e= n-1 { return true } } // 遍历结束仍未到达最后一个下标 return false } 复杂度分析 时间复杂度：$O(n)$，只需遍历一次数组。 空间复杂度：$O(1)$，只使用了常数级别的额外空间。 45. 跳跃游戏 II - Mid 题目回顾 给定一个长度为 n 的 0 索引整数数组 nums。初始位置在下标 0。\n每个元素 nums[i] 表示从索引 i 向后跳转的最大长度。换句话说，如果你在索引 i 处，你可以跳转到任意 (i + j) 处：\n0 \u003c= j \u003c= nums[i] 且 i + j \u003c n 返回到达 n - 1 的最小跳跃次数。测试用例保证可以到达 n - 1。\n核心思路 这道题的核心是 “每一步都选择能跳得最远的位置”，从而最小化跳跃次数，贪心思路拆解：\n维护三个核心变量： step：已跳跃的次数； curEnd：当前跳跃能到达的最远下标（当前步数的边界）； maxReach：遍历过程中能到达的全局最远下标； 遍历数组（不包含最后一个元素，因为到达最后一个下标无需再跳）： 每次更新 maxReach 为 max(maxReach, i + nums[i])； 当遍历到 curEnd 时，说明需要进行一次新的跳跃： step++（跳跃次数 + 1）； curEnd = maxReach（更新当前步数的边界为新的最远可达位置）； 遍历结束后，step 即为最小跳跃次数。 代码实现 func jump(nums []int) int { n := len(nums) // 边界条件：数组长度为1，无需跳跃 if n == 1 { return 0 } step := 0 // 已跳跃次数 curEnd := 0 // 当前跳跃能到达的最远下标（步数边界） maxReach := 0 // 全局最远可达下标 // 遍历数组（不包含最后一个元素，到达最后一个下标无需再跳） for i := 0; i \u003c n-1; i++ { // 更新全局最远可达下标 currentReach := i + nums[i] if currentReach \u003e maxReach { maxReach = currentReach } // 遍历到当前步数的边界，需要跳一次 if i == curEnd { step++ curEnd = maxReach // 更新下一步的边界 // 提前终止：已能到达最后一个下标 if curEnd \u003e= n-1 { break } } } return step } 复杂度分析 时间复杂度：$O(n)$，只需遍历一次数组。 空间复杂度：$O(1)$，只使用了常数级别的额外空间。 763. 划分字母区间 - Mid 题目回顾 给你一个字符串 s 。我们要把这个字符串划分为尽可能多的片段，同一字母最多出现在一个片段中。例如，字符串 “ababcc” 能够被分为 [“abab”, “cc”]，但类似 [“aba”, “bcc”] 或 [“ab”, “ab”, “cc”] 的划分是非法的。\n注意，划分结果需要满足：将所有划分结果按顺序连接，得到的字符串仍然是 s 。\n返回一个表示每个字符串片段的长度的列表。\n核心思路 这道题的核心是通过 “记录字母最后出现位置 + 贪心扩展片段边界” 来划分：\n预处理字母最后出现位置：遍历字符串，用数组 / 哈希表记录每个字符最后一次出现的下标； 贪心划分片段： 维护两个变量：start（当前片段起始下标）、end（当前片段的最远边界）； 遍历字符串，每次更新 end 为 “当前字符最后出现位置” 和 “当前 end” 的较大值； 当遍历到 end 时，说明当前片段已到边界，记录片段长度（end - start + 1），并更新 start 为 end + 1； 最终收集所有片段长度即为结果。 代码实现 func partitionLabels(s string) []int { // 1. 预处理：记录每个字符最后出现的下标（小写字母共26个，用数组更高效） lastPos := [26]int{} for i := range s { // 转换字符为数组索引（a→0, b→1...z→25） lastPos[s[i]-'a'] = i } // 2. 贪心划分片段 var res []int start := 0 // 当前片段起始下标 end := 0 // 当前片段的最远边界 for i := range s { // 更新当前片段的最远边界 if lastPos[s[i]-'a'] \u003e end { end = lastPos[s[i]-'a'] } // 遍历到片段边界，记录长度并更新起始位置 if i == end { res = append(res, end-start+1) start = end + 1 } } return res } 复杂度分析 时间复杂度：$O(n)$，其中 $n$ 是字符串长度。预处理和划分片段都需要遍历字符串一次。 空间复杂度：$O(1)$，因为字符集固定为小写字母，使用了常数级别的额外空间。 ",
+  "wordCount" : "542",
+  "inLanguage": "en",
+  "datePublished": "2026-02-10T09:00:00+09:00",
+  "dateModified": "2026-02-10T09:00:00+09:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://amemiya02.github.io/posts/2026-02-10-greedy/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "个人技术博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://amemiya02.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://amemiya02.github.io/" accesskey="h" title="个人技术博客 (Alt + H)">个人技术博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://amemiya02.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://amemiya02.github.io/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      [Golang] LeetCode 热题 100 - 贪心算法
+    </h1>
+    <div class="post-meta"><span title='2026-02-10 09:00:00 +0900 +0900'>February 10, 2026</span>&nbsp;·&nbsp;<span>3 min</span>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e8%b4%aa%e5%bf%83%e7%ae%97%e6%b3%95" aria-label="贪心算法">贪心算法</a><ul>
+                        
+                <li>
+                    <a href="#121-%e4%b9%b0%e5%8d%96%e8%82%a1%e7%a5%a8%e7%9a%84%e6%9c%80%e4%bd%b3%e6%97%b6%e6%9c%ba---easy" aria-label="121. 买卖股票的最佳时机 - Easy">121. 买卖股票的最佳时机 - Easy</a><ul>
+                        
+                <li>
+                    <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be" aria-label="题目回顾">题目回顾</a></li>
+                <li>
+                    <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af" aria-label="核心思路">核心思路</a></li>
+                <li>
+                    <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0" aria-label="代码实现">代码实现</a></li>
+                <li>
+                    <a href="#%e5%a4%8d%e6%9d%82%e5%ba%a6%e5%88%86%e6%9e%90" aria-label="复杂度分析">复杂度分析</a></li></ul>
+                </li>
+                <li>
+                    <a href="#55-%e8%b7%b3%e8%b7%83%e6%b8%b8%e6%88%8f---medium" aria-label="55. 跳跃游戏 - Medium">55. 跳跃游戏 - Medium</a><ul>
+                        
+                <li>
+                    <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-1" aria-label="题目回顾">题目回顾</a></li>
+                <li>
+                    <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-1" aria-label="核心思路">核心思路</a></li>
+                <li>
+                    <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-1" aria-label="代码实现">代码实现</a></li>
+                <li>
+                    <a href="#%e5%a4%8d%e6%9d%82%e5%ba%a6%e5%88%86%e6%9e%90-1" aria-label="复杂度分析">复杂度分析</a></li></ul>
+                </li>
+                <li>
+                    <a href="#45-%e8%b7%b3%e8%b7%83%e6%b8%b8%e6%88%8f-ii---mid" aria-label="45. 跳跃游戏 II - Mid">45. 跳跃游戏 II - Mid</a><ul>
+                        
+                <li>
+                    <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-2" aria-label="题目回顾">题目回顾</a></li>
+                <li>
+                    <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-2" aria-label="核心思路">核心思路</a></li>
+                <li>
+                    <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-2" aria-label="代码实现">代码实现</a></li>
+                <li>
+                    <a href="#%e5%a4%8d%e6%9d%82%e5%ba%a6%e5%88%86%e6%9e%90-2" aria-label="复杂度分析">复杂度分析</a></li></ul>
+                </li>
+                <li>
+                    <a href="#763-%e5%88%92%e5%88%86%e5%ad%97%e6%af%8d%e5%8c%ba%e9%97%b4---mid" aria-label="763. 划分字母区间 - Mid">763. 划分字母区间 - Mid</a><ul>
+                        
+                <li>
+                    <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-3" aria-label="题目回顾">题目回顾</a></li>
+                <li>
+                    <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-3" aria-label="核心思路">核心思路</a></li>
+                <li>
+                    <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-3" aria-label="代码实现">代码实现</a></li>
+                <li>
+                    <a href="#%e5%a4%8d%e6%9d%82%e5%ba%a6%e5%88%86%e6%9e%90-3" aria-label="复杂度分析">复杂度分析</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h1 id="贪心算法">贪心算法<a hidden class="anchor" aria-hidden="true" href="#贪心算法">#</a></h1>
+<h2 id="121-买卖股票的最佳时机---easy"><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/">121. 买卖股票的最佳时机 - Easy</a><a hidden class="anchor" aria-hidden="true" href="#121-买卖股票的最佳时机---easy">#</a></h2>
+<h3 id="题目回顾">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾">#</a></h3>
+<blockquote>
+<p>给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。
+你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。
+返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。</p>
+</blockquote>
+<h3 id="核心思路">核心思路<a hidden class="anchor" aria-hidden="true" href="#核心思路">#</a></h3>
+<p>这道题的核心是找到 “最低买入价” 和 “该价格之后的最高卖出价”，暴力解法（双层循环找所有买卖组合）时间复杂度 O (n²) 会超时，最优的贪心思路：</p>
+<ol>
+<li>遍历价格数组时，维护两个变量：</li>
+</ol>
+<ul>
+<li>minPrice：记录遍历到当前位置时的最低买入价格；</li>
+<li>maxProfit：记录遍历到当前位置时能获得的最大利润；</li>
+</ul>
+<ol start="2">
+<li>遍历过程中：</li>
+</ol>
+<ul>
+<li>先更新 minPrice（取当前价格和 minPrice 的较小值）；</li>
+<li>再计算当前价格卖出能获得的利润（当前价格 - minPrice），并更新 maxProfit（取当前利润和 maxProfit 的较大值）；</li>
+</ul>
+<ol start="3">
+<li>遍历结束后，maxProfit 即为最大利润（若为负数则返回 0）。</li>
+</ol>
+<h3 id="代码实现">代码实现<a hidden class="anchor" aria-hidden="true" href="#代码实现">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">maxProfit</span>(<span style="color:#a6e22e">prices</span> []<span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 边界条件：数组长度小于2，无法买卖，直接返回0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">prices</span>) &lt; <span style="color:#ae81ff">2</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 初始化最小价格为第一个元素，最大利润为0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">minPrice</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">prices</span>[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">maxProfit</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 遍历从第二个元素开始的所有价格</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> &lt; len(<span style="color:#a6e22e">prices</span>); <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 1. 更新当前遇到的最低价格</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">prices</span>[<span style="color:#a6e22e">i</span>] &lt; <span style="color:#a6e22e">minPrice</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">minPrice</span> = <span style="color:#a6e22e">prices</span>[<span style="color:#a6e22e">i</span>]
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 2. 计算当前价格卖出的利润，更新最大利润</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">currentProfit</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">prices</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">-</span> <span style="color:#a6e22e">minPrice</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">currentProfit</span> &gt; <span style="color:#a6e22e">maxProfit</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">maxProfit</span> = <span style="color:#a6e22e">currentProfit</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">maxProfit</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="复杂度分析">复杂度分析<a hidden class="anchor" aria-hidden="true" href="#复杂度分析">#</a></h3>
+<ul>
+<li>时间复杂度：$O(n)$，只需遍历一次价格数组。</li>
+<li>空间复杂度：$O(1)$，只使用了常数级别的额外空间。</li>
+</ul>
+<h2 id="55-跳跃游戏---medium"><a href="https://leetcode-cn.com/problems/jump-game/">55. 跳跃游戏 - Medium</a><a hidden class="anchor" aria-hidden="true" href="#55-跳跃游戏---medium">#</a></h2>
+<h3 id="题目回顾-1">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾-1">#</a></h3>
+<blockquote>
+<p>给你一个非负整数数组 nums ，你最初位于数组的 第一个下标 。数组中的每个元素代表你在该位置可以跳跃的最大长度。
+判断你是否能够到达最后一个下标，如果可以，返回 true ；否则，返回 false 。</p>
+</blockquote>
+<h3 id="核心思路-1">核心思路<a hidden class="anchor" aria-hidden="true" href="#核心思路-1">#</a></h3>
+<p>这道题的核心是通过贪心策略维护 “当前能到达的最远位置”，暴力递归会超时，贪心是最优解：</p>
+<ol>
+<li>遍历数组时，维护变量 maxReach，表示当前能到达的最远下标；</li>
+<li>对于每个下标 i：</li>
+</ol>
+<ul>
+<li>若 i 超过 maxReach，说明该位置无法到达，直接返回 false；</li>
+<li>否则，更新 maxReach 为 max(maxReach, i + nums[i])（当前位置能跳到的最远位置）；</li>
+<li>若 maxReach 已覆盖最后一个下标，可提前返回 true（优化）；</li>
+</ul>
+<ol start="3">
+<li>遍历结束后，判断 maxReach 是否 ≥ 最后一个下标。</li>
+</ol>
+<h3 id="代码实现-1">代码实现<a hidden class="anchor" aria-hidden="true" href="#代码实现-1">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">canJump</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">nums</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 边界条件：数组只有一个元素，已在最后一个下标，直接返回true</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// maxReach：当前能到达的最远下标</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">maxReach</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">n</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 若当前下标超过能到达的最远位置，说明无法继续前进，返回false</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> &gt; <span style="color:#a6e22e">maxReach</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 更新能到达的最远位置</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">currentReach</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>]
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">currentReach</span> &gt; <span style="color:#a6e22e">maxReach</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">maxReach</span> = <span style="color:#a6e22e">currentReach</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 提前终止：已能到达最后一个下标，无需继续遍历</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">maxReach</span> <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 遍历结束仍未到达最后一个下标</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="复杂度分析-1">复杂度分析<a hidden class="anchor" aria-hidden="true" href="#复杂度分析-1">#</a></h3>
+<ul>
+<li>时间复杂度：$O(n)$，只需遍历一次数组。</li>
+<li>空间复杂度：$O(1)$，只使用了常数级别的额外空间。</li>
+</ul>
+<h2 id="45-跳跃游戏-ii---mid"><a href="https://leetcode-cn.com/problems/jump-game-ii/">45. 跳跃游戏 II - Mid</a><a hidden class="anchor" aria-hidden="true" href="#45-跳跃游戏-ii---mid">#</a></h2>
+<h3 id="题目回顾-2">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾-2">#</a></h3>
+<p>给定一个长度为 n 的 0 索引整数数组 nums。初始位置在下标 0。</p>
+<p>每个元素 nums[i] 表示从索引 i 向后跳转的最大长度。换句话说，如果你在索引 i 处，你可以跳转到任意 (i + j) 处：</p>
+<p>0 &lt;= j &lt;= nums[i] 且
+i + j &lt; n
+返回到达 n - 1 的最小跳跃次数。测试用例保证可以到达 n - 1。</p>
+<h3 id="核心思路-2">核心思路<a hidden class="anchor" aria-hidden="true" href="#核心思路-2">#</a></h3>
+<p>这道题的核心是 “每一步都选择能跳得最远的位置”，从而最小化跳跃次数，贪心思路拆解：</p>
+<ol>
+<li>维护三个核心变量：</li>
+</ol>
+<ul>
+<li>step：已跳跃的次数；</li>
+<li>curEnd：当前跳跃能到达的最远下标（当前步数的边界）；</li>
+<li>maxReach：遍历过程中能到达的全局最远下标；</li>
+</ul>
+<ol start="2">
+<li>遍历数组（不包含最后一个元素，因为到达最后一个下标无需再跳）：</li>
+</ol>
+<ul>
+<li>每次更新 maxReach 为 max(maxReach, i + nums[i])；</li>
+<li>当遍历到 curEnd 时，说明需要进行一次新的跳跃：
+<ul>
+<li>step++（跳跃次数 + 1）；</li>
+<li>curEnd = maxReach（更新当前步数的边界为新的最远可达位置）；</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>遍历结束后，step 即为最小跳跃次数。</li>
+</ol>
+<h3 id="代码实现-2">代码实现<a hidden class="anchor" aria-hidden="true" href="#代码实现-2">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">jump</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">nums</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 边界条件：数组长度为1，无需跳跃</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">step</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>       <span style="color:#75715e">// 已跳跃次数</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">curEnd</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>     <span style="color:#75715e">// 当前跳跃能到达的最远下标（步数边界）</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">maxReach</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>   <span style="color:#75715e">// 全局最远可达下标</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 遍历数组（不包含最后一个元素，到达最后一个下标无需再跳）</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 更新全局最远可达下标</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">currentReach</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>]
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">currentReach</span> &gt; <span style="color:#a6e22e">maxReach</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">maxReach</span> = <span style="color:#a6e22e">currentReach</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 遍历到当前步数的边界，需要跳一次</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">curEnd</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">step</span><span style="color:#f92672">++</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">curEnd</span> = <span style="color:#a6e22e">maxReach</span> <span style="color:#75715e">// 更新下一步的边界</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// 提前终止：已能到达最后一个下标</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">curEnd</span> <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">step</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="复杂度分析-2">复杂度分析<a hidden class="anchor" aria-hidden="true" href="#复杂度分析-2">#</a></h3>
+<ul>
+<li>时间复杂度：$O(n)$，只需遍历一次数组。</li>
+<li>空间复杂度：$O(1)$，只使用了常数级别的额外空间。</li>
+</ul>
+<h2 id="763-划分字母区间---mid"><a href="https://leetcode-cn.com/problems/partition-labels/">763. 划分字母区间 - Mid</a><a hidden class="anchor" aria-hidden="true" href="#763-划分字母区间---mid">#</a></h2>
+<h3 id="题目回顾-3">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾-3">#</a></h3>
+<p>给你一个字符串 s 。我们要把这个字符串划分为尽可能多的片段，同一字母最多出现在一个片段中。例如，字符串 &ldquo;ababcc&rdquo; 能够被分为 [&ldquo;abab&rdquo;, &ldquo;cc&rdquo;]，但类似 [&ldquo;aba&rdquo;, &ldquo;bcc&rdquo;] 或 [&ldquo;ab&rdquo;, &ldquo;ab&rdquo;, &ldquo;cc&rdquo;] 的划分是非法的。</p>
+<p>注意，划分结果需要满足：将所有划分结果按顺序连接，得到的字符串仍然是 s 。</p>
+<p>返回一个表示每个字符串片段的长度的列表。</p>
+<h3 id="核心思路-3">核心思路<a hidden class="anchor" aria-hidden="true" href="#核心思路-3">#</a></h3>
+<p>这道题的核心是通过 “记录字母最后出现位置 + 贪心扩展片段边界” 来划分：</p>
+<ol>
+<li>预处理字母最后出现位置：遍历字符串，用数组 / 哈希表记录每个字符最后一次出现的下标；</li>
+<li>贪心划分片段：</li>
+</ol>
+<ul>
+<li>维护两个变量：start（当前片段起始下标）、end（当前片段的最远边界）；</li>
+<li>遍历字符串，每次更新 end 为 “当前字符最后出现位置” 和 “当前 end” 的较大值；</li>
+<li>当遍历到 end 时，说明当前片段已到边界，记录片段长度（end - start + 1），并更新 start 为 end + 1；</li>
+</ul>
+<ol start="3">
+<li>最终收集所有片段长度即为结果。</li>
+</ol>
+<h3 id="代码实现-3">代码实现<a hidden class="anchor" aria-hidden="true" href="#代码实现-3">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">partitionLabels</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) []<span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 1. 预处理：记录每个字符最后出现的下标（小写字母共26个，用数组更高效）</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">lastPos</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">26</span>]<span style="color:#66d9ef">int</span>{}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">s</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 转换字符为数组索引（a→0, b→1...z→25）</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">lastPos</span>[<span style="color:#a6e22e">s</span>[<span style="color:#a6e22e">i</span>]<span style="color:#f92672">-</span><span style="color:#e6db74">&#39;a&#39;</span>] = <span style="color:#a6e22e">i</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 2. 贪心划分片段</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">res</span> []<span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">start</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span> <span style="color:#75715e">// 当前片段起始下标</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">end</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>   <span style="color:#75715e">// 当前片段的最远边界</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">s</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 更新当前片段的最远边界</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">lastPos</span>[<span style="color:#a6e22e">s</span>[<span style="color:#a6e22e">i</span>]<span style="color:#f92672">-</span><span style="color:#e6db74">&#39;a&#39;</span>] &gt; <span style="color:#a6e22e">end</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">end</span> = <span style="color:#a6e22e">lastPos</span>[<span style="color:#a6e22e">s</span>[<span style="color:#a6e22e">i</span>]<span style="color:#f92672">-</span><span style="color:#e6db74">&#39;a&#39;</span>]
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 遍历到片段边界，记录长度并更新起始位置</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">end</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">res</span> = append(<span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">end</span><span style="color:#f92672">-</span><span style="color:#a6e22e">start</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">start</span> = <span style="color:#a6e22e">end</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="复杂度分析-3">复杂度分析<a hidden class="anchor" aria-hidden="true" href="#复杂度分析-3">#</a></h3>
+<ul>
+<li>时间复杂度：$O(n)$，其中 $n$ 是字符串长度。预处理和划分片段都需要遍历字符串一次。</li>
+<li>空间复杂度：$O(1)$，因为字符集固定为小写字母，使用了常数级别的额外空间。</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://amemiya02.github.io/tags/go/">Go</a></li>
+      <li><a href="https://amemiya02.github.io/tags/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/">贪心算法</a></li>
+      <li><a href="https://amemiya02.github.io/tags/%E9%A2%98%E8%A7%A3/">题解</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://amemiya02.github.io/posts/2026-02-10-dp/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>[Golang] LeetCode 热题 100 - 动态规划</span>
+  </a>
+  <a class="next" href="https://amemiya02.github.io/posts/2026-02-09-heap/">
+    <span class="title">Next »</span>
+    <br>
+    <span>[Golang] LeetCode 热题 100 - 堆</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share [Golang] LeetCode 热题 100 - 贪心算法 on x"
+            href="https://x.com/intent/tweet/?text=%5bGolang%5d%20LeetCode%20%e7%83%ad%e9%a2%98%20100%20-%20%e8%b4%aa%e5%bf%83%e7%ae%97%e6%b3%95&amp;url=https%3a%2f%2famemiya02.github.io%2fposts%2f2026-02-10-greedy%2f&amp;hashtags=Go%2c%e8%b4%aa%e5%bf%83%e7%ae%97%e6%b3%95%2c%e9%a2%98%e8%a7%a3">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share [Golang] LeetCode 热题 100 - 贪心算法 on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2famemiya02.github.io%2fposts%2f2026-02-10-greedy%2f&amp;title=%5bGolang%5d%20LeetCode%20%e7%83%ad%e9%a2%98%20100%20-%20%e8%b4%aa%e5%bf%83%e7%ae%97%e6%b3%95&amp;summary=%5bGolang%5d%20LeetCode%20%e7%83%ad%e9%a2%98%20100%20-%20%e8%b4%aa%e5%bf%83%e7%ae%97%e6%b3%95&amp;source=https%3a%2f%2famemiya02.github.io%2fposts%2f2026-02-10-greedy%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share [Golang] LeetCode 热题 100 - 贪心算法 on reddit"
+            href="https://reddit.com/submit?url=https%3a%2f%2famemiya02.github.io%2fposts%2f2026-02-10-greedy%2f&title=%5bGolang%5d%20LeetCode%20%e7%83%ad%e9%a2%98%20100%20-%20%e8%b4%aa%e5%bf%83%e7%ae%97%e6%b3%95">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share [Golang] LeetCode 热题 100 - 贪心算法 on facebook"
+            href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2famemiya02.github.io%2fposts%2f2026-02-10-greedy%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share [Golang] LeetCode 热题 100 - 贪心算法 on whatsapp"
+            href="https://api.whatsapp.com/send?text=%5bGolang%5d%20LeetCode%20%e7%83%ad%e9%a2%98%20100%20-%20%e8%b4%aa%e5%bf%83%e7%ae%97%e6%b3%95%20-%20https%3a%2f%2famemiya02.github.io%2fposts%2f2026-02-10-greedy%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share [Golang] LeetCode 热题 100 - 贪心算法 on telegram"
+            href="https://telegram.me/share/url?text=%5bGolang%5d%20LeetCode%20%e7%83%ad%e9%a2%98%20100%20-%20%e8%b4%aa%e5%bf%83%e7%ae%97%e6%b3%95&amp;url=https%3a%2f%2famemiya02.github.io%2fposts%2f2026-02-10-greedy%2f">
+            <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share [Golang] LeetCode 热题 100 - 贪心算法 on ycombinator"
+            href="https://news.ycombinator.com/submitlink?t=%5bGolang%5d%20LeetCode%20%e7%83%ad%e9%a2%98%20100%20-%20%e8%b4%aa%e5%bf%83%e7%ae%97%e6%b3%95&u=https%3a%2f%2famemiya02.github.io%2fposts%2f2026-02-10-greedy%2f">
+            <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
+                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+                <path
+                    d="M449.446 0C483.971 0 512 28.03 512 62.554L512 449.446C512 483.97 483.97 512 449.446 512L62.554 512C28.03 512 0 483.97 0 449.446L0 62.554C0 28.03 28.029 0 62.554 0L449.446 0ZM183.8767 87.9921H121.8427L230.6673 292.4508V424.0079H281.3328V292.4508L390.1575 87.9921H328.1233L256 238.2489z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://amemiya02.github.io/">个人技术博客</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
