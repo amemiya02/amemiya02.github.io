@@ -235,8 +235,8 @@ pB 走过的路径：链表B的长度 &#43; 链表A的长度
   "keywords": [
     "Go", "链表", "题解"
   ],
-  "articleBody": "链表 160. 相交链表 - Easy 题目回顾 给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点, 返回 null 。\n题目数据 保证 整个链式结构中不存在环，并且函数返回结果后，链表必须 保持其原始结构 。\n核心思路 思路0：HashSet去重 思路一：双指针 + 长度对齐 这是最直观的解法。既然相交前的部分长度可能不同，导致我们无法直接同步遍历，那我们想办法让它们变得一样长就可以了。\n计算长度：首先，分别遍历两个链表，得到它们的长度 lenA 和 lenB。\n对齐指针：计算出长度差 diff = |lenA - lenB|。让较长的那个链表的指针先走 diff 步。这样操作之后，两个指针距离各自链表的末尾就有了相同的距离。\n同步遍历：现在两个指针位于同一起跑线（相对终点而言），我们让它们同步向后移动，一次一步。\n寻找交点：在同步移动的过程中，第一次出现两个指针相等 (headA == headB) 的地方，就是它们的第一个相交节点。如果一直走到末尾 (null) 都没有相遇，则说明两个链表不相交。\n这个方法就像两个人去同一个终点，路程长的人先出发一段距离，然后两个人再同时出发，这样他们就能同时到达终点。\n思路二：双指针\"浪漫\"相遇法 这是一个更巧妙，代码也更简洁的解法，它避免了显式地计算长度。\n想象有两个指针 pA 和 pB，分别从 headA 和 headB 出发。它们同时前进，当任何一个指针走到自己链表的末尾时，就跳到对方链表的头节点继续前进。\n为什么这个方法可行？\n路径长度相等：\npA 走过的路径：链表A的长度 + 链表B的长度 pB 走过的路径：链表B的长度 + 链表A的长度 两个指针走过的总路程是完全相同的。 相遇点：\n如果相交：设 A 不相交部分长 a，B 不相交部分长 b，相交部分长 c。pA 走 a+c 到达终点，然后从 B 的头部走 b 步。pB 走 b+c 到达终点，然后从 A 的头部走 a 步。当它们都走了 a+b+c 的路程时，会在相交点相遇。 如果不相交：pA 走完 A 再走完 B，pB 走完 B 再走完 A。它们会同时到达终点 null，此时 pA == pB == null，循环结束，正确返回 null。 这个方法可以理解为，通过让两个指针都走一遍 A+B 和 B+A 的路程，从而消除了长度差，使得它们能够在终点前相遇。\n代码实现 解法一：长度对齐法 func getIntersectionNode(headA, headB *ListNode) *ListNode { if headA == nil || headB == nil { return nil } // 1. 计算长度 lenA, lenB := 0, 0 currA, currB := headA, headB for currA != nil { lenA++ currA = currA.Next } for currB != nil { lenB++ currB = currB.Next } // 2. 指针重置并对齐 currA, currB = headA, headB if lenA \u003e lenB { for i := 0; i \u003c lenA-lenB; i++ { currA = currA.Next } } else { for i := 0; i \u003c lenB-lenA; i++ { currB = currB.Next } } // 3. 同时移动，直到相遇 for currA != currB { currA = currA.Next currB = currB.Next } return currA } 解法二：双指针\"换路\"法 (更巧妙) func getIntersectionNode(headA, headB *ListNode) *ListNode { if headA == nil || headB == nil { return nil } pA, pB := headA, headB for pA != pB { // Go 中没有三元运算符 a ? b : c // 如果 pA 到头了，就跳到 B 的头 if pA == nil { pA = headB } else { pA = pA.Next } // 如果 pB 到头了，就跳到 A 的头 if pB == nil { pB = headA } else { pB = pB.Next } } // 最终 pA == pB，可能是相交节点，也可能是 nil return pA } 复杂度分析 时间复杂度: O(m + n)。其中 m 和 n 分别是两个链表的长度。两种方法都需要线性遍历链表。 空间复杂度: O(1)。两种方法都只使用了常数个额外指针变量。 206. 反转链表 - Easy 题目回顾 给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。\n示例 1：\n输入：head = [1,2,3,4,5] 输出：[5,4,3,2,1] 示例 2：\n输入：head = [1,2] 输出：[2,1] 示例 3：\n输入：head = [] 输出：[] 核心思路 思路一：迭代法（双指针） 这是最直观的解法。我们需要遍历链表，在遍历过程中改变每个节点的 next 指针指向。\n三个指针：我们需要三个指针来完成反转：\nprev：指向当前节点的前一个节点（初始为 null） curr：指向当前节点（初始为 head） next：临时存储当前节点的下一个节点 遍历反转：\n保存 curr.next 到 next（防止断链） 将 curr.next 指向 prev（反转当前节点） 将 prev 移动到 curr 位置 将 curr 移动到 next 位置 返回结果：遍历结束后，prev 就是新链表的头节点\n这个方法就像把一列火车车厢的方向逐个反转，需要临时标记下一个车厢的位置。\n思路二：头插法（虚拟头节点） 这个方法使用一个虚拟头节点，将原链表的节点逐个插入到虚拟头节点后面。\n创建虚拟头节点：dummy = new ListNode(0) 遍历原链表： 保存当前节点 curr 将当前节点从原链表中断开 将当前节点插入到虚拟头节点后面 返回结果：返回 dummy.next 代码实现 解法一：迭代法（双指针） func reverseList(head *ListNode) *ListNode { var prev *ListNode // 在 Go 中，nil 是指针的零值 curr := head for curr != nil { // 利用 Go 的多重赋值特性： // 1. 记录 curr.Next 到下一次循环的 curr // 2. 将 curr.Next 指向 prev (完成反转) // 3. 将 prev 移动到当前 curr 位置 // 顺序必须保证：先处理 curr.Next，再更新 curr next := curr.Next curr.Next = prev prev = curr curr = next } return prev } 解法二：头插法（虚拟头节点） func reverseList(head *ListNode) *ListNode { if head == nil { return nil } // 初始化虚拟头节点 dummy := \u0026ListNode{Val: 0} curr := head for curr != nil { next := curr.Next // 暂时保存余下的链表 // 头插逻辑： curr.Next = dummy.Next dummy.Next = curr curr = next // 继续处理原链表 } return dummy.Next } 复杂度分析 时间复杂度: O(n)。其中 n 是链表的长度，所有方法都需要遍历整个链表一次。 空间复杂度: 迭代法：O(1)，只使用了常数个额外指针变量。 头插法：O(1)，只使用了虚拟头节点和几个指针变量。 234. 回文链表 - Easy 题目回顾 给你一个单链表的头节点 head ，请你判断该链表是否为回文链表。如果是，返回 true ；否则，返回 false 。\n核心思路 快慢指针 + 反转后半部分 这是一个经典的解法，利用快慢指针找到链表的中点，然后反转后半部分，再与前半部分进行比较。\n找到中点：使用快慢指针，快指针每次走两步，慢指针每次走一步。当快指针到达末尾时，慢指针正好到达中点。 反转后半部分：从慢指针开始，反转链表的后半部分。 比较前后部分：从头节点和反转后的中点开始，逐个比较节点值是否相等。 代码实现 /** * Definition for singly-linked list. * type ListNode struct { * Val int * Next *ListNode * } */ /** * Definition for singly-linked list. * type ListNode struct { * Val int * Next *ListNode * } */ func isPalindrome(head *ListNode) bool { if head == nil { return true } // 1. 找到前半部分的末尾节点 firstHalfEnd := endOfFirstHalf(head) // 2. 反转后半部分链表 secondHalfStart := reverseList(firstHalfEnd.Next) // 3. 判断是否回文 p1 := head p2 := secondHalfStart result := true for result \u0026\u0026 p2 != nil { if p1.Val != p2.Val { result = false } p1 = p1.Next p2 = p2.Next } // 4. 还原链表（可选，但在实际工程中是好习惯） firstHalfEnd.Next = reverseList(secondHalfStart) return result } // 使用快慢指针寻找中点 func endOfFirstHalf(head *ListNode) *ListNode { fast := head slow := head // 快指针走两步，慢指针走一步 for fast.Next != nil \u0026\u0026 fast.Next.Next != nil { fast = fast.Next.Next slow = slow.Next } return slow } // 原地反转链表（双指针法，比头插法更简洁） func reverseList(head *ListNode) *ListNode { var prev *ListNode curr := head for curr != nil { next := curr.Next curr.Next = prev prev = curr curr = next } return prev } 复杂度分析 时间复杂度: O(n)。其中 n 是链表的长度，所有方法都需要遍历整个链表一次。 空间复杂度: O(1)。只使用了常数个额外指针变量。 141. 环形链表 - Easy 题目回顾 给你一个链表的头节点 head ，判断链表中是否有环。如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。注意：pos 不作为参数进行传递 。仅仅是为了标识链表的实际情况。如果链表中存在环 ，则返回 true 。 否则，返回 false 。\n核心思路 相对速度：想象在环形跑道上，兔子（快指针）比乌龟（慢指针）快一步。从乌龟进入环的那一刻起，每移动一次，兔子和乌龟之间的距离就会缩短 $1$。 最终相遇：既然距离每次缩小 $1$，那么在有限的步数内，距离一定会变成 $0$（即相遇），而不会出现“跳过”彼此的情况。 代码实现 /** * Definition for singly-linked list. * type ListNode struct { * Val int * Next *ListNode * } */ func hasCycle(head *ListNode) bool { // 如果链表为空或者只有一个节点且无环，直接返回 false if head == nil || head.Next == nil { return false } slow, fast := head, head // 只要快指针没有走到尽头，就继续跑 // 因为 fast 每次走两步，所以要检查 fast 和 fast.Next for fast != nil \u0026\u0026 fast.Next != nil { slow = slow.Next // 慢指针走一步 fast = fast.Next.Next // 快指针走两步 // 如果相遇，说明有环 if slow == fast { return true } } // 如果跳出循环，说明快指针指向了 nil，即链表有终点，无环 return false } 复杂度分析 时间复杂度: O(n)。其中 n 是链表的长度，快慢指针最多遍历链表一次。 空间复杂度: O(1)。只使用了常数个额外指针变量。 142. 环形链表 II - Mid 题目回顾 给定一个链表的头节点 head ，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。 如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。如果 pos 是 -1，则在该链表中没有环。注意：pos 不作为参数进行传递，仅仅是为了标识链表的实际情况。 不允许修改 链表。\n核心思路 为什么“一个指针从 head 出发，一个从相遇点出发，等速移动必会在入环点相遇”？我们来做个简单的算术题：\n定义距离：\n设从 起点 到 入环点 的距离为 $a$。\n设从 入环点 到 首次相遇点 的距离为 $b$。\n设从 首次相遇点 回到 入环点 的剩余距离为 $c$。\n环的总周长就是 $b + c$。\n指针走过的路程：\n慢指针 (slow) 走的距离：$s = a + b$\n快指针 (fast) 走的距离：$f = a + n(b + c) + b$ （$n$ 是快指针绕环的圈数）\n速度关系：\n因为快指针速度是慢指针的两倍，所以 $f = 2s$。\n代入公式：$a + n(b + c) + b = 2(a + b)$\n化简得：$n(b + c) = a + b$\n我们要找的是 $a$（起点到入环点的距离），所以把 $a$ 孤立出来：\n$a = n(b + c) - b$\n进一步整理：$a = (n - 1)(b + c) + c$\n结论：\n这个公式 $a = (n - 1) \\times \\text{周长} + c$ 告诉我们：从起点走 $a$ 步，等同于从相遇点走过 $n-1$ 圈后再走 $c$ 步。\n由于都在环里转圈，那 $n-1$ 圈可以忽略，结论简化为：走 $a$ 步的路程等于走 $c$ 步的路程。 所以两个指针再次相遇时，一定是在入环点。\n代码实现 /** * Definition for singly-linked list. * type ListNode struct { * Val int * Next *ListNode * } */ func detectCycle(head *ListNode) *ListNode { if head == nil || head.Next == nil { return nil } slow, fast := head, head // 第一阶段：判断是否有环（龟兔赛跑） for fast != nil \u0026\u0026 fast.Next != nil { slow = slow.Next fast = fast.Next.Next // 如果快慢指针相遇，说明有环 if slow == fast { // 第二阶段：寻找入环点 // 将其中一个指针重置到 head，另一个留在相遇点 p := head for p != slow { p = p.Next slow = slow.Next } // 它们再次相遇的地方就是入环点 return p } } return nil } 复杂度分析 时间复杂度：。第一阶段快慢指针相遇最多 ，第二阶段寻找入环点最多 。 空间复杂度：。只使用了指针。 21. 合并两个有序链表 - Easy 题目回顾 将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。\n核心思路 核心步骤： 哨兵节点（Dummy Node）：我们先造一个“假”的头节点。它的作用是作为新链表的起点，避免我们在循环里去写 if head == nil 这种逻辑判断。\n比较与连接：像拉链一样，比较 p 和 q 的值，谁小就把 curr.Next 指向谁，然后那个指针后移。\n收尾工作：因为两个链表长度可能不等，当一个遍历完后，另一个肯定还剩下一截。由于原链表已经是有序的，我们直接把剩余的那一整截挂在 curr.Next 上即可。\n代码实现 /** * Definition for singly-linked list. * type ListNode struct { * Val int * Next *ListNode * } */ func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode { // 1. 创建虚拟头节点，便于处理返回结果 // 在 Go 中，\u0026ListNode{} 会分配内存并返回指针 dummy := \u0026ListNode{} curr := dummy // 2. 同时遍历两个链表 p, q := list1, list2 for p != nil \u0026\u0026 q != nil { if p.Val \u003c q.Val { curr.Next = p p = p.Next } else { curr.Next = q q = q.Next } curr = curr.Next } // 3. 处理剩余部分 // Go 没有三元运算符，直接用 if 赋值即可 if p != nil { curr.Next = p } else { curr.Next = q } // 返回虚拟头节点的下一个节点，即合并后的真正头节点 return dummy.Next } 复杂度分析 时间复杂度：$O(n + m)$，其中 $n$ 和 $m$ 分别是两个链表的长度。我们只需要遍历每个节点一次。 空间复杂度：$O(1)$。我们只是在修改原有节点的指针指向，并没有创建 $n+m$ 个新节点。 2. 两数相加 - Mid 题目回顾 给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。 请你将两个数相加，并以相同形式返回一个表示和的链表。 你可以假设除了数字 0 之外，这两个数都不会以 0 开头。\n核心思路 这道题的本质是 模拟竖式加法。由于链表已经是逆序存储的（个位在头），这反而降低了难度，因为我们可以直接从头开始加。\n代码实现 /** * Definition for singly-linked list. * type ListNode struct { * Val int * Next *ListNode * } */ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode { dummy := \u0026ListNode{} // 虚拟头节点 curr := dummy carry := 0 // 进位 // 只要 l1, l2 没走完，或者最后还有一个进位没处理，就继续循环 for l1 != nil || l2 != nil || carry \u003e 0 { sum := carry // 开始计算当前位的和 if l1 != nil { sum += l1.Val l1 = l1.Next } if l2 != nil { sum += l2.Val l2 = l2.Next } // 计算新的进位和当前位的值 carry = sum / 10 val := sum % 10 // 创建新节点并移动指针 curr.Next = \u0026ListNode{Val: val} curr = curr.Next } return dummy.Next } 复杂度分析 时间复杂度: $O(max(m, n))$，其中 m 和 n 分别是两个链表的长度。我们需要遍历最长的链表。 空间复杂度: $O(1)$，用于存储结果 19. 删除链表的倒数第 N 个结点 - Mid 题目回顾 给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。\n核心思路 让快指针先走 $n+1$ 步，然后快慢指针同步移动。当快指针到达末尾时，慢指针正好指向倒数第 $n$ 个节点的前驱。\n或者把所有的节点入栈，弹出 $n$ 个节点后，栈顶节点就是倒数第 $n$ 个节点的前驱。\n代码实现 func removeNthFromEnd(head *ListNode, n int) *ListNode { // 1. 创建虚拟头节点，处理删除头节点的情况 dummy := \u0026ListNode{Next: head} // 2. 初始化快慢指针都指向 dummy fast, slow := dummy, dummy // 3. 快指针先走 n+1 步 // 为什么要走 n+1？因为我们要让 slow 停在被删节点的前一个位置 for i := 0; i \u003c= n; i++ { fast = fast.Next } // 4. 快慢指针同步移动，直到 fast 走到头 for fast != nil { fast = fast.Next slow = slow.Next } // 5. 此时 slow 就在待删除节点的前面，直接跳过目标节点 slow.Next = slow.Next.Next return dummy.Next } 栈版本\nfunc removeNthFromEndStack(head *ListNode, n int) *ListNode { dummy := \u0026ListNode{Next: head} stack := []*ListNode{} // 入栈 curr := dummy for curr != nil { stack = append(stack, curr) curr = curr.Next } // 出栈 n 次 stack = stack[:len(stack)-n] // 栈顶就是待删除节点的前驱 prev := stack[len(stack)-1] prev.Next = prev.Next.Next return dummy.Next } 复杂度分析 时间复杂度: $O(n)$。其中 n 是链表的长度，快指针需要遍历链表一次。 空间复杂度: $O(1)$。只使用了常数个额外空间。或者栈版本的空间复杂度是 $O(n)$，因为需要存储所有节点。 24. 两两交换链表中的节点 - Mid 题目回顾 给你一个链表，两两交换其中相邻的节点，并返回交换后链表的头节点。你必须在不修改节点内部的值的情况下完成本题（即，只能进行节点交换）。\n核心思路 两两交换链表节点的关键在于顺序。我们需要改动三个指针的指向才能完成一次完整的内部易位：\n关键点解析 为什么 prev = node1？ 交换前顺序是：prev -\u003e node1 -\u003e node2 -\u003e node3。 交换后顺序是：prev -\u003e node2 -\u003e node1 -\u003e node3。 为了处理下一对，我们的 prev 必须移动到 node1 的位置，因为 node1 现在是下一对节点的“前驱”。\n边界条件：\n如果链表为空或只有一个节点，prev.Next 或 prev.Next.Next 会为 nil，循环直接不执行，返回原链表。符合预期。\n代码实现 func swapPairs(head *ListNode) *ListNode { // 1. 创建虚拟头节点，指向当前的 head dummy := \u0026ListNode{Next: head} // prev 指向待交换的一对节点之前的一个位置 prev := dummy // 2. 只有当后面至少有两个节点时，才需要交换 for prev.Next != nil \u0026\u0026 prev.Next.Next != nil { // 确定要交换的两个节点 node1 := prev.Next node2 := prev.Next.Next // 3. 执行交换逻辑 (三个指针的变动) // 第一步：让前驱指向第二个节点 prev.Next = node2 // 第二步：让第一个节点指向第三个节点 (node2.Next) node1.Next = node2.Next // 第三步：让第二个节点指向第一个节点 node2.Next = node1 // 4. 更新 prev，准备处理下一对 // 此时 node1 已经换到了后面，所以它就是下一对的前驱 prev = node1 } return dummy.Next } 复杂度分析 时间复杂度: $O(n)$。其中 n 是链表的长度，所有方法都需要遍历整个链表一次。 空间复杂度: $O(1)$。 ",
-  "wordCount" : "1670",
+  "articleBody": "链表 160. 相交链表 - Easy 题目回顾 给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点, 返回 null 。\n题目数据 保证 整个链式结构中不存在环，并且函数返回结果后，链表必须 保持其原始结构 。\n核心思路 思路0：HashSet去重 思路一：双指针 + 长度对齐 这是最直观的解法。既然相交前的部分长度可能不同，导致我们无法直接同步遍历，那我们想办法让它们变得一样长就可以了。\n计算长度：首先，分别遍历两个链表，得到它们的长度 lenA 和 lenB。\n对齐指针：计算出长度差 diff = |lenA - lenB|。让较长的那个链表的指针先走 diff 步。这样操作之后，两个指针距离各自链表的末尾就有了相同的距离。\n同步遍历：现在两个指针位于同一起跑线（相对终点而言），我们让它们同步向后移动，一次一步。\n寻找交点：在同步移动的过程中，第一次出现两个指针相等 (headA == headB) 的地方，就是它们的第一个相交节点。如果一直走到末尾 (null) 都没有相遇，则说明两个链表不相交。\n这个方法就像两个人去同一个终点，路程长的人先出发一段距离，然后两个人再同时出发，这样他们就能同时到达终点。\n思路二：双指针\"浪漫\"相遇法 这是一个更巧妙，代码也更简洁的解法，它避免了显式地计算长度。\n想象有两个指针 pA 和 pB，分别从 headA 和 headB 出发。它们同时前进，当任何一个指针走到自己链表的末尾时，就跳到对方链表的头节点继续前进。\n为什么这个方法可行？\n路径长度相等：\npA 走过的路径：链表A的长度 + 链表B的长度 pB 走过的路径：链表B的长度 + 链表A的长度 两个指针走过的总路程是完全相同的。 相遇点：\n如果相交：设 A 不相交部分长 a，B 不相交部分长 b，相交部分长 c。pA 走 a+c 到达终点，然后从 B 的头部走 b 步。pB 走 b+c 到达终点，然后从 A 的头部走 a 步。当它们都走了 a+b+c 的路程时，会在相交点相遇。 如果不相交：pA 走完 A 再走完 B，pB 走完 B 再走完 A。它们会同时到达终点 null，此时 pA == pB == null，循环结束，正确返回 null。 这个方法可以理解为，通过让两个指针都走一遍 A+B 和 B+A 的路程，从而消除了长度差，使得它们能够在终点前相遇。\n代码实现 解法一：长度对齐法 func getIntersectionNode(headA, headB *ListNode) *ListNode { if headA == nil || headB == nil { return nil } // 1. 计算长度 lenA, lenB := 0, 0 currA, currB := headA, headB for currA != nil { lenA++ currA = currA.Next } for currB != nil { lenB++ currB = currB.Next } // 2. 指针重置并对齐 currA, currB = headA, headB if lenA \u003e lenB { for i := 0; i \u003c lenA-lenB; i++ { currA = currA.Next } } else { for i := 0; i \u003c lenB-lenA; i++ { currB = currB.Next } } // 3. 同时移动，直到相遇 for currA != currB { currA = currA.Next currB = currB.Next } return currA } 解法二：双指针\"换路\"法 (更巧妙) func getIntersectionNode(headA, headB *ListNode) *ListNode { if headA == nil || headB == nil { return nil } pA, pB := headA, headB for pA != pB { // Go 中没有三元运算符 a ? b : c // 如果 pA 到头了，就跳到 B 的头 if pA == nil { pA = headB } else { pA = pA.Next } // 如果 pB 到头了，就跳到 A 的头 if pB == nil { pB = headA } else { pB = pB.Next } } // 最终 pA == pB，可能是相交节点，也可能是 nil return pA } 复杂度分析 时间复杂度: O(m + n)。其中 m 和 n 分别是两个链表的长度。两种方法都需要线性遍历链表。 空间复杂度: O(1)。两种方法都只使用了常数个额外指针变量。 206. 反转链表 - Easy 题目回顾 给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。\n示例 1：\n输入：head = [1,2,3,4,5] 输出：[5,4,3,2,1] 示例 2：\n输入：head = [1,2] 输出：[2,1] 示例 3：\n输入：head = [] 输出：[] 核心思路 思路一：迭代法（双指针） 这是最直观的解法。我们需要遍历链表，在遍历过程中改变每个节点的 next 指针指向。\n三个指针：我们需要三个指针来完成反转：\nprev：指向当前节点的前一个节点（初始为 null） curr：指向当前节点（初始为 head） next：临时存储当前节点的下一个节点 遍历反转：\n保存 curr.next 到 next（防止断链） 将 curr.next 指向 prev（反转当前节点） 将 prev 移动到 curr 位置 将 curr 移动到 next 位置 返回结果：遍历结束后，prev 就是新链表的头节点\n这个方法就像把一列火车车厢的方向逐个反转，需要临时标记下一个车厢的位置。\n思路二：头插法（虚拟头节点） 这个方法使用一个虚拟头节点，将原链表的节点逐个插入到虚拟头节点后面。\n创建虚拟头节点：dummy = new ListNode(0) 遍历原链表： 保存当前节点 curr 将当前节点从原链表中断开 将当前节点插入到虚拟头节点后面 返回结果：返回 dummy.next 代码实现 解法一：迭代法（双指针） func reverseList(head *ListNode) *ListNode { var prev *ListNode // 在 Go 中，nil 是指针的零值 curr := head for curr != nil { // 利用 Go 的多重赋值特性： // 1. 记录 curr.Next 到下一次循环的 curr // 2. 将 curr.Next 指向 prev (完成反转) // 3. 将 prev 移动到当前 curr 位置 // 顺序必须保证：先处理 curr.Next，再更新 curr next := curr.Next curr.Next = prev prev = curr curr = next } return prev } 解法二：头插法（虚拟头节点） func reverseList(head *ListNode) *ListNode { if head == nil { return nil } // 初始化虚拟头节点 dummy := \u0026ListNode{Val: 0} curr := head for curr != nil { next := curr.Next // 暂时保存余下的链表 // 头插逻辑： curr.Next = dummy.Next dummy.Next = curr curr = next // 继续处理原链表 } return dummy.Next } 复杂度分析 时间复杂度: O(n)。其中 n 是链表的长度，所有方法都需要遍历整个链表一次。 空间复杂度: 迭代法：O(1)，只使用了常数个额外指针变量。 头插法：O(1)，只使用了虚拟头节点和几个指针变量。 234. 回文链表 - Easy 题目回顾 给你一个单链表的头节点 head ，请你判断该链表是否为回文链表。如果是，返回 true ；否则，返回 false 。\n核心思路 快慢指针 + 反转后半部分 这是一个经典的解法，利用快慢指针找到链表的中点，然后反转后半部分，再与前半部分进行比较。\n找到中点：使用快慢指针，快指针每次走两步，慢指针每次走一步。当快指针到达末尾时，慢指针正好到达中点。 反转后半部分：从慢指针开始，反转链表的后半部分。 比较前后部分：从头节点和反转后的中点开始，逐个比较节点值是否相等。 代码实现 /** * Definition for singly-linked list. * type ListNode struct { * Val int * Next *ListNode * } */ /** * Definition for singly-linked list. * type ListNode struct { * Val int * Next *ListNode * } */ func isPalindrome(head *ListNode) bool { if head == nil { return true } // 1. 找到前半部分的末尾节点 firstHalfEnd := endOfFirstHalf(head) // 2. 反转后半部分链表 secondHalfStart := reverseList(firstHalfEnd.Next) // 3. 判断是否回文 p1 := head p2 := secondHalfStart result := true for result \u0026\u0026 p2 != nil { if p1.Val != p2.Val { result = false } p1 = p1.Next p2 = p2.Next } // 4. 还原链表（可选，但在实际工程中是好习惯） firstHalfEnd.Next = reverseList(secondHalfStart) return result } // 使用快慢指针寻找中点 func endOfFirstHalf(head *ListNode) *ListNode { fast := head slow := head // 快指针走两步，慢指针走一步 for fast.Next != nil \u0026\u0026 fast.Next.Next != nil { fast = fast.Next.Next slow = slow.Next } return slow } // 原地反转链表（双指针法，比头插法更简洁） func reverseList(head *ListNode) *ListNode { var prev *ListNode curr := head for curr != nil { next := curr.Next curr.Next = prev prev = curr curr = next } return prev } 复杂度分析 时间复杂度: O(n)。其中 n 是链表的长度，所有方法都需要遍历整个链表一次。 空间复杂度: O(1)。只使用了常数个额外指针变量。 141. 环形链表 - Easy 题目回顾 给你一个链表的头节点 head ，判断链表中是否有环。如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。注意：pos 不作为参数进行传递 。仅仅是为了标识链表的实际情况。如果链表中存在环 ，则返回 true 。 否则，返回 false 。\n核心思路 相对速度：想象在环形跑道上，兔子（快指针）比乌龟（慢指针）快一步。从乌龟进入环的那一刻起，每移动一次，兔子和乌龟之间的距离就会缩短 $1$。 最终相遇：既然距离每次缩小 $1$，那么在有限的步数内，距离一定会变成 $0$（即相遇），而不会出现“跳过”彼此的情况。 代码实现 /** * Definition for singly-linked list. * type ListNode struct { * Val int * Next *ListNode * } */ func hasCycle(head *ListNode) bool { // 如果链表为空或者只有一个节点且无环，直接返回 false if head == nil || head.Next == nil { return false } slow, fast := head, head // 只要快指针没有走到尽头，就继续跑 // 因为 fast 每次走两步，所以要检查 fast 和 fast.Next for fast != nil \u0026\u0026 fast.Next != nil { slow = slow.Next // 慢指针走一步 fast = fast.Next.Next // 快指针走两步 // 如果相遇，说明有环 if slow == fast { return true } } // 如果跳出循环，说明快指针指向了 nil，即链表有终点，无环 return false } 复杂度分析 时间复杂度: O(n)。其中 n 是链表的长度，快慢指针最多遍历链表一次。 空间复杂度: O(1)。只使用了常数个额外指针变量。 142. 环形链表 II - Mid 题目回顾 给定一个链表的头节点 head ，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。 如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。如果 pos 是 -1，则在该链表中没有环。注意：pos 不作为参数进行传递，仅仅是为了标识链表的实际情况。 不允许修改 链表。\n核心思路 为什么“一个指针从 head 出发，一个从相遇点出发，等速移动必会在入环点相遇”？我们来做个简单的算术题：\n定义距离：\n设从 起点 到 入环点 的距离为 $a$。\n设从 入环点 到 首次相遇点 的距离为 $b$。\n设从 首次相遇点 回到 入环点 的剩余距离为 $c$。\n环的总周长就是 $b + c$。\n指针走过的路程：\n慢指针 (slow) 走的距离：$s = a + b$\n快指针 (fast) 走的距离：$f = a + n(b + c) + b$ （$n$ 是快指针绕环的圈数）\n速度关系：\n因为快指针速度是慢指针的两倍，所以 $f = 2s$。\n代入公式：$a + n(b + c) + b = 2(a + b)$\n化简得：$n(b + c) = a + b$\n我们要找的是 $a$（起点到入环点的距离），所以把 $a$ 孤立出来：\n$a = n(b + c) - b$\n进一步整理：$a = (n - 1)(b + c) + c$\n结论：\n这个公式 $a = (n - 1) \\times \\text{周长} + c$ 告诉我们：从起点走 $a$ 步，等同于从相遇点走过 $n-1$ 圈后再走 $c$ 步。\n由于都在环里转圈，那 $n-1$ 圈可以忽略，结论简化为：走 $a$ 步的路程等于走 $c$ 步的路程。 所以两个指针再次相遇时，一定是在入环点。\n代码实现 /** * Definition for singly-linked list. * type ListNode struct { * Val int * Next *ListNode * } */ func detectCycle(head *ListNode) *ListNode { if head == nil || head.Next == nil { return nil } slow, fast := head, head // 第一阶段：判断是否有环（龟兔赛跑） for fast != nil \u0026\u0026 fast.Next != nil { slow = slow.Next fast = fast.Next.Next // 如果快慢指针相遇，说明有环 if slow == fast { // 第二阶段：寻找入环点 // 将其中一个指针重置到 head，另一个留在相遇点 p := head for p != slow { p = p.Next slow = slow.Next } // 它们再次相遇的地方就是入环点 return p } } return nil } 复杂度分析 时间复杂度：。第一阶段快慢指针相遇最多 ，第二阶段寻找入环点最多 。 空间复杂度：。只使用了指针。 21. 合并两个有序链表 - Easy 题目回顾 将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。\n核心思路 核心步骤： 哨兵节点（Dummy Node）：我们先造一个“假”的头节点。它的作用是作为新链表的起点，避免我们在循环里去写 if head == nil 这种逻辑判断。\n比较与连接：像拉链一样，比较 p 和 q 的值，谁小就把 curr.Next 指向谁，然后那个指针后移。\n收尾工作：因为两个链表长度可能不等，当一个遍历完后，另一个肯定还剩下一截。由于原链表已经是有序的，我们直接把剩余的那一整截挂在 curr.Next 上即可。\n代码实现 /** * Definition for singly-linked list. * type ListNode struct { * Val int * Next *ListNode * } */ func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode { // 1. 创建虚拟头节点，便于处理返回结果 // 在 Go 中，\u0026ListNode{} 会分配内存并返回指针 dummy := \u0026ListNode{} curr := dummy // 2. 同时遍历两个链表 p, q := list1, list2 for p != nil \u0026\u0026 q != nil { if p.Val \u003c q.Val { curr.Next = p p = p.Next } else { curr.Next = q q = q.Next } curr = curr.Next } // 3. 处理剩余部分 // Go 没有三元运算符，直接用 if 赋值即可 if p != nil { curr.Next = p } else { curr.Next = q } // 返回虚拟头节点的下一个节点，即合并后的真正头节点 return dummy.Next } 复杂度分析 时间复杂度：$O(n + m)$，其中 $n$ 和 $m$ 分别是两个链表的长度。我们只需要遍历每个节点一次。 空间复杂度：$O(1)$。我们只是在修改原有节点的指针指向，并没有创建 $n+m$ 个新节点。 2. 两数相加 - Mid 题目回顾 给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。 请你将两个数相加，并以相同形式返回一个表示和的链表。 你可以假设除了数字 0 之外，这两个数都不会以 0 开头。\n核心思路 这道题的本质是 模拟竖式加法。由于链表已经是逆序存储的（个位在头），这反而降低了难度，因为我们可以直接从头开始加。\n代码实现 /** * Definition for singly-linked list. * type ListNode struct { * Val int * Next *ListNode * } */ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode { dummy := \u0026ListNode{} // 虚拟头节点 curr := dummy carry := 0 // 进位 // 只要 l1, l2 没走完，或者最后还有一个进位没处理，就继续循环 for l1 != nil || l2 != nil || carry \u003e 0 { sum := carry // 开始计算当前位的和 if l1 != nil { sum += l1.Val l1 = l1.Next } if l2 != nil { sum += l2.Val l2 = l2.Next } // 计算新的进位和当前位的值 carry = sum / 10 val := sum % 10 // 创建新节点并移动指针 curr.Next = \u0026ListNode{Val: val} curr = curr.Next } return dummy.Next } 复杂度分析 时间复杂度: $O(max(m, n))$，其中 m 和 n 分别是两个链表的长度。我们需要遍历最长的链表。 空间复杂度: $O(1)$，用于存储结果 19. 删除链表的倒数第 N 个结点 - Mid 题目回顾 给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。\n核心思路 让快指针先走 $n+1$ 步，然后快慢指针同步移动。当快指针到达末尾时，慢指针正好指向倒数第 $n$ 个节点的前驱。\n或者把所有的节点入栈，弹出 $n$ 个节点后，栈顶节点就是倒数第 $n$ 个节点的前驱。\n代码实现 func removeNthFromEnd(head *ListNode, n int) *ListNode { // 1. 创建虚拟头节点，处理删除头节点的情况 dummy := \u0026ListNode{Next: head} // 2. 初始化快慢指针都指向 dummy fast, slow := dummy, dummy // 3. 快指针先走 n+1 步 // 为什么要走 n+1？因为我们要让 slow 停在被删节点的前一个位置 for i := 0; i \u003c= n; i++ { fast = fast.Next } // 4. 快慢指针同步移动，直到 fast 走到头 for fast != nil { fast = fast.Next slow = slow.Next } // 5. 此时 slow 就在待删除节点的前面，直接跳过目标节点 slow.Next = slow.Next.Next return dummy.Next } 栈版本\nfunc removeNthFromEndStack(head *ListNode, n int) *ListNode { dummy := \u0026ListNode{Next: head} stack := []*ListNode{} // 入栈 curr := dummy for curr != nil { stack = append(stack, curr) curr = curr.Next } // 出栈 n 次 stack = stack[:len(stack)-n] // 栈顶就是待删除节点的前驱 prev := stack[len(stack)-1] prev.Next = prev.Next.Next return dummy.Next } 复杂度分析 时间复杂度: $O(n)$。其中 n 是链表的长度，快指针需要遍历链表一次。 空间复杂度: $O(1)$。只使用了常数个额外空间。或者栈版本的空间复杂度是 $O(n)$，因为需要存储所有节点。 24. 两两交换链表中的节点 - Mid 题目回顾 给你一个链表，两两交换其中相邻的节点，并返回交换后链表的头节点。你必须在不修改节点内部的值的情况下完成本题（即，只能进行节点交换）。\n核心思路 两两交换链表节点的关键在于顺序。我们需要改动三个指针的指向才能完成一次完整的内部易位：\n关键点解析 为什么 prev = node1？ 交换前顺序是：prev -\u003e node1 -\u003e node2 -\u003e node3。 交换后顺序是：prev -\u003e node2 -\u003e node1 -\u003e node3。 为了处理下一对，我们的 prev 必须移动到 node1 的位置，因为 node1 现在是下一对节点的“前驱”。\n边界条件：\n如果链表为空或只有一个节点，prev.Next 或 prev.Next.Next 会为 nil，循环直接不执行，返回原链表。符合预期。\n代码实现 func swapPairs(head *ListNode) *ListNode { // 1. 创建虚拟头节点，指向当前的 head dummy := \u0026ListNode{Next: head} // prev 指向待交换的一对节点之前的一个位置 prev := dummy // 2. 只有当后面至少有两个节点时，才需要交换 for prev.Next != nil \u0026\u0026 prev.Next.Next != nil { // 确定要交换的两个节点 node1 := prev.Next node2 := prev.Next.Next // 3. 执行交换逻辑 (三个指针的变动) // 第一步：让前驱指向第二个节点 prev.Next = node2 // 第二步：让第一个节点指向第三个节点 (node2.Next) node1.Next = node2.Next // 第三步：让第二个节点指向第一个节点 node2.Next = node1 // 4. 更新 prev，准备处理下一对 // 此时 node1 已经换到了后面，所以它就是下一对的前驱 prev = node1 } return dummy.Next } 复杂度分析 时间复杂度: $O(n)$。其中 n 是链表的长度，所有方法都需要遍历整个链表一次。 空间复杂度: $O(1)$。 25. K 个一组翻转链表 - Hard 题目回顾 给你链表的头节点 head ，每 k 个节点一组进行翻转，请你返回修改后的链表。 k 是一个正整数，它的值小于或等于链表的长度。如果节点总数不是 k 的整数倍，那么请将最后剩余的节点保持原有顺序。 你不能只是单纯的改变节点内部的值，而是需要实际进行节点交换。\n核心思路 分治思想：将大问题拆解。\n我们复用了之前学过的 reverse 函数来翻转长度为 $k$ 的短链表。 断开连接 (end.Next = nil)：这是为了让 reverse 函数知道在哪里停止。 如果不切断，reverse 会一路翻转到整个链表的末尾。 重新桥接：pre.Next = reverse(start)：让上一组的结尾指向这一组翻转后的新头。 start.Next = nextGroup：让这一组翻转后的新尾（原 start）指向下一组的开头。 不足 $k$ 个的处理：题目要求不足 $k$ 个保持原样，所以 if end == nil { break } 的判断至关重要。 代码实现 /** * Definition for singly-linked list. * type ListNode struct { * Val int * Next *ListNode * } */ func reverseKGroup(head *ListNode, k int) *ListNode { // 1. 创建虚拟头节点 dummy := \u0026ListNode{Next: head} // pre 指向每一组待翻转部分的前驱节点 pre := dummy // end 指向每一组待翻转部分的末尾节点 end := dummy for end.Next != nil { // 2. 尝试向后移动 end 指针 k 次，定位当前组的结尾 for i := 0; i \u003c k \u0026\u0026 end != nil; i++ { end = end.Next } // 如果剩余节点不足 k 个，则不需要翻转，直接结束 if end == nil { break } // 3. 记录当前组的起始节点和下一组的开头 start := pre.Next nextGroup := end.Next // 4. 断开当前组与后面部分的连接，以便进行翻转 end.Next = nil // 5. 翻转当前组，并接回原链表 // 翻转后的新头节点接到 pre.Next 上 pre.Next = reverse(start) // 翻转后的尾节点（即原 start）接到下一组开头上 start.Next = nextGroup // 6. 重置 pre 和 end，准备处理下一组 pre = start end = pre } return dummy.Next } // 辅助函数：翻转一个完整的单链表 func reverse(head *ListNode) *ListNode { var prev *ListNode curr := head for curr != nil { next := curr.Next curr.Next = prev prev = curr curr = next } return prev } 复杂度分析 时间复杂度: $O(n)$。其中 n 是链表的长度。 空间复杂度: $O(1)$。 138. 随机链表的复制 - Mid 题目回顾 给你一个长度为 n 的链表，每个节点包含一个额外增加的随机指针 random ，该指针可以指向链表中的任何节点或空节点。 构造这个链表的 深拷贝。 深拷贝应该正好由 n 个 全新 节点组成，其中每个新节点的值都设为其对应的原节点的值。新节点的 next 指针和 random 指针也都应指向复制链表中的新节点，并使原链表和复制链表中的这些指针能够表示相同的链表状态。复制链表中的指针都不应指向原链表中的节点 。 例如，如果原链表中有 X 和 Y 两个节点，其中 X.random –\u003e Y 。那么在复制链表中对应的两个节点 x 和 y ，同样有 x.random –\u003e y 。 返回复制链表的头节点。 用一个由 n 个节点组成的链表来表示输入/输出中的链表。每个节点用一个 [val, random_index] 表示： val：一个表示 Node.val 的整数。 random_index：随机指针指向的节点索引（范围从 0 到 n-1）；如果不指向任何节点，则为 null 。 你的代码 只 接受原链表的头节点 head 作为传入参数。\n核心思路 这个算法通过将新旧节点交叉链接，巧妙地解决了 random 指针的定位问题：\n原地克隆 (Interweaving)：我们在每个原节点 $A$ 后面立即插入它的克隆节点 $A'$。这样做的好处是，我们可以通过 $A.Next$ 瞬间找到 $A'$，而不需要任何哈希表映射。 建立随机链接 (Linking Randoms)：如果 $A.Random$ 指向 $C$，那么显然 $A'.Random$ 应该指向 $C'$。在我们的混合链表中，$C'$ 就在 $C.Next$。所以逻辑就是：cur.Next.Random = cur.Random.Next。 拆解 (Decoupling)：最后一步类似于“拉链分拣”，我们需要小心地把奇数位置的节点连回原链表，把偶数位置的节点连成结果链表。 代码实现 /** * Definition for a Node. * type Node struct { * Val int * Next *Node * Random *Node * } */ func copyRandomList(head *Node) *Node { if head == nil { return nil } // 1. 复制节点，插入到原节点之后 // A -\u003e B -\u003e C 变成 A -\u003e A' -\u003e B -\u003e B' -\u003e C -\u003e C' cur := head for cur != nil { newNode := \u0026Node{ Val: cur.Val, Next: cur.Next, } cur.Next = newNode cur = newNode.Next } // 2. 复制 random 指针 // 新节点的 random 应该指向原节点 random 的下一个节点（即对应的复制节点） cur = head for cur != nil { if cur.Random != nil { cur.Next.Random = cur.Random.Next } cur = cur.Next.Next } // 3. 拆分链表 // 将 A -\u003e A' -\u003e B -\u003e B' 恢复为 A -\u003e B 和 A' -\u003e B' cur = head newHead := head.Next copyCur := newHead for cur != nil { // 恢复原链表的 Next cur.Next = cur.Next.Next cur = cur.Next // 恢复新链表的 Next if cur != nil { copyCur.Next = cur.Next copyCur = copyCur.Next } } return newHead } 复杂度分析 时间复杂度: $O(n)$，其中 n 是链表的长度。 空间复杂度: $O(1)$，我们只使用了常数级别的额外空间。 148. 排序链表 - Mid 题目回顾 给你链表的头结点 head ，请将其按 升序 排列并返回 排序后的链表 。\n核心思路 归并排序在链表上比在数组上更有优势，因为链表合并只需要修改指针，不需要额外的数组空间。\n切分 (Divide)通过快慢指针找到中点。注意点：为了防止死循环（特别是只有两个节点时），我们将 fast 初始化为 head.Next。这样对于两个节点 [4, 2]，slow 会停在 4，我们从 4 后面切断，成功分为 [4] 和 [2]。\n递归 (Conquer)不断递归调用直到链表长度为 1（天然有序）。3. 合并 (Merge)将两个有序链表“穿针引线”式地合并。这步的时间复杂度是 $O(n)$。\n代码实现 /** * Definition for singly-linked list. * type ListNode struct { * Val int * Next *ListNode * } */ func sortList(head *ListNode) *ListNode { // 1. 递归终止条件：节点为空或只有一个节点 if head == nil || head.Next == nil { return head } // 2. 找到中点并切断链表 // 使用快慢指针，注意 fast 从 head.Next 开始，可以确保在偶数节点时 slow 停在前半段末尾 slow, fast := head, head.Next for fast != nil \u0026\u0026 fast.Next != nil { slow = slow.Next fast = fast.Next.Next } // tmp 是后半部分的头，断开 slow.Next 以彻底切分 mid := slow.Next slow.Next = nil // 3. 递归排序左右两半 left := sortList(head) right := sortList(mid) // 4. 合并两个已排序的链表 return merge(left, right) } // 辅助函数：合并两个有序链表（逻辑同 21 题） func merge(l1, l2 *ListNode) *ListNode { dummy := \u0026ListNode{} curr := dummy for l1 != nil \u0026\u0026 l2 != nil { if l1.Val \u003c l2.Val { curr.Next = l1 l1 = l1.Next } else { curr.Next = l2 l2 = l2.Next } curr = curr.Next } if l1 != nil { curr.Next = l1 } else { curr.Next = l2 } return dummy.Next } 复杂度分析 时间复杂度: $O(n \\log n)$。其中 n 是链表的长度。归并排序的时间复杂度是 $O(n \\log n)$。 空间复杂度: $O(\\log n)$。递归调用栈的空间复杂度是 $O(\\log n)$。 23. 合并 K 个升序链表 - Hard 题目回顾 给你一个链表数组，每个链表都已经按升序排列。\n请你将所有链表合并到一个升序链表中，返回合并后的链表。\n核心思路 优先队列+多路归并\n核心逻辑多路赛马：想象 K 个赛道，每个赛道都已经按速度排好序了。我们只需要每次把每个赛道里最快的那匹马（头节点）拉出来比一下，挑出最快的一匹。\n堆的作用：如果我们每次都手动遍历 K 个节点找最小值，时间复杂度是 $O(K \\cdot N)$。使用小顶堆，每次获取最小值并重新调整只需 $O(\\log K)$。\n动态维护：当一个链表的节点被取走后，我们需要立即把它的下一个节点（如果有）补充进堆里，确保堆中始终持有每个链表当前的“领头羊”。\n代码实现(Java) /** * Definition for singly-linked list. * public class ListNode { * int val; * ListNode next; * ListNode() {} * ListNode(int val) { this.val = val; } * ListNode(int val, ListNode next) { this.val = val; this.next = next; } * } */ class Solution { public ListNode mergeKLists(ListNode[] lists) { PriorityQueue\u003cListNode\u003e pq = new PriorityQueue\u003c\u003e((n1,n2)-\u003en1.val-n2.val); int n = lists.length; ListNode newHead = new ListNode(); ListNode p = newHead; if (n == 0) { return null; } for (int i = 0; i \u003c n; i++) { if (lists[i] != null) { pq.offer(lists[i]); } } while (!pq.isEmpty()) { ListNode node = pq.poll(); p.next = node; p = p.next; if (node.next != null) { pq.offer(node.next); } } return newHead.next; } } 代码实现(Go) import \"container/heap\" /** * Definition for singly-linked list. * type ListNode struct { * Val int * Next *ListNode * } */ // 1. 定义一个类型（切片），用于实现堆接口 type ListNodeHeap []*ListNode // 实现 sort.Interface func (h ListNodeHeap) Len() int { return len(h) } func (h ListNodeHeap) Less(i, j int) bool { return h[i].Val \u003c h[j].Val } func (h ListNodeHeap) Swap(i, j int) { h[i], h[j] = h[j], h[i] } // 实现 heap.Interface 的 Push 和 Pop // 注意：Push 和 Pop 必须使用指针接收者，因为它们会修改切片的长度 func (h *ListNodeHeap) Push(x interface{}) { *h = append(*h, x.(*ListNode)) } func (h *ListNodeHeap) Pop() interface{} { old := *h n := len(old) x := old[n-1] *h = old[0 : n-1] return x } func mergeKLists(lists []*ListNode) *ListNode { // 2. 初始化小顶堆 h := \u0026ListNodeHeap{} heap.Init(h) // 3. 将所有链表的头节点放入堆中 for _, l := range lists { if l != nil { heap.Push(h, l) } } // 4. 构建新链表 dummy := \u0026ListNode{} curr := dummy for h.Len() \u003e 0 { // 弹出堆顶（当前最小的节点） node := heap.Pop(h).(*ListNode) curr.Next = node curr = curr.Next // 如果该节点还有下一个节点，将其入堆 if node.Next != nil { heap.Push(h, node.Next) } } return dummy.Next } 复杂度分析 时间复杂度: O(N log k)，其中 N 是所有链表中节点的总数，k 是链表的数量。每个节点都被插入和弹出堆一次，堆操作的时间复杂度是 O(log k)。 空间复杂度: O(k)，堆中最多存储 k 个节点。 146. LRU 缓存 - Hard 题目回顾 请你设计并实现一个满足 LRU (最近最少使用) 缓存 约束的数据结构。 实现 LRUCache 类： LRUCache(int capacity) 以 正整数 作为容量 capacity 初始化 LRU 缓存 int get(int key) 如果关键字 key 存在于缓存中，则返回关键字的值，否则返回 -1 。 void put(int key, int value) 如果关键字 key 已经存在，则变更其数据值 value ；如果不存在，则向缓存中插入该组 key-value 。如果插入操作导致关键字数量超过 capacity ，则应该 逐出 最久未使用的关键字。 函数 get 和 put 必须以 O(1) 的平均时间复杂度运行。\n核心思路 为什么用双向链表？如果用单链表，删除一个节点需要找到它的 prev，这需要 $O(n)$ 遍历。而双向链表每个节点都存了 prev，删除操作是真正的 $O(1)$。\n哨兵节点 (Dummy Nodes) 的妙用我们在头部和尾部各放一个不存数据的 head 和 tail。好处：在插入和删除节点时，不需要判断 if head == nil 或者 if node == tail，逻辑非常统一，能有效避免复杂的边界 Bug。\n操作逻辑Get：在 Map 里找。找不到回 -1；找到了，把该节点从当前位置撕下来，插到 head 后面。Put：Key 已存在：更新值，提到 head。Key 不存在：新建节点插到 head。如果满了，把 tail.prev（最久没用的）删掉，并从 Map 里也删掉。\n代码实现 type Node struct { key, value int prev, next *Node } type LRUCache struct { capacity int cache map[int]*Node head, tail *Node // 虚拟头尾节点（哨兵） } func Constructor(capacity int) LRUCache { l := LRUCache{ capacity: capacity, cache: make(map[int]*Node), head: \u0026Node{}, tail: \u0026Node{}, } // 初始化哨兵节点，互相连接 l.head.next = l.tail l.tail.prev = l.head return l } func (this *LRUCache) Get(key int) int { if node, ok := this.cache[key]; ok { this.moveToHead(node) // 只要访问了，就提到最前面 return node.value } return -1 } func (this *LRUCache) Put(key int, value int) { if node, ok := this.cache[key]; ok { node.value = value this.moveToHead(node) } else { newNode := \u0026Node{key: key, value: value} this.cache[key] = newNode this.addToHead(newNode) if len(this.cache) \u003e this.capacity { removed := this.removeTail() delete(this.cache, removed.key) } } } // --- 内部辅助函数，处理链表节点的挪动 --- func (this *LRUCache) addToHead(node *Node) { node.prev = this.head node.next = this.head.next this.head.next.prev = node this.head.next = node } func (this *LRUCache) removeNode(node *Node) { node.prev.next = node.next node.next.prev = node.prev } func (this *LRUCache) moveToHead(node *Node) { this.removeNode(node) this.addToHead(node) } func (this *LRUCache) removeTail() *Node { node := this.tail.prev this.removeNode(node) return node } 时间复杂度：Get 和 Put 均为 $O(1)$。Map 查找是常数级，双向链表断开和重连指针也是常数级。 空间复杂度：$O(capacity)$。哈希表和链表最多同时存储 capacity + 2 个节点。 ",
+  "wordCount" : "3006",
   "inLanguage": "en",
   "datePublished": "2026-01-28T09:00:00+09:00",
   "dateModified": "2026-01-28T09:00:00+09:00",
@@ -933,6 +933,461 @@ pB 走过的路径：链表B的长度 &#43; 链表A的长度
 <ul>
 <li>时间复杂度: $O(n)$。其中 n 是链表的长度，所有方法都需要遍历整个链表一次。</li>
 <li>空间复杂度: $O(1)$。</li>
+</ul>
+<h2 id="25-k-个一组翻转链表---hard"><a href="https://leetcode.cn/problems/reverse-nodes-in-k-group/">25. K 个一组翻转链表 - Hard</a><a hidden class="anchor" aria-hidden="true" href="#25-k-个一组翻转链表---hard">#</a></h2>
+<h3 id="题目回顾-9">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾-9">#</a></h3>
+<blockquote>
+<p>给你链表的头节点 head ，每 k 个节点一组进行翻转，请你返回修改后的链表。
+k 是一个正整数，它的值小于或等于链表的长度。如果节点总数不是 k 的整数倍，那么请将最后剩余的节点保持原有顺序。
+你不能只是单纯的改变节点内部的值，而是需要实际进行节点交换。</p>
+</blockquote>
+<h3 id="核心思路-9">核心思路<a hidden class="anchor" aria-hidden="true" href="#核心思路-9">#</a></h3>
+<p>分治思想：将大问题拆解。</p>
+<ol>
+<li>我们复用了之前学过的 reverse 函数来翻转长度为 $k$ 的短链表。</li>
+<li>断开连接 (end.Next = nil)：这是为了让 reverse 函数知道在哪里停止。</li>
+<li>如果不切断，reverse 会一路翻转到整个链表的末尾。</li>
+<li>重新桥接：pre.Next = reverse(start)：让上一组的结尾指向这一组翻转后的新头。</li>
+<li>start.Next = nextGroup：让这一组翻转后的新尾（原 start）指向下一组的开头。</li>
+<li>不足 $k$ 个的处理：题目要求不足 $k$ 个保持原样，所以 if end == nil { break } 的判断至关重要。</li>
+</ol>
+<h3 id="代码实现-9">代码实现<a hidden class="anchor" aria-hidden="true" href="#代码实现-9">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Definition for singly-linked list.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * type ListNode struct {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Val int
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Next *ListNode
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * }
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">reverseKGroup</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>, <span style="color:#a6e22e">k</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 1. 创建虚拟头节点</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">dummy</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{<span style="color:#a6e22e">Next</span>: <span style="color:#a6e22e">head</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// pre 指向每一组待翻转部分的前驱节点</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">pre</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">dummy</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// end 指向每一组待翻转部分的末尾节点</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">end</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">dummy</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">end</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 2. 尝试向后移动 end 指针 k 次，定位当前组的结尾</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">k</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">end</span> = <span style="color:#a6e22e">end</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 如果剩余节点不足 k 个，则不需要翻转，直接结束</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 3. 记录当前组的起始节点和下一组的开头</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">start</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">pre</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">nextGroup</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">end</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 4. 断开当前组与后面部分的连接，以便进行翻转</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">end</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 5. 翻转当前组，并接回原链表</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 翻转后的新头节点接到 pre.Next 上</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">pre</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">reverse</span>(<span style="color:#a6e22e">start</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 翻转后的尾节点（即原 start）接到下一组开头上</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">start</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">nextGroup</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 6. 重置 pre 和 end，准备处理下一组</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">pre</span> = <span style="color:#a6e22e">start</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">end</span> = <span style="color:#a6e22e">pre</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">dummy</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 辅助函数：翻转一个完整的单链表</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">reverse</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">prev</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">curr</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">head</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">curr</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">next</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">curr</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">curr</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">prev</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">prev</span> = <span style="color:#a6e22e">curr</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">curr</span> = <span style="color:#a6e22e">next</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">prev</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="复杂度分析-9">复杂度分析<a hidden class="anchor" aria-hidden="true" href="#复杂度分析-9">#</a></h3>
+<ul>
+<li>时间复杂度: $O(n)$。其中 n 是链表的长度。</li>
+<li>空间复杂度: $O(1)$。</li>
+</ul>
+<h2 id="138-随机链表的复制---mid"><a href="https://leetcode.cn/problems/copy-list-with-random-pointer/">138. 随机链表的复制 - Mid</a><a hidden class="anchor" aria-hidden="true" href="#138-随机链表的复制---mid">#</a></h2>
+<h3 id="题目回顾-10">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾-10">#</a></h3>
+<blockquote>
+<p>给你一个长度为 n 的链表，每个节点包含一个额外增加的随机指针 random ，该指针可以指向链表中的任何节点或空节点。
+构造这个链表的 深拷贝。 深拷贝应该正好由 n 个 全新 节点组成，其中每个新节点的值都设为其对应的原节点的值。新节点的 next 指针和 random 指针也都应指向复制链表中的新节点，并使原链表和复制链表中的这些指针能够表示相同的链表状态。复制链表中的指针都不应指向原链表中的节点 。
+例如，如果原链表中有 X 和 Y 两个节点，其中 X.random &ndash;&gt; Y 。那么在复制链表中对应的两个节点 x 和 y ，同样有 x.random &ndash;&gt; y 。
+返回复制链表的头节点。
+用一个由 n 个节点组成的链表来表示输入/输出中的链表。每个节点用一个 [val, random_index] 表示：
+val：一个表示 Node.val 的整数。
+random_index：随机指针指向的节点索引（范围从 0 到 n-1）；如果不指向任何节点，则为  null 。
+你的代码 只 接受原链表的头节点 head 作为传入参数。</p>
+</blockquote>
+<h3 id="核心思路-10">核心思路<a hidden class="anchor" aria-hidden="true" href="#核心思路-10">#</a></h3>
+<p>这个算法通过将新旧节点交叉链接，巧妙地解决了 random 指针的定位问题：</p>
+<ol>
+<li>原地克隆 (Interweaving)：我们在每个原节点 $A$ 后面立即插入它的克隆节点 $A'$。这样做的好处是，我们可以通过 $A.Next$ 瞬间找到 $A'$，而不需要任何哈希表映射。</li>
+<li>建立随机链接 (Linking Randoms)：如果 $A.Random$ 指向 $C$，那么显然 $A'.Random$ 应该指向 $C'$。在我们的混合链表中，$C'$ 就在 $C.Next$。所以逻辑就是：cur.Next.Random = cur.Random.Next。</li>
+<li>拆解 (Decoupling)：最后一步类似于“拉链分拣”，我们需要小心地把奇数位置的节点连回原链表，把偶数位置的节点连成结果链表。</li>
+</ol>
+<h3 id="代码实现-10">代码实现<a hidden class="anchor" aria-hidden="true" href="#代码实现-10">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Definition for a Node.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * type Node struct {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Val int
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Next *Node
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Random *Node
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * }
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">copyRandomList</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">head</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 1. 复制节点，插入到原节点之后</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// A -&gt; B -&gt; C  变成  A -&gt; A&#39; -&gt; B -&gt; B&#39; -&gt; C -&gt; C&#39;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">cur</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">head</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">cur</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">newNode</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Node</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Val</span>:  <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Val</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Next</span>: <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Next</span>,
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">newNode</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">cur</span> = <span style="color:#a6e22e">newNode</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 2. 复制 random 指针</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 新节点的 random 应该指向原节点 random 的下一个节点（即对应的复制节点）</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">cur</span> = <span style="color:#a6e22e">head</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">cur</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Random</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Next</span>.<span style="color:#a6e22e">Random</span> = <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Random</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">cur</span> = <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Next</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 3. 拆分链表</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 将 A -&gt; A&#39; -&gt; B -&gt; B&#39; 恢复为 A -&gt; B 和 A&#39; -&gt; B&#39;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">cur</span> = <span style="color:#a6e22e">head</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">newHead</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">copyCur</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">newHead</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">cur</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 恢复原链表的 Next</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Next</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">cur</span> = <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 恢复新链表的 Next</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cur</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">copyCur</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">cur</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">copyCur</span> = <span style="color:#a6e22e">copyCur</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">newHead</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="复杂度分析-10">复杂度分析<a hidden class="anchor" aria-hidden="true" href="#复杂度分析-10">#</a></h3>
+<ul>
+<li>时间复杂度: $O(n)$，其中 n 是链表的长度。</li>
+<li>空间复杂度: $O(1)$，我们只使用了常数级别的额外空间。</li>
+</ul>
+<h2 id="148-排序链表---mid"><a href="https://leetcode.cn/problems/sort-list/">148. 排序链表 - Mid</a><a hidden class="anchor" aria-hidden="true" href="#148-排序链表---mid">#</a></h2>
+<h3 id="题目回顾-11">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾-11">#</a></h3>
+<blockquote>
+<p>给你链表的头结点 head ，请将其按 升序 排列并返回 排序后的链表 。</p>
+</blockquote>
+<h3 id="核心思路-11">核心思路<a hidden class="anchor" aria-hidden="true" href="#核心思路-11">#</a></h3>
+<p>归并排序在链表上比在数组上更有优势，因为链表合并只需要修改指针，不需要额外的数组空间。</p>
+<ol>
+<li>
+<p>切分 (Divide)通过快慢指针找到中点。注意点：为了防止死循环（特别是只有两个节点时），我们将 fast 初始化为 head.Next。这样对于两个节点 [4, 2]，slow 会停在 4，我们从 4 后面切断，成功分为 [4] 和 [2]。</p>
+</li>
+<li>
+<p>递归 (Conquer)不断递归调用直到链表长度为 1（天然有序）。3. 合并 (Merge)将两个有序链表“穿针引线”式地合并。这步的时间复杂度是 $O(n)$。</p>
+</li>
+</ol>
+<h3 id="代码实现-11">代码实现<a hidden class="anchor" aria-hidden="true" href="#代码实现-11">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Definition for singly-linked list.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * type ListNode struct {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Val int
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Next *ListNode
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * }
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sortList</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1. 递归终止条件：节点为空或只有一个节点</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">head</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">head</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. 找到中点并切断链表</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 使用快慢指针，注意 fast 从 head.Next 开始，可以确保在偶数节点时 slow 停在前半段末尾</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">slow</span>, <span style="color:#a6e22e">fast</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">head</span>, <span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">fast</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">fast</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">slow</span> = <span style="color:#a6e22e">slow</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fast</span> = <span style="color:#a6e22e">fast</span>.<span style="color:#a6e22e">Next</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// tmp 是后半部分的头，断开 slow.Next 以彻底切分</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mid</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">slow</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">slow</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 3. 递归排序左右两半</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">left</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sortList</span>(<span style="color:#a6e22e">head</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">right</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sortList</span>(<span style="color:#a6e22e">mid</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 4. 合并两个已排序的链表</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">merge</span>(<span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 辅助函数：合并两个有序链表（逻辑同 21 题）</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">merge</span>(<span style="color:#a6e22e">l1</span>, <span style="color:#a6e22e">l2</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dummy</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">curr</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">dummy</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">l1</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">l2</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">l1</span>.<span style="color:#a6e22e">Val</span> &lt; <span style="color:#a6e22e">l2</span>.<span style="color:#a6e22e">Val</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">curr</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">l1</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">l1</span> = <span style="color:#a6e22e">l1</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">curr</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">l2</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">l2</span> = <span style="color:#a6e22e">l2</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">curr</span> = <span style="color:#a6e22e">curr</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">l1</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">curr</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">l1</span>
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">curr</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">l2</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">dummy</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="复杂度分析-11">复杂度分析<a hidden class="anchor" aria-hidden="true" href="#复杂度分析-11">#</a></h3>
+<ul>
+<li>时间复杂度: $O(n \log n)$。其中 n 是链表的长度。归并排序的时间复杂度是 $O(n \log n)$。</li>
+<li>空间复杂度: $O(\log n)$。递归调用栈的空间复杂度是 $O(\log n)$。</li>
+</ul>
+<h2 id="23-合并-k-个升序链表---hard"><a href="https://leetcode.cn/problems/merge-k-sorted-lists/">23. 合并 K 个升序链表 - Hard</a><a hidden class="anchor" aria-hidden="true" href="#23-合并-k-个升序链表---hard">#</a></h2>
+<h3 id="题目回顾-12">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾-12">#</a></h3>
+<p>给你一个链表数组，每个链表都已经按升序排列。</p>
+<p>请你将所有链表合并到一个升序链表中，返回合并后的链表。</p>
+<h3 id="核心思路-12">核心思路<a hidden class="anchor" aria-hidden="true" href="#核心思路-12">#</a></h3>
+<p>优先队列+多路归并</p>
+<p>核心逻辑多路赛马：想象 K 个赛道，每个赛道都已经按速度排好序了。我们只需要每次把每个赛道里最快的那匹马（头节点）拉出来比一下，挑出最快的一匹。</p>
+<p>堆的作用：如果我们每次都手动遍历 K 个节点找最小值，时间复杂度是 $O(K \cdot N)$。使用小顶堆，每次获取最小值并重新调整只需 $O(\log K)$。</p>
+<p>动态维护：当一个链表的节点被取走后，我们需要立即把它的下一个节点（如果有）补充进堆里，确保堆中始终持有每个链表当前的“领头羊”。</p>
+<h3 id="代码实现java">代码实现(Java)<a hidden class="anchor" aria-hidden="true" href="#代码实现java">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Definition for singly-linked list.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * public class ListNode {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *     int val;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *     ListNode next;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *     ListNode() {}
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *     ListNode(int val) { this.val = val; }
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * }
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> ListNode <span style="color:#a6e22e">mergeKLists</span>(ListNode<span style="color:#f92672">[]</span> lists) {
+</span></span><span style="display:flex;"><span>        PriorityQueue<span style="color:#f92672">&lt;</span>ListNode<span style="color:#f92672">&gt;</span> pq <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PriorityQueue<span style="color:#f92672">&lt;&gt;</span>((n1,n2)<span style="color:#f92672">-&gt;</span>n1.<span style="color:#a6e22e">val</span><span style="color:#f92672">-</span>n2.<span style="color:#a6e22e">val</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> lists.<span style="color:#a6e22e">length</span>;
+</span></span><span style="display:flex;"><span>        ListNode newHead <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode();
+</span></span><span style="display:flex;"><span>        ListNode p <span style="color:#f92672">=</span> newHead;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> 0) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (lists<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>                pq.<span style="color:#a6e22e">offer</span>(lists<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>pq.<span style="color:#a6e22e">isEmpty</span>()) {
+</span></span><span style="display:flex;"><span>            ListNode node <span style="color:#f92672">=</span> pq.<span style="color:#a6e22e">poll</span>();
+</span></span><span style="display:flex;"><span>            p.<span style="color:#a6e22e">next</span> <span style="color:#f92672">=</span> node;
+</span></span><span style="display:flex;"><span>            p <span style="color:#f92672">=</span> p.<span style="color:#a6e22e">next</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (node.<span style="color:#a6e22e">next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>                pq.<span style="color:#a6e22e">offer</span>(node.<span style="color:#a6e22e">next</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> newHead.<span style="color:#a6e22e">next</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="代码实现go">代码实现(Go)<a hidden class="anchor" aria-hidden="true" href="#代码实现go">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;container/heap&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Definition for singly-linked list.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * type ListNode struct {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Val int
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Next *ListNode
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * }
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 1. 定义一个类型（切片），用于实现堆接口</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ListNodeHeap</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 实现 sort.Interface</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">h</span> <span style="color:#a6e22e">ListNodeHeap</span>) <span style="color:#a6e22e">Len</span>() <span style="color:#66d9ef">int</span>           { <span style="color:#66d9ef">return</span> len(<span style="color:#a6e22e">h</span>) }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">h</span> <span style="color:#a6e22e">ListNodeHeap</span>) <span style="color:#a6e22e">Less</span>(<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">bool</span> { <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">h</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">Val</span> &lt; <span style="color:#a6e22e">h</span>[<span style="color:#a6e22e">j</span>].<span style="color:#a6e22e">Val</span> }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">h</span> <span style="color:#a6e22e">ListNodeHeap</span>) <span style="color:#a6e22e">Swap</span>(<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> <span style="color:#66d9ef">int</span>)      { <span style="color:#a6e22e">h</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">h</span>[<span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">h</span>[<span style="color:#a6e22e">j</span>], <span style="color:#a6e22e">h</span>[<span style="color:#a6e22e">i</span>] }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 实现 heap.Interface 的 Push 和 Pop</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 注意：Push 和 Pop 必须使用指针接收者，因为它们会修改切片的长度</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">h</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNodeHeap</span>) <span style="color:#a6e22e">Push</span>(<span style="color:#a6e22e">x</span> <span style="color:#66d9ef">interface</span>{}) {
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">*</span><span style="color:#a6e22e">h</span> = append(<span style="color:#f92672">*</span><span style="color:#a6e22e">h</span>, <span style="color:#a6e22e">x</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">h</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNodeHeap</span>) <span style="color:#a6e22e">Pop</span>() <span style="color:#66d9ef">interface</span>{} {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">old</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">h</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">old</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">x</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">old</span>[<span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">*</span><span style="color:#a6e22e">h</span> = <span style="color:#a6e22e">old</span>[<span style="color:#ae81ff">0</span> : <span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">x</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">mergeKLists</span>(<span style="color:#a6e22e">lists</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 2. 初始化小顶堆</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">h</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNodeHeap</span>{}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">heap</span>.<span style="color:#a6e22e">Init</span>(<span style="color:#a6e22e">h</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 3. 将所有链表的头节点放入堆中</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">l</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">lists</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">l</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">heap</span>.<span style="color:#a6e22e">Push</span>(<span style="color:#a6e22e">h</span>, <span style="color:#a6e22e">l</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 4. 构建新链表</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">dummy</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ListNode</span>{}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">curr</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">dummy</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">Len</span>() &gt; <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 弹出堆顶（当前最小的节点）</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">node</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">heap</span>.<span style="color:#a6e22e">Pop</span>(<span style="color:#a6e22e">h</span>).(<span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">curr</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">node</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">curr</span> = <span style="color:#a6e22e">curr</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 如果该节点还有下一个节点，将其入堆</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">Next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">heap</span>.<span style="color:#a6e22e">Push</span>(<span style="color:#a6e22e">h</span>, <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">Next</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">dummy</span>.<span style="color:#a6e22e">Next</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="复杂度分析-12">复杂度分析<a hidden class="anchor" aria-hidden="true" href="#复杂度分析-12">#</a></h3>
+<ul>
+<li>时间复杂度: <code>O(N log k)</code>，其中 N 是所有链表中节点的总数，k 是链表的数量。每个节点都被插入和弹出堆一次，堆操作的时间复杂度是 <code>O(log k)</code>。</li>
+<li>空间复杂度: <code>O(k)</code>，堆中最多存储 k 个节点。</li>
+</ul>
+<h2 id="146-lru-缓存---hard"><a href="https://leetcode.cn/problems/lru-cache/">146. LRU 缓存 - Hard</a><a hidden class="anchor" aria-hidden="true" href="#146-lru-缓存---hard">#</a></h2>
+<h3 id="题目回顾-13">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾-13">#</a></h3>
+<blockquote>
+<p>请你设计并实现一个满足  LRU (最近最少使用) 缓存 约束的数据结构。
+实现 LRUCache 类：
+LRUCache(int capacity) 以 正整数 作为容量 capacity 初始化 LRU 缓存
+int get(int key) 如果关键字 key 存在于缓存中，则返回关键字的值，否则返回 -1 。
+void put(int key, int value) 如果关键字 key 已经存在，则变更其数据值 value ；如果不存在，则向缓存中插入该组 key-value 。如果插入操作导致关键字数量超过 capacity ，则应该 逐出 最久未使用的关键字。
+函数 get 和 put 必须以 O(1) 的平均时间复杂度运行。</p>
+</blockquote>
+<h3 id="核心思路-13">核心思路<a hidden class="anchor" aria-hidden="true" href="#核心思路-13">#</a></h3>
+<ol>
+<li>
+<p>为什么用双向链表？如果用单链表，删除一个节点需要找到它的 prev，这需要 $O(n)$ 遍历。而双向链表每个节点都存了 prev，删除操作是真正的 $O(1)$。</p>
+</li>
+<li>
+<p>哨兵节点 (Dummy Nodes) 的妙用我们在头部和尾部各放一个不存数据的 head 和 tail。好处：在插入和删除节点时，不需要判断 if head == nil 或者 if node == tail，逻辑非常统一，能有效避免复杂的边界 Bug。</p>
+</li>
+<li>
+<p>操作逻辑Get：在 Map 里找。找不到回 -1；找到了，把该节点从当前位置撕下来，插到 head 后面。Put：Key 已存在：更新值，提到 head。Key 不存在：新建节点插到 head。如果满了，把 tail.prev（最久没用的）删掉，并从 Map 里也删掉。</p>
+</li>
+</ol>
+<h3 id="代码实现-12">代码实现<a hidden class="anchor" aria-hidden="true" href="#代码实现-12">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Node</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">value</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">prev</span>, <span style="color:#a6e22e">next</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">LRUCache</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">capacity</span>   <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">cache</span>      <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">int</span>]<span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">head</span>, <span style="color:#a6e22e">tail</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span> <span style="color:#75715e">// 虚拟头尾节点（哨兵）</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Constructor</span>(<span style="color:#a6e22e">capacity</span> <span style="color:#66d9ef">int</span>) <span style="color:#a6e22e">LRUCache</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">l</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">LRUCache</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">capacity</span>: <span style="color:#a6e22e">capacity</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">cache</span>:    make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">int</span>]<span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>),
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">head</span>:     <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Node</span>{},
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">tail</span>:     <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Node</span>{},
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 初始化哨兵节点，互相连接</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">next</span> = <span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">tail</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">tail</span>.<span style="color:#a6e22e">prev</span> = <span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">head</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">l</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">LRUCache</span>) <span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">node</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">cache</span>[<span style="color:#a6e22e">key</span>]; <span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">moveToHead</span>(<span style="color:#a6e22e">node</span>) <span style="color:#75715e">// 只要访问了，就提到最前面</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">value</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">LRUCache</span>) <span style="color:#a6e22e">Put</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">value</span> <span style="color:#66d9ef">int</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">node</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">cache</span>[<span style="color:#a6e22e">key</span>]; <span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">value</span> = <span style="color:#a6e22e">value</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">moveToHead</span>(<span style="color:#a6e22e">node</span>)
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">newNode</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Node</span>{<span style="color:#a6e22e">key</span>: <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">value</span>: <span style="color:#a6e22e">value</span>}
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">cache</span>[<span style="color:#a6e22e">key</span>] = <span style="color:#a6e22e">newNode</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">addToHead</span>(<span style="color:#a6e22e">newNode</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">cache</span>) &gt; <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">capacity</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">removed</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">removeTail</span>()
+</span></span><span style="display:flex;"><span>            delete(<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">cache</span>, <span style="color:#a6e22e">removed</span>.<span style="color:#a6e22e">key</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// --- 内部辅助函数，处理链表节点的挪动 ---</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">LRUCache</span>) <span style="color:#a6e22e">addToHead</span>(<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">prev</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">head</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">next</span> = <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">next</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">next</span>.<span style="color:#a6e22e">prev</span> = <span style="color:#a6e22e">node</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">next</span> = <span style="color:#a6e22e">node</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">LRUCache</span>) <span style="color:#a6e22e">removeNode</span>(<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">prev</span>.<span style="color:#a6e22e">next</span> = <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">next</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">next</span>.<span style="color:#a6e22e">prev</span> = <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">prev</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">LRUCache</span>) <span style="color:#a6e22e">moveToHead</span>(<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">removeNode</span>(<span style="color:#a6e22e">node</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">addToHead</span>(<span style="color:#a6e22e">node</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">LRUCache</span>) <span style="color:#a6e22e">removeTail</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">node</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">tail</span>.<span style="color:#a6e22e">prev</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">removeNode</span>(<span style="color:#a6e22e">node</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">node</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>时间复杂度：Get 和 Put 均为 $O(1)$。Map 查找是常数级，双向链表断开和重连指针也是常数级。</li>
+<li>空间复杂度：$O(capacity)$。哈希表和链表最多同时存储 capacity + 2 个节点。</li>
 </ul>
 
 
