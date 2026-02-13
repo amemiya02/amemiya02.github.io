@@ -47,39 +47,5 @@
 &lt;p&gt;&lt;strong&gt;记录首行首列状态&lt;/strong&gt;：
 定义两个变量 &lt;code&gt;firstRowHasZero&lt;/code&gt; 和 &lt;code&gt;firstColHasZero&lt;/code&gt;，遍历第一行和第一列，如果发现 0，则将对应的变量置为 &lt;code&gt;true&lt;/code&gt;。&lt;/p&gt;</description>
     </item>
-    <item>
-      <title>【HOT100/矩阵】LeetCode 240. 搜索二维矩阵 II</title>
-      <link>https://amemiya02.github.io/posts/2026-01-02-240-search-a-2d-matrix-ii/</link>
-      <pubDate>Fri, 02 Jan 2026 23:00:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2026-01-02-240-search-a-2d-matrix-ii/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;编写一个高效的算法来搜索 &lt;code&gt;m x n&lt;/code&gt; 矩阵 &lt;code&gt;matrix&lt;/code&gt; 中的一个目标值 &lt;code&gt;target&lt;/code&gt; 。该矩阵具有以下特性：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;每行的元素从左到右升序排列。&lt;/li&gt;
-&lt;li&gt;每列的元素从上到下升序排列。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;示例 2：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;matrix = ... (同上), target = 20&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id=&#34;核心思路抽象-bst-从角落出发&#34;&gt;核心思路：抽象 BST (从角落出发)&lt;/h2&gt;
-&lt;p&gt;如果把矩阵的每一个位置看作一个节点，我们要利用&amp;quot;行有序&amp;quot;和&amp;quot;列有序&amp;quot;这两个条件来快速缩小查找范围。&lt;/p&gt;
-&lt;p&gt;如果我们从&lt;strong&gt;左上角&lt;/strong&gt;出发，当前值小于 &lt;code&gt;target&lt;/code&gt; 时，我们既可以向右走（变大），也可以向下走（变大），这就产生了歧义，无法确定唯一的搜索方向。&lt;/p&gt;
-&lt;p&gt;但是，如果我们选择&lt;strong&gt;左下角&lt;/strong&gt;（或者右上角）作为起点，情况就完全不同了。&lt;/p&gt;
-&lt;p&gt;以&lt;strong&gt;左下角&lt;/strong&gt; &lt;code&gt;(m-1, 0)&lt;/code&gt; 为例：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;当前值 &amp;gt; target&lt;/strong&gt;：
-因为当前行是升序的，左下角已经是该行最小的数了，如果连它都比 &lt;code&gt;target&lt;/code&gt; 大，说明&lt;strong&gt;这一行所有的数都比 &lt;code&gt;target&lt;/code&gt; 大&lt;/strong&gt;。
--&amp;gt; 结论：&lt;strong&gt;排除当前行&lt;/strong&gt;，向上移动 (&lt;code&gt;i--&lt;/code&gt;)。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;当前值 &amp;lt; target&lt;/strong&gt;：
-因为当前列是升序的，左下角已经是该列最大的数了（在剩下的范围内），如果连它都比 &lt;code&gt;target&lt;/code&gt; 小，说明&lt;strong&gt;这一列所有的数都比 &lt;code&gt;target&lt;/code&gt; 小&lt;/strong&gt;。
--&amp;gt; 结论：&lt;strong&gt;排除当前列&lt;/strong&gt;，向右移动 (&lt;code&gt;j++&lt;/code&gt;)。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;这个过程就像是在遍历一棵&lt;strong&gt;二叉搜索树 (BST)&lt;/strong&gt;，左下角就是根节点，往上走是找更小的（类似左子树），往右走是找更大的（类似右子树）。&lt;/p&gt;</description>
-    </item>
   </channel>
 </rss>
