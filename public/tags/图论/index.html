@@ -143,7 +143,7 @@
 代码实现 func numIslands(grid [][]byte) int { if len(grid) == 0 { return 0 } m, n := len(grid), len(grid[0]) count := 0 // 遍历整个网格 for i := 0; i &lt; m; i&#43;&#43; { for j := 0; j &lt; n; j&#43;&#43; { // 如果发现陆地 if grid[i][j] == &#39;1&#39; { dfs(grid, i, j) // 发现一个岛屿，计数加 1 count&#43;&#43; } } } return count } func dfs(grid [][]byte, i, j int) { m, n := len(grid), len(grid[0]) // 越界检查或遇到水（&#39;0&#39;），直接返回 if i &lt; 0 || i &gt;= m || j &lt; 0 || j &gt;= n || grid[i][j] == &#39;0&#39; { return } // 标记当前陆地已被访问（淹没），防止死循环 grid[i][j] = &#39;0&#39; // 向四个方向扩散 dfs(grid, i&#43;1, j) // 下 dfs(grid, i-1, j) // 上 dfs(grid, i, j&#43;1) // 右 dfs(grid, i, j-1) // 左 } 复杂度分析 时间复杂度：$O(M * N)$，其中 M 和 N 分别是网格的行数和列数。每个格点最多被访问一次。 空间复杂度：$O(M * N)$，在最坏情况下，递归栈的深度可能达到 M * N。 994. 腐烂的橘子 - Mid 题目回顾 在给定的网格中，每个单元格可以有以下三个值之一：
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-02-03 09:00:00 +0900 JST'>February 3, 2026</span>&nbsp;·&nbsp;<span>4 min</span></footer>
+  <footer class="entry-footer"><span title='2026-02-03 09:00:00 +0900 +0900'>February 3, 2026</span>&nbsp;·&nbsp;<span>4 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 图论" href="https://amemiya02.github.io/posts/2026-02-03-graph/"></a>
 </article>
     </main>

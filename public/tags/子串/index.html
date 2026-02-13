@@ -144,7 +144,7 @@
 核心思路：前缀和 &#43; 哈希表优化 这道题如果使用暴力解法，枚举所有的子数组并计算和，时间复杂度会达到 $O(n^2)$ 甚至 $O(n^3)$，无法通过所有测试用例。我们需要利用前缀和的性质进行优化。
 1. 前缀和转化 定义 pre[i] 为 [0..i] 里所有数的和。那么 [j..i] 这个子数组的和可以表示为： $$ sum[j..i] = pre[i] - pre[j-1] $$ 题目要求找到和为 k 的子数组，即寻找满足以下条件的 j 和 i： $$ pre[i] - pre[j-1] == k $$ 移项得： ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-01-25 10:00:00 +0900 JST'>January 25, 2026</span>&nbsp;·&nbsp;<span>4 min</span></footer>
+  <footer class="entry-footer"><span title='2026-01-25 10:00:00 +0900 +0900'>January 25, 2026</span>&nbsp;·&nbsp;<span>4 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 子串" href="https://amemiya02.github.io/posts/2026-01-25-substring/"></a>
 </article>
     </main>

@@ -131,6 +131,52 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 滑动窗口
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>滑动窗口 3. 无重复字符的最长子串 - Mid 题目回顾 给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。
+示例 1:
+输入: s = &#34;abcabcbb&#34; 输出: 3 解释: 因为无重复字符的最长子串是 &#34;abc&#34;，所以其长度为 3。
+示例 2:
+输入: s = &#34;pwwkew&#34; 输出: 3 解释: 因为无重复字符的最长子串是 &#34;wke&#34;，所以其长度为 3。 请注意，你的答案必须是 子串 的长度，&#34;pwke&#34; 是一个子序列，不是子串。
+核心思路：滑动窗口 这道题要求我们找到一个连续的子串，这个子串需要满足&#34;无重复字符&#34;的条件，并且长度要最长。这种在连续区间上求解的问题，非常适合使用滑动窗口算法。
+我们可以想象有一个窗口在字符串 s 上滑动，窗口的左右边界由两个指针 left 和 right 决定。这个窗口 s[left...right] 就代表了我们正在考察的当前子串。
+数据结构选择：我们需要一个数据结构来快速判断窗口内是否存在重复字符。哈希集合 (HashSet) 是不二之选，它可以在 $O(1)$ 的时间内添加、删除和查找元素。
+窗口的移动逻辑：
+扩大窗口：我们不断地移动右指针 right，将新的字符纳入窗口中。 缩小窗口：当新加入的字符 s[right] 已经在哈希集合中存在时，说明窗口内出现了重复。此时，我们必须从左侧开始缩小窗口，即不断地移动左指针 left 并从哈希集合中移除 s[left]，直到窗口内不再包含重复的 s[right] 为止。 算法步骤：
+初始化左指针 left = 0，右指针 right = 0，最大长度 maxLength = 0，以及一个空的哈希集合 set。 右指针 right 开始遍历整个字符串： a. 获取当前右指针的字符 c = s.charAt(right)。 b. 检查重复：在 set 中检查是否存在字符 c。如果存在，就进入一个循环，不断从 set 中移除左指针 left 指向的字符，并递增 left，直到 set 中不再有 c。 c. 添加新字符：将当前字符 c 添加到 set 中。 d. 更新最大长度：此时，从 left 到 right 的窗口内一定是无重复字符的。我们更新最大长度：maxLength = Math.max(maxLength, right - left &#43; 1)。 e. 将右指针 right 右移一位，考察下一个字符。 遍历结束后，maxLength 就是最终答案。 通过这种一扩一缩的动态调整，滑动窗口能够保证在一次遍历中就找到最优解。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-25 09:00:00 +0900 +0900'>January 25, 2026</span>&nbsp;·&nbsp;<span>3 min</span></footer>
+  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 滑动窗口" href="https://amemiya02.github.io/posts/2026-01-25-sliding-window/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 双指针
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>双指针 283. 移动零 - Easy 题目回顾 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+请注意 ，必须在不复制数组的情况下原地对数组进行操作。
+示例 1:
+输入: nums = [0,1,0,3,12] 输出: [1,3,12,0,0]
+核心思路：快慢指针（一次遍历） 这道题有两个核心要求：
+将所有 0 移动到末尾。 保持所有非零元素的相对顺序不变。 第二个要求&#34;保持相对顺序&#34;是解题的关键。它告诉我们，不能简单地像&#34;移除元素&#34;那样，用头尾指针交换元素，因为那样会打乱非零元素的原有顺序。
+这个问题的本质可以看作是：将所有非零元素，按原有的顺序，紧凑地移动到数组的前面，然后将剩余的位置全部填上零。
+这正是快慢指针擅长的场景：
+定义指针：
+慢指针 p (或 slow): 这个指针用于标记&#34;下一个非零元素应该被放置的位置&#34;。在 p 左边的所有元素（不含 p）都是已经处理好的、按序排列的非零元素。 快指针 q (或 fast): 这个指针负责遍历整个数组，去寻找非零元素。 执行过程：
+初始化 p 和 q 都指向数组的起始位置 0。 快指针 q 开始向后遍历数组。 当 q 遇到一个非零元素时，说明这个元素需要被保留并放到前面。于是，我们执行两个操作： 将这个非零元素 nums[q] 赋值给慢指针 p 所在的位置 nums[p]。 将慢指针 p 向后移动一位 (p&#43;&#43;)，为下一个非零元素腾出位置。 如果 q 遇到的是 0，则慢指针 p 保持不动，只有快指针 q 继续向后移动。 填充末尾的零：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-24 21:00:00 +0900 +0900'>January 24, 2026</span>&nbsp;·&nbsp;<span>5 min</span></footer>
+  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 双指针" href="https://amemiya02.github.io/posts/2026-01-24-two-pointer/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 哈希
     </h2>
   </header>
@@ -148,7 +194,7 @@
 创建一个空的哈希表 map。 遍历 nums 数组，对于当前的元素 nums[i]： a. 计算我们需要寻找的&#34;另一半&#34;：complement = target - nums[i]。 b. 在哈希表中查找 complement 是否存在。 如果存在，说明我们找到了解！complement 的索引已经存在 map 中，当前元素的索引是 i。我们立即返回 [map.get(complement), i]。 如果不存在，说明到目前为止还没遇到能和 nums[i] 配对的数。我们将当前数字和它的索引存入哈希表 map.put(nums[i], i)，以便后续的元素能用它来配对。 遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。 这个&#34;一边遍历，一边查找，一边插入&#34;的单遍哈希表解法，非常巧妙地在一次循环中完成了所有工作。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-01-24 19:00:00 +0900 JST'>January 24, 2026</span>&nbsp;·&nbsp;<span>3 min</span></footer>
+  <footer class="entry-footer"><span title='2026-01-24 19:00:00 +0900 +0900'>January 24, 2026</span>&nbsp;·&nbsp;<span>3 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 哈希" href="https://amemiya02.github.io/posts/2026-01-24-hash/"></a>
 </article>
 <footer class="page-footer">

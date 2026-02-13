@@ -131,6 +131,36 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 堆
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>堆 215. 数组中的第 K 个最大元素 - Medium 题目回顾 给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。
+核心思路 这道题的核心是用快速选择算法（快速排序的变种）在 O (n) 平均时间复杂度内找到第 k 大元素，核心思路：
+第 k 大元素等价于数组升序排序后第 nums.length - k 小的元素，将问题转化为找第 nums.length - k 小的元素； 快速选择的核心是 partition（分区）：选择基准值，将数组分为 “小于基准” 和 “大于基准” 两部分，返回基准值的索引； 若基准索引等于目标索引 k，直接返回该值；若基准索引大于 k，递归左区间；否则递归右区间； 优化点：提前判断区间是否已有序，若有序则直接返回目标索引值，减少不必要的分区操作。 代码实现 func findKthLargest(nums []int, k int) int { // 第k大元素 = 升序后第 len(nums)-k 小的元素 target := len(nums) - k return quickSelect(nums, 0, len(nums)-1, target) } // quickSelect 快速选择：找到 [left, right] 区间内第 k 小的元素 func quickSelect(nums []int, left, right, k int) int { // 区间只有一个元素，直接返回 if left == right { return nums[left] } // 优化：提前判断区间是否已有序，有序则直接返回目标值 ordered := true for i := left; i &lt; right; i&#43;&#43; { if nums[i] &gt; nums[i&#43;1] { ordered = false break } } if ordered { return nums[k] } // 分区操作，返回基准值的索引 p := partition(nums, left, right) // 根据基准索引递归查找 if p == k { return nums[p] } else if p &gt; k { return quickSelect(nums, left, p-1, k) } else { return quickSelect(nums, p&#43;1, right, k) } } // partition 分区函数：以右边界为基准，将小于基准的元素移到左侧，返回基准最终索引 func partition(nums []int, left, right int) int { pivot := nums[right] // 选择右边界为基准值 i := left - 1 // 小于基准的区域边界 // 遍历 [left, right-1] 区间 for j := left; j &lt; right; j&#43;&#43; { if nums[j] &lt; pivot { i&#43;&#43; swap(nums, i, j) // 交换到小于基准的区域 } } // 将基准值放到正确位置（小于基准的区域右侧） i&#43;&#43; swap(nums, i, right) return i } // swap 交换数组中两个位置的元素 func swap(nums []int, i, j int) { nums[i], nums[j] = nums[j], nums[i] } 复杂度分析 时间复杂度：平均 $O(n)$，最坏情况 $O(n^2)$（每次分区都极端不平衡）。 空间复杂度：$O(1)$，原地分区操作。 347. 前 K 个高频元素 - Medium 题目回顾 给定一个非空的整数数组，返回其中出现频率前 k 高的元素。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-02-09 10:00:00 +0900 +0900'>February 9, 2026</span>&nbsp;·&nbsp;<span>5 min</span></footer>
+  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 堆" href="https://amemiya02.github.io/posts/2026-02-09-heap/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 栈
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>栈 20. 有效的括号 - Easy 题目回顾 给定一个只包括 ‘(’，’)’，’{’，’}’，’[’，’]’ 的字符串 s ，判断字符串是否有效。 有效字符串需满足： 左括号必须用相同类型的右括号闭合。 左括号必须以正确的顺序闭合。 每个右括号都有一个对应的相同类型的左括号。
+核心思路 这道题的核心是利用栈的 “后进先出” 特性验证括号的匹配性：
+遍历字符串，遇到左括号（(/{/[）时入栈； 遇到右括号（)/}/]）时，检查栈是否为空（为空则无匹配的左括号，直接返回 false），再弹出栈顶元素，判断是否与当前右括号匹配； 若不匹配则返回 false，遍历结束后检查栈是否为空（不为空说明有未匹配的左括号）。 代码实现 func isValid(s string) bool { // 用切片模拟栈，存储左括号（rune 兼容 Unicode，等价于 char） stack := []rune{} // 遍历字符串中的每个字符 for _, c := range s { switch c { // 左括号：入栈 case &#39;(&#39;, &#39;{&#39;, &#39;[&#39;: stack = append(stack, c) // 右括号：匹配检查 case &#39;)&#39;: // 栈为空 或 栈顶不是对应的左括号，返回false if len(stack) == 0 || stack[len(stack)-1] != &#39;(&#39; { return false } // 匹配成功，弹出栈顶（切片截断） stack = stack[:len(stack)-1] case &#39;]&#39;: if len(stack) == 0 || stack[len(stack)-1] != &#39;[&#39; { return false } stack = stack[:len(stack)-1] case &#39;}&#39;: if len(stack) == 0 || stack[len(stack)-1] != &#39;{&#39; { return false } stack = stack[:len(stack)-1] } } // 遍历结束后栈必须为空（无剩余左括号） return len(stack) == 0 } 复杂度分析 时间复杂度：$O(n)$，其中 $n$ 是字符串的长度。每个字符被访问一次，入栈和出栈操作都是 $O(1)$。 空间复杂度：$O(n)$，在最坏情况下（例如所有都是左括号）栈中会存储所有字符。 155. 最小栈 - Easy 这道题要求实现一个能在常数时间 O(1) 内获取最小值的栈，核心思路是双栈法：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-02-09 09:00:00 +0900 +0900'>February 9, 2026</span>&nbsp;·&nbsp;<span>4 min</span></footer>
+  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 栈" href="https://amemiya02.github.io/posts/2026-02-09-stack/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 二分查找
     </h2>
   </header>
@@ -142,7 +172,7 @@
 防止溢出的写法 在 Go（以及其他语言）中，写 mid = (left &#43; right) / 2 在 left 和 right 很大时可能导致整数溢出。使用 mid = left &#43; (right-left)/2 是一种更健壮、更地道的写法。 代码实现 func searchInsert(nums []int, target int) int { left := 0 right := len(nums) - 1 for left &lt;= right { // 使用这种方式防止 (left &#43; right) 溢出 mid := left &#43; (right-left)/2 if nums[mid] == target { // 找到目标值，直接返回索引 return mid } else if nums[mid] &lt; target { // 目标值在右半部分，更新左边界 left = mid &#43; 1 } else { // 目标值在左半部分，更新右边界 right = mid - 1 } } // 如果循环结束未找到，left 指向的正是它应该被插入的位置 return left } 复杂度分析 时间复杂度：$O(log n)$，每次迭代将搜索空间减半。 空间复杂度：$O(1)$，只使用了常数级别的额外空间。 74. 搜索二维矩阵 - Medium 题目回顾 编写一个高效的算法来判断 m x n 矩阵中，是否存在一个目标值。该矩阵具有以下特性：
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-02-05 08:00:00 +0900 JST'>February 5, 2026</span>&nbsp;·&nbsp;<span>3 min</span></footer>
+  <footer class="entry-footer"><span title='2026-02-05 08:00:00 +0900 +0900'>February 5, 2026</span>&nbsp;·&nbsp;<span>6 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 二分查找" href="https://amemiya02.github.io/posts/2026-02-05-binary-search/"></a>
 </article>
 
@@ -160,7 +190,7 @@
 代码实现 func permute(nums []int) [][]int { var res [][]int path := []int{} used := make([]bool, len(nums)) var backtrack func() backtrack = func() { // 终止条件：路径长度等于数组长度 if len(path) == len(nums) { // 注意：Go 中切片是引用传递，必须进行拷贝 temp := make([]int, len(path)) copy(temp, path) res = append(res, temp) return } for i := 0; i &lt; len(nums); i&#43;&#43; { // 如果该数字已经用过，跳过 if used[i] { continue } // 1. 做选择 used[i] = true path = append(path, nums[i]) // 2. 递归进入下一层 backtrack() // 3. 撤销选择（回溯） path = path[:len(path)-1] used[i] = false } } backtrack() return res } 复杂度分析 时间复杂度：$O(n * n!)$，其中 n 是数组的长度。全排列的数量是 n!，每个排列需要 O(n) 的时间来构建和复制到结果中。 空间复杂度：$O(n)$，用于存储递归栈和路径。 78. 子集 - Medium 题目回顾 给你一个整数数组 nums ，数组中的元素 互不相同 。返回该数组所有可能的子集（幂集）。解集 不能 包含重复的子集。你可以按 任意顺序 返回解集。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-02-03 09:01:00 +0900 JST'>February 3, 2026</span>&nbsp;·&nbsp;<span>8 min</span></footer>
+  <footer class="entry-footer"><span title='2026-02-03 09:01:00 +0900 +0900'>February 3, 2026</span>&nbsp;·&nbsp;<span>8 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 回溯" href="https://amemiya02.github.io/posts/2026-02-03-backtracking/"></a>
 </article>
 
@@ -178,7 +208,7 @@
 代码实现 func numIslands(grid [][]byte) int { if len(grid) == 0 { return 0 } m, n := len(grid), len(grid[0]) count := 0 // 遍历整个网格 for i := 0; i &lt; m; i&#43;&#43; { for j := 0; j &lt; n; j&#43;&#43; { // 如果发现陆地 if grid[i][j] == &#39;1&#39; { dfs(grid, i, j) // 发现一个岛屿，计数加 1 count&#43;&#43; } } } return count } func dfs(grid [][]byte, i, j int) { m, n := len(grid), len(grid[0]) // 越界检查或遇到水（&#39;0&#39;），直接返回 if i &lt; 0 || i &gt;= m || j &lt; 0 || j &gt;= n || grid[i][j] == &#39;0&#39; { return } // 标记当前陆地已被访问（淹没），防止死循环 grid[i][j] = &#39;0&#39; // 向四个方向扩散 dfs(grid, i&#43;1, j) // 下 dfs(grid, i-1, j) // 上 dfs(grid, i, j&#43;1) // 右 dfs(grid, i, j-1) // 左 } 复杂度分析 时间复杂度：$O(M * N)$，其中 M 和 N 分别是网格的行数和列数。每个格点最多被访问一次。 空间复杂度：$O(M * N)$，在最坏情况下，递归栈的深度可能达到 M * N。 994. 腐烂的橘子 - Mid 题目回顾 在给定的网格中，每个单元格可以有以下三个值之一：
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-02-03 09:00:00 +0900 JST'>February 3, 2026</span>&nbsp;·&nbsp;<span>4 min</span></footer>
+  <footer class="entry-footer"><span title='2026-02-03 09:00:00 +0900 +0900'>February 3, 2026</span>&nbsp;·&nbsp;<span>4 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 图论" href="https://amemiya02.github.io/posts/2026-02-03-graph/"></a>
 </article>
 
@@ -193,7 +223,7 @@
 代码实现 /** * Definition for a binary tree node. * type TreeNode struct { * Val int * Left *TreeNode * Right *TreeNode * } */ func inorderTraversal(root *TreeNode) []int { res := []int{} stack := []*TreeNode{} curr := root for curr != nil || len(stack) &gt; 0 { // 1. 一路向左，把所有左孩子入栈 for curr != nil { stack = append(stack, curr) curr = curr.Left } // 2. 弹出栈顶（当前最左的节点） curr = stack[len(stack)-1] stack = stack[:len(stack)-1] // 3. 记录结果 res = append(res, curr.Val) // 4. 转向右子树 curr = curr.Right } return res } 复杂度分析 时间复杂度：$O(N)$，其中 N 是二叉树的节点数。每个节点恰好被访问一次。 空间复杂度：$O(H)$，其中 H 是二叉树的高度。 104. 二叉树的最大深度 - Easy 题目回顾 给定一个二叉树，找出其最大深度。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-01-31 09:00:00 +0900 JST'>January 31, 2026</span>&nbsp;·&nbsp;<span>11 min</span></footer>
+  <footer class="entry-footer"><span title='2026-01-31 09:00:00 +0900 +0900'>January 31, 2026</span>&nbsp;·&nbsp;<span>11 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 二叉树" href="https://amemiya02.github.io/posts/2026-01-31-binary-tree/"></a>
 </article>
 
@@ -219,7 +249,7 @@ pA 走过的路径：链表A的长度 &#43; 链表B的长度 pB 走过的路径�
 如果相交：设 A 不相交部分长 a，B 不相交部分长 b，相交部分长 c。pA 走 a&#43;c 到达终点，然后从 B 的头部走 b 步。pB 走 b&#43;c 到达终点，然后从 A 的头部走 a 步。当它们都走了 a&#43;b&#43;c 的路程时，会在相交点相遇。 如果不相交：pA 走完 A 再走完 B，pB 走完 B 再走完 A。它们会同时到达终点 null，此时 pA == pB == null，循环结束，正确返回 null。 这个方法可以理解为，通过让两个指针都走一遍 A&#43;B 和 B&#43;A 的路程，从而消除了长度差，使得它们能够在终点前相遇。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-01-28 09:00:00 +0900 JST'>January 28, 2026</span>&nbsp;·&nbsp;<span>15 min</span></footer>
+  <footer class="entry-footer"><span title='2026-01-28 09:00:00 +0900 +0900'>January 28, 2026</span>&nbsp;·&nbsp;<span>15 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 链表" href="https://amemiya02.github.io/posts/2026-01-28-linked-list/"></a>
 </article>
 
@@ -241,7 +271,7 @@ pA 走过的路径：链表A的长度 &#43; 链表B的长度 pB 走过的路径�
 记录首行首列状态： 定义两个变量 firstRowHasZero 和 firstColHasZero，遍历第一行和第一列，如果发现 0，则将对应的变量置为 true。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-01-27 09:00:00 +0900 JST'>January 27, 2026</span>&nbsp;·&nbsp;<span>5 min</span></footer>
+  <footer class="entry-footer"><span title='2026-01-27 09:00:00 +0900 +0900'>January 27, 2026</span>&nbsp;·&nbsp;<span>5 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 矩阵" href="https://amemiya02.github.io/posts/2026-01-27-matrix/"></a>
 </article>
 
@@ -267,7 +297,7 @@ pA 走过的路径：链表A的长度 &#43; 链表B的长度 pB 走过的路径�
 $$ dp[i] = \max(dp[i-1] &#43; \text{nums}[i], \text{nums}[i]) $$空间优化 观察转移方程发现，当前状态 dp[i] 只与前一个状态 dp[i-1] 有关。因此，我们不需要维护一个完整的 dp 数组，只需要用一个变量 pre 来记录&#34;前一个位置的最大子数组和&#34;即可。这也就是代码中 pre 变量的作用。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-01-26 09:00:00 +0900 JST'>January 26, 2026</span>&nbsp;·&nbsp;<span>5 min</span></footer>
+  <footer class="entry-footer"><span title='2026-01-26 09:00:00 +0900 +0900'>January 26, 2026</span>&nbsp;·&nbsp;<span>5 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 普通数组" href="https://amemiya02.github.io/posts/2026-01-26-array/"></a>
 </article>
 
@@ -286,54 +316,8 @@ $$ dp[i] = \max(dp[i-1] &#43; \text{nums}[i], \text{nums}[i]) $$空间优化 观
 核心思路：前缀和 &#43; 哈希表优化 这道题如果使用暴力解法，枚举所有的子数组并计算和，时间复杂度会达到 $O(n^2)$ 甚至 $O(n^3)$，无法通过所有测试用例。我们需要利用前缀和的性质进行优化。
 1. 前缀和转化 定义 pre[i] 为 [0..i] 里所有数的和。那么 [j..i] 这个子数组的和可以表示为： $$ sum[j..i] = pre[i] - pre[j-1] $$ 题目要求找到和为 k 的子数组，即寻找满足以下条件的 j 和 i： $$ pre[i] - pre[j-1] == k $$ 移项得： ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-01-25 10:00:00 +0900 JST'>January 25, 2026</span>&nbsp;·&nbsp;<span>4 min</span></footer>
+  <footer class="entry-footer"><span title='2026-01-25 10:00:00 +0900 +0900'>January 25, 2026</span>&nbsp;·&nbsp;<span>4 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 子串" href="https://amemiya02.github.io/posts/2026-01-25-substring/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 滑动窗口
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>滑动窗口 3. 无重复字符的最长子串 - Mid 题目回顾 给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。
-示例 1:
-输入: s = &#34;abcabcbb&#34; 输出: 3 解释: 因为无重复字符的最长子串是 &#34;abc&#34;，所以其长度为 3。
-示例 2:
-输入: s = &#34;pwwkew&#34; 输出: 3 解释: 因为无重复字符的最长子串是 &#34;wke&#34;，所以其长度为 3。 请注意，你的答案必须是 子串 的长度，&#34;pwke&#34; 是一个子序列，不是子串。
-核心思路：滑动窗口 这道题要求我们找到一个连续的子串，这个子串需要满足&#34;无重复字符&#34;的条件，并且长度要最长。这种在连续区间上求解的问题，非常适合使用滑动窗口算法。
-我们可以想象有一个窗口在字符串 s 上滑动，窗口的左右边界由两个指针 left 和 right 决定。这个窗口 s[left...right] 就代表了我们正在考察的当前子串。
-数据结构选择：我们需要一个数据结构来快速判断窗口内是否存在重复字符。哈希集合 (HashSet) 是不二之选，它可以在 $O(1)$ 的时间内添加、删除和查找元素。
-窗口的移动逻辑：
-扩大窗口：我们不断地移动右指针 right，将新的字符纳入窗口中。 缩小窗口：当新加入的字符 s[right] 已经在哈希集合中存在时，说明窗口内出现了重复。此时，我们必须从左侧开始缩小窗口，即不断地移动左指针 left 并从哈希集合中移除 s[left]，直到窗口内不再包含重复的 s[right] 为止。 算法步骤：
-初始化左指针 left = 0，右指针 right = 0，最大长度 maxLength = 0，以及一个空的哈希集合 set。 右指针 right 开始遍历整个字符串： a. 获取当前右指针的字符 c = s.charAt(right)。 b. 检查重复：在 set 中检查是否存在字符 c。如果存在，就进入一个循环，不断从 set 中移除左指针 left 指向的字符，并递增 left，直到 set 中不再有 c。 c. 添加新字符：将当前字符 c 添加到 set 中。 d. 更新最大长度：此时，从 left 到 right 的窗口内一定是无重复字符的。我们更新最大长度：maxLength = Math.max(maxLength, right - left &#43; 1)。 e. 将右指针 right 右移一位，考察下一个字符。 遍历结束后，maxLength 就是最终答案。 通过这种一扩一缩的动态调整，滑动窗口能够保证在一次遍历中就找到最优解。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-25 09:00:00 +0900 JST'>January 25, 2026</span>&nbsp;·&nbsp;<span>3 min</span></footer>
-  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 滑动窗口" href="https://amemiya02.github.io/posts/2026-01-25-sliding-window/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 双指针
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>双指针 283. 移动零 - Easy 题目回顾 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
-请注意 ，必须在不复制数组的情况下原地对数组进行操作。
-示例 1:
-输入: nums = [0,1,0,3,12] 输出: [1,3,12,0,0]
-核心思路：快慢指针（一次遍历） 这道题有两个核心要求：
-将所有 0 移动到末尾。 保持所有非零元素的相对顺序不变。 第二个要求&#34;保持相对顺序&#34;是解题的关键。它告诉我们，不能简单地像&#34;移除元素&#34;那样，用头尾指针交换元素，因为那样会打乱非零元素的原有顺序。
-这个问题的本质可以看作是：将所有非零元素，按原有的顺序，紧凑地移动到数组的前面，然后将剩余的位置全部填上零。
-这正是快慢指针擅长的场景：
-定义指针：
-慢指针 p (或 slow): 这个指针用于标记&#34;下一个非零元素应该被放置的位置&#34;。在 p 左边的所有元素（不含 p）都是已经处理好的、按序排列的非零元素。 快指针 q (或 fast): 这个指针负责遍历整个数组，去寻找非零元素。 执行过程：
-初始化 p 和 q 都指向数组的起始位置 0。 快指针 q 开始向后遍历数组。 当 q 遇到一个非零元素时，说明这个元素需要被保留并放到前面。于是，我们执行两个操作： 将这个非零元素 nums[q] 赋值给慢指针 p 所在的位置 nums[p]。 将慢指针 p 向后移动一位 (p&#43;&#43;)，为下一个非零元素腾出位置。 如果 q 遇到的是 0，则慢指针 p 保持不动，只有快指针 q 继续向后移动。 填充末尾的零：
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-24 21:00:00 +0900 JST'>January 24, 2026</span>&nbsp;·&nbsp;<span>5 min</span></footer>
-  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 双指针" href="https://amemiya02.github.io/posts/2026-01-24-two-pointer/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

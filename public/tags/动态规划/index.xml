@@ -96,33 +96,5 @@ $$&lt;h4 id=&#34;空间优化&#34;&gt;空间优化&lt;/h4&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;填充末尾的零&lt;/strong&gt;：&lt;/p&gt;</description>
     </item>
-    <item>
-      <title>【HOT100/动态规划】LeetCode 70.爬楼梯</title>
-      <link>https://amemiya02.github.io/posts/2025-09-13-70-climbing-stairs/</link>
-      <pubDate>Sat, 13 Sep 2025 10:40:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-13-70-climbing-stairs/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;假设你正在爬楼梯。需要 &lt;code&gt;n&lt;/code&gt; 阶你才能到达楼顶。&lt;/p&gt;
-&lt;p&gt;每次你可以爬 &lt;code&gt;1&lt;/code&gt; 或 &lt;code&gt;2&lt;/code&gt; 个台阶。你有多少种不同的方法可以爬到楼顶呢？&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; n = 3
-&lt;strong&gt;输出：&lt;/strong&gt; 3
-&lt;strong&gt;解释：&lt;/strong&gt; 有三种方法可以爬到楼顶。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;1 阶 + 1 阶 + 1 阶&lt;/li&gt;
-&lt;li&gt;1 阶 + 2 阶&lt;/li&gt;
-&lt;li&gt;2 阶 + 1 阶&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;核心思路寻找递推关系&#34;&gt;核心思路：寻找递推关系&lt;/h2&gt;
-&lt;p&gt;直接计算 &lt;code&gt;n&lt;/code&gt; 阶楼梯的所有方法可能很复杂，我们不妨从小问题入手，寻找规律。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;爬 1 阶楼梯 (n=1)&lt;/strong&gt;: 只有 1 种方法 (1)。 -&amp;gt; $f(1) = 1$&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;爬 2 阶楼梯 (n=2)&lt;/strong&gt;: 有 2 种方法 (1+1, 2)。 -&amp;gt; $f(2) = 2$&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;爬 3 阶楼梯 (n=3)&lt;/strong&gt;: 有 3 种方法 (1+1+1, 1+2, 2+1)。 -&amp;gt; $f(3) = 3$&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;我们思考一下，要想到达第 &lt;code&gt;n&lt;/code&gt; 阶，我们的&lt;strong&gt;最后一步&lt;/strong&gt;是怎么迈出去的？&lt;/p&gt;</description>
-    </item>
   </channel>
 </rss>

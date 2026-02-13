@@ -142,7 +142,7 @@
 防止溢出的写法 在 Go（以及其他语言）中，写 mid = (left &#43; right) / 2 在 left 和 right 很大时可能导致整数溢出。使用 mid = left &#43; (right-left)/2 是一种更健壮、更地道的写法。 代码实现 func searchInsert(nums []int, target int) int { left := 0 right := len(nums) - 1 for left &lt;= right { // 使用这种方式防止 (left &#43; right) 溢出 mid := left &#43; (right-left)/2 if nums[mid] == target { // 找到目标值，直接返回索引 return mid } else if nums[mid] &lt; target { // 目标值在右半部分，更新左边界 left = mid &#43; 1 } else { // 目标值在左半部分，更新右边界 right = mid - 1 } } // 如果循环结束未找到，left 指向的正是它应该被插入的位置 return left } 复杂度分析 时间复杂度：$O(log n)$，每次迭代将搜索空间减半。 空间复杂度：$O(1)$，只使用了常数级别的额外空间。 74. 搜索二维矩阵 - Medium 题目回顾 编写一个高效的算法来判断 m x n 矩阵中，是否存在一个目标值。该矩阵具有以下特性：
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-02-05 08:00:00 +0900 JST'>February 5, 2026</span>&nbsp;·&nbsp;<span>3 min</span></footer>
+  <footer class="entry-footer"><span title='2026-02-05 08:00:00 +0900 +0900'>February 5, 2026</span>&nbsp;·&nbsp;<span>6 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 二分查找" href="https://amemiya02.github.io/posts/2026-02-05-binary-search/"></a>
 </article>
     </main>

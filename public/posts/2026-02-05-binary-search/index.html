@@ -234,8 +234,8 @@ func searchInsert(nums []int, target int) int {
   "keywords": [
     "Go", "二分查找", "题解"
   ],
-  "articleBody": "二分查找 35. 搜索插入位置 - Easy 题目回顾 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。 请必须使用时间复杂度为 $O(log n)$ 的算法。\n核心思路 为什么最后返回 left？ 当循环 left \u003c= right 结束时，必然满足 left \u003e right。 如果 target 大于数组中所有元素，left 会一直右移直到 len(nums)。\n如果 target 小于数组中所有元素，right 会一直左移，最后 left 停在 0。\n在中间某处没找到时，left 最终会停在第一个大于 target 的元素位置上，这正是插入点。\n防止溢出的写法 在 Go（以及其他语言）中，写 mid = (left + right) / 2 在 left 和 right 很大时可能导致整数溢出。使用 mid = left + (right-left)/2 是一种更健壮、更地道的写法。 代码实现 func searchInsert(nums []int, target int) int { left := 0 right := len(nums) - 1 for left \u003c= right { // 使用这种方式防止 (left + right) 溢出 mid := left + (right-left)/2 if nums[mid] == target { // 找到目标值，直接返回索引 return mid } else if nums[mid] \u003c target { // 目标值在右半部分，更新左边界 left = mid + 1 } else { // 目标值在左半部分，更新右边界 right = mid - 1 } } // 如果循环结束未找到，left 指向的正是它应该被插入的位置 return left } 复杂度分析 时间复杂度：$O(log n)$，每次迭代将搜索空间减半。 空间复杂度：$O(1)$，只使用了常数级别的额外空间。 74. 搜索二维矩阵 - Medium 题目回顾 编写一个高效的算法来判断 m x n 矩阵中，是否存在一个目标值。该矩阵具有以下特性：\n每行中的整数从左到右按升序排列。 每行的第一个整数大于前一行的最后一个整数。 给你一个整数 target ，如果 target 在矩阵中，返回 true ；否则，返回 false 。 核心思路 坐标映射公式这是本题最关键的数学技巧。假设矩阵总共有 $n$ 列：一维转二维：对于一维索引 $idx$，其在矩阵中的位置是 matrix[idx / n][idx % n]。二维转一维：对于坐标 $(i, j)$，其在一维序列中的位置是 idx = i * n + j。\n代码实现 func searchMatrix(matrix [][]int, target int) bool { if len(matrix) == 0 || len(matrix[0]) == 0 { return false } m, n := len(matrix), len(matrix[0]) left, right := 0, m*n-1 for left \u003c= right { mid := left + (right-left)/2 // 核心技巧：将一维索引 mid 映射回二维坐标 (i, j) // 行号 i = mid / 列数 // 列号 j = mid % 列数 val := matrix[mid/n][mid%n] if val == target { return true } else if val \u003c target { left = mid + 1 // 标准二分：跳跃式收缩 } else { right = mid - 1 } } return false } 复杂度分析 时间复杂度：$O(log(m * n))$，其中 $m$ 和 $n$ 分别是矩阵的行数和列数。每次迭代将搜索空间减半。 空间复杂度：$O(1)$，只使用了常数级别的额外空间。 34. 在排序数组中查找元素的第一个和最后一个位置 - Medium 题目回顾 给你一个按照非递减顺序排列的整数数组 nums，和一个目标值 target 。请你找出给定目标值在数组中的开始位置和结束位置。 如果数组中不存在目标值 target，返回 [-1, -1] 。 你必须设计并实现时间复杂度为 O(log n) 的算法解决此问题。\n核心思路 核心原理解析：如何“挤压”边界 普通的二分查找在发现 nums[mid] == target 时会立即返回。但在有重复元素的数组中，我们要继续探索：\n寻找起始位置：即使找到了目标值，我们也不敢停，而是把 right 指针移到 mid - 1，强迫搜索区间向左半部分收缩，看看左边还有没有相同的数字。\n寻找结束位置：同理，当发现目标值时，把 left 指针移到 mid + 1，强迫搜索区间向右半部分收缩。\n代码实现 func searchRange(nums []int, target int) []int { // 初始化结果 res := []int{-1, -1} if len(nums) == 0 { return res } // 1. 查找左边界 res[0] = findBound(nums, target, true) // 如果没找到左边界，说明目标值不存在，直接返回 if res[0] == -1 { return res } // 2. 查找右边界 res[1] = findBound(nums, target, false) return res } // findBound 辅助函数：isLeft 为 true 找第一个，false 找最后一个 func findBound(nums []int, target int, isLeft bool) int { left, right := 0, len(nums)-1 bound := -1 for left \u003c= right { mid := left + (right-left)/2 if nums[mid] == target { bound = mid if isLeft { // 找左边界：在左半部分继续挤压 right = mid - 1 } else { // 找右边界：在右半部分继续挤压 left = mid + 1 } } else if nums[mid] \u003e target { right = mid - 1 } else { left = mid + 1 } } return bound } 复杂度分析 时间复杂度：$O(log n)$，其中 $n$ 是数组的长度。我们进行了两次二分查找，每次的时间复杂度都是对数级别。 空间复杂度：$O(1)$，只使用了常数级别的额外空间。 ",
-  "wordCount" : "464",
+  "articleBody": "二分查找 35. 搜索插入位置 - Easy 题目回顾 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。 请必须使用时间复杂度为 $O(log n)$ 的算法。\n核心思路 为什么最后返回 left？ 当循环 left \u003c= right 结束时，必然满足 left \u003e right。 如果 target 大于数组中所有元素，left 会一直右移直到 len(nums)。\n如果 target 小于数组中所有元素，right 会一直左移，最后 left 停在 0。\n在中间某处没找到时，left 最终会停在第一个大于 target 的元素位置上，这正是插入点。\n防止溢出的写法 在 Go（以及其他语言）中，写 mid = (left + right) / 2 在 left 和 right 很大时可能导致整数溢出。使用 mid = left + (right-left)/2 是一种更健壮、更地道的写法。 代码实现 func searchInsert(nums []int, target int) int { left := 0 right := len(nums) - 1 for left \u003c= right { // 使用这种方式防止 (left + right) 溢出 mid := left + (right-left)/2 if nums[mid] == target { // 找到目标值，直接返回索引 return mid } else if nums[mid] \u003c target { // 目标值在右半部分，更新左边界 left = mid + 1 } else { // 目标值在左半部分，更新右边界 right = mid - 1 } } // 如果循环结束未找到，left 指向的正是它应该被插入的位置 return left } 复杂度分析 时间复杂度：$O(log n)$，每次迭代将搜索空间减半。 空间复杂度：$O(1)$，只使用了常数级别的额外空间。 74. 搜索二维矩阵 - Medium 题目回顾 编写一个高效的算法来判断 m x n 矩阵中，是否存在一个目标值。该矩阵具有以下特性：\n每行中的整数从左到右按升序排列。 每行的第一个整数大于前一行的最后一个整数。 给你一个整数 target ，如果 target 在矩阵中，返回 true ；否则，返回 false 。 核心思路 坐标映射公式这是本题最关键的数学技巧。假设矩阵总共有 $n$ 列：一维转二维：对于一维索引 $idx$，其在矩阵中的位置是 matrix[idx / n][idx % n]。二维转一维：对于坐标 $(i, j)$，其在一维序列中的位置是 idx = i * n + j。\n代码实现 func searchMatrix(matrix [][]int, target int) bool { if len(matrix) == 0 || len(matrix[0]) == 0 { return false } m, n := len(matrix), len(matrix[0]) left, right := 0, m*n-1 for left \u003c= right { mid := left + (right-left)/2 // 核心技巧：将一维索引 mid 映射回二维坐标 (i, j) // 行号 i = mid / 列数 // 列号 j = mid % 列数 val := matrix[mid/n][mid%n] if val == target { return true } else if val \u003c target { left = mid + 1 // 标准二分：跳跃式收缩 } else { right = mid - 1 } } return false } 复杂度分析 时间复杂度：$O(log(m * n))$，其中 $m$ 和 $n$ 分别是矩阵的行数和列数。每次迭代将搜索空间减半。 空间复杂度：$O(1)$，只使用了常数级别的额外空间。 34. 在排序数组中查找元素的第一个和最后一个位置 - Medium 题目回顾 给你一个按照非递减顺序排列的整数数组 nums，和一个目标值 target 。请你找出给定目标值在数组中的开始位置和结束位置。 如果数组中不存在目标值 target，返回 [-1, -1] 。 你必须设计并实现时间复杂度为 O(log n) 的算法解决此问题。\n核心思路 核心原理解析：如何“挤压”边界 普通的二分查找在发现 nums[mid] == target 时会立即返回。但在有重复元素的数组中，我们要继续探索：\n寻找起始位置：即使找到了目标值，我们也不敢停，而是把 right 指针移到 mid - 1，强迫搜索区间向左半部分收缩，看看左边还有没有相同的数字。\n寻找结束位置：同理，当发现目标值时，把 left 指针移到 mid + 1，强迫搜索区间向右半部分收缩。\n代码实现 func searchRange(nums []int, target int) []int { // 初始化结果 res := []int{-1, -1} if len(nums) == 0 { return res } // 1. 查找左边界 res[0] = findBound(nums, target, true) // 如果没找到左边界，说明目标值不存在，直接返回 if res[0] == -1 { return res } // 2. 查找右边界 res[1] = findBound(nums, target, false) return res } // findBound 辅助函数：isLeft 为 true 找第一个，false 找最后一个 func findBound(nums []int, target int, isLeft bool) int { left, right := 0, len(nums)-1 bound := -1 for left \u003c= right { mid := left + (right-left)/2 if nums[mid] == target { bound = mid if isLeft { // 找左边界：在左半部分继续挤压 right = mid - 1 } else { // 找右边界：在右半部分继续挤压 left = mid + 1 } } else if nums[mid] \u003e target { right = mid - 1 } else { left = mid + 1 } } return bound } 复杂度分析 时间复杂度：$O(log n)$，其中 $n$ 是数组的长度。我们进行了两次二分查找，每次的时间复杂度都是对数级别。 空间复杂度：$O(1)$，只使用了常数级别的额外空间。 33. 搜索旋转排序数组 - Medium 题目回顾 整数数组 nums 按升序排列，数组中的值 互不相同 。 在传递给函数之前，nums 在预先未知的某个下标 k（0 \u003c= k \u003c nums.length）上进行了 向左旋转，使数组变为 [nums[k], nums[k+1], …, nums[n-1], nums[0], nums[1], …, nums[k-1]]（下标 从 0 开始 计数）。例如， [0,1,2,4,5,6,7] 下标 3 上向左旋转后可能变为 [4,5,6,7,0,1,2] 。 给你 旋转后 的数组 nums 和一个整数 target ，如果 nums 中存在这个目标值 target ，则返回它的下标，否则返回 -1 。 你必须设计一个时间复杂度为 O(log n) 的算法解决此问题。\n核心思路 这道题的核心是在旋转过的有序数组中高效查找目标值，要求时间复杂度为 O (log n)，因此需要基于二分查找进行改造：\n旋转后的数组特点：以中间点 mid 为界，[0, mid] 或 [mid, n-1] 必有一个子数组是有序的； 每次二分后，先判断哪一部分有序，再检查目标值是否在这个有序区间内： 若在，则在该有序区间内继续二分； 若不在，则去另一部分无序区间继续二分； 循环结束仍未找到目标值则返回 -1。 代码实现 func search(nums []int, target int) int { n := len(nums) // 边界条件：空数组直接返回 -1 if n == 0 { return -1 } // 边界条件：只有一个元素，直接判断是否等于目标值 if n == 1 { if nums[0] == target { return 0 } return -1 } // 初始化左右指针 left, right := 0, n-1 // 二分查找核心循环 for left \u003c= right { // 计算中间索引（避免 left+right 溢出，等价于 (left+right)/2） mid := left + (right-left)/2 // 找到目标值，直接返回索引 if nums[mid] == target { return mid } // 判断左半部分 [left, mid] 是否有序 if nums[left] \u003c= nums[mid] { // 目标值在左半有序区间内 if nums[left] \u003c= target \u0026\u0026 target \u003c nums[mid] { right = mid - 1 } else { // 目标值不在左半，去右半部分查找 left = mid + 1 } } else { // 右半部分 [mid, right] 有序 // 目标值在右半有序区间内 if nums[mid] \u003c target \u0026\u0026 target \u003c= nums[right] { left = mid + 1 } else { // 目标值不在右半，去左半部分查找 right = mid - 1 } } } return -1 } 复杂度分析 时间复杂度：$O(log n)$，每次迭代将搜索空间减半。 空间复杂度：$O(1)$，只使用了常数级别的额外空间。 153. 寻找旋转排序数组中的最小值 - Medium 题目回顾 已知一个长度为 n 的数组，预先按照升序排列，经由 1 到 n 次 旋转 后，得到输入数组。例如，原数组 nums = [0,1,2,4,5,6,7] 在变化后可能得到： 若旋转 4 次，则可以得到 [4,5,6,7,0,1,2] 若旋转 7 次，则可以得到 [0,1,2,4,5,6,7] 注意，数组 [a[0], a[1], a[2], …, a[n-1]] 旋转一次 的结果为数组 [a[n-1], a[0], a[1], a[2], …, a[n-2]] 。 给你一个元素值 互不相同 的数组 nums ，它原来是一个升序排列的数组，并按上述情形进行了多次旋转。请你找出并返回数组中的 最小元素 。 你必须设计一个时间复杂度为 O(log n) 的算法解决此问题。\n核心思路 这道题的核心是在旋转排序数组中找到最小值，核心思路延续了旋转数组的二分特性：\n若数组未旋转（nums[0] \u003c nums[n-1]），直接返回第一个元素； 旋转数组的最小值是 “旋转点”，即满足 nums[mid] \u003c nums[mid-1] 的位置，或 nums[mid] \u003e nums[mid+1] 的下一个位置； 利用二分缩小范围：若左半部分有序（nums[0] \u003c nums[mid]），说明最小值在右半部分；反之在左半部分； 循环中找到旋转点直接返回，未找到则返回初始值（应对数组只有 1 个元素的边界情况）。 代码实现 func findMin(nums []int) int { n := len(nums) // 数组未旋转，直接返回第一个元素 if nums[0] \u003c nums[n-1] { return nums[0] } // 初始化结果为第一个元素（应对只有1个元素的情况） res := nums[0] left, right := 0, n-1 for left \u003c= right { mid := left + (right-left)/2 // 避免溢出的mid计算方式 // 找到旋转点：当前元素比前一个小，说明是最小值 if mid \u003e 0 \u0026\u0026 nums[mid] \u003c nums[mid-1] { return nums[mid] } // 找到旋转点：当前元素比后一个大，后一个是最小值 if mid \u003c n-1 \u0026\u0026 nums[mid] \u003e nums[mid+1] { return nums[mid+1] } // 左半部分有序，最小值在右半部分 if nums[0] \u003c nums[mid] { left = mid + 1 } else { // 右半部分有序，最小值在左半部分 right = mid - 1 } } return res } 复杂度分析 时间复杂度：$O(log n)$，每次迭代将搜索空间减半。 空间复杂度：$O(1)$，只使用了常数级别的额外空间。 4. 寻找两个正序数组的中位数 - Hard 题目回顾 给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。 算法的时间复杂度应该为 O(log (m+n)) 。\n核心思路 这道题的核心要求是在 O (log (m+n)) 时间复杂度内找到两个有序数组的中位数，核心思路是将中位数问题转化为找第 k 小元素的问题：\n若两个数组总长度为奇数，中位数就是第 (m+n)/2 + 1 小的元素； 若为偶数，中位数是第 (m+n)/2 和 (m+n)/2 + 1 小的元素的平均值； 找第 k 小元素的递归逻辑： 每次从两个数组中各取前 k/2 个元素，比较末尾值，排除较小的那部分（这部分一定不包含第 k 小元素）； 缩小 k 的值（减去排除的元素个数），递归查找剩余部分； 递归终止条件：某个数组遍历完、k=1（取两数组当前首元素最小值）。 代码实现 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 { m, n := len(nums1), len(nums2) sum := m + n if sum%2 == 1 { // 奇数：找第 sum/2 + 1 小的元素 k := sum/2 + 1 return float64(findKthSmall(k, nums1, 0, m-1, nums2, 0, n-1)) } else { // 偶数：找第 sum/2 和 sum/2+1 小的元素取平均 k1 := sum / 2 k2 := sum/2 + 1 val1 := findKthSmall(k1, nums1, 0, m-1, nums2, 0, n-1) val2 := findKthSmall(k2, nums1, 0, m-1, nums2, 0, n-1) return float64(val1+val2) / 2.0 } } // findKthSmall 查找两个有序数组中第 k 小的元素 // start1/end1: nums1 的当前查找区间 // start2/end2: nums2 的当前查找区间 func findKthSmall(k int, nums1 []int, start1, end1 int, nums2 []int, start2, end2 int) int { // 终止条件1：nums1 已无元素，直接从 nums2 取第 k 个 if start1 \u003e end1 { return nums2[start2+k-1] } // 终止条件2：nums2 已无元素，直接从 nums1 取第 k 个 if start2 \u003e end2 { return nums1[start1+k-1] } // 终止条件3：k=1，取两个数组当前首元素的最小值 if k == 1 { return min(nums1[start1], nums2[start2]) } // 计算两个数组中要比较的位置（防止越界） i1 := min(start1+k/2-1, end1) i2 := min(start2+k/2-1, end2) // 排除较小的那部分元素，递归查找剩余部分 if nums1[i1] \u003c nums2[i2] { excluded := i1 - start1 + 1 // 排除的元素个数 return findKthSmall(k-excluded, nums1, i1+1, end1, nums2, start2, end2) } else { excluded := i2 - start2 + 1 // 排除的元素个数 return findKthSmall(k-excluded, nums1, start1, end1, nums2, i2+1, end2) } } // min 辅助函数：返回两个整数的最小值 func min(a, b int) int { if a \u003c b { return a } return b } 复杂度分析 时间复杂度：$O(log (m+n))$，每次递归调用将 k 减半，最多递归 log (m+n) 次。 空间复杂度：$O(log (m+n))$，递归调用栈的空间复杂度，最坏情况下递归深度为 log (m+n)。 ",
+  "wordCount" : "1156",
   "inLanguage": "en",
   "datePublished": "2026-02-05T08:00:00+09:00",
   "dateModified": "2026-02-05T08:00:00+09:00",
@@ -294,7 +294,7 @@ func searchInsert(nums []int, target int) int {
     <h1 class="post-title entry-hint-parent">
       [Golang] LeetCode 热题 100 - 二分查找
     </h1>
-    <div class="post-meta"><span title='2026-02-05 08:00:00 +0900 JST'>February 5, 2026</span>&nbsp;·&nbsp;<span>3 min</span>
+    <div class="post-meta"><span title='2026-02-05 08:00:00 +0900 +0900'>February 5, 2026</span>&nbsp;·&nbsp;<span>6 min</span>
 
 </div>
   </header> <div class="toc">
@@ -341,7 +341,43 @@ func searchInsert(nums []int, target int) int {
                 <li>
                     <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-2" aria-label="代码实现">代码实现</a></li>
                 <li>
-                    <a href="#%e5%a4%8d%e6%9d%82%e5%ba%a6%e5%88%86%e6%9e%90-2" aria-label="复杂度分析">复杂度分析</a>
+                    <a href="#%e5%a4%8d%e6%9d%82%e5%ba%a6%e5%88%86%e6%9e%90-2" aria-label="复杂度分析">复杂度分析</a></li></ul>
+                </li>
+                <li>
+                    <a href="#33-%e6%90%9c%e7%b4%a2%e6%97%8b%e8%bd%ac%e6%8e%92%e5%ba%8f%e6%95%b0%e7%bb%84---medium" aria-label="33. 搜索旋转排序数组 - Medium">33. 搜索旋转排序数组 - Medium</a><ul>
+                        
+                <li>
+                    <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-3" aria-label="题目回顾">题目回顾</a></li>
+                <li>
+                    <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-3" aria-label="核心思路">核心思路</a></li>
+                <li>
+                    <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-3" aria-label="代码实现">代码实现</a></li>
+                <li>
+                    <a href="#%e5%a4%8d%e6%9d%82%e5%ba%a6%e5%88%86%e6%9e%90-3" aria-label="复杂度分析">复杂度分析</a></li></ul>
+                </li>
+                <li>
+                    <a href="#153-%e5%af%bb%e6%89%be%e6%97%8b%e8%bd%ac%e6%8e%92%e5%ba%8f%e6%95%b0%e7%bb%84%e4%b8%ad%e7%9a%84%e6%9c%80%e5%b0%8f%e5%80%bc---medium" aria-label="153. 寻找旋转排序数组中的最小值 - Medium">153. 寻找旋转排序数组中的最小值 - Medium</a><ul>
+                        
+                <li>
+                    <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-4" aria-label="题目回顾">题目回顾</a></li>
+                <li>
+                    <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-4" aria-label="核心思路">核心思路</a></li>
+                <li>
+                    <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-4" aria-label="代码实现">代码实现</a></li>
+                <li>
+                    <a href="#%e5%a4%8d%e6%9d%82%e5%ba%a6%e5%88%86%e6%9e%90-4" aria-label="复杂度分析">复杂度分析</a></li></ul>
+                </li>
+                <li>
+                    <a href="#4-%e5%af%bb%e6%89%be%e4%b8%a4%e4%b8%aa%e6%ad%a3%e5%ba%8f%e6%95%b0%e7%bb%84%e7%9a%84%e4%b8%ad%e4%bd%8d%e6%95%b0---hard" aria-label="4. 寻找两个正序数组的中位数 - Hard">4. 寻找两个正序数组的中位数 - Hard</a><ul>
+                        
+                <li>
+                    <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-5" aria-label="题目回顾">题目回顾</a></li>
+                <li>
+                    <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-5" aria-label="核心思路">核心思路</a></li>
+                <li>
+                    <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-5" aria-label="代码实现">代码实现</a></li>
+                <li>
+                    <a href="#%e5%a4%8d%e6%9d%82%e5%ba%a6%e5%88%86%e6%9e%90-5" aria-label="复杂度分析">复杂度分析</a>
                 </li>
             </ul>
             </li>
@@ -511,6 +547,222 @@ func searchInsert(nums []int, target int) int {
 <li>时间复杂度：$O(log n)$，其中 $n$ 是数组的长度。我们进行了两次二分查找，每次的时间复杂度都是对数级别。</li>
 <li>空间复杂度：$O(1)$，只使用了常数级别的额外空间。</li>
 </ul>
+<h2 id="33-搜索旋转排序数组---medium"><a href="https://leetcode-cn.com/problems/search-in-rotated-sorted-array/">33. 搜索旋转排序数组 - Medium</a><a hidden class="anchor" aria-hidden="true" href="#33-搜索旋转排序数组---medium">#</a></h2>
+<h3 id="题目回顾-3">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾-3">#</a></h3>
+<blockquote>
+<p>整数数组 nums 按升序排列，数组中的值 互不相同 。
+在传递给函数之前，nums 在预先未知的某个下标 k（0 &lt;= k &lt; nums.length）上进行了 向左旋转，使数组变为 [nums[k], nums[k+1], &hellip;, nums[n-1], nums[0], nums[1], &hellip;, nums[k-1]]（下标 从 0 开始 计数）。例如， [0,1,2,4,5,6,7] 下标 3 上向左旋转后可能变为 [4,5,6,7,0,1,2] 。
+给你 旋转后 的数组 nums 和一个整数 target ，如果 nums 中存在这个目标值 target ，则返回它的下标，否则返回 -1 。
+你必须设计一个时间复杂度为 O(log n) 的算法解决此问题。</p>
+</blockquote>
+<h3 id="核心思路-3">核心思路<a hidden class="anchor" aria-hidden="true" href="#核心思路-3">#</a></h3>
+<p>这道题的核心是在旋转过的有序数组中高效查找目标值，要求时间复杂度为 O (log n)，因此需要基于二分查找进行改造：</p>
+<ol>
+<li>旋转后的数组特点：以中间点 mid 为界，[0, mid] 或 [mid, n-1] 必有一个子数组是有序的；</li>
+<li>每次二分后，先判断哪一部分有序，再检查目标值是否在这个有序区间内：</li>
+</ol>
+<ul>
+<li>若在，则在该有序区间内继续二分；</li>
+<li>若不在，则去另一部分无序区间继续二分；</li>
+</ul>
+<ol start="3">
+<li>循环结束仍未找到目标值则返回 -1。</li>
+</ol>
+<h3 id="代码实现-3">代码实现<a hidden class="anchor" aria-hidden="true" href="#代码实现-3">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">search</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">target</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">nums</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 边界条件：空数组直接返回 -1</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 边界条件：只有一个元素，直接判断是否等于目标值</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">target</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 初始化左右指针</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 二分查找核心循环</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">left</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">right</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 计算中间索引（避免 left+right 溢出，等价于 (left+right)/2）</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">mid</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">left</span> <span style="color:#f92672">+</span> (<span style="color:#a6e22e">right</span><span style="color:#f92672">-</span><span style="color:#a6e22e">left</span>)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 找到目标值，直接返回索引</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">mid</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">target</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">mid</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 判断左半部分 [left, mid] 是否有序</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span>] <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">mid</span>] {
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// 目标值在左半有序区间内</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span>] <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">target</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">target</span> &lt; <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">mid</span>] {
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">right</span> = <span style="color:#a6e22e">mid</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>			} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">// 目标值不在左半，去右半部分查找</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">left</span> = <span style="color:#a6e22e">mid</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// 右半部分 [mid, right] 有序</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// 目标值在右半有序区间内</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">mid</span>] &lt; <span style="color:#a6e22e">target</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">target</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">right</span>] {
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">left</span> = <span style="color:#a6e22e">mid</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>			} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">// 目标值不在右半，去左半部分查找</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">right</span> = <span style="color:#a6e22e">mid</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="复杂度分析-3">复杂度分析<a hidden class="anchor" aria-hidden="true" href="#复杂度分析-3">#</a></h3>
+<ul>
+<li>时间复杂度：$O(log n)$，每次迭代将搜索空间减半。</li>
+<li>空间复杂度：$O(1)$，只使用了常数级别的额外空间。</li>
+</ul>
+<h2 id="153-寻找旋转排序数组中的最小值---medium"><a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/">153. 寻找旋转排序数组中的最小值 - Medium</a><a hidden class="anchor" aria-hidden="true" href="#153-寻找旋转排序数组中的最小值---medium">#</a></h2>
+<h3 id="题目回顾-4">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾-4">#</a></h3>
+<blockquote>
+<p>已知一个长度为 n 的数组，预先按照升序排列，经由 1 到 n 次 旋转 后，得到输入数组。例如，原数组 nums = [0,1,2,4,5,6,7] 在变化后可能得到：
+若旋转 4 次，则可以得到 [4,5,6,7,0,1,2]
+若旋转 7 次，则可以得到 [0,1,2,4,5,6,7]
+注意，数组 [a[0], a[1], a[2], &hellip;, a[n-1]] 旋转一次 的结果为数组 [a[n-1], a[0], a[1], a[2], &hellip;, a[n-2]] 。
+给你一个元素值 互不相同 的数组 nums ，它原来是一个升序排列的数组，并按上述情形进行了多次旋转。请你找出并返回数组中的 最小元素 。
+你必须设计一个时间复杂度为 O(log n) 的算法解决此问题。</p>
+</blockquote>
+<h3 id="核心思路-4">核心思路<a hidden class="anchor" aria-hidden="true" href="#核心思路-4">#</a></h3>
+<p>这道题的核心是在旋转排序数组中找到最小值，核心思路延续了旋转数组的二分特性：</p>
+<ol>
+<li>若数组未旋转（nums[0] &lt; nums[n-1]），直接返回第一个元素；</li>
+<li>旋转数组的最小值是 “旋转点”，即满足 nums[mid] &lt; nums[mid-1] 的位置，或 nums[mid] &gt; nums[mid+1] 的下一个位置；</li>
+<li>利用二分缩小范围：若左半部分有序（nums[0] &lt; nums[mid]），说明最小值在右半部分；反之在左半部分；</li>
+<li>循环中找到旋转点直接返回，未找到则返回初始值（应对数组只有 1 个元素的边界情况）。</li>
+</ol>
+<h3 id="代码实现-4">代码实现<a hidden class="anchor" aria-hidden="true" href="#代码实现-4">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">findMin</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">nums</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 数组未旋转，直接返回第一个元素</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#ae81ff">0</span>] &lt; <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums</span>[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 初始化结果为第一个元素（应对只有1个元素的情况）</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">nums</span>[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">left</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">right</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">mid</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">left</span> <span style="color:#f92672">+</span> (<span style="color:#a6e22e">right</span><span style="color:#f92672">-</span><span style="color:#a6e22e">left</span>)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#75715e">// 避免溢出的mid计算方式</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 找到旋转点：当前元素比前一个小，说明是最小值</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">mid</span> &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">mid</span>] &lt; <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">mid</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">mid</span>]
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 找到旋转点：当前元素比后一个大，后一个是最小值</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">mid</span> &lt; <span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">mid</span>] &gt; <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">mid</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">mid</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 左半部分有序，最小值在右半部分</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#ae81ff">0</span>] &lt; <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">mid</span>] {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">left</span> = <span style="color:#a6e22e">mid</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 右半部分有序，最小值在左半部分</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">right</span> = <span style="color:#a6e22e">mid</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="复杂度分析-4">复杂度分析<a hidden class="anchor" aria-hidden="true" href="#复杂度分析-4">#</a></h3>
+<ul>
+<li>时间复杂度：$O(log n)$，每次迭代将搜索空间减半。</li>
+<li>空间复杂度：$O(1)$，只使用了常数级别的额外空间。</li>
+</ul>
+<h2 id="4-寻找两个正序数组的中位数---hard"><a href="https://leetcode-cn.com/problems/median-of-two-sorted-arrays/">4. 寻找两个正序数组的中位数 - Hard</a><a hidden class="anchor" aria-hidden="true" href="#4-寻找两个正序数组的中位数---hard">#</a></h2>
+<h3 id="题目回顾-5">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾-5">#</a></h3>
+<blockquote>
+<p>给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。
+算法的时间复杂度应该为 O(log (m+n)) 。</p>
+</blockquote>
+<h3 id="核心思路-5">核心思路<a hidden class="anchor" aria-hidden="true" href="#核心思路-5">#</a></h3>
+<p>这道题的核心要求是在 O (log (m+n)) 时间复杂度内找到两个有序数组的中位数，核心思路是将中位数问题转化为找第 k 小元素的问题：</p>
+<ol>
+<li>若两个数组总长度为奇数，中位数就是第 (m+n)/2 + 1 小的元素；</li>
+<li>若为偶数，中位数是第 (m+n)/2 和 (m+n)/2 + 1 小的元素的平均值；</li>
+<li>找第 k 小元素的递归逻辑：</li>
+</ol>
+<ul>
+<li>每次从两个数组中各取前 k/2 个元素，比较末尾值，排除较小的那部分（这部分一定不包含第 k 小元素）；</li>
+<li>缩小 k 的值（减去排除的元素个数），递归查找剩余部分；</li>
+<li>递归终止条件：某个数组遍历完、k=1（取两数组当前首元素最小值）。</li>
+</ul>
+<h3 id="代码实现-5">代码实现<a hidden class="anchor" aria-hidden="true" href="#代码实现-5">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">findMedianSortedArrays</span>(<span style="color:#a6e22e">nums1</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">nums2</span> []<span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">float64</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">m</span>, <span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">nums1</span>), len(<span style="color:#a6e22e">nums2</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">sum</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">m</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">n</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sum</span><span style="color:#f92672">%</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 奇数：找第 sum/2 + 1 小的元素</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">k</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sum</span><span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> float64(<span style="color:#a6e22e">findKthSmall</span>(<span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">nums1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">m</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">nums2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>	} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 偶数：找第 sum/2 和 sum/2+1 小的元素取平均</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">k1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sum</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">k2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sum</span><span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">val1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">findKthSmall</span>(<span style="color:#a6e22e">k1</span>, <span style="color:#a6e22e">nums1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">m</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">nums2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">val2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">findKthSmall</span>(<span style="color:#a6e22e">k2</span>, <span style="color:#a6e22e">nums1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">m</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">nums2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> float64(<span style="color:#a6e22e">val1</span><span style="color:#f92672">+</span><span style="color:#a6e22e">val2</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2.0</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// findKthSmall 查找两个有序数组中第 k 小的元素</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// start1/end1: nums1 的当前查找区间</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// start2/end2: nums2 的当前查找区间</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">findKthSmall</span>(<span style="color:#a6e22e">k</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">nums1</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">start1</span>, <span style="color:#a6e22e">end1</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">nums2</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">start2</span>, <span style="color:#a6e22e">end2</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 终止条件1：nums1 已无元素，直接从 nums2 取第 k 个</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">start1</span> &gt; <span style="color:#a6e22e">end1</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums2</span>[<span style="color:#a6e22e">start2</span><span style="color:#f92672">+</span><span style="color:#a6e22e">k</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 终止条件2：nums2 已无元素，直接从 nums1 取第 k 个</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">start2</span> &gt; <span style="color:#a6e22e">end2</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums1</span>[<span style="color:#a6e22e">start1</span><span style="color:#f92672">+</span><span style="color:#a6e22e">k</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 终止条件3：k=1，取两个数组当前首元素的最小值</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">k</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> min(<span style="color:#a6e22e">nums1</span>[<span style="color:#a6e22e">start1</span>], <span style="color:#a6e22e">nums2</span>[<span style="color:#a6e22e">start2</span>])
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 计算两个数组中要比较的位置（防止越界）</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">i1</span> <span style="color:#f92672">:=</span> min(<span style="color:#a6e22e">start1</span><span style="color:#f92672">+</span><span style="color:#a6e22e">k</span><span style="color:#f92672">/</span><span style="color:#ae81ff">2</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">end1</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">i2</span> <span style="color:#f92672">:=</span> min(<span style="color:#a6e22e">start2</span><span style="color:#f92672">+</span><span style="color:#a6e22e">k</span><span style="color:#f92672">/</span><span style="color:#ae81ff">2</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">end2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 排除较小的那部分元素，递归查找剩余部分</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums1</span>[<span style="color:#a6e22e">i1</span>] &lt; <span style="color:#a6e22e">nums2</span>[<span style="color:#a6e22e">i2</span>] {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">excluded</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i1</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#75715e">// 排除的元素个数</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">findKthSmall</span>(<span style="color:#a6e22e">k</span><span style="color:#f92672">-</span><span style="color:#a6e22e">excluded</span>, <span style="color:#a6e22e">nums1</span>, <span style="color:#a6e22e">i1</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">end1</span>, <span style="color:#a6e22e">nums2</span>, <span style="color:#a6e22e">start2</span>, <span style="color:#a6e22e">end2</span>)
+</span></span><span style="display:flex;"><span>	} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">excluded</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i2</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#75715e">// 排除的元素个数</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">findKthSmall</span>(<span style="color:#a6e22e">k</span><span style="color:#f92672">-</span><span style="color:#a6e22e">excluded</span>, <span style="color:#a6e22e">nums1</span>, <span style="color:#a6e22e">start1</span>, <span style="color:#a6e22e">end1</span>, <span style="color:#a6e22e">nums2</span>, <span style="color:#a6e22e">i2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">end2</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// min 辅助函数：返回两个整数的最小值</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> min(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">a</span> &lt; <span style="color:#a6e22e">b</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">a</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">b</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="复杂度分析-5">复杂度分析<a hidden class="anchor" aria-hidden="true" href="#复杂度分析-5">#</a></h3>
+<ul>
+<li>时间复杂度：$O(log (m+n))$，每次递归调用将 k 减半，最多递归 log (m+n) 次。</li>
+<li>空间复杂度：$O(log (m+n))$，递归调用栈的空间复杂度，最坏情况下递归深度为 log (m+n)。</li>
+</ul>
 
 
   </div>
@@ -522,6 +774,11 @@ func searchInsert(nums []int, target int) int {
       <li><a href="https://amemiya02.github.io/tags/%E9%A2%98%E8%A7%A3/">题解</a></li>
     </ul>
 <nav class="paginav">
+  <a class="prev" href="https://amemiya02.github.io/posts/2026-02-09-stack/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>[Golang] LeetCode 热题 100 - 栈</span>
+  </a>
   <a class="next" href="https://amemiya02.github.io/posts/2026-02-03-backtracking/">
     <span class="title">Next »</span>
     <br>

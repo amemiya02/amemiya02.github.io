@@ -146,7 +146,7 @@
 我们遍历数组，对于快指针 fast 指向的当前元素 nums[fast]，思考一个问题：在什么情况下，这个元素应该被保留下来？ 保留的条件是：当前处理好的数组长度 slow 小于 2，或者 nums[fast] 不等于 nums[slow - 2]。 slow &lt; 2：表示当前是数组最开头的两个位置，无论如何都应该被填充，因为题目允许最多两个重复项。 nums[fast] &gt; nums[slow - 2]：这是本算法的核心。nums[slow - 1] 和 nums[slow - 2] 是已处理好的数组的最后两个元素。如果当前快指针的元素 nums[fast] 和 nums[slow - 2] 相同，说明 nums[slow-2], nums[slow-1], nums[fast] 将构成三个或以上的连续重复，此时 nums[fast] 不应被保留。反之，则可以保留。 返回结果：
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-09-14 16:55:00 +0900 JST'>September 14, 2025</span>&nbsp;·&nbsp;<span>1 min</span></footer>
+  <footer class="entry-footer"><span title='2025-09-14 16:55:00 +0900 +0900'>September 14, 2025</span>&nbsp;·&nbsp;<span>1 min</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/快慢指针】LeetCode 80. 删除有序数组中的重复项 II" href="https://amemiya02.github.io/posts/2025-09-14-80-remove-duplicates-from-sorted-array-ii/"></a>
 </article>
 
@@ -168,7 +168,7 @@
 初始化 p = 0, q = 1。 快指针 q 向后遍历数组。 若 nums[q] 与 nums[p] 相同，说明是重复元素，则 p 不动，q 继续向后移动以跳过所有重复项。 若 nums[q] 与 nums[p] 不同，说明 q 找到了一个新的唯一元素。此时，先将慢指针 p 向后移动一位 (&#43;&#43;p)，然后将 nums[q] 的值赋给 nums[p]，完成新元素的&#34;入队&#34;。 返回结果：
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-09-13 10:35:00 +0900 JST'>September 13, 2025</span>&nbsp;·&nbsp;<span>1 min</span></footer>
+  <footer class="entry-footer"><span title='2025-09-13 10:35:00 +0900 +0900'>September 13, 2025</span>&nbsp;·&nbsp;<span>1 min</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/快慢指针】LeetCode 26.删除有序数组中的重复项" href="https://amemiya02.github.io/posts/2025-09-13-26-remove-duplicates-from-sorted-array/"></a>
 </article>
     </main>

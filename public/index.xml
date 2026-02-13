@@ -6,8 +6,168 @@
     <description>Recent content on 个人技术博客</description>
     <generator>Hugo -- 0.154.1</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 05 Feb 2026 08:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 09 Feb 2026 10:00:00 +0900</lastBuildDate>
     <atom:link href="https://amemiya02.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Golang] LeetCode 热题 100 - 堆</title>
+      <link>https://amemiya02.github.io/posts/2026-02-09-heap/</link>
+      <pubDate>Mon, 09 Feb 2026 10:00:00 +0900</pubDate>
+      <guid>https://amemiya02.github.io/posts/2026-02-09-heap/</guid>
+      <description>&lt;h1 id=&#34;堆&#34;&gt;堆&lt;/h1&gt;
+&lt;h2 id=&#34;215-数组中的第-k-个最大元素---medium&#34;&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/kth-largest-element-in-an-array/&#34;&gt;215. 数组中的第 K 个最大元素 - Medium&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;核心思路&#34;&gt;核心思路&lt;/h3&gt;
+&lt;p&gt;这道题的核心是用快速选择算法（快速排序的变种）在 O (n) 平均时间复杂度内找到第 k 大元素，核心思路：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;第 k 大元素等价于数组升序排序后第 nums.length - k 小的元素，将问题转化为找第 nums.length - k 小的元素；&lt;/li&gt;
+&lt;li&gt;快速选择的核心是 partition（分区）：选择基准值，将数组分为 “小于基准” 和 “大于基准” 两部分，返回基准值的索引；&lt;/li&gt;
+&lt;li&gt;若基准索引等于目标索引 k，直接返回该值；若基准索引大于 k，递归左区间；否则递归右区间；&lt;/li&gt;
+&lt;li&gt;优化点：提前判断区间是否已有序，若有序则直接返回目标索引值，减少不必要的分区操作。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;代码实现&#34;&gt;代码实现&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;findKthLargest&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt; []&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;k&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;// 第k大元素 = 升序后第 len(nums)-k 小的元素&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;target&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; len(&lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;k&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;quickSelect&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, len(&lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;target&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// quickSelect 快速选择：找到 [left, right] 区间内第 k 小的元素&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;quickSelect&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt; []&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;left&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;right&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;k&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;// 区间只有一个元素，直接返回&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;left&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;right&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;left&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;// 优化：提前判断区间是否已有序，有序则直接返回目标值&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;ordered&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;left&lt;/span&gt;; &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt; &amp;lt; &lt;span style=&#34;color:#a6e22e&#34;&gt;right&lt;/span&gt;; &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;] &amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#a6e22e&#34;&gt;ordered&lt;/span&gt; = &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ordered&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;k&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;// 分区操作，返回基准值的索引&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;partition&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;left&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;right&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;// 根据基准索引递归查找&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;k&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	} &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt; &amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;k&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;quickSelect&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;left&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;k&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	} &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;quickSelect&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;right&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;k&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// partition 分区函数：以右边界为基准，将小于基准的元素移到左侧，返回基准最终索引&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;partition&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt; []&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;left&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;right&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;pivot&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;right&lt;/span&gt;] &lt;span style=&#34;color:#75715e&#34;&gt;// 选择右边界为基准值&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;left&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// 小于基准的区域边界&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;// 遍历 [left, right-1] 区间&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;j&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;left&lt;/span&gt;; &lt;span style=&#34;color:#a6e22e&#34;&gt;j&lt;/span&gt; &amp;lt; &lt;span style=&#34;color:#a6e22e&#34;&gt;right&lt;/span&gt;; &lt;span style=&#34;color:#a6e22e&#34;&gt;j&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;j&lt;/span&gt;] &amp;lt; &lt;span style=&#34;color:#a6e22e&#34;&gt;pivot&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#a6e22e&#34;&gt;swap&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;j&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;// 交换到小于基准的区域&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;// 将基准值放到正确位置（小于基准的区域右侧）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;swap&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;right&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// swap 交换数组中两个位置的元素&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;swap&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt; []&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;j&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;], &lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;j&lt;/span&gt;] = &lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;j&lt;/span&gt;], &lt;span style=&#34;color:#a6e22e&#34;&gt;nums&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;复杂度分析&#34;&gt;复杂度分析&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;时间复杂度：平均 $O(n)$，最坏情况 $O(n^2)$（每次分区都极端不平衡）。&lt;/li&gt;
+&lt;li&gt;空间复杂度：$O(1)$，原地分区操作。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;347-前-k-个高频元素---medium&#34;&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/top-k-frequent-elements/&#34;&gt;347. 前 K 个高频元素 - Medium&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;题目回顾-1&#34;&gt;题目回顾&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个非空的整数数组，返回其中出现频率前 k 高的元素。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[Golang] LeetCode 热题 100 - 栈</title>
+      <link>https://amemiya02.github.io/posts/2026-02-09-stack/</link>
+      <pubDate>Mon, 09 Feb 2026 09:00:00 +0900</pubDate>
+      <guid>https://amemiya02.github.io/posts/2026-02-09-stack/</guid>
+      <description>&lt;h1 id=&#34;栈&#34;&gt;栈&lt;/h1&gt;
+&lt;h2 id=&#34;20-有效的括号---easy&#34;&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/valid-parentheses/&#34;&gt;20. 有效的括号 - Easy&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个只包括 &amp;lsquo;(&amp;rsquo;，&amp;rsquo;)&amp;rsquo;，&amp;rsquo;{&amp;rsquo;，&amp;rsquo;}&amp;rsquo;，&amp;rsquo;[&amp;rsquo;，&amp;rsquo;]&amp;rsquo; 的字符串 s ，判断字符串是否有效。
+有效字符串需满足：
+左括号必须用相同类型的右括号闭合。
+左括号必须以正确的顺序闭合。
+每个右括号都有一个对应的相同类型的左括号。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;核心思路&#34;&gt;核心思路&lt;/h3&gt;
+&lt;p&gt;这道题的核心是利用栈的 “后进先出” 特性验证括号的匹配性：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;遍历字符串，遇到左括号（(/{/[）时入栈；&lt;/li&gt;
+&lt;li&gt;遇到右括号（)/}/]）时，检查栈是否为空（为空则无匹配的左括号，直接返回 false），再弹出栈顶元素，判断是否与当前右括号匹配；&lt;/li&gt;
+&lt;li&gt;若不匹配则返回 false，遍历结束后检查栈是否为空（不为空说明有未匹配的左括号）。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;代码实现&#34;&gt;代码实现&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;isValid&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;s&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 用切片模拟栈，存储左括号（rune 兼容 Unicode，等价于 char）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; []&lt;span style=&#34;color:#66d9ef&#34;&gt;rune&lt;/span&gt;{}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 遍历字符串中的每个字符&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;_&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;c&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;range&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;s&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;switch&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;c&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// 左括号：入栈&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;(&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;{&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;[&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt; = append(&lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;c&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// 右括号：匹配检查&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;)&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// 栈为空 或 栈顶不是对应的左括号，返回false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; len(&lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt;[len(&lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;(&amp;#39;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// 匹配成功，弹出栈顶（切片截断）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt;[:len(&lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;]&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; len(&lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt;[len(&lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;[&amp;#39;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt;[:len(&lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;}&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; len(&lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt;[len(&lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;{&amp;#39;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt;[:len(&lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 遍历结束后栈必须为空（无剩余左括号）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; len(&lt;span style=&#34;color:#a6e22e&#34;&gt;stack&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;复杂度分析&#34;&gt;复杂度分析&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;时间复杂度：$O(n)$，其中 $n$ 是字符串的长度。每个字符被访问一次，入栈和出栈操作都是 $O(1)$。&lt;/li&gt;
+&lt;li&gt;空间复杂度：$O(n)$，在最坏情况下（例如所有都是左括号）栈中会存储所有字符。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;155-最小栈---easy&#34;&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/min-stack/&#34;&gt;155. 最小栈 - Easy&lt;/a&gt;&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这道题要求实现一个能在常数时间 O(1) 内获取最小值的栈，核心思路是双栈法：&lt;/p&gt;</description>
+    </item>
     <item>
       <title>[Golang] LeetCode 热题 100 - 二分查找</title>
       <link>https://amemiya02.github.io/posts/2026-02-05-binary-search/</link>
@@ -580,362 +740,6 @@ b.  &lt;strong&gt;在哈希表中查找&lt;/strong&gt; &lt;code&gt;complement&lt
 &lt;li&gt;遍历结束。由于题目保证有唯一解，所以在循环中一定会找到答案。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;这个&amp;quot;一边遍历，一边查找，一边插入&amp;quot;的&lt;strong&gt;单遍哈希表&lt;/strong&gt;解法，非常巧妙地在一次循环中完成了所有工作。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/哈希集合/Middle】LeetCode 128. 最长连续序列</title>
-      <link>https://amemiya02.github.io/posts/2025-09-21-128-longest-consecutive-sequence/</link>
-      <pubDate>Sun, 21 Sep 2025 11:03:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-21-128-longest-consecutive-sequence/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给定一个未排序的整数数组 &lt;code&gt;nums&lt;/code&gt; ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。&lt;/p&gt;
-&lt;p&gt;请你设计并实现时间复杂度为 &lt;code&gt;O(n)&lt;/code&gt; 的算法解决此问题。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;nums = [100,4,200,1,3,2]&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;4&lt;/code&gt;
-&lt;strong&gt;解释：&lt;/strong&gt; 最长数字连续序列是 &lt;code&gt;[1, 2, 3, 4]&lt;/code&gt;。它的长度为 4。&lt;/p&gt;
-&lt;h2 id=&#34;核心思路哈希集合--智能枚举&#34;&gt;核心思路：哈希集合 + 智能枚举&lt;/h2&gt;
-&lt;p&gt;这道题最核心的要求是 &lt;code&gt;O(n)&lt;/code&gt; 的时间复杂度，这意味着我们不能使用排序 $O(nlogn)$。&lt;/p&gt;
-&lt;p&gt;要实现 &lt;code&gt;O(n)&lt;/code&gt;，关键在于&lt;strong&gt;快速查找&lt;/strong&gt;某个数是否存在。这让我们自然而然地想到了哈希表。我们可以用一个&lt;strong&gt;哈希集合 (HashSet)&lt;/strong&gt; 来优化查找过程。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;这题的关键是找出序列起点来剪枝&lt;/strong&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;空间换时间，初始化哈希集合&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;创建一个 &lt;code&gt;HashSet&lt;/code&gt;，并将数组 &lt;code&gt;nums&lt;/code&gt; 中的所有元素都添加进去。&lt;/li&gt;
-&lt;li&gt;这一步有两个目的：一是方便后续以 $O(1)$ 的时间复杂度快速查找某个数是否存在；二是自动处理了数组中的重复元素。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;智能遍历，只从序列的起点开始计算&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;这是整个算法最精妙的地方。如果我们遍历集合中的每一个数，都尝试计算以它开头的序列长度，会有大量重复计算。例如，对于序列 &lt;code&gt;[1, 2, 3, 4]&lt;/code&gt;，我们从 &lt;code&gt;1&lt;/code&gt; 开始计算了一遍，又会从 &lt;code&gt;2&lt;/code&gt; 开始再计算一遍 &lt;code&gt;[2, 3, 4]&lt;/code&gt;，这是不必要的。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;如何避免重复计算？&lt;/strong&gt; 答案是：&lt;strong&gt;只从一个连续序列的起点开始计算&lt;/strong&gt;。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;如何判断一个数 &lt;code&gt;num&lt;/code&gt; 是不是起点？&lt;/strong&gt; 很简单，只要检查 &lt;code&gt;num - 1&lt;/code&gt; 是否存在于哈希集合中。如果 &lt;code&gt;num - 1&lt;/code&gt; &lt;strong&gt;不存在&lt;/strong&gt;，那么 &lt;code&gt;num&lt;/code&gt; 就是一个潜在的序列起点。如果 &lt;code&gt;num - 1&lt;/code&gt; &lt;strong&gt;存在&lt;/strong&gt;，那么 &lt;code&gt;num&lt;/code&gt; 肯定不是起点，我们可以直接跳过它，因为它一定会被 &lt;code&gt;num - 1&lt;/code&gt; 开始的计算所覆盖。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;计算长度并更新结果&lt;/strong&gt;&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/哈希表 / 数组】LeetCode 383. 赎金信</title>
-      <link>https://amemiya02.github.io/posts/2025-09-18-383-ransom-note/</link>
-      <pubDate>Thu, 18 Sep 2025 18:18:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-18-383-ransom-note/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给你两个字符串：&lt;code&gt;ransomNote&lt;/code&gt; 和 &lt;code&gt;magazine&lt;/code&gt; ，判断 &lt;code&gt;ransomNote&lt;/code&gt; 能不能由 &lt;code&gt;magazine&lt;/code&gt; 里面的字符构成。&lt;/p&gt;
-&lt;p&gt;如果可以，返回 &lt;code&gt;true&lt;/code&gt; ；否则返回 &lt;code&gt;false&lt;/code&gt; 。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;magazine&lt;/code&gt; 中的每个字符只能在 &lt;code&gt;ransomNote&lt;/code&gt; 中使用一次。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; ransomNote = &lt;code&gt;&amp;quot;a&amp;quot;&lt;/code&gt;, magazine = &lt;code&gt;&amp;quot;b&amp;quot;&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;示例 2：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; ransomNote = &lt;code&gt;&amp;quot;aa&amp;quot;&lt;/code&gt;, magazine = &lt;code&gt;&amp;quot;aab&amp;quot;&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id=&#34;核心思路字符计数&#34;&gt;核心思路：字符计数&lt;/h2&gt;
-&lt;p&gt;这道题的本质是判断 &lt;code&gt;magazine&lt;/code&gt; 字符串中的字符数量，是否足够&amp;quot;支付&amp;quot; &lt;code&gt;ransomNote&lt;/code&gt; 中所需的字符数量。字符的顺序无关紧要，我们只关心每个字符的可用频率。&lt;/p&gt;
-&lt;p&gt;这是一个典型的&lt;strong&gt;哈希表&lt;/strong&gt;或&lt;strong&gt;频率统计&lt;/strong&gt;问题。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;统计资源&lt;/strong&gt;：首先，我们需要清点我们拥有的&amp;quot;资源&amp;quot;，即 &lt;code&gt;magazine&lt;/code&gt; 中每个字符的数量。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;我们可以遍历 &lt;code&gt;magazine&lt;/code&gt; 字符串。&lt;/li&gt;
-&lt;li&gt;由于题目中只包含小写英文字母，我们可以使用一个长度为 26 的整型数组 &lt;code&gt;counts&lt;/code&gt; 来充当哈希表，这比使用 &lt;code&gt;HashMap&lt;/code&gt; 更高效。数组的索引 &lt;code&gt;c - &#39;a&#39;&lt;/code&gt; 对应字符 &lt;code&gt;c&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;遍历 &lt;code&gt;magazine&lt;/code&gt; 时，将对应字符的计数值加 1。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;消耗资源&lt;/strong&gt;：统计完 &lt;code&gt;magazine&lt;/code&gt; 的字符后，我们再遍历 &lt;code&gt;ransomNote&lt;/code&gt;，看看我们的资源是否足够。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/双指针】LeetCode 392. 判断子序列</title>
-      <link>https://amemiya02.github.io/posts/2025-09-17-392-is-subsequence/</link>
-      <pubDate>Wed, 17 Sep 2025 20:13:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-17-392-is-subsequence/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给定字符串 &lt;code&gt;s&lt;/code&gt; 和 &lt;code&gt;t&lt;/code&gt; ，判断 &lt;code&gt;s&lt;/code&gt; 是否为 &lt;code&gt;t&lt;/code&gt; 的子序列。&lt;/p&gt;
-&lt;p&gt;字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，&lt;code&gt;&amp;quot;ace&amp;quot;&lt;/code&gt;是&lt;code&gt;&amp;quot;abcde&amp;quot;&lt;/code&gt;的一个子序列，而&lt;code&gt;&amp;quot;aec&amp;quot;&lt;/code&gt;不是）。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; s = &lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt;, t = &lt;code&gt;&amp;quot;ahbgdc&amp;quot;&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; s = &lt;code&gt;&amp;quot;axc&amp;quot;&lt;/code&gt;, t = &lt;code&gt;&amp;quot;ahbgdc&amp;quot;&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id=&#34;核心思路双指针&#34;&gt;核心思路：双指针&lt;/h2&gt;
-&lt;p&gt;这道题的核心是匹配字符，同时要保持&lt;strong&gt;相对顺序&lt;/strong&gt;。这种&amp;quot;按顺序查找&amp;quot;的场景，是双指针大显身手的地方。我们可以使用两个指针，一个指向子序列 &lt;code&gt;s&lt;/code&gt;，一个指向主串 &lt;code&gt;t&lt;/code&gt;，然后同步向前扫描。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;初始化指针&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;定义指针 &lt;code&gt;p&lt;/code&gt; 指向 &lt;code&gt;s&lt;/code&gt; 的起始位置 &lt;code&gt;0&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;定义指针 &lt;code&gt;q&lt;/code&gt; 指向 &lt;code&gt;t&lt;/code&gt; 的起始位置 &lt;code&gt;0&lt;/code&gt;。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;贪心匹配&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;我们使用指针 &lt;code&gt;q&lt;/code&gt; 遍历主串 &lt;code&gt;t&lt;/code&gt;，同时用指针 &lt;code&gt;p&lt;/code&gt; 来标记我们&lt;strong&gt;当前正在 &lt;code&gt;s&lt;/code&gt; 中寻找的字符&lt;/strong&gt;。&lt;/li&gt;
-&lt;li&gt;当 &lt;code&gt;p&lt;/code&gt; 和 &lt;code&gt;q&lt;/code&gt; 都在各自的字符串范围内时，进行循环比较：
-&lt;ul&gt;
-&lt;li&gt;如果 &lt;code&gt;s.charAt(p)&lt;/code&gt; 与 &lt;code&gt;t.charAt(q)&lt;/code&gt; &lt;strong&gt;相等&lt;/strong&gt;，意味着我们在 &lt;code&gt;t&lt;/code&gt; 中找到了 &lt;code&gt;s&lt;/code&gt; 的一个字符。接下来我们应该去寻找 &lt;code&gt;s&lt;/code&gt; 的下一个字符了，所以将 &lt;code&gt;p&lt;/code&gt; 和 &lt;code&gt;q&lt;/code&gt; &lt;strong&gt;都&lt;/strong&gt;向后移动一位 (&lt;code&gt;p++&lt;/code&gt;, &lt;code&gt;q++&lt;/code&gt;)。&lt;/li&gt;
-&lt;li&gt;如果 &lt;code&gt;s.charAt(p)&lt;/code&gt; 与 &lt;code&gt;t.charAt(q)&lt;/code&gt; &lt;strong&gt;不相等&lt;/strong&gt;，说明当前 &lt;code&gt;t&lt;/code&gt; 中的这个字符不是我们想要的。我们应该继续在 &lt;code&gt;t&lt;/code&gt; 的后续部分寻找 &lt;code&gt;s.charAt(p)&lt;/code&gt;，所以只将 &lt;code&gt;q&lt;/code&gt; 向后移动一位 (&lt;code&gt;q++&lt;/code&gt;)。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;判断结果&lt;/strong&gt;：&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/双指针】LeetCode 125. 验证回文串</title>
-      <link>https://amemiya02.github.io/posts/2025-09-16-125-valid-palindrome/</link>
-      <pubDate>Tue, 16 Sep 2025 21:02:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-16-125-valid-palindrome/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;如果在将所有大写字符转换为小写字符、并移除所有非字母数字字符之后，短语正着读和反着读都一样。则可以认为该短语是一个 &lt;strong&gt;回文串&lt;/strong&gt; 。&lt;/p&gt;
-&lt;p&gt;字母和数字都属于字母数字字符。&lt;/p&gt;
-&lt;p&gt;给你一个字符串 &lt;code&gt;s&lt;/code&gt;，如果它是 &lt;strong&gt;回文串&lt;/strong&gt; ，返回 &lt;code&gt;true&lt;/code&gt; ；否则，返回 &lt;code&gt;false&lt;/code&gt; 。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; s = &lt;code&gt;&amp;quot;A man, a plan, a canal: Panama&amp;quot;&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;true&lt;/code&gt;
-&lt;strong&gt;解释：&lt;/strong&gt; &lt;code&gt;&amp;quot;amanaplanacanalpanama&amp;quot;&lt;/code&gt; 是回文串。&lt;/p&gt;
-&lt;h2 id=&#34;核心思路相向双指针&#34;&gt;核心思路：相向双指针&lt;/h2&gt;
-&lt;p&gt;&amp;ldquo;回文&amp;quot;这个特性，天然就适合使用&lt;strong&gt;相向双指针&lt;/strong&gt;来解决。我们可以设置一个指针从字符串头部开始，另一个指针从尾部开始，同时向中间移动并进行比较。&lt;/p&gt;
-&lt;p&gt;对于这道题，我们需要在比较之前，先对字符进行&amp;quot;清洗&amp;rdquo;，即忽略非字母数字字符和大小写。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;初始化指针&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;定义左指针 &lt;code&gt;left&lt;/code&gt; 指向字符串的起始位置 &lt;code&gt;0&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;定义右指针 &lt;code&gt;right&lt;/code&gt; 指向字符串的末尾位置 &lt;code&gt;s.length() - 1&lt;/code&gt;。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;循环与过滤&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;当 &lt;code&gt;left &amp;lt; right&lt;/code&gt; 时，循环继续。&lt;/li&gt;
-&lt;li&gt;在循环内部，首先要找到左右两边有效的、可用于比较的字符。
-&lt;ul&gt;
-&lt;li&gt;移动 &lt;code&gt;left&lt;/code&gt; 指针：如果 &lt;code&gt;left&lt;/code&gt; 指向的字符&lt;strong&gt;不是&lt;/strong&gt;字母或数字，就将 &lt;code&gt;left&lt;/code&gt; 右移 (&lt;code&gt;left++&lt;/code&gt;)，跳过该字符。&lt;/li&gt;
-&lt;li&gt;移动 &lt;code&gt;right&lt;/code&gt; 指针：如果 &lt;code&gt;right&lt;/code&gt; 指向的字符&lt;strong&gt;不是&lt;/strong&gt;字母或数字，就将 &lt;code&gt;right&lt;/code&gt; 左移 (&lt;code&gt;right--&lt;/code&gt;)，跳过该字符。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;比较字符&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;当左右指针都停留在有效的字母数字字符上时，将它们统一转换为小写进行比较。&lt;/li&gt;
-&lt;li&gt;如果 &lt;code&gt;Character.toLowerCase(s.charAt(left))&lt;/code&gt; &lt;strong&gt;不等于&lt;/strong&gt; &lt;code&gt;Character.toLowerCase(s.charAt(right))&lt;/code&gt;，说明字符串不是回文串，可以直接返回 &lt;code&gt;false&lt;/code&gt;。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;向中心移动&lt;/strong&gt;：&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/哈希表 / 摩尔投票】LeetCode 169. 多数元素</title>
-      <link>https://amemiya02.github.io/posts/2025-09-15-169-majority-element/</link>
-      <pubDate>Mon, 15 Sep 2025 10:05:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-15-169-majority-element/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给定一个大小为 &lt;code&gt;n&lt;/code&gt; 的数组 &lt;code&gt;nums&lt;/code&gt; ，返回其中的多数元素。多数元素是指在数组中出现次数 &lt;strong&gt;大于&lt;/strong&gt; &lt;code&gt;⌊ n/2 ⌋&lt;/code&gt; 的元素。&lt;/p&gt;
-&lt;p&gt;你可以假设数组是非空的，并且给定的数组总是存在多数元素。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; nums = &lt;code&gt;[2,2,1,1,1,2,2]&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;2&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id=&#34;核心思路&#34;&gt;核心思路&lt;/h2&gt;
-&lt;p&gt;这道题旨在寻找数组中数量过半的元素。我们介绍两种主流的思路。&lt;/p&gt;
-&lt;h3 id=&#34;思路一哈希表计数&#34;&gt;思路一：哈希表计数&lt;/h3&gt;
-&lt;p&gt;这是最直观、最容易想到的方法。我们可以利用一个哈希表（HashMap）来记录数组中每个元素出现的次数。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;定义哈希表&lt;/strong&gt;：创建一个 &lt;code&gt;Map&amp;lt;Integer, Integer&amp;gt;&lt;/code&gt; 用于存储 &lt;code&gt;元素 -&amp;gt; 出现次数&lt;/code&gt; 的映射。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;遍历数组&lt;/strong&gt;：遍历 &lt;code&gt;nums&lt;/code&gt; 数组，对于每个元素 &lt;code&gt;num&lt;/code&gt;：
-&lt;ul&gt;
-&lt;li&gt;将其在哈希表中的计数值加 1。&lt;/li&gt;
-&lt;li&gt;每次更新计数后，立即检查该元素的计数值是否已经大于 &lt;code&gt;n/2&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;如果超过 &lt;code&gt;n/2&lt;/code&gt;，那么这个元素就是我们要找的多数元素，直接返回它。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;返回结果&lt;/strong&gt;：由于题目保证多数元素总是存在，所以在遍历过程中必然会找到答案。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;这个方法用空间换时间，思路简单清晰，易于实现。&lt;/p&gt;
-&lt;h3 id=&#34;思路二摩尔投票算法-boyer-moore-voting-algorithm&#34;&gt;思路二：摩尔投票算法 (Boyer-Moore Voting Algorithm)&lt;/h3&gt;
-&lt;p&gt;这是一种非常巧妙的算法，可以在线性的时间和常数的空间内解决问题。&lt;/p&gt;
-&lt;p&gt;它的核心思想是&lt;strong&gt;对拼消耗&lt;/strong&gt;。可以想象成在数组中进行一场选举，不同阵营的候选人进行投票。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;定义候选者和票数&lt;/strong&gt;：我们维护一个候选者 &lt;code&gt;candidate&lt;/code&gt; 和一个计数器 &lt;code&gt;count&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;遍历数组&lt;/strong&gt;：遍历 &lt;code&gt;nums&lt;/code&gt; 数组，对于每个元素 &lt;code&gt;num&lt;/code&gt;：
-&lt;ul&gt;
-&lt;li&gt;如果 &lt;code&gt;count&lt;/code&gt; 为 &lt;code&gt;0&lt;/code&gt;，表示之前的候选者已经被&amp;quot;淘汰&amp;quot;了，我们将当前元素 &lt;code&gt;num&lt;/code&gt; 设为新的 &lt;code&gt;candidate&lt;/code&gt;，并将 &lt;code&gt;count&lt;/code&gt; 设为 1。&lt;/li&gt;
-&lt;li&gt;如果 &lt;code&gt;num&lt;/code&gt; 与 &lt;code&gt;candidate&lt;/code&gt; &lt;strong&gt;相同&lt;/strong&gt;，就给候选者&amp;quot;投一票&amp;quot;，&lt;code&gt;count&lt;/code&gt; 加 1。&lt;/li&gt;
-&lt;li&gt;如果 &lt;code&gt;num&lt;/code&gt; 与 &lt;code&gt;candidate&lt;/code&gt; &lt;strong&gt;不同&lt;/strong&gt;，就让候选者的票数&amp;quot;抵消&amp;quot;一张，&lt;code&gt;count&lt;/code&gt; 减 1。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;返回结果&lt;/strong&gt;：遍历结束后，留下的 &lt;code&gt;candidate&lt;/code&gt; 就是最终的多数元素。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;为什么这个方法可行？&lt;/strong&gt; 因为多数元素的数量超过了数组长度的一半，这意味着它的数量比所有其他元素数量的总和还要多。所以在对拼消耗的过程中，它的票数 &lt;code&gt;count&lt;/code&gt; 最终不可能被减到 0 或以下，它必然是笑到最后的那个。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/快慢指针】LeetCode 80. 删除有序数组中的重复项 II</title>
-      <link>https://amemiya02.github.io/posts/2025-09-14-80-remove-duplicates-from-sorted-array-ii/</link>
-      <pubDate>Sun, 14 Sep 2025 16:55:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-14-80-remove-duplicates-from-sorted-array-ii/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给你一个有序数组 &lt;code&gt;nums&lt;/code&gt; ，请你 &lt;strong&gt;原地&lt;/strong&gt; 删除重复出现的元素，使得出现次数超过两次的元素&lt;strong&gt;只出现两次&lt;/strong&gt; ，返回删除后数组的新长度。&lt;/p&gt;
-&lt;p&gt;不要使用额外的数组空间，你必须在 &lt;strong&gt;原地&lt;/strong&gt; 修改输入数组 并在使用 O(1) 额外空间的条件下完成。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; nums = &lt;code&gt;[1,1,1,2,2,3]&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;5&lt;/code&gt;, nums = &lt;code&gt;[1,1,2,2,3,_]&lt;/code&gt;
-&lt;strong&gt;解释：&lt;/strong&gt; 函数应返回 &lt;code&gt;k = 5&lt;/code&gt;，并且 &lt;code&gt;nums&lt;/code&gt; 的前五个元素为 &lt;code&gt;1, 1, 2, 2, 3&lt;/code&gt;。&lt;/p&gt;
-&lt;h2 id=&#34;核心思路快慢指针的通用解法&#34;&gt;核心思路：快慢指针的通用解法&lt;/h2&gt;
-&lt;p&gt;这道题是 LeetCode 26 的进阶版，规则从&amp;quot;只保留 1 个&amp;quot;变成了&amp;quot;最多保留 2 个&amp;quot;。快慢指针的思路依然适用，我们只需要对写入条件稍作修改。&lt;/p&gt;
-&lt;p&gt;我们可以定义一个更通用的解法来处理&amp;quot;最多保留 k 个重复项&amp;quot;这类问题。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;定义指针&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;慢指针 &lt;code&gt;slow&lt;/code&gt;&lt;/strong&gt;: 指向下一个可以被覆盖的位置。&lt;code&gt;[0...slow-1]&lt;/code&gt; 是已处理好的区域。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;快指针 &lt;code&gt;fast&lt;/code&gt;&lt;/strong&gt;: 遍历整个数组，寻找符合条件的元素。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;执行过程&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;我们遍历数组，对于快指针 &lt;code&gt;fast&lt;/code&gt; 指向的当前元素 &lt;code&gt;nums[fast]&lt;/code&gt;，思考一个问题：&lt;strong&gt;在什么情况下，这个元素应该被保留下来？&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;保留的条件是：当前处理好的数组长度 &lt;code&gt;slow&lt;/code&gt; 小于 2，或者 &lt;code&gt;nums[fast]&lt;/code&gt; 不等于 &lt;code&gt;nums[slow - 2]&lt;/code&gt;。
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;slow &amp;lt; 2&lt;/code&gt;：表示当前是数组最开头的两个位置，无论如何都应该被填充，因为题目允许最多两个重复项。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;nums[fast] &amp;gt; nums[slow - 2]&lt;/code&gt;：这是本算法的核心。&lt;code&gt;nums[slow - 1]&lt;/code&gt; 和 &lt;code&gt;nums[slow - 2]&lt;/code&gt; 是已处理好的数组的最后两个元素。如果当前快指针的元素 &lt;code&gt;nums[fast]&lt;/code&gt; 和 &lt;code&gt;nums[slow - 2]&lt;/code&gt; 相同，说明 &lt;code&gt;nums[slow-2]&lt;/code&gt;, &lt;code&gt;nums[slow-1]&lt;/code&gt;, &lt;code&gt;nums[fast]&lt;/code&gt; 将构成三个或以上的连续重复，此时 &lt;code&gt;nums[fast]&lt;/code&gt; 不应被保留。反之，则可以保留。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;返回结果&lt;/strong&gt;：&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/动态规划】LeetCode 70.爬楼梯</title>
-      <link>https://amemiya02.github.io/posts/2025-09-13-70-climbing-stairs/</link>
-      <pubDate>Sat, 13 Sep 2025 10:40:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-13-70-climbing-stairs/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;假设你正在爬楼梯。需要 &lt;code&gt;n&lt;/code&gt; 阶你才能到达楼顶。&lt;/p&gt;
-&lt;p&gt;每次你可以爬 &lt;code&gt;1&lt;/code&gt; 或 &lt;code&gt;2&lt;/code&gt; 个台阶。你有多少种不同的方法可以爬到楼顶呢？&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; n = 3
-&lt;strong&gt;输出：&lt;/strong&gt; 3
-&lt;strong&gt;解释：&lt;/strong&gt; 有三种方法可以爬到楼顶。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;1 阶 + 1 阶 + 1 阶&lt;/li&gt;
-&lt;li&gt;1 阶 + 2 阶&lt;/li&gt;
-&lt;li&gt;2 阶 + 1 阶&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;核心思路寻找递推关系&#34;&gt;核心思路：寻找递推关系&lt;/h2&gt;
-&lt;p&gt;直接计算 &lt;code&gt;n&lt;/code&gt; 阶楼梯的所有方法可能很复杂，我们不妨从小问题入手，寻找规律。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;爬 1 阶楼梯 (n=1)&lt;/strong&gt;: 只有 1 种方法 (1)。 -&amp;gt; $f(1) = 1$&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;爬 2 阶楼梯 (n=2)&lt;/strong&gt;: 有 2 种方法 (1+1, 2)。 -&amp;gt; $f(2) = 2$&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;爬 3 阶楼梯 (n=3)&lt;/strong&gt;: 有 3 种方法 (1+1+1, 1+2, 2+1)。 -&amp;gt; $f(3) = 3$&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;我们思考一下，要想到达第 &lt;code&gt;n&lt;/code&gt; 阶，我们的&lt;strong&gt;最后一步&lt;/strong&gt;是怎么迈出去的？&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/快慢指针】LeetCode 26.删除有序数组中的重复项</title>
-      <link>https://amemiya02.github.io/posts/2025-09-13-26-remove-duplicates-from-sorted-array/</link>
-      <pubDate>Sat, 13 Sep 2025 10:35:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-13-26-remove-duplicates-from-sorted-array/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给你一个 &lt;strong&gt;非严格递增排列&lt;/strong&gt; 的数组 &lt;code&gt;nums&lt;/code&gt; ，请你 &lt;strong&gt;原地&lt;/strong&gt; 删除重复出现的元素，使每个元素 &lt;strong&gt;只出现一次&lt;/strong&gt; ，返回删除后数组的新长度。元素的 &lt;strong&gt;相对顺序&lt;/strong&gt; 应该保持 &lt;strong&gt;一致&lt;/strong&gt; 。&lt;/p&gt;
-&lt;p&gt;更改数组 &lt;code&gt;nums&lt;/code&gt; ，使 &lt;code&gt;nums&lt;/code&gt; 的前 &lt;code&gt;k&lt;/code&gt; 个元素包含唯一元素，并按照它们最初在 &lt;code&gt;nums&lt;/code&gt; 中出现的顺序排列。&lt;/p&gt;
-&lt;p&gt;返回 &lt;code&gt;k&lt;/code&gt; 。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; nums = &lt;code&gt;[0,0,1,1,1,2,2,3,3,4]&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;5&lt;/code&gt;, nums = &lt;code&gt;[0,1,2,3,4,_,_,_,_,_]&lt;/code&gt;
-&lt;strong&gt;解释：&lt;/strong&gt; 函数应该返回 &lt;code&gt;k = 5&lt;/code&gt;，并且 &lt;code&gt;nums&lt;/code&gt; 的前五个元素为 &lt;code&gt;0, 1, 2, 3, 4&lt;/code&gt;。&lt;/p&gt;
-&lt;h2 id=&#34;核心思路快慢指针&#34;&gt;核心思路：快慢指针&lt;/h2&gt;
-&lt;p&gt;题目的关键在于&amp;quot;数组有序&amp;quot;和&amp;quot;保持相对顺序&amp;quot;。因为数组是有序的，所以所有重复的元素必然是相邻的。这让我们不必进行复杂的查找，只需向后遍历即可。&lt;/p&gt;
-&lt;p&gt;我们可以使用&lt;strong&gt;快慢指针&lt;/strong&gt;来解决这个问题：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;定义指针&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;慢指针 &lt;code&gt;p&lt;/code&gt;&lt;/strong&gt;: 指向当前已处理好的、不重复数组的最后一个位置。它也代表了下一个唯一元素应该被放置的位置。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;快指针 &lt;code&gt;q&lt;/code&gt;&lt;/strong&gt;: 负责向前探索，遍历整个数组，寻找与慢指针所指元素不同的新元素。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;执行过程&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;初始化 &lt;code&gt;p = 0&lt;/code&gt;, &lt;code&gt;q = 1&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;快指针 &lt;code&gt;q&lt;/code&gt; 向后遍历数组。&lt;/li&gt;
-&lt;li&gt;若 &lt;code&gt;nums[q]&lt;/code&gt; 与 &lt;code&gt;nums[p]&lt;/code&gt; &lt;strong&gt;相同&lt;/strong&gt;，说明是重复元素，则 &lt;code&gt;p&lt;/code&gt; 不动，&lt;code&gt;q&lt;/code&gt; 继续向后移动以跳过所有重复项。&lt;/li&gt;
-&lt;li&gt;若 &lt;code&gt;nums[q]&lt;/code&gt; 与 &lt;code&gt;nums[p]&lt;/code&gt; &lt;strong&gt;不同&lt;/strong&gt;，说明 &lt;code&gt;q&lt;/code&gt; 找到了一个新的唯一元素。此时，先将慢指针 &lt;code&gt;p&lt;/code&gt; 向后移动一位 (&lt;code&gt;++p&lt;/code&gt;)，然后将 &lt;code&gt;nums[q]&lt;/code&gt; 的值赋给 &lt;code&gt;nums[p]&lt;/code&gt;，完成新元素的&amp;quot;入队&amp;quot;。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;返回结果&lt;/strong&gt;：&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/双指针】LeetCode 27. 原地移除数组元素</title>
-      <link>https://amemiya02.github.io/posts/2025-09-12-27-remove-element/</link>
-      <pubDate>Fri, 12 Sep 2025 21:00:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-12-27-remove-element/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给你一个数组 &lt;code&gt;nums&lt;/code&gt; 和一个值 &lt;code&gt;val&lt;/code&gt;，你需要 &lt;strong&gt;原地&lt;/strong&gt; 移除所有数值等于 &lt;code&gt;val&lt;/code&gt; 的元素。元素的顺序可能发生改变。然后返回 &lt;code&gt;nums&lt;/code&gt; 中与 &lt;code&gt;val&lt;/code&gt; 不同的元素的数量。&lt;/p&gt;
-&lt;p&gt;假设 &lt;code&gt;nums&lt;/code&gt; 中不等于 &lt;code&gt;val&lt;/code&gt; 的元素数量为 &lt;code&gt;k&lt;/code&gt;，要通过此题，您需要执行以下操作：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;更改 &lt;code&gt;nums&lt;/code&gt; 数组，使 &lt;code&gt;nums&lt;/code&gt; 的前 &lt;code&gt;k&lt;/code&gt; 个元素包含不等于 &lt;code&gt;val&lt;/code&gt; 的元素。&lt;code&gt;nums&lt;/code&gt; 的其余元素和 &lt;code&gt;nums&lt;/code&gt; 的大小并不重要。&lt;/li&gt;
-&lt;li&gt;返回 &lt;code&gt;k&lt;/code&gt;。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; nums = &lt;code&gt;[3,2,2,3]&lt;/code&gt;, val = &lt;code&gt;3&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;2&lt;/code&gt;, nums = &lt;code&gt;[2,2,_,_]&lt;/code&gt;
-&lt;strong&gt;解释：&lt;/strong&gt; 函数应该返回 &lt;code&gt;k = 2&lt;/code&gt;, 并且 &lt;code&gt;nums&lt;/code&gt; 中的前两个元素均为 &lt;code&gt;2&lt;/code&gt;。你的函数可以返回 &lt;code&gt;k&lt;/code&gt;，并且 &lt;code&gt;nums&lt;/code&gt; 的前 &lt;code&gt;k&lt;/code&gt; 个元素可以包含任何顺序的 &lt;code&gt;2&lt;/code&gt;。&lt;/p&gt;
-&lt;h2 id=&#34;核心思路相向双指针头尾指针&#34;&gt;核心思路：相向双指针（头尾指针）&lt;/h2&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;定义头尾指针&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;p&lt;/code&gt; 指针从数组头部 &lt;code&gt;0&lt;/code&gt; 开始，向后移动。它的任务是&lt;strong&gt;寻找值为 &lt;code&gt;val&lt;/code&gt; 的元素&lt;/strong&gt;。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;q&lt;/code&gt; 指针从数组尾部 &lt;code&gt;n-1&lt;/code&gt; 开始，向前移动。它的任务是&lt;strong&gt;寻找值不为 &lt;code&gt;val&lt;/code&gt; 的元素&lt;/strong&gt;。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;交换与移动&lt;/strong&gt;：&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>【HOT100/双指针】LeetCode 88. 合并两个有序数组</title>
-      <link>https://amemiya02.github.io/posts/2025-09-11-88-merge-sorted-array/</link>
-      <pubDate>Thu, 11 Sep 2025 18:46:00 +0900</pubDate>
-      <guid>https://amemiya02.github.io/posts/2025-09-11-88-merge-sorted-array/</guid>
-      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;给你两个按 &lt;strong&gt;非递减顺序&lt;/strong&gt; 排列的整数数组 &lt;code&gt;nums1&lt;/code&gt; 和 &lt;code&gt;nums2&lt;/code&gt;，另有两个整数 &lt;code&gt;m&lt;/code&gt; 和 &lt;code&gt;n&lt;/code&gt; ，分别表示 &lt;code&gt;nums1&lt;/code&gt; 和 &lt;code&gt;nums2&lt;/code&gt; 中的元素数目。&lt;/p&gt;
-&lt;p&gt;请你 &lt;strong&gt;合并&lt;/strong&gt; &lt;code&gt;nums2&lt;/code&gt; 到 &lt;code&gt;nums1&lt;/code&gt; 中，使合并后的数组同样按 &lt;strong&gt;非递减顺序&lt;/strong&gt; 排列。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：最终，合并后数组不应由函数返回，而是存储在数组 &lt;code&gt;nums1&lt;/code&gt; 中。为了应对这种情况，&lt;code&gt;nums1&lt;/code&gt; 的初始长度为 &lt;code&gt;m + n&lt;/code&gt;，其中前 &lt;code&gt;m&lt;/code&gt; 个元素表示应合并的元素，后 &lt;code&gt;n&lt;/code&gt; 个元素为 &lt;code&gt;0&lt;/code&gt; ，应忽略。&lt;code&gt;nums2&lt;/code&gt; 的长度为 &lt;code&gt;n&lt;/code&gt; 。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; nums1 = &lt;code&gt;[1,2,3,0,0,0]&lt;/code&gt;, m = &lt;code&gt;3&lt;/code&gt;, nums2 = &lt;code&gt;[2,5,6]&lt;/code&gt;, n = &lt;code&gt;3&lt;/code&gt;
-&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;[1,2,2,3,5,6]&lt;/code&gt;
-&lt;strong&gt;解释：&lt;/strong&gt; 需要合并 &lt;code&gt;[1,2,3]&lt;/code&gt; 和 &lt;code&gt;[2,5,6]&lt;/code&gt; 。合并结果是 &lt;code&gt;[1,2,2,3,5,6]&lt;/code&gt;。&lt;/p&gt;
-&lt;h2 id=&#34;最初的思考为何从前往后走不通&#34;&gt;最初的思考：为何从前往后走不通？&lt;/h2&gt;
-&lt;p&gt;看到这道题，我的第一反应非常直接：创建一个新的指针 &lt;code&gt;i&lt;/code&gt; 指向 &lt;code&gt;nums1&lt;/code&gt; 的开头，一个指针 &lt;code&gt;j&lt;/code&gt; 指向 &lt;code&gt;nums2&lt;/code&gt; 的开头，然后比较 &lt;code&gt;nums1[i]&lt;/code&gt; 和 &lt;code&gt;nums2[j]&lt;/code&gt; 的大小，把较小的那个放到一个新数组里。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
