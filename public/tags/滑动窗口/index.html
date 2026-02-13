@@ -123,7 +123,7 @@
     </nav>
 </header>
 <main class="main"> 
-<header class="page-header">
+<header class="page-header"><div class="breadcrumbs"><a href="https://amemiya02.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://amemiya02.github.io/tags/">Tags</a></div>
   <h1>
     滑动窗口
   </h1>
@@ -148,7 +148,7 @@
 初始化左指针 left = 0，右指针 right = 0，最大长度 maxLength = 0，以及一个空的哈希集合 set。 右指针 right 开始遍历整个字符串： a. 获取当前右指针的字符 c = s.charAt(right)。 b. 检查重复：在 set 中检查是否存在字符 c。如果存在，就进入一个循环，不断从 set 中移除左指针 left 指向的字符，并递增 left，直到 set 中不再有 c。 c. 添加新字符：将当前字符 c 添加到 set 中。 d. 更新最大长度：此时，从 left 到 right 的窗口内一定是无重复字符的。我们更新最大长度：maxLength = Math.max(maxLength, right - left &#43; 1)。 e. 将右指针 right 右移一位，考察下一个字符。 遍历结束后，maxLength 就是最终答案。 通过这种一扩一缩的动态调整，滑动窗口能够保证在一次遍历中就找到最优解。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-01-25 09:00:00 +0900 JST'>January 25, 2026</span></footer>
+  <footer class="entry-footer"><span title='2026-01-25 09:00:00 +0900 JST'>January 25, 2026</span>&nbsp;·&nbsp;<span>3 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 滑动窗口" href="https://amemiya02.github.io/posts/2026-01-25-sliding-window/"></a>
 </article>
     </main>

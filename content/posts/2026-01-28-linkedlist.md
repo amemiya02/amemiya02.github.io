@@ -1122,7 +1122,7 @@ func mergeKLists(lists []*ListNode) *ListNode {
 - 空间复杂度: `O(k)`，堆中最多存储 k 个节点。
 
 
-## [146. LRU 缓存 - Hard](https://leetcode.cn/problems/lru-cache/)
+## [146. LRU 缓存 - Mid](https://leetcode.cn/problems/lru-cache/)
 
 ### 题目回顾
 

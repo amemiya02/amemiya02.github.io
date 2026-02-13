@@ -123,7 +123,7 @@
     </nav>
 </header>
 <main class="main"> 
-<header class="page-header">
+<header class="page-header"><div class="breadcrumbs"><a href="https://amemiya02.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://amemiya02.github.io/categories/">Categories</a></div>
   <h1>
     算法
   </h1>
@@ -148,7 +148,7 @@
 当左右指针都停留在有效的字母数字字符上时，将它们统一转换为小写进行比较。 如果 Character.toLowerCase(s.charAt(left)) 不等于 Character.toLowerCase(s.charAt(right))，说明字符串不是回文串，可以直接返回 false。 向中心移动：
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-09-16 21:02:00 +0900 JST'>September 16, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-09-16 21:02:00 +0900 JST'>September 16, 2025</span>&nbsp;·&nbsp;<span>1 min</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/双指针】LeetCode 125. 验证回文串" href="https://amemiya02.github.io/posts/2025-09-16-125-valid-palindrome/"></a>
 </article>
 
@@ -170,7 +170,7 @@
 定义候选者和票数：我们维护一个候选者 candidate 和一个计数器 count。 遍历数组：遍历 nums 数组，对于每个元素 num： 如果 count 为 0，表示之前的候选者已经被&#34;淘汰&#34;了，我们将当前元素 num 设为新的 candidate，并将 count 设为 1。 如果 num 与 candidate 相同，就给候选者&#34;投一票&#34;，count 加 1。 如果 num 与 candidate 不同，就让候选者的票数&#34;抵消&#34;一张，count 减 1。 返回结果：遍历结束后，留下的 candidate 就是最终的多数元素。 为什么这个方法可行？ 因为多数元素的数量超过了数组长度的一半，这意味着它的数量比所有其他元素数量的总和还要多。所以在对拼消耗的过程中，它的票数 count 最终不可能被减到 0 或以下，它必然是笑到最后的那个。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-09-15 10:05:00 +0900 JST'>September 15, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-09-15 10:05:00 +0900 JST'>September 15, 2025</span>&nbsp;·&nbsp;<span>1 min</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/哈希表 / 摩尔投票】LeetCode 169. 多数元素" href="https://amemiya02.github.io/posts/2025-09-15-169-majority-element/"></a>
 </article>
 
@@ -191,7 +191,7 @@
 我们遍历数组，对于快指针 fast 指向的当前元素 nums[fast]，思考一个问题：在什么情况下，这个元素应该被保留下来？ 保留的条件是：当前处理好的数组长度 slow 小于 2，或者 nums[fast] 不等于 nums[slow - 2]。 slow &lt; 2：表示当前是数组最开头的两个位置，无论如何都应该被填充，因为题目允许最多两个重复项。 nums[fast] &gt; nums[slow - 2]：这是本算法的核心。nums[slow - 1] 和 nums[slow - 2] 是已处理好的数组的最后两个元素。如果当前快指针的元素 nums[fast] 和 nums[slow - 2] 相同，说明 nums[slow-2], nums[slow-1], nums[fast] 将构成三个或以上的连续重复，此时 nums[fast] 不应被保留。反之，则可以保留。 返回结果：
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-09-14 16:55:00 +0900 JST'>September 14, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-09-14 16:55:00 +0900 JST'>September 14, 2025</span>&nbsp;·&nbsp;<span>1 min</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/快慢指针】LeetCode 80. 删除有序数组中的重复项 II" href="https://amemiya02.github.io/posts/2025-09-14-80-remove-duplicates-from-sorted-array-ii/"></a>
 </article>
 
@@ -209,7 +209,7 @@
 爬 1 阶楼梯 (n=1): 只有 1 种方法 (1)。 -&gt; $f(1) = 1$ 爬 2 阶楼梯 (n=2): 有 2 种方法 (1&#43;1, 2)。 -&gt; $f(2) = 2$ 爬 3 阶楼梯 (n=3): 有 3 种方法 (1&#43;1&#43;1, 1&#43;2, 2&#43;1)。 -&gt; $f(3) = 3$ 我们思考一下，要想到达第 n 阶，我们的最后一步是怎么迈出去的？
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-09-13 10:40:00 +0900 JST'>September 13, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-09-13 10:40:00 +0900 JST'>September 13, 2025</span>&nbsp;·&nbsp;<span>2 min</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/动态规划】LeetCode 70.爬楼梯" href="https://amemiya02.github.io/posts/2025-09-13-70-climbing-stairs/"></a>
 </article>
 
@@ -231,7 +231,7 @@
 初始化 p = 0, q = 1。 快指针 q 向后遍历数组。 若 nums[q] 与 nums[p] 相同，说明是重复元素，则 p 不动，q 继续向后移动以跳过所有重复项。 若 nums[q] 与 nums[p] 不同，说明 q 找到了一个新的唯一元素。此时，先将慢指针 p 向后移动一位 (&#43;&#43;p)，然后将 nums[q] 的值赋给 nums[p]，完成新元素的&#34;入队&#34;。 返回结果：
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-09-13 10:35:00 +0900 JST'>September 13, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-09-13 10:35:00 +0900 JST'>September 13, 2025</span>&nbsp;·&nbsp;<span>1 min</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/快慢指针】LeetCode 26.删除有序数组中的重复项" href="https://amemiya02.github.io/posts/2025-09-13-26-remove-duplicates-from-sorted-array/"></a>
 </article>
 
@@ -249,7 +249,7 @@
 p 指针从数组头部 0 开始，向后移动。它的任务是寻找值为 val 的元素。 q 指针从数组尾部 n-1 开始，向前移动。它的任务是寻找值不为 val 的元素。 交换与移动：
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-09-12 21:00:00 +0900 JST'>September 12, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-09-12 21:00:00 +0900 JST'>September 12, 2025</span>&nbsp;·&nbsp;<span>2 min</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/双指针】LeetCode 27. 原地移除数组元素" href="https://amemiya02.github.io/posts/2025-09-12-27-remove-element/"></a>
 </article>
 
@@ -267,7 +267,7 @@ p 指针从数组头部 0 开始，向后移动。它的任务是寻找值为 va
 最初的思考：为何从前往后走不通？ 看到这道题，我的第一反应非常直接：创建一个新的指针 i 指向 nums1 的开头，一个指针 j 指向 nums2 的开头，然后比较 nums1[i] 和 nums2[j] 的大小，把较小的那个放到一个新数组里。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-09-11 18:46:00 +0900 JST'>September 11, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-09-11 18:46:00 +0900 JST'>September 11, 2025</span>&nbsp;·&nbsp;<span>2 min</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/双指针】LeetCode 88. 合并两个有序数组" href="https://amemiya02.github.io/posts/2025-09-11-88-merge-sorted-array/"></a>
 </article>
 <footer class="page-footer">
