@@ -42,7 +42,10 @@
 &lt;/ol&gt;
 &lt;h4 id=&#34;状态转移方程&#34;&gt;状态转移方程&lt;/h4&gt;
 &lt;p&gt;根据上述分析，我们可以得到状态转移方程：&lt;/p&gt;
-&lt;p&gt;These are block equations:&lt;/p&gt;</description>
+$$
+dp[i] = \max(dp[i-1] + \text{nums}[i], \text{nums}[i])
+$$&lt;h4 id=&#34;空间优化&#34;&gt;空间优化&lt;/h4&gt;
+&lt;p&gt;观察转移方程发现，当前状态 &lt;code&gt;dp[i]&lt;/code&gt; 只与前一个状态 &lt;code&gt;dp[i-1]&lt;/code&gt; 有关。因此，我们不需要维护一个完整的 &lt;code&gt;dp&lt;/code&gt; 数组，只需要用一个变量 &lt;code&gt;pre&lt;/code&gt; 来记录&amp;quot;前一个位置的最大子数组和&amp;quot;即可。这也就是代码中 &lt;code&gt;pre&lt;/code&gt; 变量的作用。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

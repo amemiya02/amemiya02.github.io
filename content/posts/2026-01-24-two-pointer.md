@@ -55,25 +55,25 @@ tags: [Go, 双指针, 动态规划, 题解]
 ```go
 func moveZeroes(nums []int) {
 
-	p := 0
+    p := 0
 
-	for q := 0; q < len(nums); q++ {
-		if nums[q] != 0 {
-			nums[p] = nums[q]
-			p++
-		}
-	}
+    for q := 0; q < len(nums); q++ {
+        if nums[q] != 0 {
+            nums[p] = nums[q]
+            p++
+        }
+    }
 
-	for ; p < len(nums); p++ {
-		nums[p] = 0
-	}
+    for ; p < len(nums); p++ {
+        nums[p] = 0
+    }
 }
 ```
 
 **复杂度分析**
 
-- 时间复杂度: `O(n)`。其中 n 是数组的长度。快指针 q 遍历数组一次，慢指针 p 在第二步中也最多遍历一次。总的操作次数与 n 呈线性关系。
-- 空间复杂度: `O(1)`。所有操作都在原数组上进行，没有使用额外的存储空间。
+* 时间复杂度: $O(n)$。其中 n 是数组的长度。快指针 q 遍历数组一次，慢指针 p 在第二步中也最多遍历一次。总的操作次数与 n 呈线性关系。
+* 空间复杂度: $O(1)$。所有操作都在原数组上进行，没有使用额外的存储空间。
 
 ## [11. 盛最多水的容器 - Mid](https://leetcode.cn/problems/container-with-most-water/)
 
@@ -179,7 +179,6 @@ func maxArea(height []int) int {
 
 ## [15. 三数之和 - Mid](https://leetcode.cn/problems/3sum/)
 
-
 ### 题目回顾
 
 > 给你一个整数数组 `nums` ，判断是否存在三元组 `[nums[i], nums[j], nums[k]]` 满足 `i != j`、`i != k` 且 `j != k` ，同时还满足 `nums[i] + nums[j] + nums[k] == 0` 。
@@ -204,8 +203,8 @@ func maxArea(height []int) int {
 
 排序是解决这道题的关键步骤（通常花费 $O(n \log n)$）。
 
-- **便于双指针操作**：排序后，我们可以利用单调性，通过移动左右指针来调整两数之和的大小。
-- **便于去重**：题目要求不包含重复的三元组。排序后，相同的元素会相邻，我们在遍历时很容易判断并跳过重复元素。
+* **便于双指针操作**：排序后，我们可以利用单调性，通过移动左右指针来调整两数之和的大小。
+* **便于去重**：题目要求不包含重复的三元组。排序后，相同的元素会相邻，我们在遍历时很容易判断并跳过重复元素。
 
 #### 2. 算法流程
 
@@ -230,80 +229,78 @@ func maxArea(height []int) int {
 
 这道题最容易出错的地方就是去重。
 
-- **外层去重** (`nums[i] == nums[i-1]`)：保证三元组的第一个位置不使用相同的值。
-- **内层去重** (`nums[left] == nums[left+1]`)：在找到一个解后，保证三元组的第二个（以及自然确定的第三个）位置不使用相同的值。
+* **外层去重** (`nums[i] == nums[i-1]`)：保证三元组的第一个位置不使用相同的值。
+* **内层去重** (`nums[left] == nums[left+1]`)：在找到一个解后，保证三元组的第二个（以及自然确定的第三个）位置不使用相同的值。
 
 ### 代码实现
 
 ```go
 func threeSum(nums []int) [][]int {
-	n := len(nums)
-	if n < 3 {
-		return [][]int{}
-	}
+    n := len(nums)
+    if n < 3 {
+        return [][]int{}
+    }
 
-	var ans [][]int
-	sort.Ints(nums)
+    var ans [][]int
+    sort.Ints(nums)
 
-	for i := 0; i < n-2; i++ {
-		// 因为数组已排序，如果 nums[i] > 0，
-		// 那么后面的数一定都比它大，三数之和不可能为 0，直接结束循环。
-		if nums[i] > 0 {
-			break
-		}
-		// 如果 i > 0 且 nums[i] == nums[i-1]
-		// 说明这个数作为第一个数的情况已经处理过了，跳过以避免重复。
-		if i > 0 && nums[i] == nums[i-1] {
-			continue
-		}
-		// 转化为求两数之和：寻找 nums[left] + nums[right] == -nums[i]
-		target := -nums[i]
-		left, right := i+1, n-1
+    for i := 0; i < n-2; i++ {
+        // 因为数组已排序，如果 nums[i] > 0，
+        // 那么后面的数一定都比它大，三数之和不可能为 0，直接结束循环。
+        if nums[i] > 0 {
+            break
+        }
+        // 如果 i > 0 且 nums[i] == nums[i-1]
+        // 说明这个数作为第一个数的情况已经处理过了，跳过以避免重复。
+        if i > 0 && nums[i] == nums[i-1] {
+            continue
+        }
+        // 转化为求两数之和：寻找 nums[left] + nums[right] == -nums[i]
+        target := -nums[i]
+        left, right := i+1, n-1
 
-		for left < right {
-			sum := nums[left] + nums[right]
-			if sum == target {
-				// 找到符合条件的三元组
-				ans = append(ans, []int{nums[i], nums[left], nums[right]})
-				// 无论如何先移动指针
-				left++
-				right--
-				// 内层去重：跳过重复的 left 和 right
-				// 注意：必须在 left < right 的前提下比较
-				for left < right && nums[left] == nums[left-1] {
-					left++
-				}
-				for left < right && nums[right] == nums[right+1] {
-					right--
-				}
-			} else if sum > target {
-				// 和太大，右指针左移
-				right--
-			} else {
-				// 和太小，左指针右移
-				left++
-			}
-		}
-	}
-	return ans
+        for left < right {
+            sum := nums[left] + nums[right]
+            if sum == target {
+                // 找到符合条件的三元组
+                ans = append(ans, []int{nums[i], nums[left], nums[right]})
+                // 无论如何先移动指针
+                left++
+                right--
+                // 内层去重：跳过重复的 left 和 right
+                // 注意：必须在 left < right 的前提下比较
+                for left < right && nums[left] == nums[left-1] {
+                    left++
+                }
+                for left < right && nums[right] == nums[right+1] {
+                    right--
+                }
+            } else if sum > target {
+                // 和太大，右指针左移
+                right--
+            } else {
+                // 和太小，左指针右移
+                left++
+            }
+        }
+    }
+    return ans
 }
 
 ```
 
 **复杂度分析**
 
-- 时间复杂度: $O(n^2)$。数组排序的时间复杂度为 $O(n \log n)$。双指针遍历的时间复杂度为 $O(n^2)$。总体复杂度由 $O(n^2)$ 主导。
-- 空间复杂度: $O(\log n)$ 或 $O(n)$。取决于排序算法的实现细节。
+* 时间复杂度: $O(n^2)$。数组排序的时间复杂度为 $O(n \log n)$。双指针遍历的时间复杂度为 $O(n^2)$。总体复杂度由 $O(n^2)$ 主导。
+* 空间复杂度: $O(\log n)$ 或 $O(n)$。取决于排序算法的实现细节。
 
 ## [42. 接雨水 - Hard](https://leetcode.cn/problems/trapping-rain-water/)
-
 
 ### 题目回顾
 
 > 给定 `n` 个非负整数表示每个宽度为 `1` 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
 
 **示例 1：**
-
 
 **输入：** `height = [0,1,0,2,1,0,1,3,2,1,2,1]`
 **输出：** `6`
@@ -327,7 +324,6 @@ $$
 \text{water}[i] = \min(\text{maxleft}[i], \text{maxright}[i]) - \text{height}[i]
 $$
 
-
 当然，如果计算结果小于 0，说明当前柱子比两边都高，存不了水，结果取 0。
 
 #### 为什么需要动态规划？
@@ -335,52 +331,53 @@ $$
 如果我们对每个位置 `i` 都向左、向右扫描寻找最大值，时间复杂度会达到 $O(N^2)$，这在数据量大时会超时。
 
 为了优化，我们可以使用**空间换时间**的策略（预处理）：
-1.  **左侧最大值数组 (`left`)**：从左往右遍历，`left[i]` 表示 `[0...i]` 区间内的最大高度。递推公式为 `left[i] = max(left[i-1], height[i])`。
-2.  **右侧最大值数组 (`right`)**：从右往左遍历，`right[i]` 表示 `[i...n-1]` 区间内的最大高度。递推公式为 `right[i] = max(right[i+1], height[i])`。
+
+1. **左侧最大值数组 (`left`)**：从左往右遍历，`left[i]` 表示 `[0...i]` 区间内的最大高度。递推公式为 `left[i] = max(left[i-1], height[i])`。
+2. **右侧最大值数组 (`right`)**：从右往左遍历，`right[i]` 表示 `[i...n-1]` 区间内的最大高度。递推公式为 `right[i] = max(right[i+1], height[i])`。
 
 这样，我们在最后计算雨水时，只需要 $O(1)$ 的时间就能获取到左右两边的限制高度。
 
 具体的算法流程如下：
-1.  初始化两个长度为 `n` 的数组 `left` 和 `right`。
-2.  **正向遍历**生成 `left` 数组。
-3.  **反向遍历**生成 `right` 数组。
-4.  再次遍历数组，应用上述公式累加每一个位置的雨水量。
+
+1. 初始化两个长度为 `n` 的数组 `left` 和 `right`。
+2. **正向遍历**生成 `left` 数组。
+3. **反向遍历**生成 `right` 数组。
+4. 再次遍历数组，应用上述公式累加每一个位置的雨水量。
 
 ### 代码实现
 
 ```go
 
 func trap(height []int) int {
-	n := len(height)
-	if n <= 1 {
-		return 0
-	}
-	// left_i 表示0到i的最大值
-	left := make([]int, n)
-	left[0] = height[0]
-	// right_i 表示i到n-1的最大值
-	right := make([]int, n)
-	right[n-1] = height[n-1]
+    n := len(height)
+    if n <= 1 {
+        return 0
+    }
+    // left_i 表示0到i的最大值
+    left := make([]int, n)
+    left[0] = height[0]
+    // right_i 表示i到n-1的最大值
+    right := make([]int, n)
+    right[n-1] = height[n-1]
 
-	for i := 1; i < n; i++ {
-		left[i] = max(left[i-1], height[i])
-	}
+    for i := 1; i < n; i++ {
+        left[i] = max(left[i-1], height[i])
+    }
 
-	for i := n - 2; i >= 0; i-- {
-		right[i] = max(right[i+1], height[i])
-	}
-	sum := 0
-	for i, v := range height {
-		sum += min(left[i], right[i]) - v
-	}
+    for i := n - 2; i >= 0; i-- {
+        right[i] = max(right[i+1], height[i])
+    }
+    sum := 0
+    for i, v := range height {
+        sum += min(left[i], right[i]) - v
+    }
 
-	return sum
+    return sum
 }
 
 ```
 
 **复杂度分析**
 
-- 时间复杂度: $O(N)$。我们需要遍历数组三次（计算 left，计算 right，计算结果），每次操作都是线性的，所以总时间复杂度为线性。
-- 空间复杂度: $O(N)$。我们需要两个额外的数组 left 和 right 来存储预处理结果。进阶思考：虽然 $O(N)$ 的空间复杂度已经是可以接受的，但这道题其实还有空间复杂度为 $O(1)$ 的双指针解法。其核心思想是在动态维护左右最大值的同时收缩左右指针，有兴趣的读者可以尝试自行推导。
-
+* 时间复杂度: $O(N)$。我们需要遍历数组三次（计算 left，计算 right，计算结果），每次操作都是线性的，所以总时间复杂度为线性。
+* 空间复杂度: $O(N)$。我们需要两个额外的数组 left 和 right 来存储预处理结果。进阶思考：虽然 $O(N)$ 的空间复杂度已经是可以接受的，但这道题其实还有空间复杂度为 $O(1)$ 的双指针解法。其核心思想是在动态维护左右最大值的同时收缩左右指针，有兴趣的读者可以尝试自行推导。
