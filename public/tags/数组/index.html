@@ -260,94 +260,90 @@ t (top)：上边界，初始为 0 b (bottom)：下边界，初始为 m-1 l (left
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/数组】LeetCode 189. 轮转数组
+    <h2 class="entry-hint-parent">【HOT100/哈希集合/Middle】LeetCode 128. 最长连续序列
     </h2>
   </header>
   <div class="entry-content">
-    <p>题目回顾 给定一个整数数组 nums，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。
-示例 1:
-输入: nums = [1,2,3,4,5,6,7], k = 3 输出: [5,6,7,1,2,3,4] 解释: 向右轮转 1 步: [7,1,2,3,4,5,6] 向右轮转 2 步: [6,7,1,2,3,4,5] 向右轮转 3 步: [5,6,7,1,2,3,4]
-示例 2:
-输入： nums = [-1,-100,3,99], k = 2 输出： [3,99,-1,-100]
-核心思路：三次翻转法 这道题最直观的解法是使用一个额外的数组，将每个元素放到正确的位置，但这需要 $O(N)$ 的空间。 如果要求原地算法（$O(1)$ 空间），最经典且容易理解的方法是数组翻转法。
-我们可以观察一下规律，以 nums = [1,2,3,4,5,6,7], k = 3 为例：
-原始数组：[1, 2, 3, 4, 5, 6, 7] 我们可以把数组分为两部分：
-第一部分（前 n-k 个）：[1, 2, 3, 4] 第二部分（后 k 个）：[5, 6, 7] (这部分实际上是要移动到数组头部的) 第一步：整体翻转 将整个数组翻转： [7, 6, 5, 4, 3, 2, 1] 此时，原本在尾部的 [5, 6, 7] 跑到了头部，但是顺序是反的（7, 6, 5）。原本在头部的 [1, 2, 3, 4] 跑到了尾部，顺序也是反的（4, 3, 2, 1）。
+    <p>题目回顾 给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。
+请你设计并实现时间复杂度为 O(n) 的算法解决此问题。
+示例 1：
+输入： nums = [100,4,200,1,3,2] 输出： 4 解释： 最长数字连续序列是 [1, 2, 3, 4]。它的长度为 4。
+核心思路：哈希集合 &#43; 智能枚举 这道题最核心的要求是 O(n) 的时间复杂度，这意味着我们不能使用排序 $O(nlogn)$。
+要实现 O(n)，关键在于快速查找某个数是否存在。这让我们自然而然地想到了哈希表。我们可以用一个哈希集合 (HashSet) 来优化查找过程。
+这题的关键是找出序列起点来剪枝
+空间换时间，初始化哈希集合
+创建一个 HashSet，并将数组 nums 中的所有元素都添加进去。 这一步有两个目的：一是方便后续以 $O(1)$ 的时间复杂度快速查找某个数是否存在；二是自动处理了数组中的重复元素。 智能遍历，只从序列的起点开始计算
+这是整个算法最精妙的地方。如果我们遍历集合中的每一个数，都尝试计算以它开头的序列长度，会有大量重复计算。例如，对于序列 [1, 2, 3, 4]，我们从 1 开始计算了一遍，又会从 2 开始再计算一遍 [2, 3, 4]，这是不必要的。 如何避免重复计算？ 答案是：只从一个连续序列的起点开始计算。 如何判断一个数 num 是不是起点？ 很简单，只要检查 num - 1 是否存在于哈希集合中。如果 num - 1 不存在，那么 num 就是一个潜在的序列起点。如果 num - 1 存在，那么 num 肯定不是起点，我们可以直接跳过它，因为它一定会被 num - 1 开始的计算所覆盖。 计算长度并更新结果
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-01-02 17:05:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/数组】LeetCode 189. 轮转数组" href="https://amemiya02.github.io/posts/2026-01-02-189-rotate-array/"></a>
+  <footer class="entry-footer"><span title='2025-09-21 11:03:00 +0900 JST'>September 21, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/哈希集合/Middle】LeetCode 128. 最长连续序列" href="https://amemiya02.github.io/posts/2025-09-21-128-longest-consecutive-sequence/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/排序】LeetCode 56. 合并区间
+    <h2 class="entry-hint-parent">【HOT100/哈希表 / 数组】LeetCode 383. 赎金信
     </h2>
   </header>
   <div class="entry-content">
-    <p>题目回顾 以数组 intervals 表示若干个区间的集合，其中单个区间为 intervals[i] = [start_i, end_i] 。请你合并所有重叠的区间，并返回一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间。
+    <p>题目回顾 给你两个字符串：ransomNote 和 magazine ，判断 ransomNote 能不能由 magazine 里面的字符构成。
+如果可以，返回 true ；否则返回 false 。
+magazine 中的每个字符只能在 ransomNote 中使用一次。
 示例 1：
-输入： intervals = [[1,3],[2,6],[8,10],[15,18]] 输出： [[1,6],[8,10],[15,18]] 解释： 区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6].
+输入： ransomNote = &#34;a&#34;, magazine = &#34;b&#34; 输出： false
 示例 2：
-输入： intervals = [[1,4],[4,5]] 输出： [[1,5]] 解释： 区间 [1,4] 和 [4,5] 可被视为重叠区间。
-核心思路：排序 &#43; 贪心 区间问题最常见的痛点在于：输入的区间可能是乱序的。如果乱序处理，我们需要两两比较，复杂度会飙升到 $O(N^2)$。
-解决此类问题的&#34;银弹&#34;通常是先排序。
-1. 预处理：排序 我们首先按照区间的**左端点（Start Time）**进行从小到大的排序。 排序后，重叠的区间在数组中一定是相邻的。这使得我们只需要进行一次线性扫描就能完成合并。
-2. 遍历与合并 我们维护一个结果集 res，并遍历排序后的区间列表：
-初始状态：如果 res 为空，直接将当前区间加入。 无重叠：如果当前区间的左端点大于结果集中最后一个区间的右端点，说明它们断开了，没有交集。直接将当前区间加入 res。 有重叠：如果当前区间的左端点小于等于结果集中最后一个区间的右端点，说明发生了重叠（或者通过端点相连）。 此时我们需要合并：更新结果集中最后一个区间的右端点。 新的右端点应该是两者右端点的最大值：max(last_interval.end, current_interval.end)。 代码实现 (Java) class Solution { public int[][] merge(int[][] intervals) { // 边界检查 if (intervals.length == 0) { return new int[0][2]; } // 核心步骤 1：按照区间左端点进行排序 // 这一步将 O(N^2) 的两两比较降低为 O(N) 的线性扫描 Arrays.sort(intervals, (i1, i2) -&gt; i1[0] - i2[0]); List&lt;int[]&gt; res = new ArrayList&lt;&gt;(); for (int i = 0; i &lt; intervals.length; i&#43;&#43;) { int l = intervals[i][0]; int r = intervals[i][1]; // 核心步骤 2：判断是否重叠 // 如果结果集为空，或者当前区间的左端点 &gt; 结果集最后一个区间的右端点 // 说明无重叠，直接添加 if (res.isEmpty() || res.get(res.size() - 1)[1] &lt; l) { res.add(new int[]{l, r}); } else { // 发生重叠，合并区间 // 更新结果集最后一个区间的右端点，取两者最大值 res.get(res.size() - 1)[1] = Math.max(res.get(res.size() - 1)[1], r); } } // 转换回题目要求的 int[][] 格式 return res.toArray(new int[res.size()][0]); } } 复杂度分析 时间复杂度: $O(N \log N)$。虽然遍历是一次线性的 $O(N)$，但排序的开销是 $O(N \log N)$，它是整个算法的瓶颈。 空间复杂度: $O(\log N)$。这里指的是 Java 排序算法（通常是快排或归并排序的变种）所需的栈空间。如果算上存储结果的 res 列表，则是 $O(N)$。 </p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-02 16:20:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/排序】LeetCode 56. 合并区间" href="https://amemiya02.github.io/posts/2026-01-02-56-merge-intervals/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/动态规划】LeetCode 53. 最大子数组和
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
-子数组 是数组中的一个连续部分。
-示例 1：
-输入： nums = [-2,1,-3,4,-1,2,1,-5,4] 输出： 6 解释： 连续子数组 [4,-1,2,1] 的和最大，为 6 。
-示例 2：
-输入： nums = [1] 输出： 1
-示例 3：
-输入： nums = [5,4,-1,7,8] 输出： 23
-核心思路：动态规划与贪心 这道题是**动态规划（Dynamic Programming）**的经典入门题。
-如果我们用暴力法求解，枚举所有的起点和终点，时间复杂度会达到 $O(N^2)$，这显然不是最优解。我们需要找到一种遍历一次就能得出结果的方法。
-状态定义 我们要思考：以当前数字 nums[i] 结尾的子数组，它的最大和是多少？
-假设 dp[i] 表示以 nums[i] 结尾的连续子数组的最大和。那么对于 nums[i] 来说，它面临两个选择：
-加入前面的队伍：如果前面的子数组和 dp[i-1] 是正数，那么加上它肯定比自己单干强，即 dp[i-1] &#43; nums[i]。 另起炉灶：如果前面的子数组和 dp[i-1] 是负数，加上它只会拖累自己，不如从自己重新开始计算，即 nums[i]。 状态转移方程 根据上述分析，我们可以得到状态转移方程： $$ dp[i] = \max(dp[i-1] &#43; \text{nums}[i], \text{nums}[i]) $$
+输入： ransomNote = &#34;aa&#34;, magazine = &#34;aab&#34; 输出： true
+核心思路：字符计数 这道题的本质是判断 magazine 字符串中的字符数量，是否足够&#34;支付&#34; ransomNote 中所需的字符数量。字符的顺序无关紧要，我们只关心每个字符的可用频率。
+这是一个典型的哈希表或频率统计问题。
+统计资源：首先，我们需要清点我们拥有的&#34;资源&#34;，即 magazine 中每个字符的数量。
+我们可以遍历 magazine 字符串。 由于题目中只包含小写英文字母，我们可以使用一个长度为 26 的整型数组 counts 来充当哈希表，这比使用 HashMap 更高效。数组的索引 c - &#39;a&#39; 对应字符 c。 遍历 magazine 时，将对应字符的计数值加 1。 消耗资源：统计完 magazine 的字符后，我们再遍历 ransomNote，看看我们的资源是否足够。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-01-02 15:10:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/动态规划】LeetCode 53. 最大子数组和" href="https://amemiya02.github.io/posts/2026-01-02-53-maximum-subarray/"></a>
+  <footer class="entry-footer"><span title='2025-09-18 18:18:00 +0900 JST'>September 18, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/哈希表 / 数组】LeetCode 383. 赎金信" href="https://amemiya02.github.io/posts/2025-09-18-383-ransom-note/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/单调队列】LeetCode 239. 滑动窗口最大值
+    <h2 class="entry-hint-parent">【HOT100/哈希表 / 摩尔投票】LeetCode 169. 多数元素
     </h2>
   </header>
   <div class="entry-content">
-    <p>题目回顾 给你一个整数数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。
-返回滑动窗口中的最大值。
+    <p>题目回顾 给定一个大小为 n 的数组 nums ，返回其中的多数元素。多数元素是指在数组中出现次数 大于 ⌊ n/2 ⌋ 的元素。
+你可以假设数组是非空的，并且给定的数组总是存在多数元素。
 示例：
-输入： nums = [1,3,-1,-3,5,3,6,7], k = 3
-输出： [3,3,5,5,6,7]
-解释：
-滑动窗口的位置 最大值
-[1 3 -1] -3 5 3 6 7 3
-1 [3 -1 -3] 5 3 6 7 3
-1 3 [-1 -3 5] 3 6 7 5
-1 3 -1 [-3 5 3] 6 7 5
-1 3 -1 -3 [5 3 6] 7 6
-1 3 -1 -3 5 [3 6 7] 7
+输入： nums = [2,2,1,1,1,2,2] 输出： 2
+核心思路 这道题旨在寻找数组中数量过半的元素。我们介绍两种主流的思路。
+思路一：哈希表计数 这是最直观、最容易想到的方法。我们可以利用一个哈希表（HashMap）来记录数组中每个元素出现的次数。
+定义哈希表：创建一个 Map&lt;Integer, Integer&gt; 用于存储 元素 -&gt; 出现次数 的映射。 遍历数组：遍历 nums 数组，对于每个元素 num： 将其在哈希表中的计数值加 1。 每次更新计数后，立即检查该元素的计数值是否已经大于 n/2。 如果超过 n/2，那么这个元素就是我们要找的多数元素，直接返回它。 返回结果：由于题目保证多数元素总是存在，所以在遍历过程中必然会找到答案。 这个方法用空间换时间，思路简单清晰，易于实现。
+思路二：摩尔投票算法 (Boyer-Moore Voting Algorithm) 这是一种非常巧妙的算法，可以在线性的时间和常数的空间内解决问题。
+它的核心思想是对拼消耗。可以想象成在数组中进行一场选举，不同阵营的候选人进行投票。
+定义候选者和票数：我们维护一个候选者 candidate 和一个计数器 count。 遍历数组：遍历 nums 数组，对于每个元素 num： 如果 count 为 0，表示之前的候选者已经被&#34;淘汰&#34;了，我们将当前元素 num 设为新的 candidate，并将 count 设为 1。 如果 num 与 candidate 相同，就给候选者&#34;投一票&#34;，count 加 1。 如果 num 与 candidate 不同，就让候选者的票数&#34;抵消&#34;一张，count 减 1。 返回结果：遍历结束后，留下的 candidate 就是最终的多数元素。 为什么这个方法可行？ 因为多数元素的数量超过了数组长度的一半，这意味着它的数量比所有其他元素数量的总和还要多。所以在对拼消耗的过程中，它的票数 count 最终不可能被减到 0 或以下，它必然是笑到最后的那个。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-12-18 15:30:00 +0800 +0800'>December 18, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/单调队列】LeetCode 239. 滑动窗口最大值" href="https://amemiya02.github.io/posts/2025-12-18-239-sliding-window-maximum/"></a>
+  <footer class="entry-footer"><span title='2025-09-15 10:05:00 +0900 JST'>September 15, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/哈希表 / 摩尔投票】LeetCode 169. 多数元素" href="https://amemiya02.github.io/posts/2025-09-15-169-majority-element/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/快慢指针】LeetCode 80. 删除有序数组中的重复项 II
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 给你一个有序数组 nums ，请你 原地 删除重复出现的元素，使得出现次数超过两次的元素只出现两次 ，返回删除后数组的新长度。
+不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。
+示例：
+输入： nums = [1,1,1,2,2,3] 输出： 5, nums = [1,1,2,2,3,_] 解释： 函数应返回 k = 5，并且 nums 的前五个元素为 1, 1, 2, 2, 3。
+核心思路：快慢指针的通用解法 这道题是 LeetCode 26 的进阶版，规则从&#34;只保留 1 个&#34;变成了&#34;最多保留 2 个&#34;。快慢指针的思路依然适用，我们只需要对写入条件稍作修改。
+我们可以定义一个更通用的解法来处理&#34;最多保留 k 个重复项&#34;这类问题。
+定义指针：
+慢指针 slow: 指向下一个可以被覆盖的位置。[0...slow-1] 是已处理好的区域。 快指针 fast: 遍历整个数组，寻找符合条件的元素。 执行过程：
+我们遍历数组，对于快指针 fast 指向的当前元素 nums[fast]，思考一个问题：在什么情况下，这个元素应该被保留下来？ 保留的条件是：当前处理好的数组长度 slow 小于 2，或者 nums[fast] 不等于 nums[slow - 2]。 slow &lt; 2：表示当前是数组最开头的两个位置，无论如何都应该被填充，因为题目允许最多两个重复项。 nums[fast] &gt; nums[slow - 2]：这是本算法的核心。nums[slow - 1] 和 nums[slow - 2] 是已处理好的数组的最后两个元素。如果当前快指针的元素 nums[fast] 和 nums[slow - 2] 相同，说明 nums[slow-2], nums[slow-1], nums[fast] 将构成三个或以上的连续重复，此时 nums[fast] 不应被保留。反之，则可以保留。 返回结果：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-09-14 16:55:00 +0900 JST'>September 14, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/快慢指针】LeetCode 80. 删除有序数组中的重复项 II" href="https://amemiya02.github.io/posts/2025-09-14-80-remove-duplicates-from-sorted-array-ii/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

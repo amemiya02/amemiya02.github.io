@@ -146,118 +146,6 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/数组】LeetCode 189. 轮转数组
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给定一个整数数组 nums，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。
-示例 1:
-输入: nums = [1,2,3,4,5,6,7], k = 3 输出: [5,6,7,1,2,3,4] 解释: 向右轮转 1 步: [7,1,2,3,4,5,6] 向右轮转 2 步: [6,7,1,2,3,4,5] 向右轮转 3 步: [5,6,7,1,2,3,4]
-示例 2:
-输入： nums = [-1,-100,3,99], k = 2 输出： [3,99,-1,-100]
-核心思路：三次翻转法 这道题最直观的解法是使用一个额外的数组，将每个元素放到正确的位置，但这需要 $O(N)$ 的空间。 如果要求原地算法（$O(1)$ 空间），最经典且容易理解的方法是数组翻转法。
-我们可以观察一下规律，以 nums = [1,2,3,4,5,6,7], k = 3 为例：
-原始数组：[1, 2, 3, 4, 5, 6, 7] 我们可以把数组分为两部分：
-第一部分（前 n-k 个）：[1, 2, 3, 4] 第二部分（后 k 个）：[5, 6, 7] (这部分实际上是要移动到数组头部的) 第一步：整体翻转 将整个数组翻转： [7, 6, 5, 4, 3, 2, 1] 此时，原本在尾部的 [5, 6, 7] 跑到了头部，但是顺序是反的（7, 6, 5）。原本在头部的 [1, 2, 3, 4] 跑到了尾部，顺序也是反的（4, 3, 2, 1）。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-02 17:05:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/数组】LeetCode 189. 轮转数组" href="https://amemiya02.github.io/posts/2026-01-02-189-rotate-array/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/排序】LeetCode 56. 合并区间
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 以数组 intervals 表示若干个区间的集合，其中单个区间为 intervals[i] = [start_i, end_i] 。请你合并所有重叠的区间，并返回一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间。
-示例 1：
-输入： intervals = [[1,3],[2,6],[8,10],[15,18]] 输出： [[1,6],[8,10],[15,18]] 解释： 区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6].
-示例 2：
-输入： intervals = [[1,4],[4,5]] 输出： [[1,5]] 解释： 区间 [1,4] 和 [4,5] 可被视为重叠区间。
-核心思路：排序 &#43; 贪心 区间问题最常见的痛点在于：输入的区间可能是乱序的。如果乱序处理，我们需要两两比较，复杂度会飙升到 $O(N^2)$。
-解决此类问题的&#34;银弹&#34;通常是先排序。
-1. 预处理：排序 我们首先按照区间的**左端点（Start Time）**进行从小到大的排序。 排序后，重叠的区间在数组中一定是相邻的。这使得我们只需要进行一次线性扫描就能完成合并。
-2. 遍历与合并 我们维护一个结果集 res，并遍历排序后的区间列表：
-初始状态：如果 res 为空，直接将当前区间加入。 无重叠：如果当前区间的左端点大于结果集中最后一个区间的右端点，说明它们断开了，没有交集。直接将当前区间加入 res。 有重叠：如果当前区间的左端点小于等于结果集中最后一个区间的右端点，说明发生了重叠（或者通过端点相连）。 此时我们需要合并：更新结果集中最后一个区间的右端点。 新的右端点应该是两者右端点的最大值：max(last_interval.end, current_interval.end)。 代码实现 (Java) class Solution { public int[][] merge(int[][] intervals) { // 边界检查 if (intervals.length == 0) { return new int[0][2]; } // 核心步骤 1：按照区间左端点进行排序 // 这一步将 O(N^2) 的两两比较降低为 O(N) 的线性扫描 Arrays.sort(intervals, (i1, i2) -&gt; i1[0] - i2[0]); List&lt;int[]&gt; res = new ArrayList&lt;&gt;(); for (int i = 0; i &lt; intervals.length; i&#43;&#43;) { int l = intervals[i][0]; int r = intervals[i][1]; // 核心步骤 2：判断是否重叠 // 如果结果集为空，或者当前区间的左端点 &gt; 结果集最后一个区间的右端点 // 说明无重叠，直接添加 if (res.isEmpty() || res.get(res.size() - 1)[1] &lt; l) { res.add(new int[]{l, r}); } else { // 发生重叠，合并区间 // 更新结果集最后一个区间的右端点，取两者最大值 res.get(res.size() - 1)[1] = Math.max(res.get(res.size() - 1)[1], r); } } // 转换回题目要求的 int[][] 格式 return res.toArray(new int[res.size()][0]); } } 复杂度分析 时间复杂度: $O(N \log N)$。虽然遍历是一次线性的 $O(N)$，但排序的开销是 $O(N \log N)$，它是整个算法的瓶颈。 空间复杂度: $O(\log N)$。这里指的是 Java 排序算法（通常是快排或归并排序的变种）所需的栈空间。如果算上存储结果的 res 列表，则是 $O(N)$。 </p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-02 16:20:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/排序】LeetCode 56. 合并区间" href="https://amemiya02.github.io/posts/2026-01-02-56-merge-intervals/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/动态规划】LeetCode 53. 最大子数组和
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
-子数组 是数组中的一个连续部分。
-示例 1：
-输入： nums = [-2,1,-3,4,-1,2,1,-5,4] 输出： 6 解释： 连续子数组 [4,-1,2,1] 的和最大，为 6 。
-示例 2：
-输入： nums = [1] 输出： 1
-示例 3：
-输入： nums = [5,4,-1,7,8] 输出： 23
-核心思路：动态规划与贪心 这道题是**动态规划（Dynamic Programming）**的经典入门题。
-如果我们用暴力法求解，枚举所有的起点和终点，时间复杂度会达到 $O(N^2)$，这显然不是最优解。我们需要找到一种遍历一次就能得出结果的方法。
-状态定义 我们要思考：以当前数字 nums[i] 结尾的子数组，它的最大和是多少？
-假设 dp[i] 表示以 nums[i] 结尾的连续子数组的最大和。那么对于 nums[i] 来说，它面临两个选择：
-加入前面的队伍：如果前面的子数组和 dp[i-1] 是正数，那么加上它肯定比自己单干强，即 dp[i-1] &#43; nums[i]。 另起炉灶：如果前面的子数组和 dp[i-1] 是负数，加上它只会拖累自己，不如从自己重新开始计算，即 nums[i]。 状态转移方程 根据上述分析，我们可以得到状态转移方程： $$ dp[i] = \max(dp[i-1] &#43; \text{nums}[i], \text{nums}[i]) $$
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-02 15:10:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/动态规划】LeetCode 53. 最大子数组和" href="https://amemiya02.github.io/posts/2026-01-02-53-maximum-subarray/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/单调队列】LeetCode 239. 滑动窗口最大值
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给你一个整数数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。
-返回滑动窗口中的最大值。
-示例：
-输入： nums = [1,3,-1,-3,5,3,6,7], k = 3
-输出： [3,3,5,5,6,7]
-解释：
-滑动窗口的位置 最大值
-[1 3 -1] -3 5 3 6 7 3
-1 [3 -1 -3] 5 3 6 7 3
-1 3 [-1 -3 5] 3 6 7 5
-1 3 -1 [-3 5 3] 6 7 5
-1 3 -1 -3 [5 3 6] 7 6
-1 3 -1 -3 5 [3 6 7] 7
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-12-18 15:30:00 +0800 +0800'>December 18, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/单调队列】LeetCode 239. 滑动窗口最大值" href="https://amemiya02.github.io/posts/2025-12-18-239-sliding-window-maximum/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/滑动窗口】LeetCode 76. Minimum Window Substring
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给定两个字符串 s 和 t，长度分别是 m 和 n，返回 s 中的 最短窗口 子串，使得该子串包含 t 中的每一个字符（包括重复字符）。如果没有这样的子串，返回空字符串 &#34;&#34;。
-测试用例保证答案唯一。
-示例：
-输入： s = &#34;ADOBECODEBANC&#34;, t = &#34;ABC&#34;
-输出： &#34;BANC&#34;
-解释： 最小覆盖子串 &#34;BANC&#34; 包含 t 中所有字符 &#39;A&#39;, &#39;B&#39;, &#39;C&#39;。
-核心思路：滑动窗口 &#43; 哈希计数 本题是「滑动窗口」的经典应用，核心目标是：在 s 中找到一个最短连续子串，使其字符频次 ≥ t 的字符频次（即完全覆盖 t）。
-关键观察点： 窗口有效性判定：不能只看字符是否出现，而要看频次是否足够。例如 t = &#34;AAB&#34;，窗口中至少要有 2 个 &#39;A&#39; 和 1 个 &#39;B&#39;。 扩展与收缩策略： 右指针 r 扩展窗口：直到窗口首次满足覆盖条件； 左指针 l 收缩窗口：在满足条件的前提下，尽可能缩小窗口，尝试找到更优解； 重复上述过程，维护全局最小窗口。 实现细节： 使用两个哈希表： ori：统计 t 中各字符的目标频次； cnt：动态维护当前窗口 [l, r] 中各字符的实际频次； 辅助函数 check()：遍历 ori，检查 cnt 中每个字符频次是否 ≥ ori 中对应值； ✅ 优化点：可改用「需匹配字符种类数」&#43;「当前达标种类数」实现 O(1) 判断（见文末优化提示），但为清晰起见，此处保留原写法。 ⚠️ 注意边界：当 r 向右移动后需先判断是否越界再访问 s.charAt(r)。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-12-18 14:00:00 +0800 +0800'>December 18, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/滑动窗口】LeetCode 76. Minimum Window Substring" href="https://amemiya02.github.io/posts/2025-12-18-76-minimum-window-substring/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
     <h2 class="entry-hint-parent">【HOT100/双指针 / 链表】LeetCode 160. 相交链表
     </h2>
   </header>
@@ -346,6 +234,112 @@ magazine 中的每个字符只能在 ransomNote 中使用一次。
   </div>
   <footer class="entry-footer"><span title='2025-09-17 20:13:00 +0900 JST'>September 17, 2025</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/双指针】LeetCode 392. 判断子序列" href="https://amemiya02.github.io/posts/2025-09-17-392-is-subsequence/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/双指针】LeetCode 125. 验证回文串
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 如果在将所有大写字符转换为小写字符、并移除所有非字母数字字符之后，短语正着读和反着读都一样。则可以认为该短语是一个 回文串 。
+字母和数字都属于字母数字字符。
+给你一个字符串 s，如果它是 回文串 ，返回 true ；否则，返回 false 。
+示例：
+输入： s = &#34;A man, a plan, a canal: Panama&#34; 输出： true 解释： &#34;amanaplanacanalpanama&#34; 是回文串。
+核心思路：相向双指针 “回文&#34;这个特性，天然就适合使用相向双指针来解决。我们可以设置一个指针从字符串头部开始，另一个指针从尾部开始，同时向中间移动并进行比较。
+对于这道题，我们需要在比较之前，先对字符进行&#34;清洗”，即忽略非字母数字字符和大小写。
+初始化指针：
+定义左指针 left 指向字符串的起始位置 0。 定义右指针 right 指向字符串的末尾位置 s.length() - 1。 循环与过滤：
+当 left &lt; right 时，循环继续。 在循环内部，首先要找到左右两边有效的、可用于比较的字符。 移动 left 指针：如果 left 指向的字符不是字母或数字，就将 left 右移 (left&#43;&#43;)，跳过该字符。 移动 right 指针：如果 right 指向的字符不是字母或数字，就将 right 左移 (right--)，跳过该字符。 比较字符：
+当左右指针都停留在有效的字母数字字符上时，将它们统一转换为小写进行比较。 如果 Character.toLowerCase(s.charAt(left)) 不等于 Character.toLowerCase(s.charAt(right))，说明字符串不是回文串，可以直接返回 false。 向中心移动：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-09-16 21:02:00 +0900 JST'>September 16, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/双指针】LeetCode 125. 验证回文串" href="https://amemiya02.github.io/posts/2025-09-16-125-valid-palindrome/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/哈希表 / 摩尔投票】LeetCode 169. 多数元素
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 给定一个大小为 n 的数组 nums ，返回其中的多数元素。多数元素是指在数组中出现次数 大于 ⌊ n/2 ⌋ 的元素。
+你可以假设数组是非空的，并且给定的数组总是存在多数元素。
+示例：
+输入： nums = [2,2,1,1,1,2,2] 输出： 2
+核心思路 这道题旨在寻找数组中数量过半的元素。我们介绍两种主流的思路。
+思路一：哈希表计数 这是最直观、最容易想到的方法。我们可以利用一个哈希表（HashMap）来记录数组中每个元素出现的次数。
+定义哈希表：创建一个 Map&lt;Integer, Integer&gt; 用于存储 元素 -&gt; 出现次数 的映射。 遍历数组：遍历 nums 数组，对于每个元素 num： 将其在哈希表中的计数值加 1。 每次更新计数后，立即检查该元素的计数值是否已经大于 n/2。 如果超过 n/2，那么这个元素就是我们要找的多数元素，直接返回它。 返回结果：由于题目保证多数元素总是存在，所以在遍历过程中必然会找到答案。 这个方法用空间换时间，思路简单清晰，易于实现。
+思路二：摩尔投票算法 (Boyer-Moore Voting Algorithm) 这是一种非常巧妙的算法，可以在线性的时间和常数的空间内解决问题。
+它的核心思想是对拼消耗。可以想象成在数组中进行一场选举，不同阵营的候选人进行投票。
+定义候选者和票数：我们维护一个候选者 candidate 和一个计数器 count。 遍历数组：遍历 nums 数组，对于每个元素 num： 如果 count 为 0，表示之前的候选者已经被&#34;淘汰&#34;了，我们将当前元素 num 设为新的 candidate，并将 count 设为 1。 如果 num 与 candidate 相同，就给候选者&#34;投一票&#34;，count 加 1。 如果 num 与 candidate 不同，就让候选者的票数&#34;抵消&#34;一张，count 减 1。 返回结果：遍历结束后，留下的 candidate 就是最终的多数元素。 为什么这个方法可行？ 因为多数元素的数量超过了数组长度的一半，这意味着它的数量比所有其他元素数量的总和还要多。所以在对拼消耗的过程中，它的票数 count 最终不可能被减到 0 或以下，它必然是笑到最后的那个。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-09-15 10:05:00 +0900 JST'>September 15, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/哈希表 / 摩尔投票】LeetCode 169. 多数元素" href="https://amemiya02.github.io/posts/2025-09-15-169-majority-element/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/快慢指针】LeetCode 80. 删除有序数组中的重复项 II
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 给你一个有序数组 nums ，请你 原地 删除重复出现的元素，使得出现次数超过两次的元素只出现两次 ，返回删除后数组的新长度。
+不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。
+示例：
+输入： nums = [1,1,1,2,2,3] 输出： 5, nums = [1,1,2,2,3,_] 解释： 函数应返回 k = 5，并且 nums 的前五个元素为 1, 1, 2, 2, 3。
+核心思路：快慢指针的通用解法 这道题是 LeetCode 26 的进阶版，规则从&#34;只保留 1 个&#34;变成了&#34;最多保留 2 个&#34;。快慢指针的思路依然适用，我们只需要对写入条件稍作修改。
+我们可以定义一个更通用的解法来处理&#34;最多保留 k 个重复项&#34;这类问题。
+定义指针：
+慢指针 slow: 指向下一个可以被覆盖的位置。[0...slow-1] 是已处理好的区域。 快指针 fast: 遍历整个数组，寻找符合条件的元素。 执行过程：
+我们遍历数组，对于快指针 fast 指向的当前元素 nums[fast]，思考一个问题：在什么情况下，这个元素应该被保留下来？ 保留的条件是：当前处理好的数组长度 slow 小于 2，或者 nums[fast] 不等于 nums[slow - 2]。 slow &lt; 2：表示当前是数组最开头的两个位置，无论如何都应该被填充，因为题目允许最多两个重复项。 nums[fast] &gt; nums[slow - 2]：这是本算法的核心。nums[slow - 1] 和 nums[slow - 2] 是已处理好的数组的最后两个元素。如果当前快指针的元素 nums[fast] 和 nums[slow - 2] 相同，说明 nums[slow-2], nums[slow-1], nums[fast] 将构成三个或以上的连续重复，此时 nums[fast] 不应被保留。反之，则可以保留。 返回结果：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-09-14 16:55:00 +0900 JST'>September 14, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/快慢指针】LeetCode 80. 删除有序数组中的重复项 II" href="https://amemiya02.github.io/posts/2025-09-14-80-remove-duplicates-from-sorted-array-ii/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/动态规划】LeetCode 70.爬楼梯
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
+每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
+示例：
+输入： n = 3 输出： 3 解释： 有三种方法可以爬到楼顶。
+1 阶 &#43; 1 阶 &#43; 1 阶 1 阶 &#43; 2 阶 2 阶 &#43; 1 阶 核心思路：寻找递推关系 直接计算 n 阶楼梯的所有方法可能很复杂，我们不妨从小问题入手，寻找规律。
+爬 1 阶楼梯 (n=1): 只有 1 种方法 (1)。 -&gt; $f(1) = 1$ 爬 2 阶楼梯 (n=2): 有 2 种方法 (1&#43;1, 2)。 -&gt; $f(2) = 2$ 爬 3 阶楼梯 (n=3): 有 3 种方法 (1&#43;1&#43;1, 1&#43;2, 2&#43;1)。 -&gt; $f(3) = 3$ 我们思考一下，要想到达第 n 阶，我们的最后一步是怎么迈出去的？
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-09-13 10:40:00 +0900 JST'>September 13, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/动态规划】LeetCode 70.爬楼梯" href="https://amemiya02.github.io/posts/2025-09-13-70-climbing-stairs/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/快慢指针】LeetCode 26.删除有序数组中的重复项
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 给你一个 非严格递增排列 的数组 nums ，请你 原地 删除重复出现的元素，使每个元素 只出现一次 ，返回删除后数组的新长度。元素的 相对顺序 应该保持 一致 。
+更改数组 nums ，使 nums 的前 k 个元素包含唯一元素，并按照它们最初在 nums 中出现的顺序排列。
+返回 k 。
+示例：
+输入： nums = [0,0,1,1,1,2,2,3,3,4] 输出： 5, nums = [0,1,2,3,4,_,_,_,_,_] 解释： 函数应该返回 k = 5，并且 nums 的前五个元素为 0, 1, 2, 3, 4。
+核心思路：快慢指针 题目的关键在于&#34;数组有序&#34;和&#34;保持相对顺序&#34;。因为数组是有序的，所以所有重复的元素必然是相邻的。这让我们不必进行复杂的查找，只需向后遍历即可。
+我们可以使用快慢指针来解决这个问题：
+定义指针：
+慢指针 p: 指向当前已处理好的、不重复数组的最后一个位置。它也代表了下一个唯一元素应该被放置的位置。 快指针 q: 负责向前探索，遍历整个数组，寻找与慢指针所指元素不同的新元素。 执行过程：
+初始化 p = 0, q = 1。 快指针 q 向后遍历数组。 若 nums[q] 与 nums[p] 相同，说明是重复元素，则 p 不动，q 继续向后移动以跳过所有重复项。 若 nums[q] 与 nums[p] 不同，说明 q 找到了一个新的唯一元素。此时，先将慢指针 p 向后移动一位 (&#43;&#43;p)，然后将 nums[q] 的值赋给 nums[p]，完成新元素的&#34;入队&#34;。 返回结果：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-09-13 10:35:00 +0900 JST'>September 13, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/快慢指针】LeetCode 26.删除有序数组中的重复项" href="https://amemiya02.github.io/posts/2025-09-13-26-remove-duplicates-from-sorted-array/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
