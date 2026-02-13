@@ -122,27 +122,6 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/双指针】LeetCode 392. 判断子序列
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
-字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，&#34;ace&#34;是&#34;abcde&#34;的一个子序列，而&#34;aec&#34;不是）。
-示例：
-输入： s = &#34;abc&#34;, t = &#34;ahbgdc&#34; 输出： true
-输入： s = &#34;axc&#34;, t = &#34;ahbgdc&#34; 输出： false
-核心思路：双指针 这道题的核心是匹配字符，同时要保持相对顺序。这种&#34;按顺序查找&#34;的场景，是双指针大显身手的地方。我们可以使用两个指针，一个指向子序列 s，一个指向主串 t，然后同步向前扫描。
-初始化指针：
-定义指针 p 指向 s 的起始位置 0。 定义指针 q 指向 t 的起始位置 0。 贪心匹配：
-我们使用指针 q 遍历主串 t，同时用指针 p 来标记我们当前正在 s 中寻找的字符。 当 p 和 q 都在各自的字符串范围内时，进行循环比较： 如果 s.charAt(p) 与 t.charAt(q) 相等，意味着我们在 t 中找到了 s 的一个字符。接下来我们应该去寻找 s 的下一个字符了，所以将 p 和 q 都向后移动一位 (p&#43;&#43;, q&#43;&#43;)。 如果 s.charAt(p) 与 t.charAt(q) 不相等，说明当前 t 中的这个字符不是我们想要的。我们应该继续在 t 的后续部分寻找 s.charAt(p)，所以只将 q 向后移动一位 (q&#43;&#43;)。 判断结果：
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-09-17 20:13:00 +0900 JST'>September 17, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/双指针】LeetCode 392. 判断子序列" href="https://amemiya02.github.io/posts/2025-09-17-392-is-subsequence/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
     <h2 class="entry-hint-parent">【HOT100/双指针】LeetCode 125. 验证回文串
     </h2>
   </header>
