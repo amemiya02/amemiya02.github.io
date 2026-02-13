@@ -3,7 +3,6 @@ title: MySQL学习笔记 - 进阶篇
 subtitle: 进阶篇
 date: 2026-02-10T23:09:17+08:00
 slug: bd5f33f
-draft: true
 author:
   name: Amemiya
   link:

@@ -857,5 +857,5 @@ SESSION 是会话级别，表示只针对当前会话有效，GLOBAL 表示对�
 ---
 
 > 作者: Amemiya  
-> URL: http://localhost:1313/posts/bcec7c6/  
+> URL: https://amemiya02.github.io/posts/bcec7c6/  
 

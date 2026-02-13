@@ -3,7 +3,6 @@ title: MySQL学习笔记 - 基础篇
 subtitle: 基础篇
 date: 2026-02-10T22:48:55+08:00
 slug: bcec7c6
-draft: true
 author:
   name: Amemiya
   link:

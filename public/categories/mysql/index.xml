@@ -2,28 +2,28 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>MySQL - 分类 - Amemiya</title>
-    <link>http://localhost:1313/categories/mysql/</link>
+    <link>https://amemiya02.github.io/categories/mysql/</link>
     <description>Amemiya的个人博客</description>
     <generator>Hugo 0.154.1 &amp; FixIt v0.4.3-20260130042349-e23a50d7</generator>
     <language>zh-CN</language>
     <lastBuildDate>Tue, 10 Feb 2026 23:09:17 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/categories/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://amemiya02.github.io/categories/mysql/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>MySQL学习笔记 - 进阶篇</title>
-      <link>http://localhost:1313/posts/bd5f33f/</link>
+      <link>https://amemiya02.github.io/posts/bd5f33f/</link>
       <pubDate>Tue, 10 Feb 2026 23:09:17 +0800</pubDate>
-      <guid>http://localhost:1313/posts/bd5f33f/</guid>
-      <category domain="http://localhost:1313/categories/mysql/">MySQL</category>
-      <category domain="http://localhost:1313/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</category>
+      <guid>https://amemiya02.github.io/posts/bd5f33f/</guid>
+      <category domain="https://amemiya02.github.io/categories/mysql/">MySQL</category>
+      <category domain="https://amemiya02.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</category>
       <description>MySQL学习笔记 - 进阶篇</description>
     </item>
     <item>
       <title>MySQL学习笔记 - 基础篇</title>
-      <link>http://localhost:1313/posts/bcec7c6/</link>
+      <link>https://amemiya02.github.io/posts/bcec7c6/</link>
       <pubDate>Tue, 10 Feb 2026 22:48:55 +0800</pubDate>
-      <guid>http://localhost:1313/posts/bcec7c6/</guid>
-      <category domain="http://localhost:1313/categories/mysql/">MySQL</category>
-      <category domain="http://localhost:1313/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</category>
+      <guid>https://amemiya02.github.io/posts/bcec7c6/</guid>
+      <category domain="https://amemiya02.github.io/categories/mysql/">MySQL</category>
+      <category domain="https://amemiya02.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</category>
       <description>&lt;h1 class=&#34;heading-element&#34; id=&#34;mysql基础篇&#34;&gt;&lt;span&gt;MySQL基础篇&lt;/span&gt;&#xA;  &lt;a href=&#34;#mysql%e5%9f%ba%e7%a1%80%e7%af%87&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&lt;h2 class=&#34;heading-element&#34; id=&#34;通用语法及分类&#34;&gt;&lt;span&gt;通用语法及分类&lt;/span&gt;&#xA;  &lt;a href=&#34;#%e9%80%9a%e7%94%a8%e8%af%ad%e6%b3%95%e5%8f%8a%e5%88%86%e7%b1%bb&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&lt;ul&gt;&#xA;&lt;li&gt;DDL: 数据定义语言，用来定义数据库对象（数据库、表、字段）&lt;/li&gt;&#xA;&lt;li&gt;DML: 数据操作语言，用来对数据库表中的数据进行增删改&lt;/li&gt;&#xA;&lt;li&gt;DQL: 数据查询语言，用来查询数据库中表的记录&lt;/li&gt;&#xA;&lt;li&gt;DCL: 数据控制语言，用来创建数据库用户、控制数据库的控制权限&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 class=&#34;heading-element&#34; id=&#34;ddl数据定义语言&#34;&gt;&lt;span&gt;DDL（数据定义语言）&lt;/span&gt;&#xA;  &lt;a href=&#34;#ddl%e6%95%b0%e6%8d%ae%e5%ae%9a%e4%b9%89%e8%af%ad%e8%a8%80&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h3&gt;&lt;p&gt;数据定义语言&lt;/p&gt;</description>
     </item>
   </channel>
