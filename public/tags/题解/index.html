@@ -131,6 +131,41 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 回溯
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>回溯 46. 全排列 - Medium 题目回顾 给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。你可以 按任意顺序 返回答案。
+核心思路 回溯算法可以抽象为一个决策树的遍历过程：
+路径与选择列表 路径 (Path)：已经做出的选择（代码中的 path）。 选择列表 (Used)：当前还可以做的选择（代码中的 !used[i]）。
+终止条件 当到达叶子节点（len(path) == len(nums)），说明找到了一组完整的排列。
+撤销选择 (Backtrack) 这是最关键的一步。在递归返回后，我们需要把最后加入 path 的元素弹出，并将 used 标记改回 false。这就像是在走迷宫时，发现死胡同后退回到上一个分叉口。
+代码实现 func permute(nums []int) [][]int { var res [][]int path := []int{} used := make([]bool, len(nums)) var backtrack func() backtrack = func() { // 终止条件：路径长度等于数组长度 if len(path) == len(nums) { // 注意：Go 中切片是引用传递，必须进行拷贝 temp := make([]int, len(path)) copy(temp, path) res = append(res, temp) return } for i := 0; i &lt; len(nums); i&#43;&#43; { // 如果该数字已经用过，跳过 if used[i] { continue } // 1. 做选择 used[i] = true path = append(path, nums[i]) // 2. 递归进入下一层 backtrack() // 3. 撤销选择（回溯） path = path[:len(path)-1] used[i] = false } } backtrack() return res } 复杂度分析 时间复杂度：O(n * n!)，其中 n 是数组的长度。全排列的数量是 n!，每个排列需要 O(n) 的时间来构建和复制到结果中。 空间复杂度：O(n)，用于存储递归栈和路径。 </p>
+  </div>
+  <footer class="entry-footer"><span title='2026-02-03 09:01:00 +0900 JST'>February 3, 2026</span>&nbsp;·&nbsp;<span>1 min</span></footer>
+  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 回溯" href="https://amemiya02.github.io/posts/2026-02-03-backtracking/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 图论
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>图论 200. 岛屿数量 - Mid 题目回顾 给你一个由 ‘1’（陆地）和 ‘0’（水）组成的二维网格，请你计算网格中岛屿的数量。岛屿总是被水包围，并且每座岛屿只能由水平方向和竖直方向上相邻的陆地连接形成。你可以假设网格的四个边均被水包围。
+核心思路 扫描：像扫描仪一样遍历每一个格点。
+触发搜索：遇到 ‘1’ 时，说明找到了一个岛屿。
+消除影响：为了不重复计算同一个岛屿，必须在发现它的瞬间，通过 DFS 把这个岛屿所有的土地全部标记为 ‘0’。这就像是在地图上把发现的岛屿“涂黑”。
+计数：触发 DFS 的次数，就是岛屿的总数。
+代码实现 func numIslands(grid [][]byte) int { if len(grid) == 0 { return 0 } m, n := len(grid), len(grid[0]) count := 0 // 遍历整个网格 for i := 0; i &lt; m; i&#43;&#43; { for j := 0; j &lt; n; j&#43;&#43; { // 如果发现陆地 if grid[i][j] == &#39;1&#39; { dfs(grid, i, j) // 发现一个岛屿，计数加 1 count&#43;&#43; } } } return count } func dfs(grid [][]byte, i, j int) { m, n := len(grid), len(grid[0]) // 越界检查或遇到水（&#39;0&#39;），直接返回 if i &lt; 0 || i &gt;= m || j &lt; 0 || j &gt;= n || grid[i][j] == &#39;0&#39; { return } // 标记当前陆地已被访问（淹没），防止死循环 grid[i][j] = &#39;0&#39; // 向四个方向扩散 dfs(grid, i&#43;1, j) // 下 dfs(grid, i-1, j) // 上 dfs(grid, i, j&#43;1) // 右 dfs(grid, i, j-1) // 左 } 复杂度分析 时间复杂度：$O(M * N)$，其中 M 和 N 分别是网格的行数和列数。每个格点最多被访问一次。 空间复杂度：$O(M * N)$，在最坏情况下，递归栈的深度可能达到 M * N。 994. 腐烂的橘子 - Mid 题目回顾 在给定的网格中，每个单元格可以有以下三个值之一：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-02-03 09:00:00 +0900 JST'>February 3, 2026</span>&nbsp;·&nbsp;<span>4 min</span></footer>
+  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 图论" href="https://amemiya02.github.io/posts/2026-02-03-graph/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 二叉树
     </h2>
   </header>
@@ -304,42 +339,6 @@ $$ dp[i] = \max(dp[i-1] &#43; \text{nums}[i], \text{nums}[i]) $$空间优化 观
   </div>
   <footer class="entry-footer"><span title='2026-01-24 19:00:00 +0900 JST'>January 24, 2026</span>&nbsp;·&nbsp;<span>3 min</span></footer>
   <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 哈希" href="https://amemiya02.github.io/posts/2026-01-24-hash/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/动态规划】LeetCode 70.爬楼梯
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
-每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
-示例：
-输入： n = 3 输出： 3 解释： 有三种方法可以爬到楼顶。
-1 阶 &#43; 1 阶 &#43; 1 阶 1 阶 &#43; 2 阶 2 阶 &#43; 1 阶 核心思路：寻找递推关系 直接计算 n 阶楼梯的所有方法可能很复杂，我们不妨从小问题入手，寻找规律。
-爬 1 阶楼梯 (n=1): 只有 1 种方法 (1)。 -&gt; $f(1) = 1$ 爬 2 阶楼梯 (n=2): 有 2 种方法 (1&#43;1, 2)。 -&gt; $f(2) = 2$ 爬 3 阶楼梯 (n=3): 有 3 种方法 (1&#43;1&#43;1, 1&#43;2, 2&#43;1)。 -&gt; $f(3) = 3$ 我们思考一下，要想到达第 n 阶，我们的最后一步是怎么迈出去的？
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-09-13 10:40:00 +0900 JST'>September 13, 2025</span>&nbsp;·&nbsp;<span>2 min</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/动态规划】LeetCode 70.爬楼梯" href="https://amemiya02.github.io/posts/2025-09-13-70-climbing-stairs/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/双指针】LeetCode 27. 原地移除数组元素
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素。元素的顺序可能发生改变。然后返回 nums 中与 val 不同的元素的数量。
-假设 nums 中不等于 val 的元素数量为 k，要通过此题，您需要执行以下操作：
-更改 nums 数组，使 nums 的前 k 个元素包含不等于 val 的元素。nums 的其余元素和 nums 的大小并不重要。 返回 k。 示例：
-输入： nums = [3,2,2,3], val = 3 输出： 2, nums = [2,2,_,_] 解释： 函数应该返回 k = 2, 并且 nums 中的前两个元素均为 2。你的函数可以返回 k，并且 nums 的前 k 个元素可以包含任何顺序的 2。
-核心思路：相向双指针（头尾指针） 定义头尾指针：
-p 指针从数组头部 0 开始，向后移动。它的任务是寻找值为 val 的元素。 q 指针从数组尾部 n-1 开始，向前移动。它的任务是寻找值不为 val 的元素。 交换与移动：
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-09-12 21:00:00 +0900 JST'>September 12, 2025</span>&nbsp;·&nbsp;<span>2 min</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/双指针】LeetCode 27. 原地移除数组元素" href="https://amemiya02.github.io/posts/2025-09-12-27-remove-element/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
