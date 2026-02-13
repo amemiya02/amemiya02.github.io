@@ -91,7 +91,16 @@
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta property="og:url" content="https://amemiya02.github.io/posts/2025-09-13-70-climbing-stairs/">
+</script><script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)'], ['$', '$']],
+    },
+    loader: { load: ['ui/safe'] },
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:url" content="https://amemiya02.github.io/posts/2025-09-13-70-climbing-stairs/">
   <meta property="og:site_name" content="个人技术博客">
   <meta property="og:title" content="【HOT100/动态规划】LeetCode 70.爬楼梯">
   <meta property="og:description" content="题目回顾 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。

@@ -42,9 +42,7 @@
 &lt;/ol&gt;
 &lt;h4 id=&#34;状态转移方程&#34;&gt;状态转移方程&lt;/h4&gt;
 &lt;p&gt;根据上述分析，我们可以得到状态转移方程：&lt;/p&gt;
-&lt;p&gt;$$
-dp[i] = \max(dp[i-1] + \text{nums}[i], \text{nums}[i])
-$$&lt;/p&gt;</description>
+&lt;p&gt;These are block equations:&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

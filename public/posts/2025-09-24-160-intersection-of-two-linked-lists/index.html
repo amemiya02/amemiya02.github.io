@@ -116,7 +116,16 @@ pB 走过的路径：链表B的长度 &#43; 链表A的长度
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta property="og:url" content="https://amemiya02.github.io/posts/2025-09-24-160-intersection-of-two-linked-lists/">
+</script><script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)'], ['$', '$']],
+    },
+    loader: { load: ['ui/safe'] },
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:url" content="https://amemiya02.github.io/posts/2025-09-24-160-intersection-of-two-linked-lists/">
   <meta property="og:site_name" content="个人技术博客">
   <meta property="og:title" content="【HOT100/双指针 / 链表】LeetCode 160. 相交链表">
   <meta property="og:description" content="题目回顾 给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点, 返回 null 。

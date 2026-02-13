@@ -100,7 +100,16 @@ b.  在哈希表中查找 complement 是否存在。
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta property="og:url" content="https://amemiya02.github.io/posts/2026-01-24-hash/">
+</script><script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)'], ['$', '$']],
+    },
+    loader: { load: ['ui/safe'] },
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:url" content="https://amemiya02.github.io/posts/2026-01-24-hash/">
   <meta property="og:site_name" content="个人技术博客">
   <meta property="og:title" content="[Golang] LeetCode 热题 100 - 哈希">
   <meta property="og:description" content="哈希 1. 两数之和 - Easy 题目回顾 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target 的那 两个 整数，并返回它们的数组下标。

@@ -106,7 +106,16 @@ matrix[i][j] $\leftrightarrow$ matrix[i][n-1-j]
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta property="og:url" content="https://amemiya02.github.io/posts/2026-01-02-48-rotate-image/">
+</script><script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)'], ['$', '$']],
+    },
+    loader: { load: ['ui/safe'] },
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:url" content="https://amemiya02.github.io/posts/2026-01-02-48-rotate-image/">
   <meta property="og:site_name" content="个人技术博客">
   <meta property="og:title" content="【HOT100/矩阵】LeetCode 48. 旋转图像">
   <meta property="og:description" content="题目回顾 给定一个 n × n 的二维矩阵 matrix 表示一个图像。请你将图像顺时针旋转 90 度。

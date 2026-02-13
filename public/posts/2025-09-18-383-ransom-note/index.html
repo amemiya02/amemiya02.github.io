@@ -95,7 +95,16 @@ magazine 中的每个字符只能在 ransomNote 中使用一次。
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta property="og:url" content="https://amemiya02.github.io/posts/2025-09-18-383-ransom-note/">
+</script><script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)'], ['$', '$']],
+    },
+    loader: { load: ['ui/safe'] },
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><meta property="og:url" content="https://amemiya02.github.io/posts/2025-09-18-383-ransom-note/">
   <meta property="og:site_name" content="个人技术博客">
   <meta property="og:title" content="【HOT100/哈希表 / 数组】LeetCode 383. 赎金信">
   <meta property="og:description" content="题目回顾 给你两个字符串：ransomNote 和 magazine ，判断 ransomNote 能不能由 magazine 里面的字符构成。
