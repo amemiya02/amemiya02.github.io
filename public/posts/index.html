@@ -146,6 +146,28 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 矩阵
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>矩阵 73. 矩阵置零 - Mid 题目回顾 给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。请使用 原地 算法。
+示例 1：
+输入： matrix = [[1,1,1],[1,0,1],[1,1,1]] 输出： [[1,0,1],[0,0,0],[1,0,1]]
+示例 2：
+输入： matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]] 输出： [[0,0,0,0],[0,4,5,0],[0,3,1,0]]
+进阶：
+一个直观的解决方案是使用 $O(mn)$ 的额外空间，但这并不是一个好的解决方案。 一个简单的改进方案是使用 $O(m &#43; n)$ 的额外空间，但这仍然不是最好的解决方案。 你能想出一个仅使用常量空间的解决方案吗？ 核心思路：利用首行首列做标记 这道题的难点在于污染问题：如果我们一边遍历一边将 0 所在的行列置零，那么修改后的 0 会干扰后续的遍历，导致整个矩阵最后全变成了 0。
+空间复杂度优化路径 $O(MN)$ 空间：新建一个同样的矩阵做标记。太浪费。 $O(M&#43;N)$ 空间：使用两个布尔数组 row[] 和 col[]，分别记录哪一行、哪一列需要置零。 $O(1)$ 空间：直接利用矩阵的第一行和第一列来替代上面的两个布尔数组。 算法流程 ($O(1)$ 方案) 既然我们要用第一行和第一列来记录&#34;该行/列是否需要置零&#34;，那么第一行和第一列原本的状态（是否包含 0）就需要先被保存下来，否则会被后续的标记覆盖。
+步骤如下：
+记录首行首列状态： 定义两个变量 firstRowHasZero 和 firstColHasZero，遍历第一行和第一列，如果发现 0，则将对应的变量置为 true。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-27 09:00:00 +0900 JST'>January 27, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to [Golang] LeetCode 热题 100 - 矩阵" href="https://amemiya02.github.io/posts/2026-01-27-matrix/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">[Golang] LeetCode 热题 100 - 普通数组
     </h2>
   </header>
@@ -282,75 +304,6 @@ $$ dp[i] = \max(dp[i-1] &#43; \text{nums}[i], \text{nums}[i]) $$空间优化 观
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/矩阵】LeetCode 48. 旋转图像
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给定一个 n × n 的二维矩阵 matrix 表示一个图像。请你将图像顺时针旋转 90 度。
-你必须在 原地 旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要 使用另一个矩阵来旋转图像。
-示例 1：
-输入： matrix = [[1,2,3],[4,5,6],[7,8,9]] 输出： [[7,4,1],[8,5,2],[9,6,3]]
-示例 2：
-输入： matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]] 输出： [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
-核心思路：数学变换 这道题最直接的思路是找出每个元素旋转后的坐标规律。对于一个坐标为 (i, j) 的元素，顺时针旋转 90 度后，它的新位置是 (j, n-1-i)。 如果直接模拟这个过程，我们需要小心翼翼地进行四角交换，逻辑容易出错。
-更优雅的解法是利用矩阵运算的性质。顺时针旋转 90 度可以拆解为两步简单的变换：
-转置 (Transpose)：将矩阵的行列互换（沿对角线翻转）。 matrix[i][j] $\leftrightarrow$ matrix[j][i] 水平镜像 (Reverse Rows)：将每一行左右翻转。 matrix[i][j] $\leftrightarrow$ matrix[i][n-1-j] 演示过程：
-假设输入为：
-1 2 3 4 5 6 7 8 9 第一步：转置（对角线翻转）
-1 4 7 2 5 8 3 6 9 第二步：每行左右翻转
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-02 22:15:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/矩阵】LeetCode 48. 旋转图像" href="https://amemiya02.github.io/posts/2026-01-02-48-rotate-image/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/矩阵】LeetCode 54. 螺旋矩阵
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给你一个 m 行 n 列的矩阵 matrix ，请按照 顺时针螺旋顺序 ，返回矩阵中的所有元素。
-示例 1：
-输入： matrix = [[1,2,3],[4,5,6],[7,8,9]] 输出： [1,2,3,6,9,8,7,4,5]
-示例 2：
-输入： matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]] 输出： [1,2,3,4,8,12,11,10,9,5,6,7]
-核心思路：四边界模拟法 这道题没有太多的算法技巧，本质上是一道模拟题。我们需要模拟一个机器人在矩阵中按照&#34;右 -&gt; 下 -&gt; 左 -&gt; 上&#34;的顺序一直走，直到填满所有格子。
-虽然思路简单，但如果不加设计地直接写，很容易陷入各种边界判断的泥潭（比如拐角处怎么处理、什么时候停止）。
-最优雅的解法是设定四个边界：
-t (top)：上边界，初始为 0 b (bottom)：下边界，初始为 m-1 l (left)：左边界，初始为 0 r (right)：右边界，初始为 n-1 算法流程 我们要在一个循环中按照顺时针方向依次处理四条边。每处理完一条边，就将对应的边界向内收缩，并立即检查是否越界（越界意味着遍历结束）。
-向右移动：遍历从 l 到 r。处理完后，上边界下移 (&#43;&#43;t)。如果 t &gt; b，说明上下边界交错，遍历结束。 向下移动：遍历从 t 到 b。处理完后，右边界左移 (--r)。如果 l &gt; r，说明左右边界交错，遍历结束。 向左移动：遍历从 r 到 l。处理完后，下边界上移 (--b)。如果 t &gt; b，遍历结束。 向上移动：遍历从 b 到 t。处理完后，左边界右移 (&#43;&#43;l)。如果 l &gt; r，遍历结束。 这种写法将边界检查巧妙地融合在每一步操作之后，不需要在循环头部写复杂的 count &lt; total 判断，代码逻辑非常清晰。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-02 21:30:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/矩阵】LeetCode 54. 螺旋矩阵" href="https://amemiya02.github.io/posts/2026-01-02-54-spiral-matrix/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">【HOT100/矩阵】LeetCode 73. 矩阵置零
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>题目回顾 给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。请使用 原地 算法。
-示例 1：
-输入： matrix = [[1,1,1],[1,0,1],[1,1,1]] 输出： [[1,0,1],[0,0,0],[1,0,1]]
-示例 2：
-输入： matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]] 输出： [[0,0,0,0],[0,4,5,0],[0,3,1,0]]
-进阶：
-一个直观的解决方案是使用 $O(mn)$ 的额外空间，但这并不是一个好的解决方案。 一个简单的改进方案是使用 $O(m &#43; n)$ 的额外空间，但这仍然不是最好的解决方案。 你能想出一个仅使用常量空间的解决方案吗？ 核心思路：利用首行首列做标记 这道题的难点在于**“污染”**问题：如果我们一边遍历一边将 0 所在的行列置零，那么修改后的 0 会干扰后续的遍历，导致整个矩阵最后全变成了 0。
-空间复杂度优化路径 $O(MN)$ 空间：新建一个同样的矩阵做标记。太浪费。 $O(M&#43;N)$ 空间：使用两个布尔数组 row[] 和 col[]，分别记录哪一行、哪一列需要置零。 $O(1)$ 空间：直接利用矩阵的第一行和第一列来替代上面的两个布尔数组。 算法流程 ($O(1)$ 方案) 既然我们要用第一行和第一列来记录&#34;该行/列是否需要置零&#34;，那么第一行和第一列原本的状态（是否包含 0）就需要先被保存下来，否则会被后续的标记覆盖。
-步骤如下：
-记录首行首列状态： 定义两个变量 firstRowHasZero 和 firstColHasZero，遍历第一行和第一列，如果发现 0，则将对应的变量置为 true。
-利用首行首列做标记： 遍历矩阵的其余部分（从 (1,1) 开始）。如果发现 matrix[i][j] == 0，就将它对应的行首 matrix[i][0] 和列首 matrix[0][j] 设为 0。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-02 20:45:00 +0900 JST'>January 2, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to 【HOT100/矩阵】LeetCode 73. 矩阵置零" href="https://amemiya02.github.io/posts/2026-01-02-73-set-matrix-zeroes/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
     <h2 class="entry-hint-parent">【HOT100/链表】LeetCode 206. 反转链表
     </h2>
   </header>
@@ -370,6 +323,54 @@ prev：指向当前节点的前一个节点（初始为 null） curr：指向当
   </div>
   <footer class="entry-footer"><span title='2026-01-02 20:01:00 +0900 JST'>January 2, 2026</span></footer>
   <a class="entry-link" aria-label="post link to 【HOT100/链表】LeetCode 206. 反转链表" href="https://amemiya02.github.io/posts/2026-01-02-206-reverse-linked-list/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/双指针 / 链表】LeetCode 160. 相交链表
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点, 返回 null 。
+题目数据 保证 整个链式结构中不存在环，并且函数返回结果后，链表必须 保持其原始结构 。
+核心思路 思路0：HashSet去重 思路一：双指针 &#43; 长度对齐 这是最直观的解法。既然相交前的部分长度可能不同，导致我们无法直接同步遍历，那我们想办法让它们变得一样长就可以了。
+计算长度：首先，分别遍历两个链表，得到它们的长度 lenA 和 lenB。
+对齐指针：计算出长度差 diff = |lenA - lenB|。让较长的那个链表的指针先走 diff 步。这样操作之后，两个指针距离各自链表的末尾就有了相同的距离。
+同步遍历：现在两个指针位于同一起跑线（相对终点而言），我们让它们同步向后移动，一次一步。
+寻找交点：在同步移动的过程中，第一次出现两个指针相等 (headA == headB) 的地方，就是它们的第一个相交节点。如果一直走到末尾 (null) 都没有相遇，则说明两个链表不相交。
+这个方法就像两个人去同一个终点，路程长的人先出发一段距离，然后两个人再同时出发，这样他们就能同时到达终点。
+思路二：双指针&#34;浪漫&#34;相遇法 这是一个更巧妙，代码也更简洁的解法，它避免了显式地计算长度。
+想象有两个指针 pA 和 pB，分别从 headA 和 headB 出发。它们同时前进，当任何一个指针走到自己链表的末尾时，就跳到对方链表的头节点继续前进。
+为什么这个方法可行？
+路径长度相等：
+pA 走过的路径：链表A的长度 &#43; 链表B的长度 pB 走过的路径：链表B的长度 &#43; 链表A的长度 两个指针走过的总路程是完全相同的。 相遇点：
+如果相交：设 A 不相交部分长 a，B 不相交部分长 b，相交部分长 c。pA 走 a&#43;c 到达终点，然后从 B 的头部走 b 步。pB 走 b&#43;c 到达终点，然后从 A 的头部走 a 步。当它们都走了 a&#43;b&#43;c 的路程时，会在相交点相遇。 如果不相交：pA 走完 A 再走完 B，pB 走完 B 再走完 A。它们会同时到达终点 null，此时 pA == pB == null，循环结束，正确返回 null。 这个方法可以理解为，通过让两个指针都走一遍 A&#43;B 和 B&#43;A 的路程，从而消除了长度差，使得它们能够在终点前相遇。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-09-24 20:01:00 +0900 JST'>September 24, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/双指针 / 链表】LeetCode 160. 相交链表" href="https://amemiya02.github.io/posts/2025-09-24-160-intersection-of-two-linked-lists/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【HOT100/哈希集合/Middle】LeetCode 128. 最长连续序列
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目回顾 给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。
+请你设计并实现时间复杂度为 O(n) 的算法解决此问题。
+示例 1：
+输入： nums = [100,4,200,1,3,2] 输出： 4 解释： 最长数字连续序列是 [1, 2, 3, 4]。它的长度为 4。
+核心思路：哈希集合 &#43; 智能枚举 这道题最核心的要求是 O(n) 的时间复杂度，这意味着我们不能使用排序 $O(nlogn)$。
+要实现 O(n)，关键在于快速查找某个数是否存在。这让我们自然而然地想到了哈希表。我们可以用一个哈希集合 (HashSet) 来优化查找过程。
+这题的关键是找出序列起点来剪枝
+空间换时间，初始化哈希集合
+创建一个 HashSet，并将数组 nums 中的所有元素都添加进去。 这一步有两个目的：一是方便后续以 $O(1)$ 的时间复杂度快速查找某个数是否存在；二是自动处理了数组中的重复元素。 智能遍历，只从序列的起点开始计算
+这是整个算法最精妙的地方。如果我们遍历集合中的每一个数，都尝试计算以它开头的序列长度，会有大量重复计算。例如，对于序列 [1, 2, 3, 4]，我们从 1 开始计算了一遍，又会从 2 开始再计算一遍 [2, 3, 4]，这是不必要的。 如何避免重复计算？ 答案是：只从一个连续序列的起点开始计算。 如何判断一个数 num 是不是起点？ 很简单，只要检查 num - 1 是否存在于哈希集合中。如果 num - 1 不存在，那么 num 就是一个潜在的序列起点。如果 num - 1 存在，那么 num 肯定不是起点，我们可以直接跳过它，因为它一定会被 num - 1 开始的计算所覆盖。 计算长度并更新结果
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-09-21 11:03:00 +0900 JST'>September 21, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 【HOT100/哈希集合/Middle】LeetCode 128. 最长连续序列" href="https://amemiya02.github.io/posts/2025-09-21-128-longest-consecutive-sequence/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
