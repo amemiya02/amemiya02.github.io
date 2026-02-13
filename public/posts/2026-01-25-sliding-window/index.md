@@ -213,5 +213,5 @@ func findAnagrams(s string, p string) []int {
 ---
 
 > 作者:   
-> URL: https://amemiya02.github.io/posts/2026-01-25-sliding-window/  
+> URL: http://localhost:1313/posts/2026-01-25-sliding-window/  
 

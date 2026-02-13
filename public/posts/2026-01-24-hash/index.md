@@ -210,5 +210,5 @@ func longestConsecutive(nums []int) int {
 ---
 
 > 作者: Amemiya  
-> URL: https://amemiya02.github.io/posts/2026-01-24-hash/  
+> URL: http://localhost:1313/posts/2026-01-24-hash/  
 

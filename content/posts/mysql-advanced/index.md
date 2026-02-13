@@ -7,7 +7,7 @@ author:
   name: Amemiya
   link:
   email:
-  avatar: Avatar.jpg
+  avatar: avatar.jpg
 description:
 keywords:
 comment: false
