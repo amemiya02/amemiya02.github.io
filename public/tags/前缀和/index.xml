@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>前缀和 on 个人技术博客</title>
+    <link>http://localhost:1313/tags/%E5%89%8D%E7%BC%80%E5%92%8C/</link>
+    <description>Recent content in 前缀和 on 个人技术博客</description>
+    <generator>Hugo -- 0.154.1</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 02 Jan 2026 18:00:00 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E5%89%8D%E7%BC%80%E5%92%8C/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>【HOT100/数组】LeetCode 238. 除了自身以外数组的乘积</title>
+      <link>http://localhost:1313/posts/2026-01-02-238-product-of-array-except-self/</link>
+      <pubDate>Fri, 02 Jan 2026 18:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2026-01-02-238-product-of-array-except-self/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt;，返回 数组 &lt;code&gt;answer&lt;/code&gt; ，其中 &lt;code&gt;answer[i]&lt;/code&gt; 等于 &lt;code&gt;nums&lt;/code&gt; 中除了 &lt;code&gt;nums[i]&lt;/code&gt; 之外其余各元素的乘积。&lt;/p&gt;
+&lt;p&gt;题目数据 &lt;strong&gt;保证&lt;/strong&gt; 数组 &lt;code&gt;nums&lt;/code&gt; 之中任意元素的全部前缀元素和后缀的乘积都在 &lt;strong&gt;32 位&lt;/strong&gt; 整数范围内。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;请不要使用除法，且在 $O(n)$ 时间复杂度内完成此题。&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入:&lt;/strong&gt; &lt;code&gt;nums = [1,2,3,4]&lt;/code&gt;
+&lt;strong&gt;输出:&lt;/strong&gt; &lt;code&gt;[24,12,8,6]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;示例 2:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入:&lt;/strong&gt; &lt;code&gt;nums = [-1,1,0,-3,3]&lt;/code&gt;
+&lt;strong&gt;输出:&lt;/strong&gt; &lt;code&gt;[0,0,9,0,0]&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;核心思路左右乘积列表&#34;&gt;核心思路：左右乘积列表&lt;/h2&gt;
+&lt;p&gt;这道题如果允许使用除法，那非常简单：算出所有元素的总乘积，然后除以当前元素即可（注意需要处理 0 的情况）。但题目明确禁止除法，我们需要另辟蹊径。&lt;/p&gt;
+&lt;p&gt;对于数组中的任意一个元素 &lt;code&gt;nums[i]&lt;/code&gt;，除了它自身以外的乘积，实际上等于：
+&lt;strong&gt;（它左边所有元素的乘积） $\times$ （它右边所有元素的乘积）&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;因此，我们可以通过两次遍历来解决这个问题：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;计算后缀积&lt;/strong&gt;：先算出每个位置&lt;strong&gt;右边&lt;/strong&gt;所有元素的乘积。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;计算前缀积并合并&lt;/strong&gt;：再算出每个位置&lt;strong&gt;左边&lt;/strong&gt;所有元素的乘积，并乘上刚才算好的后缀积。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;空间优化-o1-额外空间&#34;&gt;空间优化 ($O(1)$ 额外空间)&lt;/h3&gt;
+&lt;p&gt;为了满足进阶要求的 $O(1)$ 额外空间（输出数组不计入空间复杂度），我们可以直接利用返回的数组 &lt;code&gt;answer&lt;/code&gt;（代码中为 &lt;code&gt;suf&lt;/code&gt;）来作为中间容器。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;第一轮遍历（从右向左）&lt;/strong&gt;：
+我们在 &lt;code&gt;suf&lt;/code&gt; 数组中存储&lt;strong&gt;后缀积&lt;/strong&gt;。
+&lt;code&gt;suf[i]&lt;/code&gt; 表示 &lt;code&gt;i&lt;/code&gt; 之后所有元素的乘积。
+初始化 &lt;code&gt;suf[n-1] = 1&lt;/code&gt;（因为最后一个元素右边没有元素）。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【HOT100/前缀和】LeetCode 560. 和为 K 的子数组</title>
+      <link>http://localhost:1313/posts/2025-12-17-560-subarray-sum-equals-k/</link>
+      <pubDate>Wed, 17 Dec 2025 21:55:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-12-17-560-subarray-sum-equals-k/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt; 和一个整数 &lt;code&gt;k&lt;/code&gt; ，请你统计并返回 &lt;strong&gt;该数组中和为 &lt;code&gt;k&lt;/code&gt; 的子数组的个数&lt;/strong&gt; 。&lt;/p&gt;
+&lt;p&gt;子数组是数组中元素的连续非空序列。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;nums = [1,1,1], k = 2&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;2&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;示例 2：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;nums = [1,2,3], k = 3&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;2&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;核心思路前缀和--哈希表优化&#34;&gt;核心思路：前缀和 + 哈希表优化&lt;/h2&gt;
+&lt;p&gt;这道题如果使用暴力解法，枚举所有的子数组并计算和，时间复杂度会达到 $O(n^2)$ 甚至 $O(n^3)$，无法通过所有测试用例。我们需要利用&lt;strong&gt;前缀和&lt;/strong&gt;的性质进行优化。&lt;/p&gt;
+&lt;h3 id=&#34;1-前缀和转化&#34;&gt;1. 前缀和转化&lt;/h3&gt;
+&lt;p&gt;定义 &lt;code&gt;pre[i]&lt;/code&gt; 为 &lt;code&gt;[0..i]&lt;/code&gt; 里所有数的和。那么 &lt;code&gt;[j..i]&lt;/code&gt; 这个子数组的和可以表示为：
+$$
+sum[j..i] = pre[i] - pre[j-1]
+$$
+题目要求找到和为 &lt;code&gt;k&lt;/code&gt; 的子数组，即寻找满足以下条件的 &lt;code&gt;j&lt;/code&gt; 和 &lt;code&gt;i&lt;/code&gt;：
+$$
+pre[i] - pre[j-1] == k
+$$
+移项得：
+$$
+pre[j-1] == pre[i] - k
+$$&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

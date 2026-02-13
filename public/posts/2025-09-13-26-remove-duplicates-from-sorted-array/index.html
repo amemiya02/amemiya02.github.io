@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>【HOT100/快慢指针】LeetCode 26.删除有序数组中的重复项 | 个人技术博客</title>
+<meta name="keywords" content="数组, 双指针, 快慢指针">
+<meta name="description" content="题目回顾
+
+给你一个 非严格递增排列 的数组 nums ，请你 原地 删除重复出现的元素，使每个元素 只出现一次 ，返回删除后数组的新长度。元素的 相对顺序 应该保持 一致 。
+更改数组 nums ，使 nums 的前 k 个元素包含唯一元素，并按照它们最初在 nums 中出现的顺序排列。
+返回 k 。
+
+示例：
+输入： nums = [0,0,1,1,1,2,2,3,3,4]
+输出： 5, nums = [0,1,2,3,4,_,_,_,_,_]
+解释： 函数应该返回 k = 5，并且 nums 的前五个元素为 0, 1, 2, 3, 4。
+核心思路：快慢指针
+题目的关键在于&quot;数组有序&quot;和&quot;保持相对顺序&quot;。因为数组是有序的，所以所有重复的元素必然是相邻的。这让我们不必进行复杂的查找，只需向后遍历即可。
+我们可以使用快慢指针来解决这个问题：
+
+
+定义指针：
+
+慢指针 p: 指向当前已处理好的、不重复数组的最后一个位置。它也代表了下一个唯一元素应该被放置的位置。
+快指针 q: 负责向前探索，遍历整个数组，寻找与慢指针所指元素不同的新元素。
+
+
+
+执行过程：
+
+初始化 p = 0, q = 1。
+快指针 q 向后遍历数组。
+若 nums[q] 与 nums[p] 相同，说明是重复元素，则 p 不动，q 继续向后移动以跳过所有重复项。
+若 nums[q] 与 nums[p] 不同，说明 q 找到了一个新的唯一元素。此时，先将慢指针 p 向后移动一位 (&#43;&#43;p)，然后将 nums[q] 的值赋给 nums[p]，完成新元素的&quot;入队&quot;。
+
+
+
+返回结果：">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/2025-09-13-26-remove-duplicates-from-sorted-array/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.343cc480b9ffc8f04ccbe5e968ad674880cab773ec19905e93033065c1e7a804.css" integrity="sha256-NDzEgLn/yPBMy&#43;XpaK1nSIDKt3PsGZBekwMwZcHnqAQ=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2025-09-13-26-remove-duplicates-from-sorted-array/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="http://localhost:1313/posts/2025-09-13-26-remove-duplicates-from-sorted-array/">
+  <meta property="og:site_name" content="个人技术博客">
+  <meta property="og:title" content="【HOT100/快慢指针】LeetCode 26.删除有序数组中的重复项">
+  <meta property="og:description" content="题目回顾 给你一个 非严格递增排列 的数组 nums ，请你 原地 删除重复出现的元素，使每个元素 只出现一次 ，返回删除后数组的新长度。元素的 相对顺序 应该保持 一致 。
+更改数组 nums ，使 nums 的前 k 个元素包含唯一元素，并按照它们最初在 nums 中出现的顺序排列。
+返回 k 。
+示例：
+输入： nums = [0,0,1,1,1,2,2,3,3,4] 输出： 5, nums = [0,1,2,3,4,_,_,_,_,_] 解释： 函数应该返回 k = 5，并且 nums 的前五个元素为 0, 1, 2, 3, 4。
+核心思路：快慢指针 题目的关键在于&#34;数组有序&#34;和&#34;保持相对顺序&#34;。因为数组是有序的，所以所有重复的元素必然是相邻的。这让我们不必进行复杂的查找，只需向后遍历即可。
+我们可以使用快慢指针来解决这个问题：
+定义指针：
+慢指针 p: 指向当前已处理好的、不重复数组的最后一个位置。它也代表了下一个唯一元素应该被放置的位置。 快指针 q: 负责向前探索，遍历整个数组，寻找与慢指针所指元素不同的新元素。 执行过程：
+初始化 p = 0, q = 1。 快指针 q 向后遍历数组。 若 nums[q] 与 nums[p] 相同，说明是重复元素，则 p 不动，q 继续向后移动以跳过所有重复项。 若 nums[q] 与 nums[p] 不同，说明 q 找到了一个新的唯一元素。此时，先将慢指针 p 向后移动一位 (&#43;&#43;p)，然后将 nums[q] 的值赋给 nums[p]，完成新元素的&#34;入队&#34;。 返回结果：">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-09-13T10:35:00+09:00">
+    <meta property="article:modified_time" content="2025-09-13T10:35:00+09:00">
+    <meta property="article:tag" content="数组">
+    <meta property="article:tag" content="双指针">
+    <meta property="article:tag" content="快慢指针">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【HOT100/快慢指针】LeetCode 26.删除有序数组中的重复项">
+<meta name="twitter:description" content="题目回顾
+
+给你一个 非严格递增排列 的数组 nums ，请你 原地 删除重复出现的元素，使每个元素 只出现一次 ，返回删除后数组的新长度。元素的 相对顺序 应该保持 一致 。
+更改数组 nums ，使 nums 的前 k 个元素包含唯一元素，并按照它们最初在 nums 中出现的顺序排列。
+返回 k 。
+
+示例：
+输入： nums = [0,0,1,1,1,2,2,3,3,4]
+输出： 5, nums = [0,1,2,3,4,_,_,_,_,_]
+解释： 函数应该返回 k = 5，并且 nums 的前五个元素为 0, 1, 2, 3, 4。
+核心思路：快慢指针
+题目的关键在于&quot;数组有序&quot;和&quot;保持相对顺序&quot;。因为数组是有序的，所以所有重复的元素必然是相邻的。这让我们不必进行复杂的查找，只需向后遍历即可。
+我们可以使用快慢指针来解决这个问题：
+
+
+定义指针：
+
+慢指针 p: 指向当前已处理好的、不重复数组的最后一个位置。它也代表了下一个唯一元素应该被放置的位置。
+快指针 q: 负责向前探索，遍历整个数组，寻找与慢指针所指元素不同的新元素。
+
+
+
+执行过程：
+
+初始化 p = 0, q = 1。
+快指针 q 向后遍历数组。
+若 nums[q] 与 nums[p] 相同，说明是重复元素，则 p 不动，q 继续向后移动以跳过所有重复项。
+若 nums[q] 与 nums[p] 不同，说明 q 找到了一个新的唯一元素。此时，先将慢指针 p 向后移动一位 (&#43;&#43;p)，然后将 nums[q] 的值赋给 nums[p]，完成新元素的&quot;入队&quot;。
+
+
+
+返回结果：">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "【HOT100/快慢指针】LeetCode 26.删除有序数组中的重复项",
+      "item": "http://localhost:1313/posts/2025-09-13-26-remove-duplicates-from-sorted-array/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "【HOT100/快慢指针】LeetCode 26.删除有序数组中的重复项",
+  "name": "【HOT100\/快慢指针】LeetCode 26.删除有序数组中的重复项",
+  "description": "题目回顾 给你一个 非严格递增排列 的数组 nums ，请你 原地 删除重复出现的元素，使每个元素 只出现一次 ，返回删除后数组的新长度。元素的 相对顺序 应该保持 一致 。\n更改数组 nums ，使 nums 的前 k 个元素包含唯一元素，并按照它们最初在 nums 中出现的顺序排列。\n返回 k 。\n示例：\n输入： nums = [0,0,1,1,1,2,2,3,3,4] 输出： 5, nums = [0,1,2,3,4,_,_,_,_,_] 解释： 函数应该返回 k = 5，并且 nums 的前五个元素为 0, 1, 2, 3, 4。\n核心思路：快慢指针 题目的关键在于\u0026quot;数组有序\u0026quot;和\u0026quot;保持相对顺序\u0026quot;。因为数组是有序的，所以所有重复的元素必然是相邻的。这让我们不必进行复杂的查找，只需向后遍历即可。\n我们可以使用快慢指针来解决这个问题：\n定义指针：\n慢指针 p: 指向当前已处理好的、不重复数组的最后一个位置。它也代表了下一个唯一元素应该被放置的位置。 快指针 q: 负责向前探索，遍历整个数组，寻找与慢指针所指元素不同的新元素。 执行过程：\n初始化 p = 0, q = 1。 快指针 q 向后遍历数组。 若 nums[q] 与 nums[p] 相同，说明是重复元素，则 p 不动，q 继续向后移动以跳过所有重复项。 若 nums[q] 与 nums[p] 不同，说明 q 找到了一个新的唯一元素。此时，先将慢指针 p 向后移动一位 (++p)，然后将 nums[q] 的值赋给 nums[p]，完成新元素的\u0026quot;入队\u0026quot;。 返回结果：\n",
+  "keywords": [
+    "数组", "双指针", "快慢指针"
+  ],
+  "articleBody": "题目回顾 给你一个 非严格递增排列 的数组 nums ，请你 原地 删除重复出现的元素，使每个元素 只出现一次 ，返回删除后数组的新长度。元素的 相对顺序 应该保持 一致 。\n更改数组 nums ，使 nums 的前 k 个元素包含唯一元素，并按照它们最初在 nums 中出现的顺序排列。\n返回 k 。\n示例：\n输入： nums = [0,0,1,1,1,2,2,3,3,4] 输出： 5, nums = [0,1,2,3,4,_,_,_,_,_] 解释： 函数应该返回 k = 5，并且 nums 的前五个元素为 0, 1, 2, 3, 4。\n核心思路：快慢指针 题目的关键在于\"数组有序\"和\"保持相对顺序\"。因为数组是有序的，所以所有重复的元素必然是相邻的。这让我们不必进行复杂的查找，只需向后遍历即可。\n我们可以使用快慢指针来解决这个问题：\n定义指针：\n慢指针 p: 指向当前已处理好的、不重复数组的最后一个位置。它也代表了下一个唯一元素应该被放置的位置。 快指针 q: 负责向前探索，遍历整个数组，寻找与慢指针所指元素不同的新元素。 执行过程：\n初始化 p = 0, q = 1。 快指针 q 向后遍历数组。 若 nums[q] 与 nums[p] 相同，说明是重复元素，则 p 不动，q 继续向后移动以跳过所有重复项。 若 nums[q] 与 nums[p] 不同，说明 q 找到了一个新的唯一元素。此时，先将慢指针 p 向后移动一位 (++p)，然后将 nums[q] 的值赋给 nums[p]，完成新元素的\"入队\"。 返回结果：\n当 q 遍历完整个数组后，p 指针所在的索引就是最后一个唯一元素的位置。 因此，新数组的长度即为 p + 1。 这个过程本质上是将不重复的元素，从数组前面开始，一个个地覆盖掉后面的重复元素。\n代码实现 (Java) class Solution { public int removeDuplicates(int[] nums) { if (nums.length == 0) { return 0; } // p 是慢指针, q 是快指针 int p = 0; for (int q = 1; q \u003c nums.length; q++) { // 当找到一个与慢指针所指元素不同的新元素时 if (nums[p] != nums[q]) { // 先移动慢指针 // 再将新元素的值覆盖到慢指针的新位置 nums[++p] = nums[q]; } } // 数组长度是索引 + 1 return p + 1; } } 复杂度分析\n时间复杂度: O(n)。快慢指针都只对数组进行单次遍历。 空间复杂度: O(1)。原地修改，没有使用额外空间。 ",
+  "wordCount" : "168",
+  "inLanguage": "en",
+  "datePublished": "2025-09-13T10:35:00+09:00",
+  "dateModified": "2025-09-13T10:35:00+09:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/2025-09-13-26-remove-duplicates-from-sorted-array/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "个人技术博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="个人技术博客 (Alt + H)">个人技术博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      【HOT100/快慢指针】LeetCode 26.删除有序数组中的重复项
+    </h1>
+    <div class="post-meta"><span title='2025-09-13 10:35:00 +0900 JST'>September 13, 2025</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="题目回顾">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾">#</a></h2>
+<blockquote>
+<p>给你一个 <strong>非严格递增排列</strong> 的数组 <code>nums</code> ，请你 <strong>原地</strong> 删除重复出现的元素，使每个元素 <strong>只出现一次</strong> ，返回删除后数组的新长度。元素的 <strong>相对顺序</strong> 应该保持 <strong>一致</strong> 。</p>
+<p>更改数组 <code>nums</code> ，使 <code>nums</code> 的前 <code>k</code> 个元素包含唯一元素，并按照它们最初在 <code>nums</code> 中出现的顺序排列。</p>
+<p>返回 <code>k</code> 。</p>
+</blockquote>
+<p><strong>示例：</strong></p>
+<p><strong>输入：</strong> nums = <code>[0,0,1,1,1,2,2,3,3,4]</code>
+<strong>输出：</strong> <code>5</code>, nums = <code>[0,1,2,3,4,_,_,_,_,_]</code>
+<strong>解释：</strong> 函数应该返回 <code>k = 5</code>，并且 <code>nums</code> 的前五个元素为 <code>0, 1, 2, 3, 4</code>。</p>
+<h2 id="核心思路快慢指针">核心思路：快慢指针<a hidden class="anchor" aria-hidden="true" href="#核心思路快慢指针">#</a></h2>
+<p>题目的关键在于&quot;数组有序&quot;和&quot;保持相对顺序&quot;。因为数组是有序的，所以所有重复的元素必然是相邻的。这让我们不必进行复杂的查找，只需向后遍历即可。</p>
+<p>我们可以使用<strong>快慢指针</strong>来解决这个问题：</p>
+<ol>
+<li>
+<p><strong>定义指针</strong>：</p>
+<ul>
+<li><strong>慢指针 <code>p</code></strong>: 指向当前已处理好的、不重复数组的最后一个位置。它也代表了下一个唯一元素应该被放置的位置。</li>
+<li><strong>快指针 <code>q</code></strong>: 负责向前探索，遍历整个数组，寻找与慢指针所指元素不同的新元素。</li>
+</ul>
+</li>
+<li>
+<p><strong>执行过程</strong>：</p>
+<ul>
+<li>初始化 <code>p = 0</code>, <code>q = 1</code>。</li>
+<li>快指针 <code>q</code> 向后遍历数组。</li>
+<li>若 <code>nums[q]</code> 与 <code>nums[p]</code> <strong>相同</strong>，说明是重复元素，则 <code>p</code> 不动，<code>q</code> 继续向后移动以跳过所有重复项。</li>
+<li>若 <code>nums[q]</code> 与 <code>nums[p]</code> <strong>不同</strong>，说明 <code>q</code> 找到了一个新的唯一元素。此时，先将慢指针 <code>p</code> 向后移动一位 (<code>++p</code>)，然后将 <code>nums[q]</code> 的值赋给 <code>nums[p]</code>，完成新元素的&quot;入队&quot;。</li>
+</ul>
+</li>
+<li>
+<p><strong>返回结果</strong>：</p>
+<ul>
+<li>当 <code>q</code> 遍历完整个数组后，<code>p</code> 指针所在的索引就是最后一个唯一元素的位置。</li>
+<li>因此，新数组的长度即为 <code>p + 1</code>。</li>
+</ul>
+</li>
+</ol>
+<p>这个过程本质上是将不重复的元素，从数组前面开始，一个个地覆盖掉后面的重复元素。</p>
+<h2 id="代码实现-java">代码实现 (Java)<a hidden class="anchor" aria-hidden="true" href="#代码实现-java">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">removeDuplicates</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> nums) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (nums.<span style="color:#a6e22e">length</span> <span style="color:#f92672">==</span> 0) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> 0;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// p 是慢指针, q 是快指针</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> 0;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> q <span style="color:#f92672">=</span> 1; q <span style="color:#f92672">&lt;</span> nums.<span style="color:#a6e22e">length</span>; q<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 当找到一个与慢指针所指元素不同的新元素时</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (nums<span style="color:#f92672">[</span>p<span style="color:#f92672">]</span> <span style="color:#f92672">!=</span> nums<span style="color:#f92672">[</span>q<span style="color:#f92672">]</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 先移动慢指针</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 再将新元素的值覆盖到慢指针的新位置</span>
+</span></span><span style="display:flex;"><span>                nums<span style="color:#f92672">[++</span>p<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> nums<span style="color:#f92672">[</span>q<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 数组长度是索引 + 1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> p <span style="color:#f92672">+</span> 1;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>复杂度分析</strong></p>
+<ul>
+<li>时间复杂度: <code>O(n)</code>。快慢指针都只对数组进行单次遍历。</li>
+<li>空间复杂度: <code>O(1)</code>。原地修改，没有使用额外空间。</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/%E6%95%B0%E7%BB%84/">数组</a></li>
+      <li><a href="http://localhost:1313/tags/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a></li>
+      <li><a href="http://localhost:1313/tags/%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88/">快慢指针</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">个人技术博客</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>【HOT100/动态规划】LeetCode 53. 最大子数组和 | 个人技术博客</title>
+<meta name="keywords" content="数组, 动态规划, 分治">
+<meta name="description" content="题目回顾
+
+给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+子数组 是数组中的一个连续部分。
+
+示例 1：
+输入： nums = [-2,1,-3,4,-1,2,1,-5,4]
+输出： 6
+解释： 连续子数组 [4,-1,2,1] 的和最大，为 6 。
+示例 2：
+输入： nums = [1]
+输出： 1
+示例 3：
+输入： nums = [5,4,-1,7,8]
+输出： 23
+核心思路：动态规划与贪心
+这道题是**动态规划（Dynamic Programming）**的经典入门题。
+如果我们用暴力法求解，枚举所有的起点和终点，时间复杂度会达到 $O(N^2)$，这显然不是最优解。我们需要找到一种遍历一次就能得出结果的方法。
+状态定义
+我们要思考：以当前数字 nums[i] 结尾的子数组，它的最大和是多少？
+假设 dp[i] 表示以 nums[i] 结尾的连续子数组的最大和。那么对于 nums[i] 来说，它面临两个选择：
+
+加入前面的队伍：如果前面的子数组和 dp[i-1] 是正数，那么加上它肯定比自己单干强，即 dp[i-1] &#43; nums[i]。
+另起炉灶：如果前面的子数组和 dp[i-1] 是负数，加上它只会拖累自己，不如从自己重新开始计算，即 nums[i]。
+
+状态转移方程
+根据上述分析，我们可以得到状态转移方程：
+$$
+dp[i] = \max(dp[i-1] &#43; \text{nums}[i], \text{nums}[i])
+$$">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/2026-01-02-53-maximum-subarray/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.343cc480b9ffc8f04ccbe5e968ad674880cab773ec19905e93033065c1e7a804.css" integrity="sha256-NDzEgLn/yPBMy&#43;XpaK1nSIDKt3PsGZBekwMwZcHnqAQ=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2026-01-02-53-maximum-subarray/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="http://localhost:1313/posts/2026-01-02-53-maximum-subarray/">
+  <meta property="og:site_name" content="个人技术博客">
+  <meta property="og:title" content="【HOT100/动态规划】LeetCode 53. 最大子数组和">
+  <meta property="og:description" content="题目回顾 给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+子数组 是数组中的一个连续部分。
+示例 1：
+输入： nums = [-2,1,-3,4,-1,2,1,-5,4] 输出： 6 解释： 连续子数组 [4,-1,2,1] 的和最大，为 6 。
+示例 2：
+输入： nums = [1] 输出： 1
+示例 3：
+输入： nums = [5,4,-1,7,8] 输出： 23
+核心思路：动态规划与贪心 这道题是**动态规划（Dynamic Programming）**的经典入门题。
+如果我们用暴力法求解，枚举所有的起点和终点，时间复杂度会达到 $O(N^2)$，这显然不是最优解。我们需要找到一种遍历一次就能得出结果的方法。
+状态定义 我们要思考：以当前数字 nums[i] 结尾的子数组，它的最大和是多少？
+假设 dp[i] 表示以 nums[i] 结尾的连续子数组的最大和。那么对于 nums[i] 来说，它面临两个选择：
+加入前面的队伍：如果前面的子数组和 dp[i-1] 是正数，那么加上它肯定比自己单干强，即 dp[i-1] &#43; nums[i]。 另起炉灶：如果前面的子数组和 dp[i-1] 是负数，加上它只会拖累自己，不如从自己重新开始计算，即 nums[i]。 状态转移方程 根据上述分析，我们可以得到状态转移方程： $$ dp[i] = \max(dp[i-1] &#43; \text{nums}[i], \text{nums}[i]) $$">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-02T15:10:00+09:00">
+    <meta property="article:modified_time" content="2026-01-02T15:10:00+09:00">
+    <meta property="article:tag" content="数组">
+    <meta property="article:tag" content="动态规划">
+    <meta property="article:tag" content="分治">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【HOT100/动态规划】LeetCode 53. 最大子数组和">
+<meta name="twitter:description" content="题目回顾
+
+给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+子数组 是数组中的一个连续部分。
+
+示例 1：
+输入： nums = [-2,1,-3,4,-1,2,1,-5,4]
+输出： 6
+解释： 连续子数组 [4,-1,2,1] 的和最大，为 6 。
+示例 2：
+输入： nums = [1]
+输出： 1
+示例 3：
+输入： nums = [5,4,-1,7,8]
+输出： 23
+核心思路：动态规划与贪心
+这道题是**动态规划（Dynamic Programming）**的经典入门题。
+如果我们用暴力法求解，枚举所有的起点和终点，时间复杂度会达到 $O(N^2)$，这显然不是最优解。我们需要找到一种遍历一次就能得出结果的方法。
+状态定义
+我们要思考：以当前数字 nums[i] 结尾的子数组，它的最大和是多少？
+假设 dp[i] 表示以 nums[i] 结尾的连续子数组的最大和。那么对于 nums[i] 来说，它面临两个选择：
+
+加入前面的队伍：如果前面的子数组和 dp[i-1] 是正数，那么加上它肯定比自己单干强，即 dp[i-1] &#43; nums[i]。
+另起炉灶：如果前面的子数组和 dp[i-1] 是负数，加上它只会拖累自己，不如从自己重新开始计算，即 nums[i]。
+
+状态转移方程
+根据上述分析，我们可以得到状态转移方程：
+$$
+dp[i] = \max(dp[i-1] &#43; \text{nums}[i], \text{nums}[i])
+$$">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "【HOT100/动态规划】LeetCode 53. 最大子数组和",
+      "item": "http://localhost:1313/posts/2026-01-02-53-maximum-subarray/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "【HOT100/动态规划】LeetCode 53. 最大子数组和",
+  "name": "【HOT100\/动态规划】LeetCode 53. 最大子数组和",
+  "description": "题目回顾 给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。\n子数组 是数组中的一个连续部分。\n示例 1：\n输入： nums = [-2,1,-3,4,-1,2,1,-5,4] 输出： 6 解释： 连续子数组 [4,-1,2,1] 的和最大，为 6 。\n示例 2：\n输入： nums = [1] 输出： 1\n示例 3：\n输入： nums = [5,4,-1,7,8] 输出： 23\n核心思路：动态规划与贪心 这道题是**动态规划（Dynamic Programming）**的经典入门题。\n如果我们用暴力法求解，枚举所有的起点和终点，时间复杂度会达到 $O(N^2)$，这显然不是最优解。我们需要找到一种遍历一次就能得出结果的方法。\n状态定义 我们要思考：以当前数字 nums[i] 结尾的子数组，它的最大和是多少？\n假设 dp[i] 表示以 nums[i] 结尾的连续子数组的最大和。那么对于 nums[i] 来说，它面临两个选择：\n加入前面的队伍：如果前面的子数组和 dp[i-1] 是正数，那么加上它肯定比自己单干强，即 dp[i-1] + nums[i]。 另起炉灶：如果前面的子数组和 dp[i-1] 是负数，加上它只会拖累自己，不如从自己重新开始计算，即 nums[i]。 状态转移方程 根据上述分析，我们可以得到状态转移方程： $$ dp[i] = \\max(dp[i-1] + \\text{nums}[i], \\text{nums}[i]) $$\n",
+  "keywords": [
+    "数组", "动态规划", "分治"
+  ],
+  "articleBody": "题目回顾 给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。\n子数组 是数组中的一个连续部分。\n示例 1：\n输入： nums = [-2,1,-3,4,-1,2,1,-5,4] 输出： 6 解释： 连续子数组 [4,-1,2,1] 的和最大，为 6 。\n示例 2：\n输入： nums = [1] 输出： 1\n示例 3：\n输入： nums = [5,4,-1,7,8] 输出： 23\n核心思路：动态规划与贪心 这道题是**动态规划（Dynamic Programming）**的经典入门题。\n如果我们用暴力法求解，枚举所有的起点和终点，时间复杂度会达到 $O(N^2)$，这显然不是最优解。我们需要找到一种遍历一次就能得出结果的方法。\n状态定义 我们要思考：以当前数字 nums[i] 结尾的子数组，它的最大和是多少？\n假设 dp[i] 表示以 nums[i] 结尾的连续子数组的最大和。那么对于 nums[i] 来说，它面临两个选择：\n加入前面的队伍：如果前面的子数组和 dp[i-1] 是正数，那么加上它肯定比自己单干强，即 dp[i-1] + nums[i]。 另起炉灶：如果前面的子数组和 dp[i-1] 是负数，加上它只会拖累自己，不如从自己重新开始计算，即 nums[i]。 状态转移方程 根据上述分析，我们可以得到状态转移方程： $$ dp[i] = \\max(dp[i-1] + \\text{nums}[i], \\text{nums}[i]) $$\n空间优化 观察转移方程发现，当前状态 dp[i] 只与前一个状态 dp[i-1] 有关。因此，我们不需要维护一个完整的 dp 数组，只需要用一个变量 pre 来记录\"前一个位置的最大子数组和\"即可。这也就是代码中 pre 变量的作用。\n这种一边遍历一边做决策（如果收益为负则舍弃）的思想，也体现了贪心算法的影子。\n代码实现 (Java) class Solution { public int maxSubArray(int[] nums) { // pre 记录以当前元素结尾的最大子数组和 (相当于 dp[i]) // maxAns 记录全局最大值 int pre = 0; int maxAns = nums[0]; for (int x : nums) { // 决策：是把当前数 x 加入之前的子数组 (pre + x)，还是从 x 开始重开 (x) // 如果 pre 是负数，那么 pre + x \u003c x，所以会选择 x，相当于舍弃了之前的负收益 pre = Math.max(pre + x, x); // 更新全局最大值 maxAns = Math.max(pre, maxAns); } return maxAns; } } 复杂度分析 时间复杂度: $O(N)$。我们只需要遍历数组一次 空间复杂度: $O(1)$。我们只使用了常数个变量，没有使用额外的数组空间（如果使用标准的 DP 数组则是 $O(N)$）。 ",
+  "wordCount" : "162",
+  "inLanguage": "en",
+  "datePublished": "2026-01-02T15:10:00+09:00",
+  "dateModified": "2026-01-02T15:10:00+09:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/2026-01-02-53-maximum-subarray/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "个人技术博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="个人技术博客 (Alt + H)">个人技术博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      【HOT100/动态规划】LeetCode 53. 最大子数组和
+    </h1>
+    <div class="post-meta"><span title='2026-01-02 15:10:00 +0900 JST'>January 2, 2026</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="题目回顾">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾">#</a></h2>
+<blockquote>
+<p>给你一个整数数组 <code>nums</code> ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p>
+<p><strong>子数组</strong> 是数组中的一个连续部分。</p>
+</blockquote>
+<p><strong>示例 1：</strong></p>
+<p><strong>输入：</strong> <code>nums = [-2,1,-3,4,-1,2,1,-5,4]</code>
+<strong>输出：</strong> <code>6</code>
+<strong>解释：</strong> 连续子数组 <code>[4,-1,2,1]</code> 的和最大，为 <code>6</code> 。</p>
+<p><strong>示例 2：</strong></p>
+<p><strong>输入：</strong> <code>nums = [1]</code>
+<strong>输出：</strong> <code>1</code></p>
+<p><strong>示例 3：</strong></p>
+<p><strong>输入：</strong> <code>nums = [5,4,-1,7,8]</code>
+<strong>输出：</strong> <code>23</code></p>
+<h2 id="核心思路动态规划与贪心">核心思路：动态规划与贪心<a hidden class="anchor" aria-hidden="true" href="#核心思路动态规划与贪心">#</a></h2>
+<p>这道题是**动态规划（Dynamic Programming）**的经典入门题。</p>
+<p>如果我们用暴力法求解，枚举所有的起点和终点，时间复杂度会达到 $O(N^2)$，这显然不是最优解。我们需要找到一种遍历一次就能得出结果的方法。</p>
+<h3 id="状态定义">状态定义<a hidden class="anchor" aria-hidden="true" href="#状态定义">#</a></h3>
+<p>我们要思考：<strong>以当前数字 <code>nums[i]</code> 结尾的子数组，它的最大和是多少？</strong></p>
+<p>假设 <code>dp[i]</code> 表示以 <code>nums[i]</code> <strong>结尾</strong>的连续子数组的最大和。那么对于 <code>nums[i]</code> 来说，它面临两个选择：</p>
+<ol>
+<li><strong>加入前面的队伍</strong>：如果前面的子数组和 <code>dp[i-1]</code> 是正数，那么加上它肯定比自己单干强，即 <code>dp[i-1] + nums[i]</code>。</li>
+<li><strong>另起炉灶</strong>：如果前面的子数组和 <code>dp[i-1]</code> 是负数，加上它只会拖累自己，不如从自己重新开始计算，即 <code>nums[i]</code>。</li>
+</ol>
+<h3 id="状态转移方程">状态转移方程<a hidden class="anchor" aria-hidden="true" href="#状态转移方程">#</a></h3>
+<p>根据上述分析，我们可以得到状态转移方程：
+$$
+dp[i] = \max(dp[i-1] + \text{nums}[i], \text{nums}[i])
+$$</p>
+<h3 id="空间优化">空间优化<a hidden class="anchor" aria-hidden="true" href="#空间优化">#</a></h3>
+<p>观察转移方程发现，当前状态 <code>dp[i]</code> 只与前一个状态 <code>dp[i-1]</code> 有关。因此，我们不需要维护一个完整的 <code>dp</code> 数组，只需要用一个变量 <code>pre</code> 来记录&quot;前一个位置的最大子数组和&quot;即可。这也就是代码中 <code>pre</code> 变量的作用。</p>
+<p>这种一边遍历一边做决策（如果收益为负则舍弃）的思想，也体现了<strong>贪心算法</strong>的影子。</p>
+<h2 id="代码实现-java">代码实现 (Java)<a hidden class="anchor" aria-hidden="true" href="#代码实现-java">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">maxSubArray</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> nums) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// pre 记录以当前元素结尾的最大子数组和 (相当于 dp[i])</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// maxAns 记录全局最大值</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> pre <span style="color:#f92672">=</span> 0; 
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> maxAns <span style="color:#f92672">=</span> nums<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> x : nums) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 决策：是把当前数 x 加入之前的子数组 (pre + x)，还是从 x 开始重开 (x)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 如果 pre 是负数，那么 pre + x &lt; x，所以会选择 x，相当于舍弃了之前的负收益</span>
+</span></span><span style="display:flex;"><span>            pre <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">max</span>(pre <span style="color:#f92672">+</span> x, x);
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 更新全局最大值</span>
+</span></span><span style="display:flex;"><span>            maxAns <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">max</span>(pre, maxAns);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> maxAns;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="复杂度分析">复杂度分析<a hidden class="anchor" aria-hidden="true" href="#复杂度分析">#</a></h2>
+<ul>
+<li>时间复杂度: $O(N)$。我们只需要遍历数组一次</li>
+<li>空间复杂度: $O(1)$。我们只使用了常数个变量，没有使用额外的数组空间（如果使用标准的 DP 数组则是 $O(N)$）。</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/%E6%95%B0%E7%BB%84/">数组</a></li>
+      <li><a href="http://localhost:1313/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a></li>
+      <li><a href="http://localhost:1313/tags/%E5%88%86%E6%B2%BB/">分治</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">个人技术博客</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>快慢指针 on 个人技术博客</title>
+    <link>http://localhost:1313/tags/%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88/</link>
+    <description>Recent content in 快慢指针 on 个人技术博客</description>
+    <generator>Hugo -- 0.154.1</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sat, 20 Sep 2025 14:55:00 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>【HOT100/快慢指针】LeetCode 283. 移动零</title>
+      <link>http://localhost:1313/posts/2025-09-20-283-move-zeroes/</link>
+      <pubDate>Sat, 20 Sep 2025 14:55:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-09-20-283-move-zeroes/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个数组 &lt;code&gt;nums&lt;/code&gt;，编写一个函数将所有 &lt;code&gt;0&lt;/code&gt; 移动到数组的末尾，同时保持非零元素的相对顺序。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;请注意&lt;/strong&gt; ，必须在不复制数组的情况下&lt;strong&gt;原地&lt;/strong&gt;对数组进行操作。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入:&lt;/strong&gt; &lt;code&gt;nums = [0,1,0,3,12]&lt;/code&gt;
+&lt;strong&gt;输出:&lt;/strong&gt; &lt;code&gt;[1,3,12,0,0]&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;核心思路快慢指针一次遍历&#34;&gt;核心思路：快慢指针（一次遍历）&lt;/h2&gt;
+&lt;p&gt;这道题有两个核心要求：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;将所有 &lt;code&gt;0&lt;/code&gt; 移动到末尾。&lt;/li&gt;
+&lt;li&gt;保持所有&lt;strong&gt;非零&lt;/strong&gt;元素的相对顺序不变。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;第二个要求&amp;quot;保持相对顺序&amp;quot;是解题的关键。它告诉我们，不能简单地像&amp;quot;移除元素&amp;quot;那样，用头尾指针交换元素，因为那样会打乱非零元素的原有顺序。&lt;/p&gt;
+&lt;p&gt;这个问题的本质可以看作是：&lt;strong&gt;将所有非零元素，按原有的顺序，紧凑地移动到数组的前面，然后将剩余的位置全部填上零&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;这正是&lt;strong&gt;快慢指针&lt;/strong&gt;擅长的场景：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;定义指针&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;慢指针 &lt;code&gt;p&lt;/code&gt; (或 &lt;code&gt;slow&lt;/code&gt;)&lt;/strong&gt;: 这个指针用于标记&amp;quot;下一个非零元素应该被放置的位置&amp;quot;。在 &lt;code&gt;p&lt;/code&gt; 左边的所有元素（不含 &lt;code&gt;p&lt;/code&gt;）都是已经处理好的、按序排列的非零元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;快指针 &lt;code&gt;q&lt;/code&gt; (或 &lt;code&gt;fast&lt;/code&gt;)&lt;/strong&gt;: 这个指针负责遍历整个数组，去寻找非零元素。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;执行过程&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;初始化 &lt;code&gt;p&lt;/code&gt; 和 &lt;code&gt;q&lt;/code&gt; 都指向数组的起始位置 &lt;code&gt;0&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;快指针 &lt;code&gt;q&lt;/code&gt; 开始向后遍历数组。&lt;/li&gt;
+&lt;li&gt;当 &lt;code&gt;q&lt;/code&gt; 遇到一个&lt;strong&gt;非零&lt;/strong&gt;元素时，说明这个元素需要被保留并放到前面。于是，我们执行两个操作：
+&lt;ol&gt;
+&lt;li&gt;将这个非零元素 &lt;code&gt;nums[q]&lt;/code&gt; 赋值给慢指针 &lt;code&gt;p&lt;/code&gt; 所在的位置 &lt;code&gt;nums[p]&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;将慢指针 &lt;code&gt;p&lt;/code&gt; 向后移动一位 (&lt;code&gt;p++&lt;/code&gt;)，为下一个非零元素腾出位置。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;如果 &lt;code&gt;q&lt;/code&gt; 遇到的是 &lt;code&gt;0&lt;/code&gt;，则慢指针 &lt;code&gt;p&lt;/code&gt; 保持不动，只有快指针 &lt;code&gt;q&lt;/code&gt; 继续向后移动。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;填充末尾的零&lt;/strong&gt;：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【HOT100/快慢指针】LeetCode 80. 删除有序数组中的重复项 II</title>
+      <link>http://localhost:1313/posts/2025-09-14-80-remove-duplicates-from-sorted-array-ii/</link>
+      <pubDate>Sun, 14 Sep 2025 16:55:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-09-14-80-remove-duplicates-from-sorted-array-ii/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给你一个有序数组 &lt;code&gt;nums&lt;/code&gt; ，请你 &lt;strong&gt;原地&lt;/strong&gt; 删除重复出现的元素，使得出现次数超过两次的元素&lt;strong&gt;只出现两次&lt;/strong&gt; ，返回删除后数组的新长度。&lt;/p&gt;
+&lt;p&gt;不要使用额外的数组空间，你必须在 &lt;strong&gt;原地&lt;/strong&gt; 修改输入数组 并在使用 O(1) 额外空间的条件下完成。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; nums = &lt;code&gt;[1,1,1,2,2,3]&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;5&lt;/code&gt;, nums = &lt;code&gt;[1,1,2,2,3,_]&lt;/code&gt;
+&lt;strong&gt;解释：&lt;/strong&gt; 函数应返回 &lt;code&gt;k = 5&lt;/code&gt;，并且 &lt;code&gt;nums&lt;/code&gt; 的前五个元素为 &lt;code&gt;1, 1, 2, 2, 3&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;核心思路快慢指针的通用解法&#34;&gt;核心思路：快慢指针的通用解法&lt;/h2&gt;
+&lt;p&gt;这道题是 LeetCode 26 的进阶版，规则从&amp;quot;只保留 1 个&amp;quot;变成了&amp;quot;最多保留 2 个&amp;quot;。快慢指针的思路依然适用，我们只需要对写入条件稍作修改。&lt;/p&gt;
+&lt;p&gt;我们可以定义一个更通用的解法来处理&amp;quot;最多保留 k 个重复项&amp;quot;这类问题。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;定义指针&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;慢指针 &lt;code&gt;slow&lt;/code&gt;&lt;/strong&gt;: 指向下一个可以被覆盖的位置。&lt;code&gt;[0...slow-1]&lt;/code&gt; 是已处理好的区域。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;快指针 &lt;code&gt;fast&lt;/code&gt;&lt;/strong&gt;: 遍历整个数组，寻找符合条件的元素。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;执行过程&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;我们遍历数组，对于快指针 &lt;code&gt;fast&lt;/code&gt; 指向的当前元素 &lt;code&gt;nums[fast]&lt;/code&gt;，思考一个问题：&lt;strong&gt;在什么情况下，这个元素应该被保留下来？&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;保留的条件是：当前处理好的数组长度 &lt;code&gt;slow&lt;/code&gt; 小于 2，或者 &lt;code&gt;nums[fast]&lt;/code&gt; 不等于 &lt;code&gt;nums[slow - 2]&lt;/code&gt;。
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;slow &amp;lt; 2&lt;/code&gt;：表示当前是数组最开头的两个位置，无论如何都应该被填充，因为题目允许最多两个重复项。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nums[fast] &amp;gt; nums[slow - 2]&lt;/code&gt;：这是本算法的核心。&lt;code&gt;nums[slow - 1]&lt;/code&gt; 和 &lt;code&gt;nums[slow - 2]&lt;/code&gt; 是已处理好的数组的最后两个元素。如果当前快指针的元素 &lt;code&gt;nums[fast]&lt;/code&gt; 和 &lt;code&gt;nums[slow - 2]&lt;/code&gt; 相同，说明 &lt;code&gt;nums[slow-2]&lt;/code&gt;, &lt;code&gt;nums[slow-1]&lt;/code&gt;, &lt;code&gt;nums[fast]&lt;/code&gt; 将构成三个或以上的连续重复，此时 &lt;code&gt;nums[fast]&lt;/code&gt; 不应被保留。反之，则可以保留。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;返回结果&lt;/strong&gt;：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【HOT100/快慢指针】LeetCode 26.删除有序数组中的重复项</title>
+      <link>http://localhost:1313/posts/2025-09-13-26-remove-duplicates-from-sorted-array/</link>
+      <pubDate>Sat, 13 Sep 2025 10:35:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2025-09-13-26-remove-duplicates-from-sorted-array/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给你一个 &lt;strong&gt;非严格递增排列&lt;/strong&gt; 的数组 &lt;code&gt;nums&lt;/code&gt; ，请你 &lt;strong&gt;原地&lt;/strong&gt; 删除重复出现的元素，使每个元素 &lt;strong&gt;只出现一次&lt;/strong&gt; ，返回删除后数组的新长度。元素的 &lt;strong&gt;相对顺序&lt;/strong&gt; 应该保持 &lt;strong&gt;一致&lt;/strong&gt; 。&lt;/p&gt;
+&lt;p&gt;更改数组 &lt;code&gt;nums&lt;/code&gt; ，使 &lt;code&gt;nums&lt;/code&gt; 的前 &lt;code&gt;k&lt;/code&gt; 个元素包含唯一元素，并按照它们最初在 &lt;code&gt;nums&lt;/code&gt; 中出现的顺序排列。&lt;/p&gt;
+&lt;p&gt;返回 &lt;code&gt;k&lt;/code&gt; 。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; nums = &lt;code&gt;[0,0,1,1,1,2,2,3,3,4]&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;5&lt;/code&gt;, nums = &lt;code&gt;[0,1,2,3,4,_,_,_,_,_]&lt;/code&gt;
+&lt;strong&gt;解释：&lt;/strong&gt; 函数应该返回 &lt;code&gt;k = 5&lt;/code&gt;，并且 &lt;code&gt;nums&lt;/code&gt; 的前五个元素为 &lt;code&gt;0, 1, 2, 3, 4&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;核心思路快慢指针&#34;&gt;核心思路：快慢指针&lt;/h2&gt;
+&lt;p&gt;题目的关键在于&amp;quot;数组有序&amp;quot;和&amp;quot;保持相对顺序&amp;quot;。因为数组是有序的，所以所有重复的元素必然是相邻的。这让我们不必进行复杂的查找，只需向后遍历即可。&lt;/p&gt;
+&lt;p&gt;我们可以使用&lt;strong&gt;快慢指针&lt;/strong&gt;来解决这个问题：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;定义指针&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;慢指针 &lt;code&gt;p&lt;/code&gt;&lt;/strong&gt;: 指向当前已处理好的、不重复数组的最后一个位置。它也代表了下一个唯一元素应该被放置的位置。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;快指针 &lt;code&gt;q&lt;/code&gt;&lt;/strong&gt;: 负责向前探索，遍历整个数组，寻找与慢指针所指元素不同的新元素。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;执行过程&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;初始化 &lt;code&gt;p = 0&lt;/code&gt;, &lt;code&gt;q = 1&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;快指针 &lt;code&gt;q&lt;/code&gt; 向后遍历数组。&lt;/li&gt;
+&lt;li&gt;若 &lt;code&gt;nums[q]&lt;/code&gt; 与 &lt;code&gt;nums[p]&lt;/code&gt; &lt;strong&gt;相同&lt;/strong&gt;，说明是重复元素，则 &lt;code&gt;p&lt;/code&gt; 不动，&lt;code&gt;q&lt;/code&gt; 继续向后移动以跳过所有重复项。&lt;/li&gt;
+&lt;li&gt;若 &lt;code&gt;nums[q]&lt;/code&gt; 与 &lt;code&gt;nums[p]&lt;/code&gt; &lt;strong&gt;不同&lt;/strong&gt;，说明 &lt;code&gt;q&lt;/code&gt; 找到了一个新的唯一元素。此时，先将慢指针 &lt;code&gt;p&lt;/code&gt; 向后移动一位 (&lt;code&gt;++p&lt;/code&gt;)，然后将 &lt;code&gt;nums[q]&lt;/code&gt; 的值赋给 &lt;code&gt;nums[p]&lt;/code&gt;，完成新元素的&amp;quot;入队&amp;quot;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;返回结果&lt;/strong&gt;：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>【HOT100/双指针】LeetCode 27. 原地移除数组元素 | 个人技术博客</title>
+<meta name="keywords" content="数组, 双指针, 题解">
+<meta name="description" content="题目回顾
+
+给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素。元素的顺序可能发生改变。然后返回 nums 中与 val 不同的元素的数量。
+假设 nums 中不等于 val 的元素数量为 k，要通过此题，您需要执行以下操作：
+
+更改 nums 数组，使 nums 的前 k 个元素包含不等于 val 的元素。nums 的其余元素和 nums 的大小并不重要。
+返回 k。
+
+
+示例：
+输入： nums = [3,2,2,3], val = 3
+输出： 2, nums = [2,2,_,_]
+解释： 函数应该返回 k = 2, 并且 nums 中的前两个元素均为 2。你的函数可以返回 k，并且 nums 的前 k 个元素可以包含任何顺序的 2。
+核心思路：相向双指针（头尾指针）
+
+
+定义头尾指针：
+
+p 指针从数组头部 0 开始，向后移动。它的任务是寻找值为 val 的元素。
+q 指针从数组尾部 n-1 开始，向前移动。它的任务是寻找值不为 val 的元素。
+
+
+
+交换与移动：">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/2025-09-12-27-remove-element/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.343cc480b9ffc8f04ccbe5e968ad674880cab773ec19905e93033065c1e7a804.css" integrity="sha256-NDzEgLn/yPBMy&#43;XpaK1nSIDKt3PsGZBekwMwZcHnqAQ=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2025-09-12-27-remove-element/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="http://localhost:1313/posts/2025-09-12-27-remove-element/">
+  <meta property="og:site_name" content="个人技术博客">
+  <meta property="og:title" content="【HOT100/双指针】LeetCode 27. 原地移除数组元素">
+  <meta property="og:description" content="题目回顾 给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素。元素的顺序可能发生改变。然后返回 nums 中与 val 不同的元素的数量。
+假设 nums 中不等于 val 的元素数量为 k，要通过此题，您需要执行以下操作：
+更改 nums 数组，使 nums 的前 k 个元素包含不等于 val 的元素。nums 的其余元素和 nums 的大小并不重要。 返回 k。 示例：
+输入： nums = [3,2,2,3], val = 3 输出： 2, nums = [2,2,_,_] 解释： 函数应该返回 k = 2, 并且 nums 中的前两个元素均为 2。你的函数可以返回 k，并且 nums 的前 k 个元素可以包含任何顺序的 2。
+核心思路：相向双指针（头尾指针） 定义头尾指针：
+p 指针从数组头部 0 开始，向后移动。它的任务是寻找值为 val 的元素。 q 指针从数组尾部 n-1 开始，向前移动。它的任务是寻找值不为 val 的元素。 交换与移动：">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-09-12T21:00:00+09:00">
+    <meta property="article:modified_time" content="2025-09-12T21:00:00+09:00">
+    <meta property="article:tag" content="数组">
+    <meta property="article:tag" content="双指针">
+    <meta property="article:tag" content="题解">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【HOT100/双指针】LeetCode 27. 原地移除数组元素">
+<meta name="twitter:description" content="题目回顾
+
+给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素。元素的顺序可能发生改变。然后返回 nums 中与 val 不同的元素的数量。
+假设 nums 中不等于 val 的元素数量为 k，要通过此题，您需要执行以下操作：
+
+更改 nums 数组，使 nums 的前 k 个元素包含不等于 val 的元素。nums 的其余元素和 nums 的大小并不重要。
+返回 k。
+
+
+示例：
+输入： nums = [3,2,2,3], val = 3
+输出： 2, nums = [2,2,_,_]
+解释： 函数应该返回 k = 2, 并且 nums 中的前两个元素均为 2。你的函数可以返回 k，并且 nums 的前 k 个元素可以包含任何顺序的 2。
+核心思路：相向双指针（头尾指针）
+
+
+定义头尾指针：
+
+p 指针从数组头部 0 开始，向后移动。它的任务是寻找值为 val 的元素。
+q 指针从数组尾部 n-1 开始，向前移动。它的任务是寻找值不为 val 的元素。
+
+
+
+交换与移动：">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "【HOT100/双指针】LeetCode 27. 原地移除数组元素",
+      "item": "http://localhost:1313/posts/2025-09-12-27-remove-element/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "【HOT100/双指针】LeetCode 27. 原地移除数组元素",
+  "name": "【HOT100\/双指针】LeetCode 27. 原地移除数组元素",
+  "description": "题目回顾 给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素。元素的顺序可能发生改变。然后返回 nums 中与 val 不同的元素的数量。\n假设 nums 中不等于 val 的元素数量为 k，要通过此题，您需要执行以下操作：\n更改 nums 数组，使 nums 的前 k 个元素包含不等于 val 的元素。nums 的其余元素和 nums 的大小并不重要。 返回 k。 示例：\n输入： nums = [3,2,2,3], val = 3 输出： 2, nums = [2,2,_,_] 解释： 函数应该返回 k = 2, 并且 nums 中的前两个元素均为 2。你的函数可以返回 k，并且 nums 的前 k 个元素可以包含任何顺序的 2。\n核心思路：相向双指针（头尾指针） 定义头尾指针：\np 指针从数组头部 0 开始，向后移动。它的任务是寻找值为 val 的元素。 q 指针从数组尾部 n-1 开始，向前移动。它的任务是寻找值不为 val 的元素。 交换与移动：\n",
+  "keywords": [
+    "数组", "双指针", "题解"
+  ],
+  "articleBody": "题目回顾 给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素。元素的顺序可能发生改变。然后返回 nums 中与 val 不同的元素的数量。\n假设 nums 中不等于 val 的元素数量为 k，要通过此题，您需要执行以下操作：\n更改 nums 数组，使 nums 的前 k 个元素包含不等于 val 的元素。nums 的其余元素和 nums 的大小并不重要。 返回 k。 示例：\n输入： nums = [3,2,2,3], val = 3 输出： 2, nums = [2,2,_,_] 解释： 函数应该返回 k = 2, 并且 nums 中的前两个元素均为 2。你的函数可以返回 k，并且 nums 的前 k 个元素可以包含任何顺序的 2。\n核心思路：相向双指针（头尾指针） 定义头尾指针：\np 指针从数组头部 0 开始，向后移动。它的任务是寻找值为 val 的元素。 q 指针从数组尾部 n-1 开始，向前移动。它的任务是寻找值不为 val 的元素。 交换与移动：\n当 p 找到一个 nums[p] == val，同时 q 找到了一个 nums[q] != val 时，我们就可以将这两个元素交换。 这次交换的意义在于：将一个需要移除的元素 (val) 和一个需要保留的元素换了位置，相当于把一个\"坏\"元素扔到了数组末尾的\"垃圾区\"，同时把一个\"好\"元素移到了它应该在的前半部分。 交换完成后，p 和 q 各自向中间移动一步，继续寻找下一对目标。 循环终止：\n当 p 指针与 q 指针相遇或交错（p \u003e q）时，说明所有值为 val 的元素都已经被交换到了数组的后半部分。 此时，p 指针的位置恰好就是不等于 val 的元素的数量 k。 代码实现 (Java) 以下是我基于相向双指针思路的实现。\nclass Solution { public int removeElement(int[] nums, int val) { int n = nums.length; if (n == 0) return 0; int p = 0, q = n - 1; while (p \u003c= q) { // 指针 p 从左往右，寻找第一个等于 val 的元素 if (nums[p] != val) { p++; continue; // 继续寻找 } // 指针 q 从右往左，寻找第一个不等于 val 的元素 if (nums[q] == val) { q--; continue; // 继续寻找 } // 此时，p 指向了 val, q 指向了非 val，进行交换 swap(nums, p, q); p++; q--; } // 循环结束后，p 的位置就是不重复元素的数量 return p; } private void swap(int[] nums, int i, int j) { int temp = nums[i]; nums[i] = nums[j]; nums[j] = temp; } } 复杂度分析\n时间复杂度: O(n)。p 和 q 两个指针最多各自遍历整个数组一次。 空间复杂度: O(1)。只使用了常数级别的额外空间，完美符合题目要求。 ",
+  "wordCount" : "227",
+  "inLanguage": "en",
+  "datePublished": "2025-09-12T21:00:00+09:00",
+  "dateModified": "2025-09-12T21:00:00+09:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/2025-09-12-27-remove-element/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "个人技术博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="个人技术博客 (Alt + H)">个人技术博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      【HOT100/双指针】LeetCode 27. 原地移除数组元素
+    </h1>
+    <div class="post-meta"><span title='2025-09-12 21:00:00 +0900 JST'>September 12, 2025</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="题目回顾">题目回顾<a hidden class="anchor" aria-hidden="true" href="#题目回顾">#</a></h2>
+<blockquote>
+<p>给你一个数组 <code>nums</code> 和一个值 <code>val</code>，你需要 <strong>原地</strong> 移除所有数值等于 <code>val</code> 的元素。元素的顺序可能发生改变。然后返回 <code>nums</code> 中与 <code>val</code> 不同的元素的数量。</p>
+<p>假设 <code>nums</code> 中不等于 <code>val</code> 的元素数量为 <code>k</code>，要通过此题，您需要执行以下操作：</p>
+<ul>
+<li>更改 <code>nums</code> 数组，使 <code>nums</code> 的前 <code>k</code> 个元素包含不等于 <code>val</code> 的元素。<code>nums</code> 的其余元素和 <code>nums</code> 的大小并不重要。</li>
+<li>返回 <code>k</code>。</li>
+</ul>
+</blockquote>
+<p><strong>示例：</strong></p>
+<p><strong>输入：</strong> nums = <code>[3,2,2,3]</code>, val = <code>3</code>
+<strong>输出：</strong> <code>2</code>, nums = <code>[2,2,_,_]</code>
+<strong>解释：</strong> 函数应该返回 <code>k = 2</code>, 并且 <code>nums</code> 中的前两个元素均为 <code>2</code>。你的函数可以返回 <code>k</code>，并且 <code>nums</code> 的前 <code>k</code> 个元素可以包含任何顺序的 <code>2</code>。</p>
+<h2 id="核心思路相向双指针头尾指针">核心思路：相向双指针（头尾指针）<a hidden class="anchor" aria-hidden="true" href="#核心思路相向双指针头尾指针">#</a></h2>
+<ol>
+<li>
+<p><strong>定义头尾指针</strong>：</p>
+<ul>
+<li><code>p</code> 指针从数组头部 <code>0</code> 开始，向后移动。它的任务是<strong>寻找值为 <code>val</code> 的元素</strong>。</li>
+<li><code>q</code> 指针从数组尾部 <code>n-1</code> 开始，向前移动。它的任务是<strong>寻找值不为 <code>val</code> 的元素</strong>。</li>
+</ul>
+</li>
+<li>
+<p><strong>交换与移动</strong>：</p>
+<ul>
+<li>当 <code>p</code> 找到一个 <code>nums[p] == val</code>，同时 <code>q</code> 找到了一个 <code>nums[q] != val</code> 时，我们就可以将这两个元素交换。</li>
+<li>这次交换的意义在于：将一个需要移除的元素 (<code>val</code>) 和一个需要保留的元素换了位置，相当于把一个&quot;坏&quot;元素扔到了数组末尾的&quot;垃圾区&quot;，同时把一个&quot;好&quot;元素移到了它应该在的前半部分。</li>
+<li>交换完成后，<code>p</code> 和 <code>q</code> 各自向中间移动一步，继续寻找下一对目标。</li>
+</ul>
+</li>
+<li>
+<p><strong>循环终止</strong>：</p>
+<ul>
+<li>当 <code>p</code> 指针与 <code>q</code> 指针相遇或交错（<code>p &gt; q</code>）时，说明所有值为 <code>val</code> 的元素都已经被交换到了数组的后半部分。</li>
+<li>此时，<code>p</code> 指针的位置恰好就是不等于 <code>val</code> 的元素的数量 <code>k</code>。</li>
+</ul>
+</li>
+</ol>
+<h2 id="代码实现-java">代码实现 (Java)<a hidden class="anchor" aria-hidden="true" href="#代码实现-java">#</a></h2>
+<p>以下是我基于相向双指针思路的实现。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">removeElement</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> nums, <span style="color:#66d9ef">int</span> val) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> nums.<span style="color:#a6e22e">length</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> 0) <span style="color:#66d9ef">return</span> 0;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> 0, q <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> 1;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (p <span style="color:#f92672">&lt;=</span> q) {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 指针 p 从左往右，寻找第一个等于 val 的元素</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (nums<span style="color:#f92672">[</span>p<span style="color:#f92672">]</span> <span style="color:#f92672">!=</span> val) {
+</span></span><span style="display:flex;"><span>        p<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">continue</span>; <span style="color:#75715e">// 继续寻找</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 指针 q 从右往左，寻找第一个不等于 val 的元素</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (nums<span style="color:#f92672">[</span>q<span style="color:#f92672">]</span> <span style="color:#f92672">==</span> val) {
+</span></span><span style="display:flex;"><span>        q<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">continue</span>; <span style="color:#75715e">// 继续寻找</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 此时，p 指向了 val, q 指向了非 val，进行交换</span>
+</span></span><span style="display:flex;"><span>      swap(nums, p, q);
+</span></span><span style="display:flex;"><span>      p<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>      q<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 循环结束后，p 的位置就是不重复元素的数量</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> p;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> nums, <span style="color:#66d9ef">int</span> i, <span style="color:#66d9ef">int</span> j) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> temp <span style="color:#f92672">=</span> nums<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>    nums<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> nums<span style="color:#f92672">[</span>j<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>    nums<span style="color:#f92672">[</span>j<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> temp;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>复杂度分析</strong></p>
+<ul>
+<li>时间复杂度: <code>O(n)</code>。p 和 q 两个指针最多各自遍历整个数组一次。</li>
+<li>空间复杂度: <code>O(1)</code>。只使用了常数级别的额外空间，完美符合题目要求。</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/%E6%95%B0%E7%BB%84/">数组</a></li>
+      <li><a href="http://localhost:1313/tags/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a></li>
+      <li><a href="http://localhost:1313/tags/%E9%A2%98%E8%A7%A3/">题解</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">个人技术博客</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

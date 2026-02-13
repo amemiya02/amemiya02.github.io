@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>数学 on 个人技术博客</title>
+    <link>http://localhost:1313/tags/%E6%95%B0%E5%AD%A6/</link>
+    <description>Recent content in 数学 on 个人技术博客</description>
+    <generator>Hugo -- 0.154.1</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 02 Jan 2026 17:05:00 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E6%95%B0%E5%AD%A6/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>【HOT100/数组】LeetCode 189. 轮转数组</title>
+      <link>http://localhost:1313/posts/2026-01-02-189-rotate-array/</link>
+      <pubDate>Fri, 02 Jan 2026 17:05:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/2026-01-02-189-rotate-array/</guid>
+      <description>&lt;h2 id=&#34;题目回顾&#34;&gt;题目回顾&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个整数数组 &lt;code&gt;nums&lt;/code&gt;，将数组中的元素向右轮转 &lt;code&gt;k&lt;/code&gt; 个位置，其中 &lt;code&gt;k&lt;/code&gt; 是非负数。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;示例 1:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入:&lt;/strong&gt; &lt;code&gt;nums = [1,2,3,4,5,6,7], k = 3&lt;/code&gt;
+&lt;strong&gt;输出:&lt;/strong&gt; &lt;code&gt;[5,6,7,1,2,3,4]&lt;/code&gt;
+&lt;strong&gt;解释:&lt;/strong&gt;
+向右轮转 1 步: &lt;code&gt;[7,1,2,3,4,5,6]&lt;/code&gt;
+向右轮转 2 步: &lt;code&gt;[6,7,1,2,3,4,5]&lt;/code&gt;
+向右轮转 3 步: &lt;code&gt;[5,6,7,1,2,3,4]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;示例 2:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入：&lt;/strong&gt; &lt;code&gt;nums = [-1,-100,3,99], k = 2&lt;/code&gt;
+&lt;strong&gt;输出：&lt;/strong&gt; &lt;code&gt;[3,99,-1,-100]&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;核心思路三次翻转法&#34;&gt;核心思路：三次翻转法&lt;/h2&gt;
+&lt;p&gt;这道题最直观的解法是使用一个额外的数组，将每个元素放到正确的位置，但这需要 $O(N)$ 的空间。
+如果要求原地算法（$O(1)$ 空间），最经典且容易理解的方法是&lt;strong&gt;数组翻转法&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;我们可以观察一下规律，以 &lt;code&gt;nums = [1,2,3,4,5,6,7], k = 3&lt;/code&gt; 为例：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;原始数组&lt;/strong&gt;：&lt;code&gt;[1, 2, 3, 4, 5, 6, 7]&lt;/code&gt;
+我们可以把数组分为两部分：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一部分（前 &lt;code&gt;n-k&lt;/code&gt; 个）：&lt;code&gt;[1, 2, 3, 4]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;第二部分（后 &lt;code&gt;k&lt;/code&gt; 个）：&lt;code&gt;[5, 6, 7]&lt;/code&gt; (这部分实际上是要移动到数组头部的)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;第一步：整体翻转&lt;/strong&gt;
+将整个数组翻转：
+&lt;code&gt;[7, 6, 5, 4, 3, 2, 1]&lt;/code&gt;
+此时，原本在尾部的 &lt;code&gt;[5, 6, 7]&lt;/code&gt; 跑到了头部，但是顺序是反的（&lt;code&gt;7, 6, 5&lt;/code&gt;）。原本在头部的 &lt;code&gt;[1, 2, 3, 4]&lt;/code&gt; 跑到了尾部，顺序也是反的（&lt;code&gt;4, 3, 2, 1&lt;/code&gt;）。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
