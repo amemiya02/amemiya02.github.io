@@ -344,5 +344,5 @@ func min(a, b int) int {
 ---
 
 > 作者: Amemiya  
-> URL: http://localhost:1313/posts/2026-02-11-mddp/  
+> URL: https://amemiya02.github.io/posts/2026-02-11-mddp/  
 

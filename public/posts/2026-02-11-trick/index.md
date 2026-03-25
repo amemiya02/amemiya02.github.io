@@ -288,5 +288,5 @@ func findDuplicate(nums []int) int {
 ---
 
 > 作者: Amemiya  
-> URL: http://localhost:1313/posts/2026-02-11-trick/  
+> URL: https://amemiya02.github.io/posts/2026-02-11-trick/  
 

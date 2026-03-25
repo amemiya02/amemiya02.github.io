@@ -598,5 +598,5 @@ func formatBoard(board [][]byte) []string {
 ---
 
 > 作者:   
-> URL: http://localhost:1313/posts/2026-02-03-backtracking/  
+> URL: https://amemiya02.github.io/posts/2026-02-03-backtracking/  
 

@@ -1575,5 +1575,5 @@ Mysql数据库安装完成后，自带了一下四个数据库，具体作用如
 ---
 
 > 作者: Amemiya  
-> URL: http://localhost:1313/posts/bd5f33f/  
+> URL: https://amemiya02.github.io/posts/bd5f33f/  
 
