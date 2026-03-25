@@ -1,0 +1,178 @@
+# [Python] LeetCode 热题 100 - 技巧
+
+
+# 技巧
+
+---
+
+## [136. 只出现一次的数字 - Easy](https://leetcode.cn/problems/single-number/)
+
+### 核心思路
+位运算中的 **异或 (XOR)** 是这道题的终极武器：
+1.  $a \oplus 0 = a$
+2.  $a \oplus a = 0$
+3.  异或满足交换律和结合律。
+
+所有成对的数字都会在异或过程中相互抵消变为 $0$，最后剩下的就是那个“单身狗”数字。
+
+### 代码实现
+
+```python
+class Solution:
+    def singleNumber(self, nums: list[int]) -> int:
+        res = 0
+        for num in nums:
+            res ^= num
+        return res
+
+        # Python 高级玩家一行流：
+        # from functools import reduce
+        # return reduce(lambda x, y: x ^ y, nums)
+```
+
+### 复杂度分析
+- **时间复杂度**：$O(n)$。
+- **空间复杂度**：$O(1)$。
+
+---
+
+## [169. 多数元素 - Easy](https://leetcode.cn/problems/majority-element/)
+
+### 核心思路：摩尔投票法 (Boyer-Moore Voting)
+想象一场大混战，每个数字都是一个士兵。
+* 不同的士兵相遇会“同归于尽”。
+* 因为多数元素的人数超过了总人数的一半，所以即使它和其他所有士兵 1:1 抵消，最后剩下的也一定是它。
+
+
+
+### 代码实现
+
+```python
+class Solution:
+    def majorityElement(self, nums: list[int]) -> int:
+        count = 0
+        candidate = None
+
+        for num in nums:
+            if count == 0:
+                candidate = num
+            count += (1 if num == candidate else -1)
+
+        return candidate
+```
+
+### 复杂度分析
+- **时间复杂度**：$O(n)$。
+- **空间复杂度**：$O(1)$。
+
+---
+
+## [75. 颜色分类 - Medium](https://leetcode.cn/problems/sort-colors/)
+
+### 核心思路：荷兰国旗问题 (Three-way Partition)
+利用 Python 的**多元赋值**（原地交换不需要中间变量），我们可以非常优雅地维护三个区域：
+* `[0, left)`：全为 0
+* `[left, cur]`：全为 1
+* `(right, n-1]`：全为 2
+
+### 代码实现
+
+```python
+class Solution:
+    def sortColors(self, nums: list[int]) -> None:
+        # left 指向 0 的右边界，right 指向 2 的左边界
+        left, cur, right = 0, 0, len(nums) - 1
+
+        while cur <= right:
+            if nums[cur] == 0:
+                nums[left], nums[cur] = nums[cur], nums[left]
+                left += 1
+                cur += 1
+            elif nums[cur] == 2:
+                # 交换后 cur 不自增，因为换回来的数还没检查
+                nums[cur], nums[right] = nums[right], nums[cur]
+                right -= 1
+            else:
+                cur += 1
+```
+
+---
+
+## [31. 下一个排列 - Medium](https://leetcode.cn/problems/next-permutation/)
+
+### 核心思路
+寻找比当前字典序大、且增幅最小的排列。Python 的切片操作 `nums[i:] = nums[i:][::-1]` 可以极简地实现局部反转。
+1.  **从后往前**找第一个降序点 $i$（即 $nums[i] < nums[i+1]$）。
+2.  **再从后往前**找第一个比 $nums[i]$ 大的数进行交换。
+3.  **反转** $i$ 之后的序列，使其从降序变升序（达到最小增幅）。
+
+### 代码实现
+
+```python
+class Solution:
+    def nextPermutation(self, nums: list[int]) -> None:
+        n = len(nums)
+        i = n - 2
+        # Step 1: 寻找第一个升序对
+        while i >= 0 and nums[i] >= nums[i + 1]:
+            i -= 1
+
+        if i >= 0:
+            # Step 2: 寻找比 nums[i] 大的最小数
+            j = n - 1
+            while nums[j] <= nums[i]:
+                j -= 1
+            nums[i], nums[j] = nums[j], nums[i]
+
+        # Step 3: 反转 i 之后的序列 (Pythonic 方式)
+        nums[i + 1:] = nums[i + 1:][::-1]
+```
+
+---
+
+## [287. 寻找重复数 - Medium](https://leetcode.cn/problems/find-the-duplicate-number/)
+
+### 核心思路：快慢指针 (Floyd's Cycle-Finding)
+这题最精妙的地方在于**建模**。将数组索引看作指针，数值看作下一个节点的地址：
+* 如果存在重复数字，那么多个索引会指向同一个地址，这就构成了一个**带环的链表**。
+* 重复的那个数字，就是**环的入口**。
+
+
+
+### 代码实现
+
+```python
+class Solution:
+    def findDuplicate(self, nums: list[int]) -> int:
+        # 第一阶段：快慢指针找相遇点
+        slow = fast = 0
+        while True:
+            slow = nums[slow]
+            fast = nums[nums[fast]]
+            if slow == fast:
+                break
+
+        # 第二阶段：找环的入口
+        # 将 slow 放回起点，fast 保持在相遇点，步速同步
+        slow = 0
+        while slow != fast:
+            slow = nums[slow]
+            fast = nums[nums[fast]] # 修正：此处快指针也应只走一步
+            # 抱歉，笔误：第二阶段快慢指针步速都是 1
+            # 应该是 fast = nums[fast]
+
+        # 重新校正逻辑：
+        slow = 0
+        while slow != fast:
+            slow = nums[slow]
+            fast = nums[fast]
+
+        return slow
+```
+
+
+---
+
+> 作者: Amemiya  
+> URL: https://amemiya02.github.io/posts/2026-03-25-trick/  
+

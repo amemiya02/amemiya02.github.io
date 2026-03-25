@@ -1,0 +1,205 @@
+# [Python] LeetCode 热题 100 - 栈
+
+
+
+# 栈
+
+
+---
+
+## [20. 有效的括号 - Easy](https://leetcode.cn/problems/valid-parentheses/)
+
+### 题目回顾
+给定一个只包括 `'('，')'，'{'，'}'，'['，']'` 的字符串 `s` ，判断字符串是否有效。
+
+### 核心思路
+利用栈的 **“后进先出”** 特性。
+1. 建立一个**字典（Hash Map）**存储右括号到左括号的映射，方便快速匹配。
+2. 遍历字符串：遇到左括号入栈；遇到右括号时，检查栈顶元素是否匹配。
+3. **Pythonic 技巧**：利用 `stack.pop() if stack else '#' ` 这种写法可以优雅地处理栈为空的情况。
+
+### 代码实现
+
+```python
+class Solution:
+    def isValid(self, s: str) -> bool:
+        # 映射表：右括号为 key，左括号为 value
+        mapping = {")": "(", "}": "{", "]": "["}
+        stack = []
+
+        for char in s:
+            if char in mapping:
+                # 如果是右括号，弹出栈顶元素进行比对
+                # 如果栈为空，赋一个不可能匹配的占位符
+                top_element = stack.pop() if stack else '#'
+                if mapping[char] != top_element:
+                    return False
+            else:
+                # 如果是左括号，直接入栈
+                stack.append(char)
+
+        # 最终栈为空则说明全部匹配
+        return not stack
+```
+
+### 复杂度分析
+- **时间复杂度**：$O(n)$，遍历一次字符串。
+- **空间复杂度**：$O(n)$，最坏情况下栈存储所有字符。
+
+---
+
+## [155. 最小栈 - Medium](https://leetcode.cn/problems/min-stack/)
+
+### 核心思路
+要在 $O(1)$ 时间获取最小值，关键在于**空间换时间**。
+* **主栈**：正常存储所有数据。
+* **辅助栈**：同步存储截止到当前位置的最小值。
+
+### 代码实现
+
+```python
+class MinStack:
+    def __init__(self):
+        self.stack = []
+        self.min_stack = []
+
+    def push(self, val: int) -> None:
+        self.stack.append(val)
+        # 如果辅助栈为空，或者新值 <= 当前最小值，则压入辅助栈
+        if not self.min_stack or val <= self.min_stack[-1]:
+            self.min_stack.append(val)
+
+    def pop(self) -> None:
+        # 如果弹出的元素正好是最小值，辅助栈也要同步弹出
+        if self.stack.pop() == self.min_stack[-1]:
+            self.min_stack.pop()
+
+    def top(self) -> int:
+        return self.stack[-1]
+
+    def getMin(self) -> int:
+        return self.min_stack[-1]
+```
+
+### 复杂度分析
+- **时间复杂度**：所有操作均为 $O(1)$。
+- **空间复杂度**：$O(n)$，辅助栈在最差情况下与主栈等长。
+
+---
+
+## [394. 字符串解码 - Medium](https://leetcode.cn/problems/decode-string/)
+
+### 题目回顾
+输入 `3[a2[c]]`，输出 `accaccacc`。
+
+### 核心思路
+处理嵌套结构，栈是首选。我们需要记录两个信息：**当前的重复次数** 和 **之前累计的字符串**。
+
+
+
+### 代码实现
+
+```python
+class Solution:
+    def decodeString(self, s: str) -> str:
+        stack = []  # 存储格式：[prev_str, repeat_num]
+        cur_str = ""
+        cur_num = 0
+
+        for char in s:
+            if char.isdigit():
+                # 处理多位数，如 "12"
+                cur_num = cur_num * 10 + int(char)
+            elif char == '[':
+                # 遇到左括号，将当前状态入栈并重置
+                stack.append([cur_str, cur_num])
+                cur_str, cur_num = "", 0
+            elif char == ']':
+                # 遇到右括号，出栈并构建新字符串
+                prev_str, num = stack.pop()
+                cur_str = prev_str + num * cur_str
+            else:
+                # 普通字母
+                cur_str += char
+
+        return cur_str
+```
+
+### 复杂度分析
+- **时间复杂度**：$O(S)$，$S$ 为解码后的字符串长度。
+- **空间复杂度**：$O(S)$，栈的深度取决于嵌套深度。
+
+---
+
+## [739. 每日温度 - Medium](https://leetcode.cn/problems/daily-temperatures/)
+
+### 核心思路：单调栈 (Monotonic Stack)
+这是一道经典的**单调栈**入门题。我们需要找到右侧第一个比自己大的数。
+* 维持一个**单调递减栈**（存储索引）。
+* 当发现当前温度高于栈顶温度时，说明找到了栈顶元素的“下一个更高温度”。
+
+
+
+### 代码实现
+
+```python
+class Solution:
+    def dailyTemperatures(self, temperatures: list[int]) -> list[int]:
+        n = len(temperatures)
+        ans = [0] * n
+        stack = []  # 存储索引
+
+        for i in range(n):
+            # 当栈不为空，且当前温度大于栈顶索引对应的温度
+            while stack and temperatures[i] > temperatures[stack[-1]]:
+                prev_index = stack.pop()
+                ans[prev_index] = i - prev_index
+            stack.append(i)
+
+        return ans
+```
+
+### 复杂度分析
+- **时间复杂度**：$O(n)$，每个索引进出栈各一次。
+- **空间复杂度**：$O(n)$，栈的大小。
+
+---
+
+## [84. 柱状图中最大的矩形 - Hard](https://leetcode.cn/problems/largest-rectangle-in-histogram/)
+
+### 核心思路
+要找到最大面积，我们需要确定每个柱子作为“高度”时，向左右能延伸的最远距离。
+1.  **单调递增栈**：帮助我们快速找到左右两侧最近的更矮的柱子。
+2.  **哨兵节点 (Sentinel)**：在数组前后各加一个高度为 `0` 的柱子，可以避免繁琐的栈判空逻辑，并确保所有柱子都能出栈计算面积。
+
+### 代码实现
+
+```python
+class Solution:
+    def largestRectangleArea(self, heights: list[int]) -> int:
+        # 添加哨兵：头尾加0
+        heights = [0] + heights + [0]
+        stack = [0]
+        max_area = 0
+
+        for i in range(1, len(heights)):
+            # 维护单调递增栈
+            while heights[i] < heights[stack[-1]]:
+                h = heights[stack.pop()]  # 当前确定的高度
+                w = i - stack[-1] - 1      # 宽度：当前索引 i 是右边界，新栈顶是左边界
+                max_area = max(max_area, h * w)
+            stack.append(i)
+
+        return max_area
+```
+
+### 复杂度分析
+- **时间复杂度**：$O(n)$。
+- **空间复杂度**：$O(n)$。
+
+
+---
+
+> 作者: Amemiya  
+> URL: https://amemiya02.github.io/posts/2026-03-25-stack/  
+
