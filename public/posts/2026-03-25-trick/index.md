@@ -153,15 +153,6 @@ class Solution:
                 break
 
         # 第二阶段：找环的入口
-        # 将 slow 放回起点，fast 保持在相遇点，步速同步
-        slow = 0
-        while slow != fast:
-            slow = nums[slow]
-            fast = nums[nums[fast]] # 修正：此处快指针也应只走一步
-            # 抱歉，笔误：第二阶段快慢指针步速都是 1
-            # 应该是 fast = nums[fast]
-
-        # 重新校正逻辑：
         slow = 0
         while slow != fast:
             slow = nums[slow]
