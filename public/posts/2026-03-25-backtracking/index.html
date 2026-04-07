@@ -11,7 +11,7 @@
   <meta itemprop="description" content="回溯 回溯算法核心公式 def backtrack(路径, 选择列表): if 满终止条件: res.append(路径[:]) # 注意：必须拷贝一份，否则回溯会清空结果 return for 选择 in 选择列表: 做选择 backtrack(路径, 选择列表) 撤销选择 # 关键：恢复现场 46. 全排列 - Medium 核心思路 决策树遍历： 我们需要一个 used 数组来记录哪些数字已经被选入 path。Python 的 list 传参是引用传递，在 res.append 时使用 path[:] 是最地道的写法。">
   <meta itemprop="datePublished" content="2026-03-25T15:30:21+09:00">
   <meta itemprop="dateModified" content="2026-03-25T15:30:21+09:00">
-  <meta itemprop="wordCount" content="1394">
+  <meta itemprop="wordCount" content="1489">
   <meta itemprop="keywords" content="Python,回溯,题解"><meta property="og:url" content="https://amemiya02.github.io/posts/2026-03-25-backtracking/">
   <meta property="og:site_name" content="Amemiya">
   <meta property="og:title" content="[Python] LeetCode 热题 100 - 回溯">
@@ -42,7 +42,7 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/amemiya02.github.io\/posts\/2026-03-25-backtracking\/"
-    },"genre": "posts","keywords": "Python, 回溯, 题解","wordcount":  1394 ,
+    },"genre": "posts","keywords": "Python, 回溯, 题解","wordcount":  1489 ,
     "url": "https:\/\/amemiya02.github.io\/posts\/2026-03-25-backtracking\/","datePublished": "2026-03-25T15:30:21+09:00","dateModified": "2026-03-25T15:30:21+09:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
@@ -115,7 +115,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[Python] LeetCode 热题 100 - 回溯</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><span class="author"><img class="avatar" src='/avatar.jpg' alt="Amemiya" height="16" width="16">&nbsp;Amemiya</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder" aria-hidden="true"></i> 算法</a>&ensp;<a href="/categories/leetcode/" class="post-category" title="分类 - LeetCode"><i class="fa-regular fa-folder" aria-hidden="true"></i> LeetCode</a></span></div><div class="post-meta-line"><span title="发布于 2026-03-25 15:30:21"><i class="fa-solid fa-calendar-days me-1" aria-hidden="true"></i><time datetime="2026-03-25">2026-03-25</time></span>&nbsp;<span title="1394 字"><i class="fa-solid fa-pencil-alt me-1" aria-hidden="true"></i>约 1400 字</span>&nbsp;<span><i class="fa-regular fa-clock me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img class="avatar" src='/avatar.jpg' alt="Amemiya" height="16" width="16">&nbsp;Amemiya</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder" aria-hidden="true"></i> 算法</a>&ensp;<a href="/categories/leetcode/" class="post-category" title="分类 - LeetCode"><i class="fa-regular fa-folder" aria-hidden="true"></i> LeetCode</a></span></div><div class="post-meta-line"><span title="发布于 2026-03-25 15:30:21"><i class="fa-solid fa-calendar-days me-1" aria-hidden="true"></i><time datetime="2026-03-25">2026-03-25</time></span>&nbsp;<span title="1489 字"><i class="fa-solid fa-pencil-alt me-1" aria-hidden="true"></i>约 1500 字</span>&nbsp;<span><i class="fa-regular fa-clock me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -210,30 +210,31 @@
   <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">permute</span>(nums: list[int]) <span style="color:#f92672">-&gt;</span> list[list[int]]:
-</span></span><span style="display:flex;"><span>    res <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>    used <span style="color:#f92672">=</span> [<span style="color:#66d9ef">False</span>] <span style="color:#f92672">*</span> len(nums)
+</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">permute</span>(self, nums: List[int]) <span style="color:#f92672">-&gt;</span> List[List[int]]:
+</span></span><span style="display:flex;"><span>        res <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        used <span style="color:#f92672">=</span> [<span style="color:#66d9ef">False</span>] <span style="color:#f92672">*</span> len(nums)
+</span></span><span style="display:flex;"><span>        N <span style="color:#f92672">=</span> len(nums)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">backtrack</span>(path):
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 终止条件</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> len(path) <span style="color:#f92672">==</span> N:
+</span></span><span style="display:flex;"><span>                res<span style="color:#f92672">.</span>append(path[:]) <span style="color:#75715e"># Python 切片进行浅拷贝</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">backtrack</span>(path):
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 终止条件</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> len(path) <span style="color:#f92672">==</span> len(nums):
-</span></span><span style="display:flex;"><span>            res<span style="color:#f92672">.</span>append(path[:]) <span style="color:#75715e"># Python 切片进行浅拷贝</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(N):
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> used[i]: <span style="color:#66d9ef">continue</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(nums)):
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> used[i]: <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># 1. 做选择</span>
+</span></span><span style="display:flex;"><span>                used[i] <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>                path<span style="color:#f92672">.</span>append(nums[i])
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># 2. 递归进入下一层</span>
+</span></span><span style="display:flex;"><span>                backtrack(path)
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># 3. 撤销选择（回溯）</span>
+</span></span><span style="display:flex;"><span>                path<span style="color:#f92672">.</span>pop()
+</span></span><span style="display:flex;"><span>                used[i] <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 1. 做选择</span>
-</span></span><span style="display:flex;"><span>            used[i] <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
-</span></span><span style="display:flex;"><span>            path<span style="color:#f92672">.</span>append(nums[i])
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 2. 递归进入下一层</span>
-</span></span><span style="display:flex;"><span>            backtrack(path)
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 3. 撤销选择（回溯）</span>
-</span></span><span style="display:flex;"><span>            path<span style="color:#f92672">.</span>pop()
-</span></span><span style="display:flex;"><span>            used[i] <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    backtrack([])
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res</span></span></code></pre></div><h3 class="heading-element" id="复杂度分析"><span>复杂度分析</span>
+</span></span><span style="display:flex;"><span>        backtrack([])
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res</span></span></code></pre></div><h3 class="heading-element" id="复杂度分析"><span>复杂度分析</span>
   <a href="#%e5%a4%8d%e6%9d%82%e5%ba%a6%e5%88%86%e6%9e%90" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -250,25 +251,29 @@
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-1" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><p>子集问题是收集 <strong>树的所有节点</strong>。为了去重（避免出现 <code>[1,2]</code> 和 <code>[2,1]</code>），我们引入 <code>start</code> 参数，确保每次只从当前元素的后续元素中进行选择。</p>
+</h3><p>子集问题是收集 <strong>树的所有节点</strong>。
+对于每一个元素，我们有两种选择：<strong>选</strong> 或 <strong>不选</strong>，对不选和选两种情况进行递归即可。</p>
 <h3 class="heading-element" id="代码实现-1"><span>代码实现</span>
   <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-1" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">subsets</span>(nums: list[int]) <span style="color:#f92672">-&gt;</span> list[list[int]]:
-</span></span><span style="display:flex;"><span>    res <span style="color:#f92672">=</span> []
+</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">subsets</span>(self, nums: List[int]) <span style="color:#f92672">-&gt;</span> List[List[int]]:
+</span></span><span style="display:flex;"><span>        res <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        n <span style="color:#f92672">=</span> len(nums)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">backtrack</span>(start, path):
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 每一个节点都是子集</span>
-</span></span><span style="display:flex;"><span>        res<span style="color:#f92672">.</span>append(path[:])
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(start, len(nums)):
-</span></span><span style="display:flex;"><span>            path<span style="color:#f92672">.</span>append(nums[i])
-</span></span><span style="display:flex;"><span>            backtrack(i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, path) <span style="color:#75715e"># 只能选 i 之后的元素</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">backtrack</span>(depth, path):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> depth <span style="color:#f92672">==</span> n:
+</span></span><span style="display:flex;"><span>                res<span style="color:#f92672">.</span>append(path[:])
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 不选当前元素</span>
+</span></span><span style="display:flex;"><span>            backtrack(depth<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, path)
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 选当前元素</span>
+</span></span><span style="display:flex;"><span>            path<span style="color:#f92672">.</span>append(nums[depth])
+</span></span><span style="display:flex;"><span>            backtrack(depth<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, path)
 </span></span><span style="display:flex;"><span>            path<span style="color:#f92672">.</span>pop()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    backtrack(<span style="color:#ae81ff">0</span>, [])
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res</span></span></code></pre></div><hr>
+</span></span><span style="display:flex;"><span>        backtrack(<span style="color:#ae81ff">0</span>, [])
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res</span></span></code></pre></div><hr>
 <h2 class="heading-element" id="17-电话号码的字母组合---medium"><span><a href="https://leetcode.cn/problems/letter-combinations-of-a-phone-number/" target="_blank" rel="external nofollow noopener noreferrer">17. 电话号码的字母组合 - Medium</a></span>
   <a href="#17-%e7%94%b5%e8%af%9d%e5%8f%b7%e7%a0%81%e7%9a%84%e5%ad%97%e6%af%8d%e7%bb%84%e5%90%88---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -277,33 +282,35 @@
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-2" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><p>这是典型的 <strong>组合问题</strong>。由于每一层处理的是不同的数字（不同的字符集），我们不需要 <code>used</code> 数组，只需通过 <code>index</code> 控制处理到的数字位置。</p>
+</h3><p>这是典型的 <strong>组合问题</strong>。由于每一层处理的是不同的数字（不同的字符集），
+我们不需要 <code>used</code> 数组，只需通过 <code>index</code> 控制处理到的数字位置。</p>
 <h3 class="heading-element" id="代码实现-2"><span>代码实现</span>
   <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-2" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">letterCombinations</span>(digits: str) <span style="color:#f92672">-&gt;</span> list[str]:
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> digits: <span style="color:#66d9ef">return</span> []
+</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">letterCombinations</span>(self, digits: str) <span style="color:#f92672">-&gt;</span> List[str]:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> digits: <span style="color:#66d9ef">return</span> []
+</span></span><span style="display:flex;"><span>        phone_map <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;2&#34;</span>: <span style="color:#e6db74">&#34;abc&#34;</span>, <span style="color:#e6db74">&#34;3&#34;</span>: <span style="color:#e6db74">&#34;def&#34;</span>, <span style="color:#e6db74">&#34;4&#34;</span>: <span style="color:#e6db74">&#34;ghi&#34;</span>, <span style="color:#e6db74">&#34;5&#34;</span>: <span style="color:#e6db74">&#34;jkl&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;6&#34;</span>: <span style="color:#e6db74">&#34;mno&#34;</span>, <span style="color:#e6db74">&#34;7&#34;</span>: <span style="color:#e6db74">&#34;pqrs&#34;</span>, <span style="color:#e6db74">&#34;8&#34;</span>: <span style="color:#e6db74">&#34;tuv&#34;</span>, <span style="color:#e6db74">&#34;9&#34;</span>: <span style="color:#e6db74">&#34;wxyz&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        res <span style="color:#f92672">=</span> []
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    phone_map <span style="color:#f92672">=</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;2&#34;</span>: <span style="color:#e6db74">&#34;abc&#34;</span>, <span style="color:#e6db74">&#34;3&#34;</span>: <span style="color:#e6db74">&#34;def&#34;</span>, <span style="color:#e6db74">&#34;4&#34;</span>: <span style="color:#e6db74">&#34;ghi&#34;</span>, <span style="color:#e6db74">&#34;5&#34;</span>: <span style="color:#e6db74">&#34;jkl&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;6&#34;</span>: <span style="color:#e6db74">&#34;mno&#34;</span>, <span style="color:#e6db74">&#34;7&#34;</span>: <span style="color:#e6db74">&#34;pqrs&#34;</span>, <span style="color:#e6db74">&#34;8&#34;</span>: <span style="color:#e6db74">&#34;tuv&#34;</span>, <span style="color:#e6db74">&#34;9&#34;</span>: <span style="color:#e6db74">&#34;wxyz&#34;</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    res <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">backtrack</span>(index, path):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> index <span style="color:#f92672">==</span> len(digits):
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># 注意：path 是一个字符列表，需要 join 成字符串</span>
+</span></span><span style="display:flex;"><span>                res<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join(path))
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">backtrack</span>(index, path):
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> index <span style="color:#f92672">==</span> len(digits):
-</span></span><span style="display:flex;"><span>            res<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join(path))
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>            letters <span style="color:#f92672">=</span> phone_map[digits[index]]
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> char <span style="color:#f92672">in</span> letters:
+</span></span><span style="display:flex;"><span>                path<span style="color:#f92672">.</span>append(char)
+</span></span><span style="display:flex;"><span>                backtrack(index <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, path)
+</span></span><span style="display:flex;"><span>                path<span style="color:#f92672">.</span>pop()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        letters <span style="color:#f92672">=</span> phone_map[digits[index]]
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> char <span style="color:#f92672">in</span> letters:
-</span></span><span style="display:flex;"><span>            path<span style="color:#f92672">.</span>append(char)
-</span></span><span style="display:flex;"><span>            backtrack(index <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, path)
-</span></span><span style="display:flex;"><span>            path<span style="color:#f92672">.</span>pop()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    backtrack(<span style="color:#ae81ff">0</span>, [])
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res</span></span></code></pre></div><hr>
+</span></span><span style="display:flex;"><span>        backtrack(<span style="color:#ae81ff">0</span>, [])
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res</span></span></code></pre></div><hr>
 <h2 class="heading-element" id="39-组合总和---medium"><span><a href="https://leetcode.cn/problems/combination-sum/" target="_blank" rel="external nofollow noopener noreferrer">39. 组合总和 - Medium</a></span>
   <a href="#39-%e7%bb%84%e5%90%88%e6%80%bb%e5%92%8c---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -320,27 +327,28 @@
   <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-3" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">combinationSum</span>(candidates: list[int], target: int) <span style="color:#f92672">-&gt;</span> list[list[int]]:
-</span></span><span style="display:flex;"><span>    res <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>    candidates<span style="color:#f92672">.</span>sort() <span style="color:#75715e"># 排序是剪枝的前提</span>
+</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">combinationSum</span>(self, candidates: List[int], target: int) <span style="color:#f92672">-&gt;</span> List[List[int]]:
+</span></span><span style="display:flex;"><span>        res <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        candidates<span style="color:#f92672">.</span>sort() <span style="color:#75715e"># 排序是剪枝的前提</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">backtrack</span>(remain, start, path):
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> remain <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
-</span></span><span style="display:flex;"><span>            res<span style="color:#f92672">.</span>append(path[:])
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">backtrack</span>(remain, start, path):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> remain <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>                res<span style="color:#f92672">.</span>append(path[:])
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(start, len(candidates)):
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 剪枝：如果当前值已超过剩余目标，后续更大的数无需考虑</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> remain <span style="color:#f92672">-</span> candidates[i] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>:
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(start, len(candidates)):
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># 剪枝：如果当前值已超过剩余目标，后续更大的数无需考虑</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> remain <span style="color:#f92672">-</span> candidates[i] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            path<span style="color:#f92672">.</span>append(candidates[i])
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 关键：传 i 表示可以重复使用当前数字</span>
-</span></span><span style="display:flex;"><span>            backtrack(remain <span style="color:#f92672">-</span> candidates[i], i, path)
-</span></span><span style="display:flex;"><span>            path<span style="color:#f92672">.</span>pop()
+</span></span><span style="display:flex;"><span>                path<span style="color:#f92672">.</span>append(candidates[i])
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># 关键：传 i 表示可以重复使用当前数字</span>
+</span></span><span style="display:flex;"><span>                backtrack(remain <span style="color:#f92672">-</span> candidates[i], i, path)
+</span></span><span style="display:flex;"><span>                path<span style="color:#f92672">.</span>pop()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    backtrack(target, <span style="color:#ae81ff">0</span>, [])
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res</span></span></code></pre></div><hr>
+</span></span><span style="display:flex;"><span>        backtrack(target, <span style="color:#ae81ff">0</span>, [])
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res</span></span></code></pre></div><hr>
 <h2 class="heading-element" id="22-括号生成---medium"><span><a href="https://leetcode.cn/problems/generate-parentheses/" target="_blank" rel="external nofollow noopener noreferrer">22. 括号生成 - Medium</a></span>
   <a href="#22-%e6%8b%ac%e5%8f%b7%e7%94%9f%e6%88%90---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -358,26 +366,27 @@
   <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-4" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">generateParenthesis</span>(n: int) <span style="color:#f92672">-&gt;</span> list[str]:
-</span></span><span style="display:flex;"><span>    res <span style="color:#f92672">=</span> []
+</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">generateParenthesis</span>(self, n: int) <span style="color:#f92672">-&gt;</span> List[str]:
+</span></span><span style="display:flex;"><span>        res <span style="color:#f92672">=</span> []
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">backtrack</span>(left, right, path):
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> len(path) <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> n:
-</span></span><span style="display:flex;"><span>            res<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join(path))
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">backtrack</span>(left, right, path):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> len(path) <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> n:
+</span></span><span style="display:flex;"><span>                res<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join(path))
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> left <span style="color:#f92672">&lt;</span> n:
-</span></span><span style="display:flex;"><span>            path<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#34;(&#34;</span>)
-</span></span><span style="display:flex;"><span>            backtrack(left <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, right, path)
-</span></span><span style="display:flex;"><span>            path<span style="color:#f92672">.</span>pop()
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> left <span style="color:#f92672">&lt;</span> n:
+</span></span><span style="display:flex;"><span>                path<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#34;(&#34;</span>)
+</span></span><span style="display:flex;"><span>                backtrack(left <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, right, path)
+</span></span><span style="display:flex;"><span>                path<span style="color:#f92672">.</span>pop()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> right <span style="color:#f92672">&lt;</span> left:
-</span></span><span style="display:flex;"><span>            path<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#34;)&#34;</span>)
-</span></span><span style="display:flex;"><span>            backtrack(left, right <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, path)
-</span></span><span style="display:flex;"><span>            path<span style="color:#f92672">.</span>pop()
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> right <span style="color:#f92672">&lt;</span> left:
+</span></span><span style="display:flex;"><span>                path<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#34;)&#34;</span>)
+</span></span><span style="display:flex;"><span>                backtrack(left, right <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, path)
+</span></span><span style="display:flex;"><span>                path<span style="color:#f92672">.</span>pop()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    backtrack(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, [])
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res</span></span></code></pre></div><hr>
+</span></span><span style="display:flex;"><span>        backtrack(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, [])
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res</span></span></code></pre></div><hr>
 <h2 class="heading-element" id="79-单词搜索---medium"><span><a href="https://leetcode.cn/problems/word-search/" target="_blank" rel="external nofollow noopener noreferrer">79. 单词搜索 - Medium</a></span>
   <a href="#79-%e5%8d%95%e8%af%8d%e6%90%9c%e7%b4%a2---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -391,31 +400,32 @@
   <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-5" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">exist</span>(board: list[list[str]], word: str) <span style="color:#f92672">-&gt;</span> bool:
-</span></span><span style="display:flex;"><span>    rows, cols <span style="color:#f92672">=</span> len(board), len(board[<span style="color:#ae81ff">0</span>])
+</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">exist</span>(self, board: List[List[str]], word: str) <span style="color:#f92672">-&gt;</span> bool:
+</span></span><span style="display:flex;"><span>        rows, cols <span style="color:#f92672">=</span> len(board), len(board[<span style="color:#ae81ff">0</span>])
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dfs</span>(r, c, k):
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> k <span style="color:#f92672">==</span> len(word):
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> r <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">or</span> r <span style="color:#f92672">&gt;=</span> rows <span style="color:#f92672">or</span> c <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">or</span> c <span style="color:#f92672">&gt;=</span> cols <span style="color:#f92672">or</span> board[r][c] <span style="color:#f92672">!=</span> word[k]:
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dfs</span>(r, c, k):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> k <span style="color:#f92672">==</span> len(word):
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> r <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">or</span> r <span style="color:#f92672">&gt;=</span> rows <span style="color:#f92672">or</span> c <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">or</span> c <span style="color:#f92672">&gt;=</span> cols <span style="color:#f92672">or</span> board[r][c] <span style="color:#f92672">!=</span> word[k]:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 1. 标记访问</span>
-</span></span><span style="display:flex;"><span>        temp, board[r][c] <span style="color:#f92672">=</span> board[r][c], <span style="color:#e6db74">&#34;#&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 1. 标记访问</span>
+</span></span><span style="display:flex;"><span>            temp, board[r][c] <span style="color:#f92672">=</span> board[r][c], <span style="color:#e6db74">&#34;#&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 2. 四向探索</span>
-</span></span><span style="display:flex;"><span>        res <span style="color:#f92672">=</span> (dfs(r<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, c, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">or</span> dfs(r<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, c, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">or</span>
-</span></span><span style="display:flex;"><span>               dfs(r, c<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">or</span> dfs(r, c<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 2. 四向探索</span>
+</span></span><span style="display:flex;"><span>            res <span style="color:#f92672">=</span> (dfs(r<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, c, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">or</span> dfs(r<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, c, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">or</span>
+</span></span><span style="display:flex;"><span>                dfs(r, c<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">or</span> dfs(r, c<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 3. 回溯（恢复现场）</span>
-</span></span><span style="display:flex;"><span>        board[r][c] <span style="color:#f92672">=</span> temp
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 3. 回溯（恢复现场）</span>
+</span></span><span style="display:flex;"><span>            board[r][c] <span style="color:#f92672">=</span> temp
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> res
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(rows):
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(cols):
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> board[i][j] <span style="color:#f92672">==</span> word[<span style="color:#ae81ff">0</span>]:
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> dfs(i, j, <span style="color:#ae81ff">0</span>): <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span></span></span></code></pre></div><hr>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(rows):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(cols):
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> board[i][j] <span style="color:#f92672">==</span> word[<span style="color:#ae81ff">0</span>]:
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> dfs(i, j, <span style="color:#ae81ff">0</span>): <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span></span></span></code></pre></div><hr>
 <h2 class="heading-element" id="131-分割回文串---medium"><span><a href="https://leetcode.cn/problems/palindrome-partitioning/" target="_blank" rel="external nofollow noopener noreferrer">131. 分割回文串 - Medium</a></span>
   <a href="#131-%e5%88%86%e5%89%b2%e5%9b%9e%e6%96%87%e4%b8%b2---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -429,24 +439,27 @@
   <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-6" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">partition</span>(s: str) <span style="color:#f92672">-&gt;</span> list[list[str]]:
-</span></span><span style="display:flex;"><span>    res <span style="color:#f92672">=</span> []
+</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">partition</span>(self, s: str) <span style="color:#f92672">-&gt;</span> List[List[str]]:
+</span></span><span style="display:flex;"><span>        res <span style="color:#f92672">=</span> []
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">backtrack</span>(start, path):
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> start <span style="color:#f92672">==</span> len(s):
-</span></span><span style="display:flex;"><span>            res<span style="color:#f92672">.</span>append(path[:])
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">backtrack</span>(start, path):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> start <span style="color:#f92672">==</span> len(s):
+</span></span><span style="display:flex;"><span>                res<span style="color:#f92672">.</span>append(path[:])
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(start, len(s)):
-</span></span><span style="display:flex;"><span>            sub <span style="color:#f92672">=</span> s[start:i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 只有当前片段是回文才继续递归</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> sub <span style="color:#f92672">==</span> sub[::<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]:
-</span></span><span style="display:flex;"><span>                path<span style="color:#f92672">.</span>append(sub)
-</span></span><span style="display:flex;"><span>                backtrack(i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, path)
-</span></span><span style="display:flex;"><span>                path<span style="color:#f92672">.</span>pop()
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(start, len(s)):
+</span></span><span style="display:flex;"><span>                sub <span style="color:#f92672">=</span> s[start:i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># 只有当前片段是回文才继续递归</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> sub <span style="color:#f92672">==</span> sub[::<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]:
+</span></span><span style="display:flex;"><span>                    path<span style="color:#f92672">.</span>append(sub)
+</span></span><span style="display:flex;"><span>                    backtrack(i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, path)
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e"># path.pop() 是为了恢复现场。当左侧的分支探索完了，</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e"># 我们需要把刚才加进去的子串删掉，这样才能在同一个 start 位置尝试下一个不同的 i。</span>
+</span></span><span style="display:flex;"><span>                    path<span style="color:#f92672">.</span>pop()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    backtrack(<span style="color:#ae81ff">0</span>, [])
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res</span></span></code></pre></div><hr>
+</span></span><span style="display:flex;"><span>        backtrack(<span style="color:#ae81ff">0</span>, [])
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res</span></span></code></pre></div><hr>
 <h2 class="heading-element" id="51-n-皇后---hard"><span><a href="https://leetcode.cn/problems/n-queens/" target="_blank" rel="external nofollow noopener noreferrer">51. N 皇后 - Hard</a></span>
   <a href="#51-n-%e7%9a%87%e5%90%8e---hard" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -465,40 +478,41 @@
   <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-7" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">solveNQueens</span>(n: int) <span style="color:#f92672">-&gt;</span> list[list[str]]:
-</span></span><span style="display:flex;"><span>    res <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 使用 set 记录已占用的列和斜线</span>
-</span></span><span style="display:flex;"><span>    cols <span style="color:#f92672">=</span> set()
-</span></span><span style="display:flex;"><span>    pos_diag <span style="color:#f92672">=</span> set() <span style="color:#75715e"># row + col</span>
-</span></span><span style="display:flex;"><span>    neg_diag <span style="color:#f92672">=</span> set() <span style="color:#75715e"># row - col</span>
+</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">solveNQueens</span>(self, n: int) <span style="color:#f92672">-&gt;</span> List[List[str]]:
+</span></span><span style="display:flex;"><span>        res <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 使用 set 记录已占用的列和斜线</span>
+</span></span><span style="display:flex;"><span>        cols <span style="color:#f92672">=</span> set()
+</span></span><span style="display:flex;"><span>        pos_diag <span style="color:#f92672">=</span> set() <span style="color:#75715e"># row + col</span>
+</span></span><span style="display:flex;"><span>        neg_diag <span style="color:#f92672">=</span> set() <span style="color:#75715e"># row - col</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    board <span style="color:#f92672">=</span> [[<span style="color:#e6db74">&#34;.&#34;</span>] <span style="color:#f92672">*</span> n <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(n)]
+</span></span><span style="display:flex;"><span>        board <span style="color:#f92672">=</span> [[<span style="color:#e6db74">&#34;.&#34;</span>] <span style="color:#f92672">*</span> n <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(n)]
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">backtrack</span>(r):
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> r <span style="color:#f92672">==</span> n:
-</span></span><span style="display:flex;"><span>            res<span style="color:#f92672">.</span>append([<span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join(row) <span style="color:#66d9ef">for</span> row <span style="color:#f92672">in</span> board])
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">backtrack</span>(r):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> r <span style="color:#f92672">==</span> n:
+</span></span><span style="display:flex;"><span>                res<span style="color:#f92672">.</span>append([<span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join(row) <span style="color:#66d9ef">for</span> row <span style="color:#f92672">in</span> board])
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> range(n):
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> c <span style="color:#f92672">in</span> cols <span style="color:#f92672">or</span> (r <span style="color:#f92672">+</span> c) <span style="color:#f92672">in</span> pos_diag <span style="color:#f92672">or</span> (r <span style="color:#f92672">-</span> c) <span style="color:#f92672">in</span> neg_diag:
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> range(n):
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> c <span style="color:#f92672">in</span> cols <span style="color:#f92672">or</span> (r <span style="color:#f92672">+</span> c) <span style="color:#f92672">in</span> pos_diag <span style="color:#f92672">or</span> (r <span style="color:#f92672">-</span> c) <span style="color:#f92672">in</span> neg_diag:
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">continue</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 做选择</span>
-</span></span><span style="display:flex;"><span>            board[r][c] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Q&#34;</span>
-</span></span><span style="display:flex;"><span>            cols<span style="color:#f92672">.</span>add(c)
-</span></span><span style="display:flex;"><span>            pos_diag<span style="color:#f92672">.</span>add(r <span style="color:#f92672">+</span> c)
-</span></span><span style="display:flex;"><span>            neg_diag<span style="color:#f92672">.</span>add(r <span style="color:#f92672">-</span> c)
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># 做选择</span>
+</span></span><span style="display:flex;"><span>                board[r][c] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Q&#34;</span>
+</span></span><span style="display:flex;"><span>                cols<span style="color:#f92672">.</span>add(c)
+</span></span><span style="display:flex;"><span>                pos_diag<span style="color:#f92672">.</span>add(r <span style="color:#f92672">+</span> c)
+</span></span><span style="display:flex;"><span>                neg_diag<span style="color:#f92672">.</span>add(r <span style="color:#f92672">-</span> c)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            backtrack(r <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>                backtrack(r <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 回溯</span>
-</span></span><span style="display:flex;"><span>            board[r][c] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;.&#34;</span>
-</span></span><span style="display:flex;"><span>            cols<span style="color:#f92672">.</span>remove(c)
-</span></span><span style="display:flex;"><span>            pos_diag<span style="color:#f92672">.</span>remove(r <span style="color:#f92672">+</span> c)
-</span></span><span style="display:flex;"><span>            neg_diag<span style="color:#f92672">.</span>remove(r <span style="color:#f92672">-</span> c)
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># 回溯</span>
+</span></span><span style="display:flex;"><span>                board[r][c] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;.&#34;</span>
+</span></span><span style="display:flex;"><span>                cols<span style="color:#f92672">.</span>remove(c)
+</span></span><span style="display:flex;"><span>                pos_diag<span style="color:#f92672">.</span>remove(r <span style="color:#f92672">+</span> c)
+</span></span><span style="display:flex;"><span>                neg_diag<span style="color:#f92672">.</span>remove(r <span style="color:#f92672">-</span> c)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    backtrack(<span style="color:#ae81ff">0</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res</span></span></code></pre></div><h3 class="heading-element" id="复杂度分析-1"><span>复杂度分析</span>
+</span></span><span style="display:flex;"><span>        backtrack(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res</span></span></code></pre></div><h3 class="heading-element" id="复杂度分析-1"><span>复杂度分析</span>
   <a href="#%e5%a4%8d%e6%9d%82%e5%ba%a6%e5%88%86%e6%9e%90-1" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>

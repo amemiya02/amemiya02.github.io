@@ -11,7 +11,7 @@
   <meta itemprop="description" content="二叉树 节点定义 在 Python 中，二叉树节点的标准定义如下：">
   <meta itemprop="datePublished" content="2026-03-25T15:30:20+09:00">
   <meta itemprop="dateModified" content="2026-03-25T15:30:20+09:00">
-  <meta itemprop="wordCount" content="1348">
+  <meta itemprop="wordCount" content="1444">
   <meta itemprop="keywords" content="Python,二叉树,题解"><meta property="og:url" content="https://amemiya02.github.io/posts/2026-03-25-binary-tree/">
   <meta property="og:site_name" content="Amemiya">
   <meta property="og:title" content="[Python] LeetCode 热题 100 - 二叉树">
@@ -42,7 +42,7 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/amemiya02.github.io\/posts\/2026-03-25-binary-tree\/"
-    },"genre": "posts","keywords": "Python, 二叉树, 题解","wordcount":  1348 ,
+    },"genre": "posts","keywords": "Python, 二叉树, 题解","wordcount":  1444 ,
     "url": "https:\/\/amemiya02.github.io\/posts\/2026-03-25-binary-tree\/","datePublished": "2026-03-25T15:30:20+09:00","dateModified": "2026-03-25T15:30:20+09:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
@@ -115,7 +115,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[Python] LeetCode 热题 100 - 二叉树</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><span class="author"><img class="avatar" src='/avatar.jpg' alt="Amemiya" height="16" width="16">&nbsp;Amemiya</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder" aria-hidden="true"></i> 算法</a>&ensp;<a href="/categories/leetcode/" class="post-category" title="分类 - LeetCode"><i class="fa-regular fa-folder" aria-hidden="true"></i> LeetCode</a></span></div><div class="post-meta-line"><span title="发布于 2026-03-25 15:30:20"><i class="fa-solid fa-calendar-days me-1" aria-hidden="true"></i><time datetime="2026-03-25">2026-03-25</time></span>&nbsp;<span title="1348 字"><i class="fa-solid fa-pencil-alt me-1" aria-hidden="true"></i>约 1400 字</span>&nbsp;<span><i class="fa-regular fa-clock me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img class="avatar" src='/avatar.jpg' alt="Amemiya" height="16" width="16">&nbsp;Amemiya</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder" aria-hidden="true"></i> 算法</a>&ensp;<a href="/categories/leetcode/" class="post-category" title="分类 - LeetCode"><i class="fa-regular fa-folder" aria-hidden="true"></i> LeetCode</a></span></div><div class="post-meta-line"><span title="发布于 2026-03-25 15:30:20"><i class="fa-solid fa-calendar-days me-1" aria-hidden="true"></i><time datetime="2026-03-25">2026-03-25</time></span>&nbsp;<span title="1444 字"><i class="fa-solid fa-pencil-alt me-1" aria-hidden="true"></i>约 1500 字</span>&nbsp;<span><i class="fa-regular fa-clock me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -218,21 +218,22 @@
   <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">inorderTraversal</span>(root: TreeNode) <span style="color:#f92672">-&gt;</span> list[int]:
-</span></span><span style="display:flex;"><span>    res, stack <span style="color:#f92672">=</span> [], []
-</span></span><span style="display:flex;"><span>    curr <span style="color:#f92672">=</span> root
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> curr <span style="color:#f92672">or</span> stack:
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 1. 一路向左，将所有左孩子入栈</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> curr:
-</span></span><span style="display:flex;"><span>            stack<span style="color:#f92672">.</span>append(curr)
-</span></span><span style="display:flex;"><span>            curr <span style="color:#f92672">=</span> curr<span style="color:#f92672">.</span>left
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 2. 弹出栈顶（当前最左节点）</span>
-</span></span><span style="display:flex;"><span>        curr <span style="color:#f92672">=</span> stack<span style="color:#f92672">.</span>pop()
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 3. 记录结果</span>
-</span></span><span style="display:flex;"><span>        res<span style="color:#f92672">.</span>append(curr<span style="color:#f92672">.</span>val)
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 4. 转向右子树</span>
-</span></span><span style="display:flex;"><span>        curr <span style="color:#f92672">=</span> curr<span style="color:#f92672">.</span>right
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res</span></span></code></pre></div><h3 class="heading-element" id="复杂度分析"><span>复杂度分析</span>
+</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">inorderTraversal</span>(self, root: Optional[TreeNode]) <span style="color:#f92672">-&gt;</span> List[int]:
+</span></span><span style="display:flex;"><span>        res, stack <span style="color:#f92672">=</span> [], []
+</span></span><span style="display:flex;"><span>        curr <span style="color:#f92672">=</span> root
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> curr <span style="color:#f92672">or</span> stack:
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 1. 一路向左，将所有左孩子入栈</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span> curr:
+</span></span><span style="display:flex;"><span>                stack<span style="color:#f92672">.</span>append(curr)
+</span></span><span style="display:flex;"><span>                curr <span style="color:#f92672">=</span> curr<span style="color:#f92672">.</span>left
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 2. 弹出栈顶（当前最左节点）</span>
+</span></span><span style="display:flex;"><span>            curr <span style="color:#f92672">=</span> stack<span style="color:#f92672">.</span>pop()
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 3. 记录结果</span>
+</span></span><span style="display:flex;"><span>            res<span style="color:#f92672">.</span>append(curr<span style="color:#f92672">.</span>val)
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 4. 转向右子树</span>
+</span></span><span style="display:flex;"><span>            curr <span style="color:#f92672">=</span> curr<span style="color:#f92672">.</span>right
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res</span></span></code></pre></div><h3 class="heading-element" id="复杂度分析"><span>复杂度分析</span>
   <a href="#%e5%a4%8d%e6%9d%82%e5%ba%a6%e5%88%86%e6%9e%90" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -254,10 +255,17 @@
   <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-1" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">maxDepth</span>(root: TreeNode) <span style="color:#f92672">-&gt;</span> int:
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> root:
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> max(maxDepth(root<span style="color:#f92672">.</span>left), maxDepth(root<span style="color:#f92672">.</span>right)) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span></span></span></code></pre></div><blockquote>
+</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Definition for a binary tree node.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># class TreeNode:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#     def __init__(self, val=0, left=None, right=None):</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#         self.val = val</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#         self.left = left</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#         self.right = right</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">maxDepth</span>(self, root: Optional[TreeNode]) <span style="color:#f92672">-&gt;</span> int:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> root:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> max(self<span style="color:#f92672">.</span>maxDepth(root<span style="color:#f92672">.</span>left), self<span style="color:#f92672">.</span>maxDepth(root<span style="color:#f92672">.</span>right)) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span></span></span></code></pre></div><blockquote>
 <p><strong>教练笔记：</strong> Python 的递归深度默认是 1000。如果树特别深（如退化成链表），面试官可能会问及栈溢出问题。此时可以改用 BFS。</p>
 </blockquote>
 <hr>
@@ -274,14 +282,21 @@
   <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-2" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">invertTree</span>(root: TreeNode) <span style="color:#f92672">-&gt;</span> TreeNode:
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> root:
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
+</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Definition for a binary tree node.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># class TreeNode:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#     def __init__(self, val=0, left=None, right=None):</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#         self.val = val</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#         self.left = left</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#         self.right = right</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">invertTree</span>(self, root: Optional[TreeNode]) <span style="color:#f92672">-&gt;</span> Optional[TreeNode]:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> root:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Pythonic 交换：递归翻转的同时进行赋值</span>
-</span></span><span style="display:flex;"><span>    root<span style="color:#f92672">.</span>left, root<span style="color:#f92672">.</span>right <span style="color:#f92672">=</span> invertTree(root<span style="color:#f92672">.</span>right), invertTree(root<span style="color:#f92672">.</span>left)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Pythonic 交换：递归翻转的同时进行赋值</span>
+</span></span><span style="display:flex;"><span>        root<span style="color:#f92672">.</span>left, root<span style="color:#f92672">.</span>right <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>invertTree(root<span style="color:#f92672">.</span>right), self<span style="color:#f92672">.</span>invertTree(root<span style="color:#f92672">.</span>left)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> root</span></span></code></pre></div><hr>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> root</span></span></code></pre></div><hr>
 <h2 class="heading-element" id="101-对称二叉树---easy"><span><a href="https://leetcode.cn/problems/symmetric-tree/" target="_blank" rel="external nofollow noopener noreferrer">101. 对称二叉树 - Easy</a></span>
   <a href="#101-%e5%af%b9%e7%a7%b0%e4%ba%8c%e5%8f%89%e6%a0%91---easy" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -295,16 +310,23 @@
   <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-3" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">isSymmetric</span>(root: TreeNode) <span style="color:#f92672">-&gt;</span> bool:
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> root:
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
+</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Definition for a binary tree node.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># class TreeNode:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#     def __init__(self, val=0, left=None, right=None):</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#         self.val = val</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#         self.left = left</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#         self.right = right</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">isSymmetric</span>(self, root: Optional[TreeNode]) <span style="color:#f92672">-&gt;</span> bool:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> root:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">check</span>(p, q):
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> p <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> q: <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> p <span style="color:#f92672">or</span> <span style="color:#f92672">not</span> q <span style="color:#f92672">or</span> p<span style="color:#f92672">.</span>val <span style="color:#f92672">!=</span> q<span style="color:#f92672">.</span>val: <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> check(p<span style="color:#f92672">.</span>left, q<span style="color:#f92672">.</span>right) <span style="color:#f92672">and</span> check(p<span style="color:#f92672">.</span>right, q<span style="color:#f92672">.</span>left)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">check</span>(p, q):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> p <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> q: <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> p <span style="color:#f92672">or</span> <span style="color:#f92672">not</span> q <span style="color:#f92672">or</span> p<span style="color:#f92672">.</span>val <span style="color:#f92672">!=</span> q<span style="color:#f92672">.</span>val: <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> check(p<span style="color:#f92672">.</span>left, q<span style="color:#f92672">.</span>right) <span style="color:#f92672">and</span> check(p<span style="color:#f92672">.</span>right, q<span style="color:#f92672">.</span>left)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> check(root<span style="color:#f92672">.</span>left, root<span style="color:#f92672">.</span>right)</span></span></code></pre></div><hr>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> check(root<span style="color:#f92672">.</span>left, root<span style="color:#f92672">.</span>right)</span></span></code></pre></div><hr>
 <h2 class="heading-element" id="543-二叉树的直径---easy"><span><a href="https://leetcode.cn/problems/diameter-of-binary-tree/" target="_blank" rel="external nofollow noopener noreferrer">543. 二叉树的直径 - Easy</a></span>
   <a href="#543-%e4%ba%8c%e5%8f%89%e6%a0%91%e7%9a%84%e7%9b%b4%e5%be%84---easy" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>

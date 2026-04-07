@@ -12,22 +12,22 @@
 
 ### 代码实现
 ```python
-def searchInsert(nums: list[int], target: int) -> int:
-    left, right = 0, len(nums) - 1
+class Solution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        left, right = 0, len(nums) - 1
 
-    while left <= right:
-        # Python 3 中 // 是整数除法
-        mid = left + (right - left) // 2
+        while left <= right:
+            mid = left + (right - left) // 2
 
-        if nums[mid] == target:
-            return mid
-        elif nums[mid] < target:
-            left = mid + 1
-        else:
-            right = mid - 1
+            if nums[mid] == target:
+                return mid
+            elif nums[mid] < target:
+                left = mid + 1
+            else:
+                right = mid - 1
 
-    # 规律：如果没找到，left 始终指向插入位置
-    return left
+        # 规律：如果没找到，left 始终指向插入位置
+        return left
 ```
 
 ---
@@ -40,25 +40,26 @@ def searchInsert(nums: list[int], target: int) -> int:
 
 ### 代码实现
 ```python
-def searchMatrix(matrix: list[list[int]], target: int) -> bool:
-    if not matrix or not matrix[0]: return False
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        if not matrix or not matrix[0]: return False
 
-    m, n = len(matrix), len(matrix[0])
-    left, right = 0, m * n - 1
+        m, n = len(matrix), len(matrix[0])
+        left, right = 0, m * n - 1
 
-    while left <= right:
-        mid = left + (right - left) // 2
-        # 核心：坐标映射
-        pivot_val = matrix[mid // n][mid % n]
+        while left <= right:
+            mid = left + (right - left) // 2
+            # 核心：坐标映射
+            pivot_val = matrix[mid // n][mid % n]
 
-        if pivot_val == target:
-            return True
-        elif pivot_val < target:
-            left = mid + 1
-        else:
-            right = mid - 1
+            if pivot_val == target:
+                return True
+            elif pivot_val < target:
+                left = mid + 1
+            else:
+                right = mid - 1
 
-    return False
+        return False
 ```
 
 ---
@@ -70,25 +71,26 @@ def searchMatrix(matrix: list[list[int]], target: int) -> bool:
 
 ### 代码实现
 ```python
-def searchRange(nums: list[int], target: int) -> list[int]:
-    def findBound(is_left):
-        left, right = 0, len(nums) - 1
-        bound = -1
-        while left <= right:
-            mid = left + (right - left) // 2
-            if nums[mid] == target:
-                bound = mid
-                if is_left:
-                    right = mid - 1 # 找到相等也不停，向左挤压找起始点
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        def findBound(is_left):
+            left, right = 0, len(nums) - 1
+            bound = -1
+            while left <= right:
+                mid = left + (right - left) // 2
+                if nums[mid] == target:
+                    bound = mid
+                    if is_left:
+                        right = mid - 1 # 找到相等也不停，向左挤压找起始点
+                    else:
+                        left = mid + 1  # 找到相等也不停，向右挤压找终点
+                elif nums[mid] < target:
+                    left = mid + 1
                 else:
-                    left = mid + 1  # 找到相等也不停，向右挤压找终点
-            elif nums[mid] < target:
-                left = mid + 1
-            else:
-                right = mid - 1
-        return bound
+                    right = mid - 1
+            return bound
 
-    return [findBound(True), findBound(False)]
+        return [findBound(True), findBound(False)]
 ```
 
 ---
@@ -99,31 +101,31 @@ def searchRange(nums: list[int], target: int) -> list[int]:
 **局部有序：** 旋转数组中，`mid` 总是会将数组分成一个“有序”半区和一个“可能无序”半区。我们优先判断 target 是否在有序半区内。
 
 
-
 ### 代码实现
 ```python
-def search(nums: list[int], target: int) -> int:
-    left, right = 0, len(nums) - 1
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        left, right = 0, len(nums) - 1
 
-    while left <= right:
-        mid = left + (right - left) // 2
-        if nums[mid] == target:
-            return mid
+        while left <= right:
+            mid = left + (right - left) // 2
+            if nums[mid] == target:
+                return mid
 
-        # 判断哪一半是有序的
-        if nums[left] <= nums[mid]:
-            # 左半部分有序
-            if nums[left] <= target < nums[mid]:
-                right = mid - 1
+            # 判断哪一半是有序的
+            if nums[left] <= nums[mid]:
+                # 左半部分有序
+                if nums[left] <= target < nums[mid]:
+                    right = mid - 1
+                else:
+                    left = mid + 1
             else:
-                left = mid + 1
-        else:
-            # 右半部分有序
-            if nums[mid] < target <= nums[right]:
-                left = mid + 1
-            else:
-                right = mid - 1
-    return -1
+                # 右半部分有序
+                if nums[mid] < target <= nums[right]:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+        return -1
 ```
 
 ---
@@ -135,29 +137,30 @@ def search(nums: list[int], target: int) -> int:
 
 ### 代码实现
 ```python
-def findMin(nums: list[int]) -> int:
-    left, right = 0, len(nums) - 1
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        left, right = 0, len(nums) - 1
 
-    # 只要数组已经有序，直接返回第一个
-    if nums[left] <= nums[right]:
-        return nums[left]
+        # 只要数组已经有序，直接返回第一个
+        if nums[left] <= nums[right]:
+            return nums[left]
 
-    while left <= right:
-        mid = left + (right - left) // 2
+        while left <= right:
+            mid = left + (right - left) // 2
 
-        # 旋转点特征：nums[mid] 比前后都大/小
-        if mid > 0 and nums[mid] < nums[mid-1]:
-            return nums[mid]
-        if mid < len(nums)-1 and nums[mid] > nums[mid+1]:
-            return nums[mid+1]
+            # 旋转点特征：nums[mid] 比前后都大/小
+            if mid > 0 and nums[mid] < nums[mid-1]:
+                return nums[mid]
+            if mid < len(nums)-1 and nums[mid] > nums[mid+1]:
+                return nums[mid+1]
 
-        # 判断最小值在哪个区间
-        if nums[mid] > nums[left]:
-            # 左边有序，旋转点（最小值）在右边
-            left = mid + 1
-        else:
-            right = mid - 1
-    return nums[0]
+            # 判断最小值在哪个区间
+            if nums[mid] > nums[left]:
+                # 左边有序，旋转点（最小值）在右边
+                left = mid + 1
+            else:
+                right = mid - 1
+        return nums[0]
 ```
 
 ---
@@ -170,31 +173,43 @@ def findMin(nums: list[int]) -> int:
 
 ### 代码实现
 ```python
-def findMedianSortedArrays(nums1: list[int], nums2: list[int]) -> float:
-    def getKth(k, s1, e1, s2, e2):
-        # 边界情况：一个数组已排空
-        if s1 > e1: return nums2[s2 + k - 1]
-        if s2 > e2: return nums1[s1 + k - 1]
-        if k == 1: return min(nums1[s1], nums2[s2])
+class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        def getKth(k, s1, e1, s2, e2):
+            """
+            s1 > e1：说明 nums1 的有效区间已经为空（里面的数全被排除了）。
+            那第 $k$ 小的数肯定在 nums2 剩下的数里面，
+            直接取 nums2[s2 + k - 1] 即可。s2 > e2：同理，说明 nums2 已经空了，直接去 nums1 里拿。
+            """
+            if s1 > e1: return nums2[s2 + k - 1]
+            if s2 > e2: return nums1[s1 + k - 1]
+            if k == 1: return min(nums1[s1], nums2[s2])
 
-        # 比较两个数组的第 k/2 个元素
-        i = min(e1, s1 + k // 2 - 1)
-        j = min(e2, s2 + k // 2 - 1)
+            # 比较两个数组的第 k/2 个元素
+            i = min(e1, s1 + k // 2 - 1)
+            j = min(e2, s2 + k // 2 - 1)
 
-        if nums1[i] < nums2[j]:
-            # 排除 nums1 的前一部分
-            return getKth(k - (i - s1 + 1), i + 1, e1, s2, e2)
-        else:
-            # 排除 nums2 的前一部分
-            return getKth(k - (j - s2 + 1), s1, e1, j + 1, e2)
+            if nums1[i] < nums2[j]:
+                """
+                这意味着 nums1 的前 $k/2$ 个元素，
+                绝对不可能是合并后的第 $k$ 个元素，
+                最多也只能是第 $k-1$ 个元素
+                （即使 nums2 的前 $k/2 - 1$ 个元素全比它们小，
+                加起来也只有 $(k/2) + (k/2 - 1) = k - 1$ 个）。
+                """
+                # 排除 nums1 的前一部分
+                return getKth(k - (i - s1 + 1), i + 1, e1, s2, e2)
+            else:
+                # 排除 nums2 的前一部分
+                return getKth(k - (j - s2 + 1), s1, e1, j + 1, e2)
 
-    n1, n2 = len(nums1), len(nums2)
-    left = (n1 + n2 + 1) // 2
-    right = (n1 + n2 + 2) // 2
+        n1, n2 = len(nums1), len(nums2)
+        left = (n1 + n2 + 1) // 2
+        right = (n1 + n2 + 2) // 2
 
-    # 统一奇偶情况：奇数时 left=right，偶数时为中间两数
-    return (getKth(left, 0, n1 - 1, 0, n2 - 1) +
-            getKth(right, 0, n1 - 1, 0, n2 - 1)) / 2.0
+        # 统一奇偶情况：奇数时 left=right，偶数时为中间两数
+        return (getKth(left, 0, n1 - 1, 0, n2 - 1) +
+                getKth(right, 0, n1 - 1, 0, n2 - 1)) / 2.0
 ```
 
 

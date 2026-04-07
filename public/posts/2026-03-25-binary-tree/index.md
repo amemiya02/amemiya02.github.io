@@ -23,21 +23,22 @@ class TreeNode:
 
 ### 代码实现
 ```python
-def inorderTraversal(root: TreeNode) -> list[int]:
-    res, stack = [], []
-    curr = root
-    while curr or stack:
-        # 1. 一路向左，将所有左孩子入栈
-        while curr:
-            stack.append(curr)
-            curr = curr.left
-        # 2. 弹出栈顶（当前最左节点）
-        curr = stack.pop()
-        # 3. 记录结果
-        res.append(curr.val)
-        # 4. 转向右子树
-        curr = curr.right
-    return res
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        res, stack = [], []
+        curr = root
+        while curr or stack:
+            # 1. 一路向左，将所有左孩子入栈
+            while curr:
+                stack.append(curr)
+                curr = curr.left
+            # 2. 弹出栈顶（当前最左节点）
+            curr = stack.pop()
+            # 3. 记录结果
+            res.append(curr.val)
+            # 4. 转向右子树
+            curr = curr.right
+        return res
 ```
 
 ### 复杂度分析
@@ -53,10 +54,17 @@ def inorderTraversal(root: TreeNode) -> list[int]:
 
 ### 代码实现
 ```python
-def maxDepth(root: TreeNode) -> int:
-    if not root:
-        return 0
-    return max(maxDepth(root.left), maxDepth(root.right)) + 1
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        return max(self.maxDepth(root.left), self.maxDepth(root.right)) + 1
 ```
 
 > **教练笔记：** Python 的递归深度默认是 1000。如果树特别深（如退化成链表），面试官可能会问及栈溢出问题。此时可以改用 BFS。
@@ -72,14 +80,21 @@ def maxDepth(root: TreeNode) -> int:
 
 ### 代码实现
 ```python
-def invertTree(root: TreeNode) -> TreeNode:
-    if not root:
-        return None
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root:
+            return None
 
-    # Pythonic 交换：递归翻转的同时进行赋值
-    root.left, root.right = invertTree(root.right), invertTree(root.left)
+        # Pythonic 交换：递归翻转的同时进行赋值
+        root.left, root.right = self.invertTree(root.right), self.invertTree(root.left)
 
-    return root
+        return root
 ```
 
 ---
@@ -91,16 +106,23 @@ def invertTree(root: TreeNode) -> TreeNode:
 
 ### 代码实现
 ```python
-def isSymmetric(root: TreeNode) -> bool:
-    if not root:
-        return True
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        if not root:
+            return True
 
-    def check(p, q):
-        if not p and not q: return True
-        if not p or not q or p.val != q.val: return False
-        return check(p.left, q.right) and check(p.right, q.left)
+        def check(p, q):
+            if not p and not q: return True
+            if not p or not q or p.val != q.val: return False
+            return check(p.left, q.right) and check(p.right, q.left)
 
-    return check(root.left, root.right)
+        return check(root.left, root.right)
 ```
 
 ---

@@ -36,7 +36,7 @@ def twoSum(nums, target):
             return [mp[target - num], i]
         mp[num] = i
     return [-1, -1]
-````
+```
 
 ---
 
@@ -68,16 +68,16 @@ def twoSum(nums, target):
 ```python
 from collections import defaultdict
 
-def groupAnagrams(strs):
-    mp = defaultdict(list)
-
-    for s in strs:
-        cnt = [0] * 26
-        for c in s:
-            cnt[ord(c) - ord('a')] += 1
-        mp[tuple(cnt)].append(s)
-
-    return list(mp.values())
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        mp = defaultdict(list)
+        for str in strs:
+            cnt = [0] * 26
+            for c in str:
+                cnt[ord(c)-ord('a')]+=1
+            mp[tuple(cnt)].append(str)
+        
+        return list(mp.values())
 ```
 
 👉 简洁写法（排序法）
@@ -131,23 +131,24 @@ num - 1 不存在 → 才是起点
 ### 代码实现（Python）
 
 ```python
-def longestConsecutive(nums):
-    s = set(nums)
-    ans = 0
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        s = set(nums)
+        ans = 0
 
-    for num in s:
-        # 只从起点开始
-        if num - 1 not in s:
-            cur = num
-            length = 1
+        for num in s:
+            # 只从起点开始
+            if num - 1 not in s:
+                cur = num
+                length = 1
 
-            while cur + 1 in s:
-                cur += 1
-                length += 1
+                while cur + 1 in s:
+                    cur += 1
+                    length += 1
 
-            ans = max(ans, length)
+                ans = max(ans, length)
 
-    return ans
+        return ans
 ```
 
 ---
@@ -155,7 +156,6 @@ def longestConsecutive(nums):
 ### 复杂度分析
 
 * 时间复杂度: $O(n)$
-  👉 每个元素最多被访问 2 次
 * 空间复杂度: $O(n)$
 
 

@@ -28,30 +28,31 @@ def backtrack(路径, 选择列表):
 
 ### 代码实现
 ```python
-def permute(nums: list[int]) -> list[list[int]]:
-    res = []
-    used = [False] * len(nums)
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        used = [False] * len(nums)
+        N = len(nums)
+        def backtrack(path):
+            # 终止条件
+            if len(path) == N:
+                res.append(path[:]) # Python 切片进行浅拷贝
+                return
 
-    def backtrack(path):
-        # 终止条件
-        if len(path) == len(nums):
-            res.append(path[:]) # Python 切片进行浅拷贝
-            return
+            for i in range(N):
+                if used[i]: continue
 
-        for i in range(len(nums)):
-            if used[i]: continue
+                # 1. 做选择
+                used[i] = True
+                path.append(nums[i])
+                # 2. 递归进入下一层
+                backtrack(path)
+                # 3. 撤销选择（回溯）
+                path.pop()
+                used[i] = False
 
-            # 1. 做选择
-            used[i] = True
-            path.append(nums[i])
-            # 2. 递归进入下一层
-            backtrack(path)
-            # 3. 撤销选择（回溯）
-            path.pop()
-            used[i] = False
-
-    backtrack([])
-    return res
+        backtrack([])
+        return res
 ```
 
 ### 复杂度分析
@@ -63,24 +64,27 @@ def permute(nums: list[int]) -> list[list[int]]:
 ## [78. 子集 - Medium](https://leetcode.cn/problems/subsets/)
 
 ### 核心思路
-子集问题是收集 **树的所有节点**。为了去重（避免出现 `[1,2]` 和 `[2,1]`），我们引入 `start` 参数，确保每次只从当前元素的后续元素中进行选择。
-
+子集问题是收集 **树的所有节点**。
+对于每一个元素，我们有两种选择：**选** 或 **不选**，对不选和选两种情况进行递归即可。
 ### 代码实现
 ```python
-def subsets(nums: list[int]) -> list[list[int]]:
-    res = []
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        n = len(nums)
 
-    def backtrack(start, path):
-        # 每一个节点都是子集
-        res.append(path[:])
-
-        for i in range(start, len(nums)):
-            path.append(nums[i])
-            backtrack(i + 1, path) # 只能选 i 之后的元素
+        def backtrack(depth, path):
+            if depth == n:
+                res.append(path[:])
+                return
+            # 不选当前元素
+            backtrack(depth+1, path)
+            # 选当前元素
+            path.append(nums[depth])
+            backtrack(depth+1, path)
             path.pop()
-
-    backtrack(0, [])
-    return res
+        backtrack(0, [])
+        return res
 ```
 
 ---
@@ -88,32 +92,34 @@ def subsets(nums: list[int]) -> list[list[int]]:
 ## [17. 电话号码的字母组合 - Medium](https://leetcode.cn/problems/letter-combinations-of-a-phone-number/)
 
 ### 核心思路
-这是典型的 **组合问题**。由于每一层处理的是不同的数字（不同的字符集），我们不需要 `used` 数组，只需通过 `index` 控制处理到的数字位置。
+这是典型的 **组合问题**。由于每一层处理的是不同的数字（不同的字符集），
+我们不需要 `used` 数组，只需通过 `index` 控制处理到的数字位置。
 
 ### 代码实现
 ```python
-def letterCombinations(digits: str) -> list[str]:
-    if not digits: return []
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        if not digits: return []
+        phone_map = {
+            "2": "abc", "3": "def", "4": "ghi", "5": "jkl",
+            "6": "mno", "7": "pqrs", "8": "tuv", "9": "wxyz"
+        }
+        res = []
 
-    phone_map = {
-        "2": "abc", "3": "def", "4": "ghi", "5": "jkl",
-        "6": "mno", "7": "pqrs", "8": "tuv", "9": "wxyz"
-    }
-    res = []
+        def backtrack(index, path):
+            if index == len(digits):
+                # 注意：path 是一个字符列表，需要 join 成字符串
+                res.append("".join(path))
+                return
 
-    def backtrack(index, path):
-        if index == len(digits):
-            res.append("".join(path))
-            return
+            letters = phone_map[digits[index]]
+            for char in letters:
+                path.append(char)
+                backtrack(index + 1, path)
+                path.pop()
 
-        letters = phone_map[digits[index]]
-        for char in letters:
-            path.append(char)
-            backtrack(index + 1, path)
-            path.pop()
-
-    backtrack(0, [])
-    return res
+        backtrack(0, [])
+        return res
 ```
 
 ---
@@ -126,27 +132,28 @@ def letterCombinations(digits: str) -> list[str]:
 
 ### 代码实现
 ```python
-def combinationSum(candidates: list[int], target: int) -> list[list[int]]:
-    res = []
-    candidates.sort() # 排序是剪枝的前提
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        res = []
+        candidates.sort() # 排序是剪枝的前提
 
-    def backtrack(remain, start, path):
-        if remain == 0:
-            res.append(path[:])
-            return
+        def backtrack(remain, start, path):
+            if remain == 0:
+                res.append(path[:])
+                return
 
-        for i in range(start, len(candidates)):
-            # 剪枝：如果当前值已超过剩余目标，后续更大的数无需考虑
-            if remain - candidates[i] < 0:
-                break
+            for i in range(start, len(candidates)):
+                # 剪枝：如果当前值已超过剩余目标，后续更大的数无需考虑
+                if remain - candidates[i] < 0:
+                    break
 
-            path.append(candidates[i])
-            # 关键：传 i 表示可以重复使用当前数字
-            backtrack(remain - candidates[i], i, path)
-            path.pop()
+                path.append(candidates[i])
+                # 关键：传 i 表示可以重复使用当前数字
+                backtrack(remain - candidates[i], i, path)
+                path.pop()
 
-    backtrack(target, 0, [])
-    return res
+        backtrack(target, 0, [])
+        return res
 ```
 
 ---
@@ -160,26 +167,27 @@ def combinationSum(candidates: list[int], target: int) -> list[list[int]]:
 
 ### 代码实现
 ```python
-def generateParenthesis(n: int) -> list[str]:
-    res = []
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        res = []
 
-    def backtrack(left, right, path):
-        if len(path) == 2 * n:
-            res.append("".join(path))
-            return
+        def backtrack(left, right, path):
+            if len(path) == 2 * n:
+                res.append("".join(path))
+                return
 
-        if left < n:
-            path.append("(")
-            backtrack(left + 1, right, path)
-            path.pop()
+            if left < n:
+                path.append("(")
+                backtrack(left + 1, right, path)
+                path.pop()
 
-        if right < left:
-            path.append(")")
-            backtrack(left, right + 1, path)
-            path.pop()
+            if right < left:
+                path.append(")")
+                backtrack(left, right + 1, path)
+                path.pop()
 
-    backtrack(0, 0, [])
-    return res
+        backtrack(0, 0, [])
+        return res
 ```
 
 ---
@@ -191,31 +199,32 @@ def generateParenthesis(n: int) -> list[str]:
 
 ### 代码实现
 ```python
-def exist(board: list[list[str]], word: str) -> bool:
-    rows, cols = len(board), len(board[0])
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        rows, cols = len(board), len(board[0])
 
-    def dfs(r, c, k):
-        if k == len(word):
-            return True
-        if r < 0 or r >= rows or c < 0 or c >= cols or board[r][c] != word[k]:
-            return False
+        def dfs(r, c, k):
+            if k == len(word):
+                return True
+            if r < 0 or r >= rows or c < 0 or c >= cols or board[r][c] != word[k]:
+                return False
 
-        # 1. 标记访问
-        temp, board[r][c] = board[r][c], "#"
+            # 1. 标记访问
+            temp, board[r][c] = board[r][c], "#"
 
-        # 2. 四向探索
-        res = (dfs(r+1, c, k+1) or dfs(r-1, c, k+1) or
-               dfs(r, c+1, k+1) or dfs(r, c-1, k+1))
+            # 2. 四向探索
+            res = (dfs(r+1, c, k+1) or dfs(r-1, c, k+1) or
+                dfs(r, c+1, k+1) or dfs(r, c-1, k+1))
 
-        # 3. 回溯（恢复现场）
-        board[r][c] = temp
-        return res
+            # 3. 回溯（恢复现场）
+            board[r][c] = temp
+            return res
 
-    for i in range(rows):
-        for j in range(cols):
-            if board[i][j] == word[0]:
-                if dfs(i, j, 0): return True
-    return False
+        for i in range(rows):
+            for j in range(cols):
+                if board[i][j] == word[0]:
+                    if dfs(i, j, 0): return True
+        return False
 ```
 
 ---
@@ -227,24 +236,27 @@ def exist(board: list[list[str]], word: str) -> bool:
 
 ### 代码实现
 ```python
-def partition(s: str) -> list[list[str]]:
-    res = []
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        res = []
 
-    def backtrack(start, path):
-        if start == len(s):
-            res.append(path[:])
-            return
+        def backtrack(start, path):
+            if start == len(s):
+                res.append(path[:])
+                return
 
-        for i in range(start, len(s)):
-            sub = s[start:i+1]
-            # 只有当前片段是回文才继续递归
-            if sub == sub[::-1]:
-                path.append(sub)
-                backtrack(i + 1, path)
-                path.pop()
+            for i in range(start, len(s)):
+                sub = s[start:i+1]
+                # 只有当前片段是回文才继续递归
+                if sub == sub[::-1]:
+                    path.append(sub)
+                    backtrack(i + 1, path)
+                    # path.pop() 是为了恢复现场。当左侧的分支探索完了，
+                    # 我们需要把刚才加进去的子串删掉，这样才能在同一个 start 位置尝试下一个不同的 i。
+                    path.pop()
 
-    backtrack(0, [])
-    return res
+        backtrack(0, [])
+        return res
 ```
 
 ---
@@ -261,40 +273,41 @@ def partition(s: str) -> list[list[str]]:
 
 ### 代码实现
 ```python
-def solveNQueens(n: int) -> list[list[str]]:
-    res = []
-    # 使用 set 记录已占用的列和斜线
-    cols = set()
-    pos_diag = set() # row + col
-    neg_diag = set() # row - col
+class Solution:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        res = []
+        # 使用 set 记录已占用的列和斜线
+        cols = set()
+        pos_diag = set() # row + col
+        neg_diag = set() # row - col
 
-    board = [["."] * n for _ in range(n)]
+        board = [["."] * n for _ in range(n)]
 
-    def backtrack(r):
-        if r == n:
-            res.append(["".join(row) for row in board])
-            return
+        def backtrack(r):
+            if r == n:
+                res.append(["".join(row) for row in board])
+                return
 
-        for c in range(n):
-            if c in cols or (r + c) in pos_diag or (r - c) in neg_diag:
-                continue
+            for c in range(n):
+                if c in cols or (r + c) in pos_diag or (r - c) in neg_diag:
+                    continue
 
-            # 做选择
-            board[r][c] = "Q"
-            cols.add(c)
-            pos_diag.add(r + c)
-            neg_diag.add(r - c)
+                # 做选择
+                board[r][c] = "Q"
+                cols.add(c)
+                pos_diag.add(r + c)
+                neg_diag.add(r - c)
 
-            backtrack(r + 1)
+                backtrack(r + 1)
 
-            # 回溯
-            board[r][c] = "."
-            cols.remove(c)
-            pos_diag.remove(r + c)
-            neg_diag.remove(r - c)
+                # 回溯
+                board[r][c] = "."
+                cols.remove(c)
+                pos_diag.remove(r + c)
+                neg_diag.remove(r - c)
 
-    backtrack(0)
-    return res
+        backtrack(0)
+        return res
 ```
 
 ### 复杂度分析

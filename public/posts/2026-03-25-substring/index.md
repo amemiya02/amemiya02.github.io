@@ -27,24 +27,24 @@ $$
 ### 代码实现（Python）
 
 ```python
-def subarraySum(nums, k):
-    from collections import defaultdict
+from collections import defaultdict
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        mp = defaultdict(int)
+        mp[0] = 1  # 关键初始化
 
-    mp = defaultdict(int)
-    mp[0] = 1  # 关键初始化
+        pre = 0
+        count = 0
 
-    pre = 0
-    count = 0
+        for num in nums:
+            pre += num
 
-    for num in nums:
-        pre += num
+            if pre - k in mp:
+                count += mp[pre - k]
 
-        if pre - k in mp:
-            count += mp[pre - k]
+            mp[pre] += 1
 
-        mp[pre] += 1
-
-    return count
+        return count
 ````
 
 ---

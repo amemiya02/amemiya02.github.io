@@ -5,6 +5,7 @@ theme = "FixIt"
 
 [pagination]
   pagerSize = 10
+
 [markup]
   [markup.goldmark]
     [markup.goldmark.extensions]
@@ -13,28 +14,29 @@ theme = "FixIt"
         [markup.goldmark.extensions.passthrough.delimiters]
           block = [['\[', '\]'], ['$$', '$$']]
           inline = [['\(', '\)'],['$', '$']]
+
 [params]
-    env = "production"
-    math = true
-    ShowFullPagination = true
-    ShowReadingTime = true
-    ShowShareButtons = true
-    ShowPostNavLinks = true
-    ShowBreadCrumbs = true
-    ShowCodeCopyButtons = true
-    ShowToc = true
-    # 个人主页模式
-    [params.profileMode]
-        enabled = true
-        title = "Amemiya"
-        subtitle = "欢迎来的我的个人博客"
-        imageUrl = "avatar.jpg"
-        [[params.profileMode.buttons]]
-            name = "文章列表"
-            url = "posts"
-        [[params.profileMode.buttons]]
-            name = "标签列表"
-            url = "tags"
-    [[params.socialIcons]]
-        name = "github"
-        url = "https://github.com/amemiya02"
+  env = "production"
+
+  # FixIt 全局页面配置
+  [params.page.toc]
+    enable = true
+  [params.page.code]
+    copy = true
+  [params.page.math]
+    enable = true
+
+  # FixIt 的个人主页模式配置 (替换掉你的 params.profileMode)
+  [params.home]
+    [params.home.profile]
+      enable = true
+      avatarURL = "avatar.jpg"
+      title = "Amemiya"
+      subtitle = "欢迎来的我的个人博客"
+      # FixIt 中主页的社交图标配置
+      [params.home.profile.social]
+        github = "https://github.com/amemiya02"
+
+  # FixIt 顶部导航栏配置 (通常在菜单中配置，这里供参考)
+  [params.header]
+    # 你的按钮可以放到这里或者 config 的 [menu.main] 中
