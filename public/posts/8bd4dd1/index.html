@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>黑马点评-Go语言实战 - Amemiya</title><meta name="author" content="">
+<meta name="description" content="项目概览 本项目是基于 Go 语言生态对经典 O2O 社交与营销平台（黑马点评）的深度重构与架构升级。项目模拟了类似大众点评的核心业务场景，完成了从用户鉴权、商户查询、社交探店、到高并发秒杀抢券的完整业务闭环。
+"><meta name="keywords" content=''>
+  <meta itemprop="name" content="黑马点评-Go语言实战">
+  <meta itemprop="description" content="项目概览 本项目是基于 Go 语言生态对经典 O2O 社交与营销平台（黑马点评）的深度重构与架构升级。项目模拟了类似大众点评的核心业务场景，完成了从用户鉴权、商户查询、社交探店、到高并发秒杀抢券的完整业务闭环。">
+  <meta itemprop="datePublished" content="2026-04-07T19:01:48+09:00">
+  <meta itemprop="dateModified" content="2026-04-07T19:01:48+09:00">
+  <meta itemprop="wordCount" content="8128">
+  <meta itemprop="keywords" content="Go"><meta property="og:url" content="https://amemiya02.github.io/posts/8bd4dd1/">
+  <meta property="og:site_name" content="Amemiya">
+  <meta property="og:title" content="黑马点评-Go语言实战">
+  <meta property="og:description" content="项目概览 本项目是基于 Go 语言生态对经典 O2O 社交与营销平台（黑马点评）的深度重构与架构升级。项目模拟了类似大众点评的核心业务场景，完成了从用户鉴权、商户查询、社交探店、到高并发秒杀抢券的完整业务闭环。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-04-07T19:01:48+09:00">
+    <meta property="article:modified_time" content="2026-04-07T19:01:48+09:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="黑马点评-Go语言实战">
+  <meta name="twitter:description" content="项目概览 本项目是基于 Go 语言生态对经典 O2O 社交与营销平台（黑马点评）的深度重构与架构升级。项目模拟了类似大众点评的核心业务场景，完成了从用户鉴权、商户查询、社交探店、到高并发秒杀抢券的完整业务闭环。">
+<meta name="application-name" content="Amemiya">
+<meta name="apple-mobile-web-app-title" content="Amemiya"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://amemiya02.github.io/posts/8bd4dd1/" title="黑马点评-Go语言实战 - Amemiya" /><link rel="prev" type="text/html" href="https://amemiya02.github.io/posts/5086d95/" title="CS336 Assignment 01" /><link rel="alternate" type="text/markdown" href="https://amemiya02.github.io/posts/8bd4dd1/index.md" title="黑马点评-Go语言实战 - Amemiya"><link rel="stylesheet" href="/css/config.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "黑马点评-Go语言实战",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/amemiya02.github.io\/posts\/8bd4dd1\/"
+    },"genre": "posts","keywords": "","wordcount":  8128 ,
+    "url": "https:\/\/amemiya02.github.io\/posts\/8bd4dd1\/","datePublished": "2026-04-07T19:01:48+09:00","dateModified": "2026-04-07T19:01:48+09:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-instant-intensity="viewport" data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper" data-github-corner="left">
+    <div class="header-title">
+      <a href="/" title="Amemiya"><span class="header-title-pre"><i class="fa fa-code">&nbsp</i></span><span class="typeit"><template>Amemiya的个人博客</template></span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/"><i class="fa-solid fa-home fa-sm" aria-hidden="true"></i> 首页</a></li><li class="menu-item">
+              <a class="menu-link" href="/posts/"><i class="fa-solid fa-archive fa-sm" aria-hidden="true"></i> 文章</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/"><i class="fa-solid fa-th-list fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" role="button" aria-label="切换主题" title="切换主题"><i class="fa-solid fa-adjust" aria-hidden="true"></i></li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="Amemiya"><span class="header-title-pre"><i class="fa fa-code">&nbsp</i></span><span class="typeit"><template>Amemiya的个人博客</template></span></a><span class="header-subtitle"></span></div>
+      <div class="theme-switch" role="button" aria-label="切换主题"><i class="fa-solid fa-adjust" aria-hidden="true"></i></div>
+      <div class="menu-toggle" id="menu-toggle-mobile" role="button" aria-labelledby="menu-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/"><i class="fa-solid fa-home fa-sm" aria-hidden="true"></i> 首页</a></li><li class="menu-item"><a class="menu-link" href="/posts/"><i class="fa-solid fa-archive fa-sm" aria-hidden="true"></i> 文章</a></li><li class="menu-item"><a class="menu-link" href="/categories/"><i class="fa-solid fa-th-list fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item menu-system"></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="fi-container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>黑马点评-Go语言实战</span>
+      </h1><p class="single-subtitle animate__animated animate__fadeIn">Go+Gin+GORM+MySQL+Redis</p></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      Anonymous</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/go/" class="post-category" title="分类 - Go"><i class="fa-regular fa-folder" aria-hidden="true"></i> Go</a></span></div><div class="post-meta-line"><span title="发布于 2026-04-07 19:01:48"><i class="fa-solid fa-calendar-days me-1" aria-hidden="true"></i><time datetime="2026-04-07">2026-04-07</time></span>&nbsp;<span title="8128 字"><i class="fa-solid fa-pencil-alt me-1" aria-hidden="true"></i>约 8200 字</span>&nbsp;<span><i class="fa-regular fa-clock me-1" aria-hidden="true"></i>预计阅读 17 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#项目概览">项目概览</a></li>
+    <li><a href="#模块一分布式-session-与短信登录演进">模块一：分布式 Session 与短信登录演进</a>
+      <ul>
+        <li><a href="#1-业务需求与面临的问题">1. 业务需求与面临的问题</a></li>
+        <li><a href="#2-架构演进与业务设计">2. 架构演进与业务设计</a>
+          <ul>
+            <li><a href="#第一层拦截状态续期-全局拦截器">第一层拦截：状态续期 (全局拦截器)</a></li>
+            <li><a href="#第二层拦截权限校验-路由拦截器">第二层拦截：权限校验 (路由拦截器)</a></li>
+          </ul>
+        </li>
+        <li><a href="#3-核心代码实现-gin-middleware">3. 核心代码实现 (Gin Middleware)</a></li>
+      </ul>
+    </li>
+    <li><a href="#模块二缓存治理与商户查询穿透雪崩击穿">模块二：缓存治理与商户查询（穿透、雪崩、击穿）</a>
+      <ul>
+        <li><a href="#1-业务需求与问题推导">1. 业务需求与问题推导</a></li>
+        <li><a href="#2-架构演进与解决方案">2. 架构演进与解决方案</a></li>
+        <li><a href="#3-核心代码实现-逻辑过期--go-协程异步重建">3. 核心代码实现 (逻辑过期 + Go 协程异步重建)</a></li>
+      </ul>
+    </li>
+    <li><a href="#模块三高并发秒杀与分布式锁">模块三：高并发秒杀与分布式锁</a>
+      <ul>
+        <li><a href="#第一阶段同步下单--分布式锁-v1">第一阶段：同步下单 + 分布式锁 (V1)</a>
+          <ul>
+            <li><a href="#单机锁syncmutex-实现">单机锁sync.Mutex 实现</a></li>
+            <li><a href="#核心代码simpleredislock-实现">核心代码：SimpleRedisLock 实现</a></li>
+          </ul>
+        </li>
+        <li><a href="#第二阶段异步下单--阻塞队列-v2">第二阶段：异步下单 + 阻塞队列 (V2)</a>
+          <ul>
+            <li><a href="#核心代码lua-原子预检">核心代码：Lua 原子预检</a></li>
+          </ul>
+        </li>
+        <li><a href="#第三阶段终极方案kafka-异步削峰-v3">第三阶段：终极方案：Kafka 异步削峰 (V3)</a>
+          <ul>
+            <li><a href="#核心代码kafka-生产者集成">核心代码：Kafka 生产者集成</a></li>
+          </ul>
+        </li>
+        <li><a href="#进阶优化带有看门狗的分布式锁实现">进阶优化：带有“看门狗”的分布式锁实现</a>
+          <ul>
+            <li><a href="#核心实现看门狗协程">核心实现：看门狗协程</a></li>
+          </ul>
+        </li>
+        <li><a href="#总结架构设计的推导逻辑">总结：架构设计的推导逻辑</a></li>
+      </ul>
+    </li>
+    <li><a href="#模块四社交与统计等高阶玩法-redis-高级数据结构的实战应用">模块四：社交与统计等高阶玩法 （Redis 高级数据结构的实战应用）</a>
+      <ul>
+        <li><a href="#1-点赞与点赞列表zset">1. 点赞与点赞列表（ZSet）</a></li>
+        <li><a href="#2-关注与共同关注set">2. 关注与共同关注（Set）</a></li>
+        <li><a href="#3-附近商铺搜索geo">3. 附近商铺搜索（GEO）</a></li>
+        <li><a href="#4-用户签到与连续签到统计bitmap">4. 用户签到与连续签到统计（BitMap）</a></li>
+        <li><a href="#5-uv-统计hyperloglog">5. UV 统计（HyperLogLog）</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 class="heading-element" id="项目概览"><span>项目概览</span>
+  <a href="#%e9%a1%b9%e7%9b%ae%e6%a6%82%e8%a7%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>本项目是基于 Go 语言生态对经典 O2O 社交与营销平台（<a href="https://www.bilibili.com/video/BV1NV411u7GE/" target="_blank" rel="external nofollow noopener noreferrer">黑马点评</a>）的深度重构与架构升级。项目模拟了类似大众点评的核心业务场景，完成了从用户鉴权、商户查询、社交探店、到高并发秒杀抢券的完整业务闭环。</p>
+<p>在重构过程中，不仅实现了单体架构向高并发场景的平滑演进，更深度结合了 Go 语言的高并发特性（Goroutine + Channel）与多种分布式中间件（Redis、Kafka），系统性地解决了分布式会话、缓存雪崩/击穿/穿透、高并发秒杀超卖、分布式锁以及异步削峰等复杂架构痛点。适合作为展示高并发业务落地能力和 Go 生态工程化实践的标杆项目。</p>
+<p>项目源码地址：<a href="https://github.com/amemiya02/hmdp-go" target="_blank" rel="external nofollow noopener noreferrer">hmdp-go</a></p>
+<p>这是一篇为您量身定制的技术博客。这篇博客不仅深入浅出地讲解了业务痛点与技术难点，还完美融入了你用 Go 语言（Gin + GORM + Redis + Kafka）重构时的思考过程、架构演进（从 V1 到 V3 的推导）以及核心代码实现，非常适合发布在掘金、知乎或个人博客上作为你的“项目门面”。</p>
+<hr>
+<h2 class="heading-element" id="模块一分布式-session-与短信登录演进"><span>模块一：分布式 Session 与短信登录演进</span>
+  <a href="#%e6%a8%a1%e5%9d%97%e4%b8%80%e5%88%86%e5%b8%83%e5%bc%8f-session-%e4%b8%8e%e7%9f%ad%e4%bf%a1%e7%99%bb%e5%bd%95%e6%bc%94%e8%bf%9b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 class="heading-element" id="1-业务需求与面临的问题"><span>1. 业务需求与面临的问题</span>
+  <a href="#1-%e4%b8%9a%e5%8a%a1%e9%9c%80%e6%b1%82%e4%b8%8e%e9%9d%a2%e4%b8%b4%e7%9a%84%e9%97%ae%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>V1 阶段：单机 Session 时代的痛点</strong>
+最初的登录逻辑很简单：用户验证短信验证码通过后，将用户信息存入 Tomcat/Go 原生的内存 Session 中。但在微服务或多实例集群部署下，Nginx 负载均衡会将请求分发到不同节点，导致<strong>Session 状态不共享</strong>，用户频繁掉线。</p>
+<h3 class="heading-element" id="2-架构演进与业务设计"><span>2. 架构演进与业务设计</span>
+  <a href="#2-%e6%9e%b6%e6%9e%84%e6%bc%94%e8%bf%9b%e4%b8%8e%e4%b8%9a%e5%8a%a1%e8%ae%be%e8%ae%a1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>V2 阶段：Redis + Token 无状态会话</strong>
+为了解决集群状态共享，我引入了 Redis。服务端不保存用户的登录状态，而是交由统一的中间件（Redis）来集中存储，客户端通过 Token 作为凭证来验证身份。用户登录成功后，后端生成一个全局唯一的 <code>Token</code>（如 UUID），以此为 Key，用户信息（脱敏后的 <code>UserDTO</code>）为 Value 存入 Redis Hash 中，并将 Token 下发给前端。
+当用户通过验证码或密码登录成功后，服务端需要为其生成一个身份凭证，并在 Redis 中建立映射关系。</p>
+<p>在 UserService.Login 方法中，具体流程如下：</p>
+<ul>
+<li>
+<p>生成唯一标识： 使用 uuid 库生成一个去除了中划线的随机字符串作为 Token。</p>
+</li>
+<li>
+<p>数据脱敏与瘦身： 并没有将整张 User 表的数据存入缓存，而是精简为 UserDTO（仅包含 id, nickName, icon），极大地节省了 Redis 的内存空间。</p>
+</li>
+<li>
+<p>Hash 结构存储： 使用 Redis 的 Hash 数据结构（HSet）来存储这个 Map。以 login:token:<!-- raw HTML omitted --> 为 Key，以用户的属性字典为 Value。相比于存储序列化后的 JSON 字符串，Hash 结构允许后续单独修改或读取某个字段，更加灵活。</p>
+</li>
+<li>
+<p>设置 TTL： 为这个 Key 设置有效期（如 30 分钟），随后将 Token 返回给客户端（通常前端会将其存在 LocalStorage 中）。</p>
+</li>
+</ul>
+<p><strong>V3 阶段：双层拦截器（Gin Middleware）彻底解决活跃续期问题</strong>
+如果只在受保护的路由（如“下单”）加拦截器，会导致用户一直在浏览公开页面（如首页）时，Token 无法刷新 TTL，最终莫名掉线。为此，我设计了<strong>双层中间件</strong>模型：</p>
+<ul>
+<li><strong>全局拦截器 (<code>RefreshTokenInterceptor</code>)</strong>：拦截所有请求，只要携带 Token 就去 Redis 查，查到就刷新 TTL 并将其放入 <code>gin.Context</code>，然后全部放行。</li>
+<li><strong>权限拦截器 (<code>LoginInterceptor</code>)</strong>：只拦截需要登录的路由，仅仅判断 <code>gin.Context</code> 中有没有用户信息，没有直接返回 401。</li>
+</ul>
+<h4 class="heading-element" id="第一层拦截状态续期-全局拦截器"><span>第一层拦截：状态续期 (全局拦截器)</span>
+  <a href="#%e7%ac%ac%e4%b8%80%e5%b1%82%e6%8b%a6%e6%88%aa%e7%8a%b6%e6%80%81%e7%bb%ad%e6%9c%9f-%e5%85%a8%e5%b1%80%e6%8b%a6%e6%88%aa%e5%99%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>如果只在下单、修改个人信息等需要登录的接口上做拦截校验，会导致一个严重的体验问题：用户在平台的主页逛了 40 分钟（公开页面，不触发鉴权拦截器），当他准备下单时，却发现自己掉线了（因为 Redis 中的 Token 已过了 30 分钟的 TTL）。</p>
+<p>为了解决这个问题，设计了双层拦截器。第一层是 RefreshTokenInterceptor：</p>
+<ul>
+<li>
+<p>拦截范围： 拦截所有的 HTTP 请求。</p>
+</li>
+<li>
+<p>核心逻辑： 尝试从请求头（Authorization）中获取 Token。如果拿到 Token，就去 Redis 中查询对应的 Hash 数据。</p>
+</li>
+<li>
+<p>上下文流转： 如果查到了用户，将其封装回 dto.UserDTO，并使用 Gin 的 c.Set 将其保存在当前请求的内存上下文 (Context) 中。</p>
+</li>
+<li>
+<p>活跃续期： 最关键的一步，重新给 Redis 中的这个 Token 设置 30 分钟的过期时间。</p>
+</li>
+<li>
+<p>无条件放行： 无论用户有没有 Token、Token 是否过期，这一层统统调用 c.Next() 放行，因为它只负责“刷新活跃度”，不负责“阻拦”。</p>
+</li>
+</ul>
+<h4 class="heading-element" id="第二层拦截权限校验-路由拦截器"><span>第二层拦截：权限校验 (路由拦截器)</span>
+  <a href="#%e7%ac%ac%e4%ba%8c%e5%b1%82%e6%8b%a6%e6%88%aa%e6%9d%83%e9%99%90%e6%a0%a1%e9%aa%8c-%e8%b7%af%e7%94%b1%e6%8b%a6%e6%88%aa%e5%99%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>真正的访问控制交给了第二层拦截器 LoginInterceptor。</p>
+<ul>
+<li>
+<p>拦截范围： 仅针对需要保护的路由组（如 /order/*, /user/info 等）进行挂载。</p>
+</li>
+<li>
+<p>核心逻辑： 它的逻辑极其轻量，不需要再查一次 Redis。它只需要通过 c.Get(constant.ContextUserKey) 检查第一层拦截器有没有在内存中塞入用户信息。</p>
+</li>
+<li>
+<p>决断： 如果拿不到用户，说明未登录或 Token 已失效，直接 AbortWithStatusJSON 返回 401 拦截请求；如果拿到了，就调用 c.Next() 放行。</p>
+</li>
+</ul>
+<h3 class="heading-element" id="3-核心代码实现-gin-middleware"><span>3. 核心代码实现 (Gin Middleware)</span>
+  <a href="#3-%e6%a0%b8%e5%bf%83%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-gin-middleware" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// 1. 全局刷新拦截器：不管是否需要登录，只要有 token 就尝试续期</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">RefreshTokenInterceptor</span>(<span style="color:#a6e22e">rdb</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">redis</span>.<span style="color:#a6e22e">Client</span>) <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">HandlerFunc</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">token</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">GetHeader</span>(<span style="color:#e6db74">&#34;Authorization&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">token</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Next</span>()
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 从 Redis 获取用户信息并转为 DTO</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">key</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;login:token:&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">token</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">userMap</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">rdb</span>.<span style="color:#a6e22e">HGetAll</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">key</span>).<span style="color:#a6e22e">Result</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> len(<span style="color:#a6e22e">userMap</span>) &gt; <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 存入 Context</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;user&#34;</span>, <span style="color:#a6e22e">userMap</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 刷新 Redis 过期时间 (30分钟)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">rdb</span>.<span style="color:#a6e22e">Expire</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">key</span>, <span style="color:#ae81ff">30</span><span style="color:#f92672">*</span><span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Minute</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Next</span>()
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 2. 鉴权拦截器：保护特定路由</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">LoginInterceptor</span>() <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">HandlerFunc</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 直接从内存上下文中取，避免二次查 Redis</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">exists</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#e6db74">&#34;user&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">exists</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">AbortWithStatusJSON</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusUnauthorized</span>, <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">H</span>{<span style="color:#e6db74">&#34;msg&#34;</span>: <span style="color:#e6db74">&#34;未登录&#34;</span>})
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Next</span>()
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div><hr>
+<h2 class="heading-element" id="模块二缓存治理与商户查询穿透雪崩击穿"><span>模块二：缓存治理与商户查询（穿透、雪崩、击穿）</span>
+  <a href="#%e6%a8%a1%e5%9d%97%e4%ba%8c%e7%bc%93%e5%ad%98%e6%b2%bb%e7%90%86%e4%b8%8e%e5%95%86%e6%88%b7%e6%9f%a5%e8%af%a2%e7%a9%bf%e9%80%8f%e9%9b%aa%e5%b4%a9%e5%87%bb%e7%a9%bf" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 class="heading-element" id="1-业务需求与问题推导"><span>1. 业务需求与问题推导</span>
+  <a href="#1-%e4%b8%9a%e5%8a%a1%e9%9c%80%e6%b1%82%e4%b8%8e%e9%97%ae%e9%a2%98%e6%8e%a8%e5%af%bc" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>在 O2O 平台中，商铺信息的 QPS 极高。</p>
+<ul>
+<li><strong>V1 阶段：直连 DB</strong>。哪怕只有几百并发，DB 也可能连接池打满。</li>
+<li><strong>V2 阶段：Cache Aside 模式</strong>。引入 Redis，先查缓存，没有再查 DB 并回写。但这引出了缓存界的三大难题。</li>
+</ul>
+<p>Cache Aside（旁路缓存） 是目前最常用的缓存模式，它的核心思想是：应用程序（代码）负责统筹数据库和缓存的交互，缓存本身不主动与数据库交互。</p>
+<ol>
+<li>
+<p>具体的读写逻辑</p>
+<ul>
+<li>
+<p>读数据：程序先去查询缓存；如果命中，直接返回数据；如果未命中，程序去查询数据库，查到数据后将其写入缓存，最后返回数据给用户。</p>
+</li>
+<li>
+<p>写数据：程序先更新数据库，然后再删除缓存。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>为什么是“删除缓存”而不是“更新缓存”？</p>
+</li>
+</ol>
+<ul>
+<li>
+<p><strong>避免无效计算与资源浪费</strong>：很多时候，写入缓存的数据并不是直接从数据库里查出来的原封不动的数据，而是经过多张表 Join 或复杂计算得来的。如果每次修改数据库都去计算并更新缓存，但这个数据在接下来的很长一段时间都没有人读，这部分计算和网络开销就全浪费了。<strong>删除缓存是一种“懒加载”思想</strong>，只有当下次真正有人查的时候，再去计算并放入缓存。</p>
+</li>
+<li>
+<p><strong>并发一致性问题</strong>：如果是“更新缓存”，在并发写的情况下极易产生脏数据。比如线程 A 和 B 同时写，A 先写 DB，B 后写 DB；但在更新缓存时，可能因为网络原因，B 先更新了缓存，A 后更新了缓存。这导致 DB 里存的是 B 的最新值，而缓存里却被覆盖成了 A 的旧值。直接删除缓存能最大程度规避这种更新错乱。</p>
+</li>
+</ul>
+<p>“先更新 DB，再删除缓存”在 99% 的情况下是安全的，但依然存在极端情况下的数据不一致：
+比如：缓存刚好失效的瞬间，线程 A 去查 DB 拿到了旧值（此时还没写入缓存）；就在这极短的时间内，线程 B 更新了 DB 并删除了缓存；最后线程 A 把刚才拿到的旧值写回了缓存。
+解决不一致的方案：</p>
+<ul>
+<li>
+<p><strong>延迟双删</strong>：写数据时，先删缓存，再更新 DB，然后休眠一小段时间（如 500ms），再删一次缓存。这能规避并发读写导致缓存被写入旧值的问题。</p>
+</li>
+<li>
+<p><strong>强一致性要求</strong>：如果业务（如金融资产）绝对不能容忍哪怕一秒的不一致，就必须引入分布式读写锁（如 Redisson/Redsync 的 RWMutex），在更新期间阻塞所有读请求。</p>
+</li>
+</ul>
+<p><strong>除了 Cache Aside 还有什么模式？</strong></p>
+<ul>
+<li>
+<p>Read-Through / Write-Through（读穿透/写穿透）：应用程序只和缓存打交道。由缓存中间件自己去维护与数据库的同步。更新时，程序更新缓存，缓存组件同步更新 DB。</p>
+</li>
+<li>
+<p>Write-Behind (Write-Back)（异步回写）：程序只更新缓存并立刻返回，由后台线程异步地批量将缓存的数据写入数据库。这种模式性能极高，但如果机器宕机，数据会丢失，常见于操作系统操作磁盘或 MySQL 的 Buffer Pool。</p>
+</li>
+</ul>
+<h3 class="heading-element" id="2-架构演进与解决方案"><span>2. 架构演进与解决方案</span>
+  <a href="#2-%e6%9e%b6%e6%9e%84%e6%bc%94%e8%bf%9b%e4%b8%8e%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>1. 缓存穿透（恶意请求不存在的 ID）</strong>
+缓存穿透是指用户高频请求一个数据库里根本不存在的 ID。</p>
+<ul>
+<li><strong>解决</strong>：
+<ul>
+<li>
+<p><strong>空值缓存</strong>。查不到 DB 时，把空字符串也存进 Redis，并设置极短 TTL（如 2 分钟），防止反复击打 DB。</p>
+<ul>
+<li>
+<p>写空值拦截：在 <code>QueryWithPassThrough</code> 中，当 <code>fallback()</code> 查数据库返回为空 (<code>t == nil</code>) 时，代码会向 Redis 写入一个空字符串 &ldquo;&quot;，并且只赋予一个非常短的存活时间。</p>
+</li>
+<li>
+<p>读空值拦截：当下次请求来查 Redis 时，代码通过 <code>if jsonStr == &quot;&quot;</code> 进行了专门的校验。 如果发现是我们故意设置的空字符串，它会直接抛出你自定义的 ErrPenetration（触发防穿透，数据为空）。 这样就成功把恶意请求拦截在了 Redis 这一层。</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p><strong>布隆过滤器</strong>。这个是一个由位数组（BitMap） 和多个 哈希函数 组成的数据结构。它的核心逻辑如下：</p>
+<ul>
+<li>
+<p>初始化：将数据库中所有存在的 Key 经过多个哈希函数映射到对应的位数组位置，并将这些位置的值设为 1。</p>
+</li>
+<li>
+<p>查询校验：当一个请求进入时，先计算该 Key 的哈希值并检查布隆过滤器：</p>
+<ul>
+<li>
+<p>判定不存在：如果布隆过滤器说该 Key 不存在，那么它 一定不存在 于数据库中。此时直接拦截请求，不再查询缓存或数据库。</p>
+</li>
+<li>
+<p>判定存在：如果布隆过滤器说该 Key 存在，那么它 可能存在（存在一定的误判率）。此时放行请求去查询缓存或数据库。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>2. 缓存雪崩（大批热点数据同时过期）</strong>
+缓存雪崩是指大量缓存同时过期，导致所有请求瞬间打到数据库。解决它的最常用方案是在基础 TTL 上加一个随机的过期时间。</p>
+<ul>
+<li><strong>解决</strong>：<strong>随机 TTL</strong>。在设置缓存过期时间时，基础时间上附加一个随机值（如 <code>300s + rand.Intn(100)s</code>），打散过期时间。</li>
+</ul>
+<p><strong>3. 缓存击穿（单一超高并发热点 Key 突然失效）</strong>
+缓存击穿是指某一个高并发的热点 Key 突然失效。</p>
+<ul>
+<li><strong>解决</strong>：逻辑过期和互斥锁。</li>
+</ul>
+<p><strong>方案 1：互斥锁（对应 QueryWithMutex）</strong></p>
+<p>核心思想：强一致性，牺牲部分性能。</p>
+<p>代码实现：当缓存未命中时，并没有让所有 Goroutine 蜂拥去查 DB，而是使用了 Redis 的 <code>SetNX</code> 命令作为分布式互斥锁：<code>isLocked, _ := rdb.SetNX(ctx, lockKey, &quot;1&quot;, 10*time.Second).Result()</code>。</p>
+<p>排队机制：如果没有抢到锁（!isLocked），当前协程会主动 <code>time.Sleep(50 * time.Millisecond)</code> 休眠 50 毫秒，然后递归调用自身重新尝试查询缓存。</p>
+<p>释放锁：抢到锁的协程去查数据库、写缓存，并通过 <code>defer rdb.Del(ctx, lockKey)</code> 保证无论如何最终会释放锁。</p>
+<p><strong>方案 2：逻辑过期（对应 QueryWithLogicalExpire）</strong></p>
+<p>核心思想：极致性能，允许短暂的数据不一致。</p>
+<p>代码封装：你定义了 <code>RedisData</code> 结构体，将业务实体和 <code>ExpireTime</code> 封装在一起存入 Redis，物理上永久有效。</p>
+<p>旧数据降级：当检查到 <code>time.Now().Before(rd.ExpireTime)</code> 为 false 时（说明逻辑已过期），<strong>无论后续有没有抢到重构缓存的锁</strong>，函数在最后都会直接 <code>return &amp;t, nil</code> 返回旧数据给前端。 这保证了前端绝对不会阻塞等待。</p>
+<p>Go 特色的异步重建：如果成功抢到了锁（isLocked），你利用 Go 语言的优势，直接开启了一个后台协程 <code>go func() { ... }()</code>。 这个后台协程负责去数据库查询最新数据并更新 Redis 的逻辑时间。</p>
+<p>在开启后台协程时，注意 Gin 上下文销毁的问题，特意使用了 <code>bgCtx := context.Background()</code> 传递给后台重构任务，这是一个非常有经验的处理方式。</p>
+<h3 class="heading-element" id="3-核心代码实现-逻辑过期--go-协程异步重建"><span>3. 核心代码实现 (逻辑过期 + Go 协程异步重建)</span>
+  <a href="#3-%e6%a0%b8%e5%bf%83%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-%e9%80%bb%e8%be%91%e8%bf%87%e6%9c%9f--go-%e5%8d%8f%e7%a8%8b%e5%bc%82%e6%ad%a5%e9%87%8d%e5%bb%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>结合 Go 语言轻量级协程的优势，逻辑过期的实现比 Java 更加优雅：</p>
+<div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">QueryShopWithLogicalExpire</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">id</span> <span style="color:#66d9ef">string</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">Shop</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">redisData</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">rdb</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#e6db74">&#34;shop:&#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">id</span>).<span style="color:#a6e22e">Result</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... 解析 JSON 获取 RedisData (包含 Shop 和 ExpireTime)</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 判断逻辑是否过期</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>().<span style="color:#a6e22e">Before</span>(<span style="color:#a6e22e">redisData</span>.<span style="color:#a6e22e">ExpireTime</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">redisData</span>.<span style="color:#a6e22e">Shop</span>, <span style="color:#66d9ef">nil</span> <span style="color:#75715e">// 未过期，直接返回</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 已过期，尝试获取互斥锁 (Redis SETNX)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lockKey</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;lock:shop:&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">id</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">isLock</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">TryLock</span>(<span style="color:#a6e22e">lockKey</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">isLock</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 拿到锁，开启 Goroutine 异步重建缓存！(Go 的核心优势)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">Unlock</span>(<span style="color:#a6e22e">lockKey</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 查 DB，重置逻辑过期时间，写回 Redis</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">RebuildShopCache</span>(<span style="color:#a6e22e">id</span>) 
+</span></span><span style="display:flex;"><span>        }()
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 无论是否拿到锁，当前请求都直接返回旧数据（降级，保证极致响应）</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">redisData</span>.<span style="color:#a6e22e">Shop</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div><hr>
+<h2 class="heading-element" id="模块三高并发秒杀与分布式锁"><span>模块三：高并发秒杀与分布式锁</span>
+  <a href="#%e6%a8%a1%e5%9d%97%e4%b8%89%e9%ab%98%e5%b9%b6%e5%8f%91%e7%a7%92%e6%9d%80%e4%b8%8e%e5%88%86%e5%b8%83%e5%bc%8f%e9%94%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>在高并发秒杀业务中，单纯依靠数据库难以支撑瞬时洪峰，且容易出现“超卖”和“一人多单”等并发安全问题。你通过从 <strong>同步阻塞</strong> 到 <strong>内存预检+消息队列</strong> 的三层架构迭代，并结合自研的 <strong>分布式锁</strong>，构建了一套生产级的解决方案。</p>
+<hr>
+<h3 class="heading-element" id="第一阶段同步下单--分布式锁-v1"><span>第一阶段：同步下单 + 分布式锁 (V1)</span>
+  <a href="#%e7%ac%ac%e4%b8%80%e9%98%b6%e6%ae%b5%e5%90%8c%e6%ad%a5%e4%b8%8b%e5%8d%95--%e5%88%86%e5%b8%83%e5%bc%8f%e9%94%81-v1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>面临问题：</strong> 在集群环境下，传统的单机锁（如 Go 的 <code>sync.Mutex</code>）无法跨进程生效。
+<strong>业务设计：</strong> 采用 <strong>Cache Aside</strong> 模式，直接在主流程中查询数据库判断库存与资格，通过分布式锁保证“一人一单”。
+<strong>核心改进：</strong> 手动实现了基于 Redis 的分布式锁，解决了多实例部署下的并发安全。</p>
+<h4 class="heading-element" id="单机锁syncmutex-实现"><span>单机锁sync.Mutex 实现</span>
+  <a href="#%e5%8d%95%e6%9c%ba%e9%94%81syncmutex-%e5%ae%9e%e7%8e%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><strong>核心业务痛点</strong></p>
+<p>在秒杀场景下，如果同一个用户通过脚本开启多个协程并发请求下单，由于数据库查询（判断是否已购买）和写入订单之间存在时间差，可能会出现一个用户抢到多张券的情况。</p>
+<p><strong>核心代码实现</strong></p>
+<p><code>internal/service/voucher_order.go</code>，最初的单机锁逻辑是通过 <code>sync.Map</code> 结合 <code>sync.Mutex</code> 实现的细粒度锁：</p>
+<div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Go" data-lang="Go"><span style="display:flex;"><span><span style="color:#75715e">// 1. 定义全局 Map，存放每个用户专属的锁</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">userLockMap</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Map</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">vos</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">VoucherOrderService</span>) <span style="color:#a6e22e">createVoucherOrder</span>(<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">voucherId</span> <span style="color:#66d9ef">uint64</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">dto</span>.<span style="color:#a6e22e">Result</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">userId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">util</span>.<span style="color:#a6e22e">GetUserId</span>(<span style="color:#a6e22e">c</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. 从 sync.Map 中获取或创建该 userId 专属的锁</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// LoadOrStore 保证了获取锁对象的原子性</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lock</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">userLockMap</span>.<span style="color:#a6e22e">LoadOrStore</span>(<span style="color:#a6e22e">userId</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Mutex</span>{})
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mu</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">lock</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Mutex</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 3. 加锁</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">Lock</span>()
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 4. 使用 defer 保证函数结束（包括事务完成后）才释放锁</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">Unlock</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 执行后续逻辑：查询是否已下单 -&gt; 扣减库存 -&gt; 创建订单</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...</span>
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div><p><strong>技术要点解析</strong></p>
+<p>细粒度锁 (Fine-grained Locking)：
+如果直接对整个下单方法加全局锁，会导致所有用户都必须排队，性能极差。通过<code>userId</code> 作为 Key，确保了只有同一个用户并发时才会互斥，不同用户之间是并行的。</p>
+<p>sync.Map 的妙用：
+普通 map 在并发读写时会 panic。<code>sync.Map</code> 是线程安全的，其 <strong>LoadOrStore</strong> 方法可以原子性地完成“存在即获取，不存在则创建”的动作，避免了多个协程为同一个用户创建出多个锁对象的问题。</p>
+<p>锁与事务的顺序：
+在 Go 实现中，锁的释放通过 defer 放在了事务逻辑之后。这保证了只有当数据库事务彻底 Commit 后，锁才会释放，有效防止了由于事务未提交导致其他协程读到旧数据（幻读）而重复下单的问题。</p>
+<p><strong>单机锁的局限性</strong></p>
+<p>虽然这种方案在单台服务器上运行完美，但在<strong>集群模式</strong>下，负载均衡会将同一用户的请求分发到不同的 Go 进程。不同进程拥有独立的内存空间和不同的 userLockMap，导致锁机制失效。这也是后续为什么要演进到 Redis 分布式锁 的根本原因。</p>
+<h4 class="heading-element" id="核心代码simpleredislock-实现"><span>核心代码：SimpleRedisLock 实现</span>
+  <a href="#%e6%a0%b8%e5%bf%83%e4%bb%a3%e7%a0%81simpleredislock-%e5%ae%9e%e7%8e%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>利用 <code>SETNX</code> 指令尝试加锁，并配合 Lua 脚本实现原子解锁，防止锁被误删。</p>
+<div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// TryLock：尝试获取锁</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">l</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SimpleRedisLock</span>) <span style="color:#a6e22e">TryLock</span>(<span style="color:#a6e22e">timeoutSec</span> <span style="color:#66d9ef">uint64</span>) <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">key</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">keyPrefix</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">name</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 使用 SETNX 保证互斥，设置超时防止死锁</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">success</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">SetNX</span>(<span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">token</span>, <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Duration</span>(<span style="color:#a6e22e">timeoutSec</span>)<span style="color:#f92672">*</span><span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>).<span style="color:#a6e22e">Result</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">success</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Unlock：Lua 脚本原子释放</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 脚本逻辑：判断当前锁的 token 是否属于自己，是则删除</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">unlockLua</span> = <span style="color:#e6db74">`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">if redis.call(&#34;get&#34;, KEYS[1]) == ARGV[1] then
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    return redis.call(&#34;del&#34;, KEYS[1])
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">else
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    return 0
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">end`</span></span></span></code></pre></div><hr>
+<h3 class="heading-element" id="第二阶段异步下单--阻塞队列-v2"><span>第二阶段：异步下单 + 阻塞队列 (V2)</span>
+  <a href="#%e7%ac%ac%e4%ba%8c%e9%98%b6%e6%ae%b5%e5%bc%82%e6%ad%a5%e4%b8%8b%e5%8d%95--%e9%98%bb%e5%a1%9e%e9%98%9f%e5%88%97-v2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>面临问题：</strong> 同步流程涉及多次数据库 I/O，QPS 极低，且响应耗时随并发量剧增。</p>
+<p><strong>业务设计：</strong> 将业务拆分为“快速校验”和“异步落库”。</p>
+<ul>
+<li><strong>校验层</strong>：使用 Redis + Lua 脚本原子化地完成库存判断、一人一单校验、库存预扣减。</li>
+<li><strong>通信层</strong>：校验通过后，将订单信息丢入 Go 的 <code>chan</code>（内存通道）。</li>
+<li><strong>落库层</strong>：后台开启独立协程从 <code>chan</code> 取出订单并写入 MySQL。</li>
+</ul>
+<h4 class="heading-element" id="核心代码lua-原子预检"><span>核心代码：Lua 原子预检</span>
+  <a href="#%e6%a0%b8%e5%bf%83%e4%bb%a3%e7%a0%81lua-%e5%8e%9f%e5%ad%90%e9%a2%84%e6%a3%80" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#75715e">-- seckill.lua 核心逻辑</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 1. 判断库存是否充足</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (tonumber(redis.call(<span style="color:#e6db74">&#34;get&#34;</span>, stockKey)) <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">then</span> <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 2. 判断用户是否已下单 (一人一单)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (redis.call(<span style="color:#e6db74">&#34;sismember&#34;</span>, orderKey, userId) <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">then</span> <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span> <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 3. 扣库存并记录已下单用户</span>
+</span></span><span style="display:flex;"><span>redis.call(<span style="color:#e6db74">&#34;incrby&#34;</span>, stockKey, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>redis.call(<span style="color:#e6db74">&#34;sadd&#34;</span>, orderKey, userId)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span></span></span></code></pre></div><hr>
+<h3 class="heading-element" id="第三阶段终极方案kafka-异步削峰-v3"><span>第三阶段：终极方案：Kafka 异步削峰 (V3)</span>
+  <a href="#%e7%ac%ac%e4%b8%89%e9%98%b6%e6%ae%b5%e7%bb%88%e6%9e%81%e6%96%b9%e6%a1%88kafka-%e5%bc%82%e6%ad%a5%e5%89%8a%e5%b3%b0-v3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>面临问题：</strong> 内存通道（<code>chan</code>）存在数据易失性，若服务宕机，排队中的订单会丢失；且无法横向扩展。</p>
+<p><strong>最终设计：</strong> 引入 <strong>Kafka</strong> 作为高可靠的消息中转站，形成了完整的三层防护体系。</p>
+<ol>
+<li><strong>第一层（Redis + Lua）</strong>：极速前置过滤，拦截 90% 的无效请求。</li>
+<li><strong>第二层（Kafka）</strong>：流量削峰，起到缓冲作用，保证订单数据的高可靠性。</li>
+<li><strong>第三层（MySQL + 乐观锁）</strong>：后台异步落库。即使此时由于 MQ 重试导致重复消费，数据库层面通过 <code>stock &gt; 0</code> 的乐观锁和唯一索引进行最终兜底。</li>
+</ol>
+<h4 class="heading-element" id="核心代码kafka-生产者集成"><span>核心代码：Kafka 生产者集成</span>
+  <a href="#%e6%a0%b8%e5%bf%83%e4%bb%a3%e7%a0%81kafka-%e7%94%9f%e4%ba%a7%e8%80%85%e9%9b%86%e6%88%90" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">vos</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">VoucherOrderService</span>) <span style="color:#a6e22e">SeckillVoucherByRedisAndKafka</span>(<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">voucherId</span> <span style="color:#66d9ef">uint64</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">dto</span>.<span style="color:#a6e22e">Result</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... 执行 Lua 预检成功后 ...</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">msg</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">kafka</span>.<span style="color:#a6e22e">Message</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Key</span>:   []byte(<span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">FormatUint</span>(<span style="color:#a6e22e">userId</span>, <span style="color:#ae81ff">10</span>)), <span style="color:#75715e">// 相同用户路由到同分区，保证顺序性</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Value</span>: <span style="color:#a6e22e">orderBytes</span>,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 异步投递消息，随后立即返回</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">global</span>.<span style="color:#a6e22e">KafkaWriter</span>.<span style="color:#a6e22e">WriteMessages</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">msg</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">dto</span>.<span style="color:#a6e22e">OkWithData</span>(<span style="color:#a6e22e">orderId</span>)
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div><hr>
+<h3 class="heading-element" id="进阶优化带有看门狗的分布式锁实现"><span>进阶优化：带有“看门狗”的分布式锁实现</span>
+  <a href="#%e8%bf%9b%e9%98%b6%e4%bc%98%e5%8c%96%e5%b8%a6%e6%9c%89%e7%9c%8b%e9%97%a8%e7%8b%97%e7%9a%84%e5%88%86%e5%b8%83%e5%bc%8f%e9%94%81%e5%ae%9e%e7%8e%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>为了弥补 <code>SimpleRedisLock</code> 锁过期导致的安全隐患，参考 Redisson 实现了更完备的 <code>RedissonLock</code>。</p>
+<ol>
+<li><strong>看门狗 (Watchdog)</strong>：加锁成功后，开启一个后台协程，每隔 <code>expiration / 3</code> 的时间通过 Lua 脚本刷新过期时间。</li>
+<li><strong>可重试逻辑</strong>：使用 <code>time.Ticker</code> 在等待时间内不断自旋尝试加锁，而非直接报错。</li>
+<li><strong>优雅释放</strong>：在 <code>Unlock</code> 时，通过 <code>context.CancelFunc</code> 主动关闭看门狗协程，并原子删除锁。</li>
+</ol>
+<h4 class="heading-element" id="核心实现看门狗协程"><span>核心实现：看门狗协程</span>
+  <a href="#%e6%a0%b8%e5%bf%83%e5%ae%9e%e7%8e%b0%e7%9c%8b%e9%97%a8%e7%8b%97%e5%8d%8f%e7%a8%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">l</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">RedissonLock</span>) <span style="color:#a6e22e">startWatchDog</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ticker</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">NewTicker</span>(<span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">expiration</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span>) <span style="color:#75715e">// 续期周期</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">ticker</span>.<span style="color:#a6e22e">Stop</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">select</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">ticker</span>.<span style="color:#a6e22e">C</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 只要业务没结束，就一直续命</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">renewScript</span>.<span style="color:#a6e22e">Run</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>(), <span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">client</span>, []<span style="color:#66d9ef">string</span>{<span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">name</span>}, <span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">token</span>, int(<span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">expiration</span>.<span style="color:#a6e22e">Seconds</span>()))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">Done</span>():
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 收到 Unlock 信号，停止续期</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div><h3 class="heading-element" id="总结架构设计的推导逻辑"><span>总结：架构设计的推导逻辑</span>
+  <a href="#%e6%80%bb%e7%bb%93%e6%9e%b6%e6%9e%84%e8%ae%be%e8%ae%a1%e7%9a%84%e6%8e%a8%e5%af%bc%e9%80%bb%e8%be%91" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><strong>性能瓶颈</strong>：通过将耗时的 MySQL 写操作从主链路剥离，移动到后台异步执行，解决了 QPS 低下的问题。</li>
+<li><strong>数据安全</strong>：通过 Lua 脚本原子操作和分布式锁解决了并发下的重复下单问题。</li>
+<li><strong>高可用性</strong>：从 <code>chan</code> 升级到 Kafka，解决了内存队列数据不安全和单机瓶颈问题，支持更大规模的洪峰冲击。</li>
+</ul>
+<hr>
+<h2 class="heading-element" id="模块四社交与统计等高阶玩法-redis-高级数据结构的实战应用"><span>模块四：社交与统计等高阶玩法 （Redis 高级数据结构的实战应用）</span>
+  <a href="#%e6%a8%a1%e5%9d%97%e5%9b%9b%e7%a4%be%e4%ba%a4%e4%b8%8e%e7%bb%9f%e8%ae%a1%e7%ad%89%e9%ab%98%e9%98%b6%e7%8e%a9%e6%b3%95-redis-%e9%ab%98%e7%ba%a7%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84%e7%9a%84%e5%ae%9e%e6%88%98%e5%ba%94%e7%94%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>常规的 RDBMS 在应对地理空间、日活统计等场景时往往力不从心。项目中我大量运用了 Redis 的高级数据结构：
+在模块四中，你充分利用了 Redis 的高级数据结构（ZSet、Set、GEO、BitMap、HyperLogLog）来处理高频社交互动和海量统计需求。这些场景如果直接使用传统关系型数据库（MySQL），往往会面临性能瓶颈或复杂的 SQL 查询。</p>
+<p>以下是每一部分的详细设计思路与核心代码实现：</p>
+<hr>
+<h3 class="heading-element" id="1-点赞与点赞列表zset"><span>1. 点赞与点赞列表（ZSet）</span>
+  <a href="#1-%e7%82%b9%e8%b5%9e%e4%b8%8e%e7%82%b9%e8%b5%9e%e5%88%97%e8%a1%a8zset" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>面临问题：</strong>
+点赞功能需要实现：一人只能点一次（去重）、按点赞时间排序展示（点赞榜单）。</p>
+<p><strong>业务设计：</strong></p>
+<ul>
+<li><strong>V1 方案（Set）</strong>：使用 Redis 的 Set 集合存储点赞用户 ID，可以去重，但无法排序。</li>
+<li><strong>最终方案（ZSet）</strong>：使用 <code>Sorted Set</code>。<code>member</code> 存用户 ID，<code>score</code> 存点赞时间戳。这样既能保证唯一性，又能利用 <code>score</code> 自动排序。</li>
+</ul>
+<p><strong>核心代码实现：</strong></p>
+<div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">bs</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">BlogService</span>) <span style="color:#a6e22e">LikeBlog</span>(<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">id</span> <span style="color:#66d9ef">uint64</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">dto</span>.<span style="color:#a6e22e">Result</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1. 获取登录用户</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">userId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">util</span>.<span style="color:#a6e22e">GetUserId</span>(<span style="color:#a6e22e">c</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. 判断当前登录用户是否已经点赞 (查询 ZSet 的 score)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">key</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">constant</span>.<span style="color:#a6e22e">BlogLikedKey</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">FormatUint</span>(<span style="color:#a6e22e">id</span>, <span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">score</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">global</span>.<span style="color:#a6e22e">RedisClient</span>.<span style="color:#a6e22e">ZScore</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">FormatUint</span>(<span style="color:#a6e22e">userId</span>, <span style="color:#ae81ff">10</span>)).<span style="color:#a6e22e">Result</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">score</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 3. 如果未点赞，可以点赞</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 3.1 数据库点赞数 +1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">bs</span>.<span style="color:#a6e22e">blogRepo</span>.<span style="color:#a6e22e">UpdateLiked</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">id</span>, <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 3.2 保存用户到 Redis 的 ZSet (zadd key score member)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">global</span>.<span style="color:#a6e22e">RedisClient</span>.<span style="color:#a6e22e">ZAdd</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">redis</span>.<span style="color:#a6e22e">Z</span>{
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">Score</span>:  float64(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>().<span style="color:#a6e22e">UnixMilli</span>()),
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">Member</span>: <span style="color:#a6e22e">userId</span>,
+</span></span><span style="display:flex;"><span>            })
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 4. 如果已点赞，取消点赞</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 4.1 数据库点赞数 -1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">bs</span>.<span style="color:#a6e22e">blogRepo</span>.<span style="color:#a6e22e">UpdateLiked</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">id</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 4.2 把用户从 Redis 的 ZSet 移除</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">global</span>.<span style="color:#a6e22e">RedisClient</span>.<span style="color:#a6e22e">ZRem</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">userId</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">dto</span>.<span style="color:#a6e22e">Ok</span>()
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div><hr>
+<h3 class="heading-element" id="2-关注与共同关注set"><span>2. 关注与共同关注（Set）</span>
+  <a href="#2-%e5%85%b3%e6%b3%a8%e4%b8%8e%e5%85%b1%e5%90%8c%e5%85%b3%e6%b3%a8set" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>面临问题：</strong>
+“共同关注”需要计算两个用户关注列表的交集。在 SQL 中这通常需要复杂的自连接或 <code>INTERSECT</code> 操作。</p>
+<p><strong>业务设计：</strong>
+利用 Redis Set 的集合运算能力。每个用户的关注列表存为一个 Set，Key 为 <code>follow:userID</code>。计算共同关注即执行 <code>SINTER</code> 命令。</p>
+<p><strong>核心代码实现：</strong></p>
+<div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">fs</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">FollowService</span>) <span style="color:#a6e22e">CommonFollow</span>(<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">id</span> <span style="color:#66d9ef">uint64</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">dto</span>.<span style="color:#a6e22e">Result</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1. 获取当前登录用户</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">userId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">util</span>.<span style="color:#a6e22e">GetUserId</span>(<span style="color:#a6e22e">c</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">key1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">constant</span>.<span style="color:#a6e22e">FollowKey</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">FormatUint</span>(<span style="color:#a6e22e">userId</span>, <span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">key2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">constant</span>.<span style="color:#a6e22e">FollowKey</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">FormatUint</span>(<span style="color:#a6e22e">id</span>, <span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. 求交集 (SINTER key1 key2)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">intersect</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">global</span>.<span style="color:#a6e22e">RedisClient</span>.<span style="color:#a6e22e">SInter</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">key1</span>, <span style="color:#a6e22e">key2</span>).<span style="color:#a6e22e">Result</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">||</span> len(<span style="color:#a6e22e">intersect</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">dto</span>.<span style="color:#a6e22e">OkWithData</span>(make([]<span style="color:#f92672">*</span><span style="color:#a6e22e">dto</span>.<span style="color:#a6e22e">UserDTO</span>, <span style="color:#ae81ff">0</span>))
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 3. 解析 ID 并查询用户信息...</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">dto</span>.<span style="color:#a6e22e">OkWithData</span>(<span style="color:#a6e22e">users</span>)
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div><hr>
+<h3 class="heading-element" id="3-附近商铺搜索geo"><span>3. 附近商铺搜索（GEO）</span>
+  <a href="#3-%e9%99%84%e8%bf%91%e5%95%86%e9%93%ba%e6%90%9c%e7%b4%a2geo" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>面临问题：</strong>
+计算用户当前坐标与数万家商铺的球面距离，并按距离进行分页排序。</p>
+<p><strong>业务设计：</strong>
+使用 Redis 的 <code>GEO</code> 数据结构。其底层是 ZSet，通过 GeoHash 将经纬度编码为权重。</p>
+<p><strong>核心代码实现：</strong></p>
+<div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ss</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ShopService</span>) <span style="color:#a6e22e">QueryShopByType</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">typeId</span> <span style="color:#66d9ef">uint64</span>, <span style="color:#a6e22e">current</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">lon</span> <span style="color:#66d9ef">float64</span>, <span style="color:#a6e22e">lat</span> <span style="color:#66d9ef">float64</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">dto</span>.<span style="color:#a6e22e">Result</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1. 基础校验与分页参数计算</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">limit</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">constant</span>.<span style="color:#a6e22e">DefaultPageSize</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">from</span> <span style="color:#f92672">:=</span> (<span style="color:#a6e22e">current</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> <span style="color:#a6e22e">limit</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">end</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">current</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">limit</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. 查询 Redis GEO (GEOSEARCH key BYLONLAT lon lat BYRADIUS 5000 m ASC COUNT end)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">key</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">constant</span>.<span style="color:#a6e22e">ShopGeoKey</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">FormatUint</span>(<span style="color:#a6e22e">typeId</span>, <span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">results</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">global</span>.<span style="color:#a6e22e">RedisClient</span>.<span style="color:#a6e22e">GeoSearchLocation</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">key</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">redis</span>.<span style="color:#a6e22e">GeoSearchLocationQuery</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">GeoSearchQuery</span>: <span style="color:#a6e22e">redis</span>.<span style="color:#a6e22e">GeoSearchQuery</span>{
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">Longitude</span>: <span style="color:#a6e22e">lon</span>, <span style="color:#a6e22e">Latitude</span>: <span style="color:#a6e22e">lat</span>, <span style="color:#a6e22e">Radius</span>: <span style="color:#ae81ff">5000</span>, <span style="color:#a6e22e">RadiusUnit</span>: <span style="color:#e6db74">&#34;m&#34;</span>, <span style="color:#a6e22e">Sort</span>: <span style="color:#e6db74">&#34;ASC&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">Count</span>: <span style="color:#a6e22e">end</span>, <span style="color:#75715e">// 注意：GEO 无法直接 offset，需全量查出后手动截取</span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">WithDist</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>    }).<span style="color:#a6e22e">Result</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 3. 手动分页截取</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">results</span>) <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">from</span> { <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">dto</span>.<span style="color:#a6e22e">OkWithData</span>(make([]<span style="color:#f92672">*</span><span style="color:#a6e22e">entity</span>.<span style="color:#a6e22e">Shop</span>, <span style="color:#ae81ff">0</span>)) }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">pagedResults</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">results</span>[<span style="color:#a6e22e">from</span>:min(len(<span style="color:#a6e22e">results</span>), <span style="color:#a6e22e">end</span>)]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 4. 批量查询数据库并保持顺序，手动赋值距离字段...</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">dto</span>.<span style="color:#a6e22e">OkWithData</span>(<span style="color:#a6e22e">shops</span>)
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div><hr>
+<h3 class="heading-element" id="4-用户签到与连续签到统计bitmap"><span>4. 用户签到与连续签到统计（BitMap）</span>
+  <a href="#4-%e7%94%a8%e6%88%b7%e7%ad%be%e5%88%b0%e4%b8%8e%e8%bf%9e%e7%bb%ad%e7%ad%be%e5%88%b0%e7%bb%9f%e8%ae%a1bitmap" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>面临问题：</strong>
+如果按天存数据库，一个用户一年就有 365 条记录，海量用户下存储压力巨大。且“连续签到”的计算逻辑较为复杂。</p>
+<p><strong>业务设计：</strong>
+使用 <code>BitMap</code>。一个月最多 31 天，只需 31 个 bit 位（约 4 字节）即可存下一个月的所有签到信息。</p>
+<ul>
+<li><strong>签到</strong>：使用 <code>SETBIT</code> 将对应天数的位设为 1。</li>
+<li><strong>统计</strong>：使用 <code>BITFIELD</code> 获取截止到今天的二进制数，转为十进制后，通过位运算（<code>&amp;1</code> 和 <code>&gt;&gt;1</code>）从低位开始循环统计连续的 1。</li>
+</ul>
+<p><strong>核心代码实现：</strong></p>
+<div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">us</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">UserService</span>) <span style="color:#a6e22e">SignCount</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">dto</span>.<span style="color:#a6e22e">Result</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">now</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">key</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">constant</span>.<span style="color:#a6e22e">UserSignKey</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">FormatUint</span>(<span style="color:#a6e22e">util</span>.<span style="color:#a6e22e">GetUserId</span>(<span style="color:#a6e22e">ctx</span>), <span style="color:#ae81ff">10</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">now</span>.<span style="color:#a6e22e">Format</span>(<span style="color:#e6db74">&#34;:200601&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dayOfMonth</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">now</span>.<span style="color:#a6e22e">Day</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1. 获取本月截止到今天的签到数据 (十进制)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">args</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">interface</span>{}{<span style="color:#e6db74">&#34;GET&#34;</span>, <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;u%d&#34;</span>, <span style="color:#a6e22e">dayOfMonth</span>), <span style="color:#ae81ff">0</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">result</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">global</span>.<span style="color:#a6e22e">RedisClient</span>.<span style="color:#a6e22e">BitField</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">args</span><span style="color:#f92672">...</span>).<span style="color:#a6e22e">Result</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">num</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">result</span>[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. 循环位运算</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">count</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">num</span> &gt; <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">num</span><span style="color:#f92672">&amp;</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> { <span style="color:#75715e">// 如果最后一位是 0，说明连续签到中断</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">count</span><span style="color:#f92672">++</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">num</span> <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span> <span style="color:#75715e">// 右移一位，检查前一天</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">dto</span>.<span style="color:#a6e22e">OkWithData</span>(<span style="color:#a6e22e">count</span>)
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div><hr>
+<h3 class="heading-element" id="5-uv-统计hyperloglog"><span>5. UV 统计（HyperLogLog）</span>
+  <a href="#5-uv-%e7%bb%9f%e8%ae%a1hyperloglog" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>面临问题：</strong>
+统计每天的独立访客（UV），需要对用户 ID 去重。如果用 Set 存千万级 ID，内存占用会非常恐怖。</p>
+<p><strong>业务设计：</strong>
+使用 <code>HyperLogLog</code>。它基于概率估算算法，无论存多少数据，单个 Key 占用内存永远固定在约 12KB 左右。虽然有 0.81% 的误差，但对大数据量的 UV 统计来说完全可以接受。</p>
+<p><strong>核心实现逻辑：</strong></p>
+<div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// 测试代码中展示了该思路：</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">TestHyperLogLog</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">key</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;hll_uv_20241207&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 模拟 100 万次访问，由于 HLL 的特性，最终 PFCOUNT 结果会接近 100 万但存在微小误差</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">1000000</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">global</span>.<span style="color:#a6e22e">RedisClient</span>.<span style="color:#a6e22e">PFAdd</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;user_%d&#34;</span>, <span style="color:#a6e22e">i</span>))
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">count</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">global</span>.<span style="color:#a6e22e">RedisClient</span>.<span style="color:#a6e22e">PFCount</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">key</span>).<span style="color:#a6e22e">Result</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;UV 统计结果: %d\n&#34;</span>, <span style="color:#a6e22e">count</span>)
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod"><span title="更新于 2026-04-07 19:01:48">更新于 2026-04-07&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/8bd4dd1/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="分享到 X" data-sharer="twitter" data-url="https://amemiya02.github.io/posts/8bd4dd1/" data-title="黑马点评-Go语言实战" data-hashtags=""><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://amemiya02.github.io/posts/8bd4dd1/" data-hashtag="[Go Gin Gorm MySQL Redis]"><i class="fa-brands fa-facebook-square" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://amemiya02.github.io/posts/8bd4dd1/" data-title="黑马点评-Go语言实战"><i class="fa-brands fa-weibo" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"></section>
+    <section><span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/5086d95/" class="post-nav-item" rel="prev" title="CS336 Assignment 01"><i class="fa-solid fa-angle-left" aria-hidden="true"></i>CS336 Assignment 01</a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside><dialog id="toc-dialog" aria-labelledby="toc-dialog-title" role="dialog">
+      <div class="toc">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-drawer"><nav >
+  <ul>
+    <li><a href="#项目概览">项目概览</a></li>
+    <li><a href="#模块一分布式-session-与短信登录演进">模块一：分布式 Session 与短信登录演进</a>
+      <ul>
+        <li><a href="#1-业务需求与面临的问题">1. 业务需求与面临的问题</a></li>
+        <li><a href="#2-架构演进与业务设计">2. 架构演进与业务设计</a>
+          <ul>
+            <li><a href="#第一层拦截状态续期-全局拦截器">第一层拦截：状态续期 (全局拦截器)</a></li>
+            <li><a href="#第二层拦截权限校验-路由拦截器">第二层拦截：权限校验 (路由拦截器)</a></li>
+          </ul>
+        </li>
+        <li><a href="#3-核心代码实现-gin-middleware">3. 核心代码实现 (Gin Middleware)</a></li>
+      </ul>
+    </li>
+    <li><a href="#模块二缓存治理与商户查询穿透雪崩击穿">模块二：缓存治理与商户查询（穿透、雪崩、击穿）</a>
+      <ul>
+        <li><a href="#1-业务需求与问题推导">1. 业务需求与问题推导</a></li>
+        <li><a href="#2-架构演进与解决方案">2. 架构演进与解决方案</a></li>
+        <li><a href="#3-核心代码实现-逻辑过期--go-协程异步重建">3. 核心代码实现 (逻辑过期 + Go 协程异步重建)</a></li>
+      </ul>
+    </li>
+    <li><a href="#模块三高并发秒杀与分布式锁">模块三：高并发秒杀与分布式锁</a>
+      <ul>
+        <li><a href="#第一阶段同步下单--分布式锁-v1">第一阶段：同步下单 + 分布式锁 (V1)</a>
+          <ul>
+            <li><a href="#单机锁syncmutex-实现">单机锁sync.Mutex 实现</a></li>
+            <li><a href="#核心代码simpleredislock-实现">核心代码：SimpleRedisLock 实现</a></li>
+          </ul>
+        </li>
+        <li><a href="#第二阶段异步下单--阻塞队列-v2">第二阶段：异步下单 + 阻塞队列 (V2)</a>
+          <ul>
+            <li><a href="#核心代码lua-原子预检">核心代码：Lua 原子预检</a></li>
+          </ul>
+        </li>
+        <li><a href="#第三阶段终极方案kafka-异步削峰-v3">第三阶段：终极方案：Kafka 异步削峰 (V3)</a>
+          <ul>
+            <li><a href="#核心代码kafka-生产者集成">核心代码：Kafka 生产者集成</a></li>
+          </ul>
+        </li>
+        <li><a href="#进阶优化带有看门狗的分布式锁实现">进阶优化：带有“看门狗”的分布式锁实现</a>
+          <ul>
+            <li><a href="#核心实现看门狗协程">核心实现：看门狗协程</a></li>
+          </ul>
+        </li>
+        <li><a href="#总结架构设计的推导逻辑">总结：架构设计的推导逻辑</a></li>
+      </ul>
+    </li>
+    <li><a href="#模块四社交与统计等高阶玩法-redis-高级数据结构的实战应用">模块四：社交与统计等高阶玩法 （Redis 高级数据结构的实战应用）</a>
+      <ul>
+        <li><a href="#1-点赞与点赞列表zset">1. 点赞与点赞列表（ZSet）</a></li>
+        <li><a href="#2-关注与共同关注set">2. 关注与共同关注（Set）</a></li>
+        <li><a href="#3-附近商铺搜索geo">3. 附近商铺搜索（GEO）</a></li>
+        <li><a href="#4-用户签到与连续签到统计bitmap">4. 用户签到与连续签到统计（BitMap）</a></li>
+        <li><a href="#5-uv-统计hyperloglog">5. UV 统计（HyperLogLog）</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div>
+    </dialog></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered order-1">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.154.1"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.4.3-20260130042349-e23a50d7"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright order-last" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2025 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span><span class="license footer-divider"><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line statistics order-first"><span class="site-time" title='网站运行中……'><i class="fa-solid fa-heartbeat animate-icon" aria-hidden="true"></i><span class="run-times ms-1">网站运行中……</span></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons"><div class="fixed-button back-to-top animate__faster d-none" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></div><div id="toc-drawer-button" class="fixed-button toc-drawer-button d-none" role="button" aria-label="目录"><i class="fa-solid fa-bars" aria-hidden="true"></i></div></div><a href="https://github.com/amemiya02" title="Visit Me on GitHub" target="_blank" rel="external nofollow" class="github-corner left d-none-mobile"><svg viewBox="0 0 250 250" aria-hidden="true" width="56" height="56"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><script src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js" async defer></script><script src="https://cdn.jsdelivr.net/npm/typeit@8.8.4/dist/index.umd.js" defer></script><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script src="/js/config/8bd4dd1c82fdac4fa5ffd5aa622ecf5e.js" defer></script><script src="/js/theme.min.js" defer></script></body>
+</html>

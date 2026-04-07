@@ -1,23 +1,35 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://amemiya02.github.io/</loc>
+    <lastmod>2026-04-07T19:01:48+09:00</lastmod>
+  </url>
+  <url>
+    <loc>https://amemiya02.github.io/categories/</loc>
+    <lastmod>2026-04-07T19:01:48+09:00</lastmod>
+  </url>
+  <url>
+    <loc>https://amemiya02.github.io/categories/go/</loc>
+    <lastmod>2026-04-07T19:01:48+09:00</lastmod>
+  </url>
+  <url>
+    <loc>https://amemiya02.github.io/posts/</loc>
+    <lastmod>2026-04-07T19:01:48+09:00</lastmod>
+  </url>
+  <url>
+    <loc>https://amemiya02.github.io/posts/8bd4dd1/</loc>
+    <lastmod>2026-04-07T19:01:48+09:00</lastmod>
+  </url>
+  <url>
+    <loc>https://amemiya02.github.io/posts/5086d95/</loc>
+    <lastmod>2026-04-07T18:57:33+09:00</lastmod>
+  </url>
+  <url>
     <loc>https://amemiya02.github.io/posts/2026-03-25-trick/</loc>
     <lastmod>2026-03-25T15:45:36+09:00</lastmod>
   </url>
   <url>
-    <loc>https://amemiya02.github.io/</loc>
-    <lastmod>2026-03-25T15:45:36+09:00</lastmod>
-  </url>
-  <url>
-    <loc>https://amemiya02.github.io/categories/</loc>
-    <lastmod>2026-03-25T15:45:36+09:00</lastmod>
-  </url>
-  <url>
     <loc>https://amemiya02.github.io/categories/leetcode/</loc>
-    <lastmod>2026-03-25T15:45:36+09:00</lastmod>
-  </url>
-  <url>
-    <loc>https://amemiya02.github.io/posts/</loc>
     <lastmod>2026-03-25T15:45:36+09:00</lastmod>
   </url>
   <url>
