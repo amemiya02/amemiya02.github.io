@@ -116,8 +116,14 @@ class Solution:
 ### Python 实现
 
 ```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
 class Solution:
-    def hasCycle(self, head):
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
         slow = fast = head
 
         while fast and fast.next:
@@ -145,8 +151,14 @@ class Solution:
 ### Python 实现
 
 ```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
 class Solution:
-    def detectCycle(self, head):
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
         slow = fast = head
 
         # 判断是否有环
@@ -176,8 +188,13 @@ class Solution:
 ### Python 实现
 
 ```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
-    def mergeTwoLists(self, list1, list2):
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
         dummy = ListNode(0)
         curr = dummy
 
@@ -206,8 +223,13 @@ class Solution:
 ### Python 实现
 
 ```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
-    def addTwoNumbers(self, l1, l2):
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
         dummy = ListNode(0)
         curr = dummy
         carry = 0
@@ -240,8 +262,13 @@ class Solution:
 ### Python 实现
 
 ```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
-    def removeNthFromEnd(self, head, n):
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
         dummy = ListNode(0, head)
         fast = slow = dummy
 

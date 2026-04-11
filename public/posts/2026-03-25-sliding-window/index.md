@@ -93,8 +93,6 @@ def findAnagrams(s, p):
         # 保持窗口长度等于 len(p)
         if right - left + 1 > len(p):
             window[s[left]] -= 1
-            if window[s[left]] == 0:
-                del window[s[left]]
             left += 1
 
         # 判断是否匹配

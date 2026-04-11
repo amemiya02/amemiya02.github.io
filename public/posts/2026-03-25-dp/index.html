@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
     <meta name="robots" content="noodp" />
     <title>[Python] LeetCode 热题 100 - 动态规划 - Amemiya</title><meta name="author" content="Amemiya">
-<meta name="description" content="动态规划 (Dynamic Programming) 70. 爬楼梯 - Easy 核心思路 这其实是一个斐波那契数列变种。
+<meta name="description" content="动态规划 (Dynamic Programming) 70. 爬楼梯 - Easy 题目回顾 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？ 注意：给定 n 是一个正整数。
 "><meta name="keywords" content='Python, 动态规划, 题解'>
   <meta itemprop="name" content="[Python] LeetCode 热题 100 - 动态规划">
-  <meta itemprop="description" content="动态规划 (Dynamic Programming) 70. 爬楼梯 - Easy 核心思路 这其实是一个斐波那契数列变种。">
+  <meta itemprop="description" content="动态规划 (Dynamic Programming) 70. 爬楼梯 - Easy 题目回顾 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？ 注意：给定 n 是一个正整数。">
   <meta itemprop="datePublished" content="2026-03-25T15:30:36+09:00">
   <meta itemprop="dateModified" content="2026-03-25T15:30:36+09:00">
-  <meta itemprop="wordCount" content="1522">
+  <meta itemprop="wordCount" content="3358">
   <meta itemprop="keywords" content="Python,动态规划,题解"><meta property="og:url" content="https://amemiya02.github.io/posts/2026-03-25-dp/">
   <meta property="og:site_name" content="Amemiya">
   <meta property="og:title" content="[Python] LeetCode 热题 100 - 动态规划">
-  <meta property="og:description" content="动态规划 (Dynamic Programming) 70. 爬楼梯 - Easy 核心思路 这其实是一个斐波那契数列变种。">
+  <meta property="og:description" content="动态规划 (Dynamic Programming) 70. 爬楼梯 - Easy 题目回顾 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？ 注意：给定 n 是一个正整数。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -27,7 +27,7 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="[Python] LeetCode 热题 100 - 动态规划">
-  <meta name="twitter:description" content="动态规划 (Dynamic Programming) 70. 爬楼梯 - Easy 核心思路 这其实是一个斐波那契数列变种。">
+  <meta name="twitter:description" content="动态规划 (Dynamic Programming) 70. 爬楼梯 - Easy 题目回顾 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？ 注意：给定 n 是一个正整数。">
 <meta name="application-name" content="Amemiya">
 <meta name="apple-mobile-web-app-title" content="Amemiya"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -42,7 +42,7 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/amemiya02.github.io\/posts\/2026-03-25-dp\/"
-    },"genre": "posts","keywords": "Python, 动态规划, 题解","wordcount":  1522 ,
+    },"genre": "posts","keywords": "Python, 动态规划, 题解","wordcount":  3358 ,
     "url": "https:\/\/amemiya02.github.io\/posts\/2026-03-25-dp\/","datePublished": "2026-03-25T15:30:36+09:00","dateModified": "2026-03-25T15:30:36+09:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
@@ -115,7 +115,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[Python] LeetCode 热题 100 - 动态规划</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><span class="author"><img class="avatar" src='/avatar.jpg' alt="Amemiya" height="16" width="16">&nbsp;Amemiya</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder" aria-hidden="true"></i> 算法</a>&ensp;<a href="/categories/leetcode/" class="post-category" title="分类 - LeetCode"><i class="fa-regular fa-folder" aria-hidden="true"></i> LeetCode</a></span></div><div class="post-meta-line"><span title="发布于 2026-03-25 15:30:36"><i class="fa-solid fa-calendar-days me-1" aria-hidden="true"></i><time datetime="2026-03-25">2026-03-25</time></span>&nbsp;<span title="1522 字"><i class="fa-solid fa-pencil-alt me-1" aria-hidden="true"></i>约 1600 字</span>&nbsp;<span><i class="fa-regular fa-clock me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img class="avatar" src='/avatar.jpg' alt="Amemiya" height="16" width="16">&nbsp;Amemiya</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder" aria-hidden="true"></i> 算法</a>&ensp;<a href="/categories/leetcode/" class="post-category" title="分类 - LeetCode"><i class="fa-regular fa-folder" aria-hidden="true"></i> LeetCode</a></span></div><div class="post-meta-line"><span title="发布于 2026-03-25 15:30:36"><i class="fa-solid fa-calendar-days me-1" aria-hidden="true"></i><time datetime="2026-03-25">2026-03-25</time></span>&nbsp;<span title="3358 字"><i class="fa-solid fa-pencil-alt me-1" aria-hidden="true"></i>约 3400 字</span>&nbsp;<span><i class="fa-regular fa-clock me-1" aria-hidden="true"></i>预计阅读 7 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -125,62 +125,73 @@
   <ul>
     <li><a href="#70-爬楼梯---easy">70. 爬楼梯 - Easy</a>
       <ul>
+        <li><a href="#题目回顾">题目回顾</a></li>
         <li><a href="#核心思路">核心思路</a></li>
         <li><a href="#代码实现">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#118-杨辉三角---easy">118. 杨辉三角 - Easy</a>
       <ul>
+        <li><a href="#题目回顾-1">题目回顾</a></li>
         <li><a href="#核心思路-1">核心思路</a></li>
         <li><a href="#代码实现-1">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#198-打家劫舍---medium">198. 打家劫舍 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-2">题目回顾</a></li>
         <li><a href="#核心思路-2">核心思路</a></li>
         <li><a href="#代码实现-2">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#279-完全平方数---medium">279. 完全平方数 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-3">题目回顾</a></li>
         <li><a href="#核心思路-3">核心思路</a></li>
         <li><a href="#代码实现-3">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#322-零钱兑换---medium">322. 零钱兑换 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-4">题目回顾</a></li>
         <li><a href="#核心思路-4">核心思路</a></li>
         <li><a href="#代码实现-4">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#139-单词拆分---medium">139. 单词拆分 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-5">题目回顾</a></li>
         <li><a href="#核心思路-5">核心思路</a></li>
         <li><a href="#代码实现-5">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#300-最长递增子序列---medium">300. 最长递增子序列 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-6">题目回顾</a></li>
         <li><a href="#核心思路-6">核心思路</a></li>
+        <li><a href="#代码实现-6">代码实现</a></li>
         <li><a href="#优化版代码实现">优化版代码实现</a></li>
       </ul>
     </li>
     <li><a href="#152-乘积最大子数组---medium">152. 乘积最大子数组 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-7">题目回顾</a></li>
         <li><a href="#核心思路-7">核心思路</a></li>
-        <li><a href="#代码实现-6">代码实现</a></li>
+        <li><a href="#代码实现-7">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#416-分割等和子集---medium">416. 分割等和子集 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-8">题目回顾</a></li>
         <li><a href="#核心思路-8">核心思路</a></li>
-        <li><a href="#代码实现-7">代码实现</a></li>
+        <li><a href="#代码实现-8">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#32-最长有效括号---hard">32. 最长有效括号 - Hard</a>
       <ul>
+        <li><a href="#题目回顾-9">题目回顾</a></li>
         <li><a href="#核心思路-9">核心思路</a></li>
-        <li><a href="#代码实现-8">代码实现</a></li>
+        <li><a href="#代码实现-9">代码实现</a></li>
       </ul>
     </li>
   </ul>
@@ -193,7 +204,16 @@
   <a href="#70-%e7%88%ac%e6%a5%bc%e6%a2%af---easy" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><h3 class="heading-element" id="核心思路"><span>核心思路</span>
+</h2><h3 class="heading-element" id="题目回顾"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
+每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
+注意：给定 n 是一个正整数。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -219,7 +239,15 @@
   <a href="#118-%e6%9d%a8%e8%be%89%e4%b8%89%e8%a7%92---easy" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><h3 class="heading-element" id="核心思路-1"><span>核心思路</span>
+</h2><h3 class="heading-element" id="题目回顾-1"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>给定一个非负整数 numRows，生成杨辉三角的前 numRows 行。
+在杨辉三角中，每个数是它左上方和右上方的数的和。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-1"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-1" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -243,7 +271,15 @@
   <a href="#198-%e6%89%93%e5%ae%b6%e5%8a%ab%e8%88%8d---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><h3 class="heading-element" id="核心思路-2"><span>核心思路</span>
+</h2><h3 class="heading-element" id="题目回顾-2"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
+给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-2"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-2" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -270,7 +306,15 @@
   <a href="#279-%e5%ae%8c%e5%85%a8%e5%b9%b3%e6%96%b9%e6%95%b0---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><h3 class="heading-element" id="核心思路-3"><span>核心思路</span>
+</h2><h3 class="heading-element" id="题目回顾-3"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>给你一个整数 n ，返回 和为 n 的完全平方数的最少数量 。
+完全平方数 是一个整数，其值等于另一个整数的平方；换句话说，其值等于一个整数自乘的积。例如，1、4、9 和 16 都是完全平方数，而 3 和 11 不是。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-3"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-3" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -297,7 +341,16 @@
   <a href="#322-%e9%9b%b6%e9%92%b1%e5%85%91%e6%8d%a2---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><h3 class="heading-element" id="核心思路-4"><span>核心思路</span>
+</h2><h3 class="heading-element" id="题目回顾-4"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-4" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。
+计算并返回可以凑成总金额所需的 最少的硬币个数 。如果没有任何一种硬币组合能组成总金额，返回 -1 。
+你可以认为每种硬币的数量是无限的。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-4"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-4" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -314,21 +367,32 @@
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 初始化 dp 数组，amount + 1 也是一种常用的占位符</span>
 </span></span><span style="display:flex;"><span>        dp <span style="color:#f92672">=</span> [float(<span style="color:#e6db74">&#39;inf&#39;</span>)] <span style="color:#f92672">*</span> (amount <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
 </span></span><span style="display:flex;"><span>        dp[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> coin <span style="color:#f92672">in</span> coins:
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(coin, amount <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
-</span></span><span style="display:flex;"><span>                dp[i] <span style="color:#f92672">=</span> min(dp[i], dp[i <span style="color:#f92672">-</span> coin] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, amount <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> coin <span style="color:#f92672">in</span> coins:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> i<span style="color:#f92672">&gt;=</span>coin:
+</span></span><span style="display:flex;"><span>                    dp[i] <span style="color:#f92672">=</span> min(dp[i], dp[i <span style="color:#f92672">-</span> coin] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> int(dp[amount]) <span style="color:#66d9ef">if</span> dp[amount] <span style="color:#f92672">!=</span> float(<span style="color:#e6db74">&#39;inf&#39;</span>) <span style="color:#66d9ef">else</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span></span></span></code></pre></div><hr>
 <h2 class="heading-element" id="139-单词拆分---medium"><span><a href="https://leetcode.cn/problems/word-break/" target="_blank" rel="external nofollow noopener noreferrer">139. 单词拆分 - Medium</a></span>
   <a href="#139-%e5%8d%95%e8%af%8d%e6%8b%86%e5%88%86---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><h3 class="heading-element" id="核心思路-5"><span>核心思路</span>
+</h2><h3 class="heading-element" id="题目回顾-5"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>给你一个字符串 s 和一个字符串列表 wordDict 作为字典。如果可以利用字典中出现的一个或多个单词拼接出 s 则返回 true。
+注意：不要求字典中出现的单词全部都使用，并且字典中的单词可以重复使用。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-5"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-5" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><p>利用 <code>Set</code> 进行 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span> 的单词查找。<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">dp[i]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span></span></span></span> 表示长度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 的前缀是否可以拆分。</p>
+</h3><p>这道题问的是“字符串 s 是否可以拆分成字典中的单词”。
+我们定义 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">dp[i]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span></span></span></span> 为：字符串 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span> 的前 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 个字符（即 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo stretchy="false">[</mo><mn>0</mn><mo>:</mo><mi>i</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">s[0:i]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">s</span><span class="mopen">[</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">i</span><span class="mclose">]</span></span></span></span>）是否可以被成功拆分。
+最终目标：求出 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mi>l</mi><mi>e</mi><mi>n</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">dp[len(s)]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)]</span></span></span></span> 是否为 True。状态转移：如果你想知道前 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 个字符能不能拆分，你可以寻找一个切割点 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi></mrow><annotation encoding="application/x-tex">j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span>（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>j</mi><mo>&lt;</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">0 \le j &lt; i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span>），只要满足以下两个条件，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">dp[i]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span></span></span></span> 就是 True：前 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi></mrow><annotation encoding="application/x-tex">j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span> 个字符已经可以拆分（即 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo><mo>=</mo><mo>=</mo><mi>T</mi><mi>r</mi><mi>u</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">dp[j] == True</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">==</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">u</span><span class="mord mathnormal">e</span></span></span></span>）。剩余的部分 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo stretchy="false">[</mo><mi>j</mi><mo>:</mo><mi>i</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">s[j:i]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">s</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">i</span><span class="mclose">]</span></span></span></span> 刚好在单词字典 wordDict 中。</p>
+<p>利用 <code>Set</code> 进行 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span> 的单词查找。<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">dp[i]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span></span></span></span> 表示长度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 的前缀是否可以拆分。</p>
 <h3 class="heading-element" id="代码实现-5"><span>代码实现</span>
   <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-5" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -350,7 +414,15 @@
   <a href="#300-%e6%9c%80%e9%95%bf%e9%80%92%e5%a2%9e%e5%ad%90%e5%ba%8f%e5%88%97---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><h3 class="heading-element" id="核心思路-6"><span>核心思路</span>
+</h2><h3 class="heading-element" id="题目回顾-6"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。
+子序列 是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-6"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-6" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -358,11 +430,37 @@
 <li><strong>基础 DP</strong> (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>): <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo>=</mo><mi>max</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo><mo stretchy="false">)</mo><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">dp[i] = \max(dp[j]) + 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">max</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">])</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>。</li>
 <li><strong>贪心 + 二分</strong> (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n \log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>): Python 的 <code>bisect</code> 模块可以极简地实现这个逻辑。</li>
 </ol>
-<h3 class="heading-element" id="优化版代码实现"><span>优化版代码实现</span>
+<h3 class="heading-element" id="代码实现-6"><span>代码实现</span>
+  <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lengthOfLIS</span>(self, nums: list[int]) <span style="color:#f92672">-&gt;</span> int:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> nums:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 初始化 dp 数组，每个位置初始长度都是 1（即它自己本身）</span>
+</span></span><span style="display:flex;"><span>        dp <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> len(nums)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(nums)):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(i):
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> nums[i] <span style="color:#f92672">&gt;</span> nums[j]:
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e"># 状态转移方程</span>
+</span></span><span style="display:flex;"><span>                    dp[i] <span style="color:#f92672">=</span> max(dp[i], dp[j] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 注意：结果不一定是最后一个 dp 值，而是整个 dp 数组中的最大值</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> max(dp)</span></span></code></pre></div><h3 class="heading-element" id="优化版代码实现"><span>优化版代码实现</span>
   <a href="#%e4%bc%98%e5%8c%96%e7%89%88%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> bisect
+</h3><p>如果你想让递增子序列尽可能长，那么子序列上升的速度应该越慢越好。
+也就是说，我们希望子序列里的数字尽可能小，这样后面才有更多机会加入新数字。</p>
+<p>我们维护一个 tails 列表，其中 tails[i] 存储长度为 i+1 的所有递增子序列中，最小的结尾数值。</p>
+<p>遍历原数组：</p>
+<p>如果当前数字 x 比 tails 的最后一个元素还大，直接加到末尾（序列变长了）。</p>
+<p>否则，用二分查找在 tails 中找到第一个大于等于 x 的数，并用 x 替换它（让该长度的序列结尾更小，更具潜力）。</p>
+<div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> bisect
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lengthOfLIS</span>(self, nums: list[int]) <span style="color:#f92672">-&gt;</span> int:
@@ -379,13 +477,22 @@
   <a href="#152-%e4%b9%98%e7%a7%af%e6%9c%80%e5%a4%a7%e5%ad%90%e6%95%b0%e7%bb%84---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><h3 class="heading-element" id="核心思路-7"><span>核心思路</span>
+</h2><h3 class="heading-element" id="题目回顾-7"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>给你一个整数数组 nums ，请你找出数组中乘积最大的非空连续 子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。
+测试用例的答案是一个 32-位 整数。
+请注意，一个只包含一个元素的数组的乘积是这个元素的值。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-7"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-7" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>由于负负得正，必须同时维护<strong>当前最大值</strong>和<strong>当前最小值</strong>。</p>
-<h3 class="heading-element" id="代码实现-6"><span>代码实现</span>
-  <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-6" class="heading-mark">
+<h3 class="heading-element" id="代码实现-7"><span>代码实现</span>
+  <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-7" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
@@ -407,13 +514,26 @@
   <a href="#416-%e5%88%86%e5%89%b2%e7%ad%89%e5%92%8c%e5%ad%90%e9%9b%86---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><h3 class="heading-element" id="核心思路-8"><span>核心思路</span>
+</h2><h3 class="heading-element" id="题目回顾-8"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>给你一个 只包含正整数 的 非空 数组 nums 。请你判断是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-8"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-8" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><p>转化成 <strong>0-1 背包</strong>：寻找和为 <code>sum / 2</code> 的子集。</p>
-<h3 class="heading-element" id="代码实现-7"><span>代码实现</span>
-  <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-7" class="heading-mark">
+</h3><p>把问题转化一下：是否能从数组中选出一部分元素，和恰好等于总和的一半？</p>
+<ul>
+<li>如果总和是奇数，直接 false</li>
+<li>否则问题变成：从 nums 中选若干数，和 = target = sum/2
+我们定义 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>p</mi><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">dp[j]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">p</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span></span></span></span> 为：是否可以从数组中选出若干数字，使它们的和恰好等于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi></mrow><annotation encoding="application/x-tex">j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span>。
+这就是一个0-1背包问题。</li>
+</ul>
+<h3 class="heading-element" id="代码实现-8"><span>代码实现</span>
+  <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-8" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
@@ -437,18 +557,28 @@
   <a href="#32-%e6%9c%80%e9%95%bf%e6%9c%89%e6%95%88%e6%8b%ac%e5%8f%b7---hard" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><h3 class="heading-element" id="核心思路-9"><span>核心思路</span>
+</h2><h3 class="heading-element" id="题目回顾-9"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>给你一个只包含 &lsquo;(&rsquo; 和 &lsquo;)&rsquo; 的字符串，找出最长有效（格式正确且连续）括号 子串 的长度。
+左右括号匹配，即每个左括号都有对应的右括号将其闭合的字符串是格式正确的，比如 &ldquo;(()())&quot;。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-9"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-9" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>使用<strong>栈</strong>存下标是最直观的 Python 实现方式。</p>
-<h3 class="heading-element" id="代码实现-8"><span>代码实现</span>
-  <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-8" class="heading-mark">
+<p>栈里面存的不是字符，而是下标。 栈底那个元素（我们叫它**“哨兵”），
+代表的是：“上一个无法匹配的右括号的下标”**。通过当前下标减去栈顶下标，就能算出中间那段连续有效的长度。</p>
+<h3 class="heading-element" id="代码实现-9"><span>代码实现</span>
+  <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0-9" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><div class="code-block highlight line-nos-hidden" data-mode="classic" data-copyable="true"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">longestValidParentheses</span>(self, s: str) <span style="color:#f92672">-&gt;</span> int:
-</span></span><span style="display:flex;"><span>        stack <span style="color:#f92672">=</span> [<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#75715e"># 哨兵</span>
+</span></span><span style="display:flex;"><span>        stack <span style="color:#f92672">=</span> [<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#75715e"># 哨兵 为什么是 -1？因为如果字符串从索引 0 开始就是匹配的（比如 ()), 那么长度应该是 1 - (-1) = 2。-1 是为了方便计算从 0 开始的长度。</span>
 </span></span><span style="display:flex;"><span>        max_len <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i, char <span style="color:#f92672">in</span> enumerate(s):
@@ -457,8 +587,16 @@
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>:
 </span></span><span style="display:flex;"><span>                stack<span style="color:#f92672">.</span>pop()
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> stack:
+</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                    如果弹出后栈变空了，说明这个右括号是多余的（比如 ()) 里的第二个 )）。
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                    此时我们无法匹配，于是把当前位置 i 压入栈。它成为了新的哨兵，作为后续有效路径的“新起点”。
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                    &#34;&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>                    stack<span style="color:#f92672">.</span>append(i) <span style="color:#75715e"># 更新新的哨兵起始位</span>
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                    如果弹出后栈不为空，说明这个右括号找到了它的“另一半”。
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                    此时，当前下标 i 减去弹出后的栈顶元素，就是这一段有效括号的长度。
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                    &#34;&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>                    max_len <span style="color:#f92672">=</span> max(max_len, i <span style="color:#f92672">-</span> stack[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>])
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> max_len</span></span></code></pre></div><hr>
 </div><div class="post-footer" id="post-footer">
@@ -493,62 +631,73 @@
   <ul>
     <li><a href="#70-爬楼梯---easy">70. 爬楼梯 - Easy</a>
       <ul>
+        <li><a href="#题目回顾">题目回顾</a></li>
         <li><a href="#核心思路">核心思路</a></li>
         <li><a href="#代码实现">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#118-杨辉三角---easy">118. 杨辉三角 - Easy</a>
       <ul>
+        <li><a href="#题目回顾-1">题目回顾</a></li>
         <li><a href="#核心思路-1">核心思路</a></li>
         <li><a href="#代码实现-1">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#198-打家劫舍---medium">198. 打家劫舍 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-2">题目回顾</a></li>
         <li><a href="#核心思路-2">核心思路</a></li>
         <li><a href="#代码实现-2">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#279-完全平方数---medium">279. 完全平方数 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-3">题目回顾</a></li>
         <li><a href="#核心思路-3">核心思路</a></li>
         <li><a href="#代码实现-3">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#322-零钱兑换---medium">322. 零钱兑换 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-4">题目回顾</a></li>
         <li><a href="#核心思路-4">核心思路</a></li>
         <li><a href="#代码实现-4">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#139-单词拆分---medium">139. 单词拆分 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-5">题目回顾</a></li>
         <li><a href="#核心思路-5">核心思路</a></li>
         <li><a href="#代码实现-5">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#300-最长递增子序列---medium">300. 最长递增子序列 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-6">题目回顾</a></li>
         <li><a href="#核心思路-6">核心思路</a></li>
+        <li><a href="#代码实现-6">代码实现</a></li>
         <li><a href="#优化版代码实现">优化版代码实现</a></li>
       </ul>
     </li>
     <li><a href="#152-乘积最大子数组---medium">152. 乘积最大子数组 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-7">题目回顾</a></li>
         <li><a href="#核心思路-7">核心思路</a></li>
-        <li><a href="#代码实现-6">代码实现</a></li>
+        <li><a href="#代码实现-7">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#416-分割等和子集---medium">416. 分割等和子集 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-8">题目回顾</a></li>
         <li><a href="#核心思路-8">核心思路</a></li>
-        <li><a href="#代码实现-7">代码实现</a></li>
+        <li><a href="#代码实现-8">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#32-最长有效括号---hard">32. 最长有效括号 - Hard</a>
       <ul>
+        <li><a href="#题目回顾-9">题目回顾</a></li>
         <li><a href="#核心思路-9">核心思路</a></li>
-        <li><a href="#代码实现-8">代码实现</a></li>
+        <li><a href="#代码实现-9">代码实现</a></li>
       </ul>
     </li>
   </ul>

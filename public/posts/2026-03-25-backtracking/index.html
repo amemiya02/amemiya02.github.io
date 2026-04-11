@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
     <meta name="robots" content="noodp" />
     <title>[Python] LeetCode 热题 100 - 回溯 - Amemiya</title><meta name="author" content="Amemiya">
-<meta name="description" content="回溯 回溯算法核心公式 def backtrack(路径, 选择列表): if 满终止条件: res.append(路径[:]) # 注意：必须拷贝一份，否则回溯会清空结果 return for 选择 in 选择列表: 做选择 backtrack(路径, 选择列表) 撤销选择 # 关键：恢复现场 46. 全排列 - Medium 核心思路 决策树遍历： 我们需要一个 used 数组来记录哪些数字已经被选入 path。Python 的 list 传参是引用传递，在 res.append 时使用 path[:] 是最地道的写法。
+<meta name="description" content="回溯 回溯算法核心公式 def backtrack(路径, 选择列表): if 满终止条件: res.append(路径[:]) # 注意：必须拷贝一份，否则回溯会清空结果 return for 选择 in 选择列表: 做选择 backtrack(路径, 选择列表) 撤销选择 # 关键：恢复现场 46. 全排列 - Medium 题目回顾 给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。你可以 按任意顺序 返回答案。
 "><meta name="keywords" content='Python, 回溯, 题解'>
   <meta itemprop="name" content="[Python] LeetCode 热题 100 - 回溯">
-  <meta itemprop="description" content="回溯 回溯算法核心公式 def backtrack(路径, 选择列表): if 满终止条件: res.append(路径[:]) # 注意：必须拷贝一份，否则回溯会清空结果 return for 选择 in 选择列表: 做选择 backtrack(路径, 选择列表) 撤销选择 # 关键：恢复现场 46. 全排列 - Medium 核心思路 决策树遍历： 我们需要一个 used 数组来记录哪些数字已经被选入 path。Python 的 list 传参是引用传递，在 res.append 时使用 path[:] 是最地道的写法。">
+  <meta itemprop="description" content="回溯 回溯算法核心公式 def backtrack(路径, 选择列表): if 满终止条件: res.append(路径[:]) # 注意：必须拷贝一份，否则回溯会清空结果 return for 选择 in 选择列表: 做选择 backtrack(路径, 选择列表) 撤销选择 # 关键：恢复现场 46. 全排列 - Medium 题目回顾 给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。你可以 按任意顺序 返回答案。">
   <meta itemprop="datePublished" content="2026-03-25T15:30:21+09:00">
   <meta itemprop="dateModified" content="2026-03-25T15:30:21+09:00">
-  <meta itemprop="wordCount" content="1490">
+  <meta itemprop="wordCount" content="2189">
   <meta itemprop="keywords" content="Python,回溯,题解"><meta property="og:url" content="https://amemiya02.github.io/posts/2026-03-25-backtracking/">
   <meta property="og:site_name" content="Amemiya">
   <meta property="og:title" content="[Python] LeetCode 热题 100 - 回溯">
-  <meta property="og:description" content="回溯 回溯算法核心公式 def backtrack(路径, 选择列表): if 满终止条件: res.append(路径[:]) # 注意：必须拷贝一份，否则回溯会清空结果 return for 选择 in 选择列表: 做选择 backtrack(路径, 选择列表) 撤销选择 # 关键：恢复现场 46. 全排列 - Medium 核心思路 决策树遍历： 我们需要一个 used 数组来记录哪些数字已经被选入 path。Python 的 list 传参是引用传递，在 res.append 时使用 path[:] 是最地道的写法。">
+  <meta property="og:description" content="回溯 回溯算法核心公式 def backtrack(路径, 选择列表): if 满终止条件: res.append(路径[:]) # 注意：必须拷贝一份，否则回溯会清空结果 return for 选择 in 选择列表: 做选择 backtrack(路径, 选择列表) 撤销选择 # 关键：恢复现场 46. 全排列 - Medium 题目回顾 给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。你可以 按任意顺序 返回答案。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -27,7 +27,7 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="[Python] LeetCode 热题 100 - 回溯">
-  <meta name="twitter:description" content="回溯 回溯算法核心公式 def backtrack(路径, 选择列表): if 满终止条件: res.append(路径[:]) # 注意：必须拷贝一份，否则回溯会清空结果 return for 选择 in 选择列表: 做选择 backtrack(路径, 选择列表) 撤销选择 # 关键：恢复现场 46. 全排列 - Medium 核心思路 决策树遍历： 我们需要一个 used 数组来记录哪些数字已经被选入 path。Python 的 list 传参是引用传递，在 res.append 时使用 path[:] 是最地道的写法。">
+  <meta name="twitter:description" content="回溯 回溯算法核心公式 def backtrack(路径, 选择列表): if 满终止条件: res.append(路径[:]) # 注意：必须拷贝一份，否则回溯会清空结果 return for 选择 in 选择列表: 做选择 backtrack(路径, 选择列表) 撤销选择 # 关键：恢复现场 46. 全排列 - Medium 题目回顾 给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。你可以 按任意顺序 返回答案。">
 <meta name="application-name" content="Amemiya">
 <meta name="apple-mobile-web-app-title" content="Amemiya"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -42,7 +42,7 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/amemiya02.github.io\/posts\/2026-03-25-backtracking\/"
-    },"genre": "posts","keywords": "Python, 回溯, 题解","wordcount":  1490 ,
+    },"genre": "posts","keywords": "Python, 回溯, 题解","wordcount":  2189 ,
     "url": "https:\/\/amemiya02.github.io\/posts\/2026-03-25-backtracking\/","datePublished": "2026-03-25T15:30:21+09:00","dateModified": "2026-03-25T15:30:21+09:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
@@ -115,7 +115,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[Python] LeetCode 热题 100 - 回溯</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><span class="author"><img class="avatar" src='/avatar.jpg' alt="Amemiya" height="16" width="16">&nbsp;Amemiya</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder" aria-hidden="true"></i> 算法</a>&ensp;<a href="/categories/leetcode/" class="post-category" title="分类 - LeetCode"><i class="fa-regular fa-folder" aria-hidden="true"></i> LeetCode</a></span></div><div class="post-meta-line"><span title="发布于 2026-03-25 15:30:21"><i class="fa-solid fa-calendar-days me-1" aria-hidden="true"></i><time datetime="2026-03-25">2026-03-25</time></span>&nbsp;<span title="1490 字"><i class="fa-solid fa-pencil-alt me-1" aria-hidden="true"></i>约 1500 字</span>&nbsp;<span><i class="fa-regular fa-clock me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img class="avatar" src='/avatar.jpg' alt="Amemiya" height="16" width="16">&nbsp;Amemiya</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder" aria-hidden="true"></i> 算法</a>&ensp;<a href="/categories/leetcode/" class="post-category" title="分类 - LeetCode"><i class="fa-regular fa-folder" aria-hidden="true"></i> LeetCode</a></span></div><div class="post-meta-line"><span title="发布于 2026-03-25 15:30:21"><i class="fa-solid fa-calendar-days me-1" aria-hidden="true"></i><time datetime="2026-03-25">2026-03-25</time></span>&nbsp;<span title="2189 字"><i class="fa-solid fa-pencil-alt me-1" aria-hidden="true"></i>约 2200 字</span>&nbsp;<span><i class="fa-regular fa-clock me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -130,6 +130,7 @@
     </li>
     <li><a href="#46-全排列---medium">46. 全排列 - Medium</a>
       <ul>
+        <li><a href="#题目回顾">题目回顾</a></li>
         <li><a href="#核心思路">核心思路</a></li>
         <li><a href="#代码实现">代码实现</a></li>
         <li><a href="#复杂度分析">复杂度分析</a></li>
@@ -137,42 +138,49 @@
     </li>
     <li><a href="#78-子集---medium">78. 子集 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-1">题目回顾</a></li>
         <li><a href="#核心思路-1">核心思路</a></li>
         <li><a href="#代码实现-1">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#17-电话号码的字母组合---medium">17. 电话号码的字母组合 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-2">题目回顾</a></li>
         <li><a href="#核心思路-2">核心思路</a></li>
         <li><a href="#代码实现-2">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#39-组合总和---medium">39. 组合总和 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-3">题目回顾</a></li>
         <li><a href="#核心思路-3">核心思路</a></li>
         <li><a href="#代码实现-3">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#22-括号生成---medium">22. 括号生成 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-4">题目回顾</a></li>
         <li><a href="#核心思路-4">核心思路</a></li>
         <li><a href="#代码实现-4">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#79-单词搜索---medium">79. 单词搜索 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-5">题目回顾</a></li>
         <li><a href="#核心思路-5">核心思路</a></li>
         <li><a href="#代码实现-5">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#131-分割回文串---medium">131. 分割回文串 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-6">题目回顾</a></li>
         <li><a href="#核心思路-6">核心思路</a></li>
         <li><a href="#代码实现-6">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#51-n-皇后---hard">51. N 皇后 - Hard</a>
       <ul>
+        <li><a href="#题目回顾-7">题目回顾</a></li>
         <li><a href="#核心思路-7">核心思路</a></li>
         <li><a href="#代码实现-7">代码实现</a></li>
         <li><a href="#复杂度分析-1">复杂度分析</a></li>
@@ -201,7 +209,14 @@
   <a href="#46-%e5%85%a8%e6%8e%92%e5%88%97---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><h3 class="heading-element" id="核心思路"><span>核心思路</span>
+</h2><h3 class="heading-element" id="题目回顾"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。你可以 按任意顺序 返回答案。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -247,7 +262,14 @@
   <a href="#78-%e5%ad%90%e9%9b%86---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><h3 class="heading-element" id="核心思路-1"><span>核心思路</span>
+</h2><h3 class="heading-element" id="题目回顾-1"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>给你一个整数数组 nums ，数组中的元素 互不相同 。返回该数组所有可能的子集（幂集）。解集 不能 包含重复的子集。你可以按 任意顺序 返回解集。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-1"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-1" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -278,7 +300,14 @@
   <a href="#17-%e7%94%b5%e8%af%9d%e5%8f%b7%e7%a0%81%e7%9a%84%e5%ad%97%e6%af%8d%e7%bb%84%e5%90%88---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><h3 class="heading-element" id="核心思路-2"><span>核心思路</span>
+</h2><h3 class="heading-element" id="题目回顾-2"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-2"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-2" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -315,7 +344,14 @@
   <a href="#39-%e7%bb%84%e5%90%88%e6%80%bb%e5%92%8c---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><h3 class="heading-element" id="核心思路-3"><span>核心思路</span>
+</h2><h3 class="heading-element" id="题目回顾-3"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>给你一个 无重复元素 的整数数组 candidates 和一个目标整数 target ，找出 candidates 中可以使数字和为目标数 target 的 所有 不同组合 ，并以列表形式返回。你可以按 任意顺序 返回这些组合。 candidates 中的 同一个 数字可以 无限制重复被选取 。如果至少一个数字的被选数量不同，则两个组合是不同的。对于给定的输入，保证和为 target 的不同组合数量少于 150 个。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-3"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-3" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -353,7 +389,14 @@
   <a href="#22-%e6%8b%ac%e5%8f%b7%e7%94%9f%e6%88%90---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><h3 class="heading-element" id="核心思路-4"><span>核心思路</span>
+</h2><h3 class="heading-element" id="题目回顾-4"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-4" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>给你一个整数 n ，请你生成所有由 n 对括号组成的有效括号组合。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-4"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-4" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -391,7 +434,14 @@
   <a href="#79-%e5%8d%95%e8%af%8d%e6%90%9c%e7%b4%a2---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><h3 class="heading-element" id="核心思路-5"><span>核心思路</span>
+</h2><h3 class="heading-element" id="题目回顾-5"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>给定一个 m x n 二维字符网格 board 和一个字符串单词 word ，如果 word 存在于网格中，返回 true ；否则，返回 false 。单词必须按照字母顺序，通过 相邻的单元格 内的字母构成，其中&quot;相邻&quot;单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-5"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-5" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -430,7 +480,14 @@
   <a href="#131-%e5%88%86%e5%89%b2%e5%9b%9e%e6%96%87%e4%b8%b2---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><h3 class="heading-element" id="核心思路-6"><span>核心思路</span>
+</h2><h3 class="heading-element" id="题目回顾-6"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>给你一个字符串 s，请你将 s 分割成一些子串，使每个子串都是 回文串 。返回 s 所有可能的分割方案。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-6"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-6" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -464,7 +521,17 @@
   <a href="#51-n-%e7%9a%87%e5%90%8e---hard" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><h3 class="heading-element" id="核心思路-7"><span>核心思路</span>
+</h2><h3 class="heading-element" id="题目回顾-7"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>按照国际象棋的规则，皇后可以攻击与之处在同一行或同一列或同一斜线上的棋子。
+n 皇后问题 研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
+给你一个整数 n ，返回所有不同的 n 皇后问题 的解决方案。
+每一种解法包含一个不同的 n 皇后问题 的棋子放置方案，该方案中 &lsquo;Q&rsquo; 和 &lsquo;.&rsquo; 分别代表了皇后和空位。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-7"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-7" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -557,6 +624,7 @@
     </li>
     <li><a href="#46-全排列---medium">46. 全排列 - Medium</a>
       <ul>
+        <li><a href="#题目回顾">题目回顾</a></li>
         <li><a href="#核心思路">核心思路</a></li>
         <li><a href="#代码实现">代码实现</a></li>
         <li><a href="#复杂度分析">复杂度分析</a></li>
@@ -564,42 +632,49 @@
     </li>
     <li><a href="#78-子集---medium">78. 子集 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-1">题目回顾</a></li>
         <li><a href="#核心思路-1">核心思路</a></li>
         <li><a href="#代码实现-1">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#17-电话号码的字母组合---medium">17. 电话号码的字母组合 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-2">题目回顾</a></li>
         <li><a href="#核心思路-2">核心思路</a></li>
         <li><a href="#代码实现-2">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#39-组合总和---medium">39. 组合总和 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-3">题目回顾</a></li>
         <li><a href="#核心思路-3">核心思路</a></li>
         <li><a href="#代码实现-3">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#22-括号生成---medium">22. 括号生成 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-4">题目回顾</a></li>
         <li><a href="#核心思路-4">核心思路</a></li>
         <li><a href="#代码实现-4">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#79-单词搜索---medium">79. 单词搜索 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-5">题目回顾</a></li>
         <li><a href="#核心思路-5">核心思路</a></li>
         <li><a href="#代码实现-5">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#131-分割回文串---medium">131. 分割回文串 - Medium</a>
       <ul>
+        <li><a href="#题目回顾-6">题目回顾</a></li>
         <li><a href="#核心思路-6">核心思路</a></li>
         <li><a href="#代码实现-6">代码实现</a></li>
       </ul>
     </li>
     <li><a href="#51-n-皇后---hard">51. N 皇后 - Hard</a>
       <ul>
+        <li><a href="#题目回顾-7">题目回顾</a></li>
         <li><a href="#核心思路-7">核心思路</a></li>
         <li><a href="#代码实现-7">代码实现</a></li>
         <li><a href="#复杂度分析-1">复杂度分析</a></li>

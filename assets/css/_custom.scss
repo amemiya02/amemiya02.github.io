@@ -1,0 +1,21 @@
+/* 针对侧边栏或导航栏头像的自定义 */
+.fixit-avatar,
+.menu-item.theme-switch img,
+.home-profile .home-avatar img {
+  width: 100px !important;
+  /* 你想要的大小 */
+  height: 100px !important;
+  /* 保持宽高一致 */
+  border-radius: 50%;
+  /* 50% 为圆形，0% 为正方形 */
+  object-fit: cover;
+  /* 确保图片不拉伸 */
+  transition: transform 0.3s ease;
+  /* 增加一点悬停动画效果 */
+}
+
+/* 鼠标悬停时的效果（可选） */
+.fixit-avatar:hover {
+  transform: rotate(360s);
+  /* 经典的头像旋转效果 */
+}

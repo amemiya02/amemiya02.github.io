@@ -7,6 +7,12 @@
 
 ## [70. 爬楼梯 - Easy](https://leetcode.cn/problems/climbing-stairs/)
 
+### 题目回顾
+
+> 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
+> 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
+> 注意：给定 n 是一个正整数。
+
 ### 核心思路
 这其实是一个**斐波那契数列**变种。
 1.  **递推公式**：$dp[i] = dp[i-1] + dp[i-2]$。
@@ -30,6 +36,11 @@ class Solution:
 
 ## [118. 杨辉三角 - Easy](https://leetcode.cn/problems/pascals-triangle/)
 
+### 题目回顾
+
+> 给定一个非负整数 numRows，生成杨辉三角的前 numRows 行。
+> 在杨辉三角中，每个数是它左上方和右上方的数的和。
+
 ### 核心思路
 每一行的两端是 `1`，中间元素 $row[j] = prev\_row[j-1] + prev\_row[j]$。
 
@@ -52,6 +63,11 @@ class Solution:
 ---
 
 ## [198. 打家劫舍 - Medium](https://leetcode.cn/problems/house-robber/)
+
+### 题目回顾
+
+> 你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
+> 给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。
 
 ### 核心思路
 对于每间房，只有“偷”或“不偷”两个选择：
@@ -77,6 +93,11 @@ class Solution:
 
 ## [279. 完全平方数 - Medium](https://leetcode.cn/problems/perfect-squares/)
 
+### 题目回顾
+
+> 给你一个整数 n ，返回 和为 n 的完全平方数的最少数量 。
+> 完全平方数 是一个整数，其值等于另一个整数的平方；换句话说，其值等于一个整数自乘的积。例如，1、4、9 和 16 都是完全平方数，而 3 和 11 不是。
+
 ### 核心思路
 典型的**完全背包问题**：
 * **状态方程**：$dp[i] = \min(dp[i], dp[i - j^2] + 1)$，其中 $j^2 \le i$。
@@ -101,6 +122,12 @@ class Solution:
 
 ## [322. 零钱兑换 - Medium](https://leetcode.cn/problems/coin-change/)
 
+### 题目回顾
+
+> 给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。
+> 计算并返回可以凑成总金额所需的 最少的硬币个数 。如果没有任何一种硬币组合能组成总金额，返回 -1 。
+> 你可以认为每种硬币的数量是无限的。
+
 ### 核心思路
 * **状态方程**：$dp[i] = \min(dp[i], dp[i - coin] + 1)$。
 * **初始化**：使用 `float('inf')` 表示无法达成，这是 Python 处理无穷大的地道方式。
@@ -113,10 +140,10 @@ class Solution:
         # 初始化 dp 数组，amount + 1 也是一种常用的占位符
         dp = [float('inf')] * (amount + 1)
         dp[0] = 0
-
-        for coin in coins:
-            for i in range(coin, amount + 1):
-                dp[i] = min(dp[i], dp[i - coin] + 1)
+        for i in range(1, amount + 1):
+            for coin in coins:
+                if i>=coin:
+                    dp[i] = min(dp[i], dp[i - coin] + 1)
 
         return int(dp[amount]) if dp[amount] != float('inf') else -1
 ```
@@ -125,7 +152,16 @@ class Solution:
 
 ## [139. 单词拆分 - Medium](https://leetcode.cn/problems/word-break/)
 
+### 题目回顾
+
+> 给你一个字符串 s 和一个字符串列表 wordDict 作为字典。如果可以利用字典中出现的一个或多个单词拼接出 s 则返回 true。
+> 注意：不要求字典中出现的单词全部都使用，并且字典中的单词可以重复使用。
+
 ### 核心思路
+这道题问的是“字符串 s 是否可以拆分成字典中的单词”。
+我们定义 $dp[i]$ 为：字符串 $s$ 的前 $i$ 个字符（即 $s[0:i]$）是否可以被成功拆分。
+最终目标：求出 $dp[len(s)]$ 是否为 True。状态转移：如果你想知道前 $i$ 个字符能不能拆分，你可以寻找一个切割点 $j$（$0 \le j < i$），只要满足以下两个条件，$dp[i]$ 就是 True：前 $j$ 个字符已经可以拆分（即 $dp[j] == True$）。剩余的部分 $s[j:i]$ 刚好在单词字典 wordDict 中。
+
 利用 `Set` 进行 $O(1)$ 的单词查找。$dp[i]$ 表示长度为 $i$ 的前缀是否可以拆分。
 
 ### 代码实现
@@ -150,12 +186,47 @@ class Solution:
 
 ## [300. 最长递增子序列 - Medium](https://leetcode.cn/problems/longest-increasing-subsequence/)
 
+### 题目回顾
+
+> 给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。
+> 子序列 是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列。
+
 ### 核心思路
 1.  **基础 DP** ($O(n^2)$): $dp[i] = \max(dp[j]) + 1$。
 2.  **贪心 + 二分** ($O(n \log n)$): Python 的 `bisect` 模块可以极简地实现这个逻辑。
 
-### 优化版代码实现
+### 代码实现
 
+```python
+
+class Solution:
+    def lengthOfLIS(self, nums: list[int]) -> int:
+        if not nums:
+            return 0
+        
+        # 初始化 dp 数组，每个位置初始长度都是 1（即它自己本身）
+        dp = [1] * len(nums)
+        
+        for i in range(len(nums)):
+            for j in range(i):
+                if nums[i] > nums[j]:
+                    # 状态转移方程
+                    dp[i] = max(dp[i], dp[j] + 1)
+        
+        # 注意：结果不一定是最后一个 dp 值，而是整个 dp 数组中的最大值
+        return max(dp)
+```
+### 优化版代码实现
+如果你想让递增子序列尽可能长，那么子序列上升的速度应该越慢越好。
+也就是说，我们希望子序列里的数字尽可能小，这样后面才有更多机会加入新数字。
+
+我们维护一个 tails 列表，其中 tails[i] 存储长度为 i+1 的所有递增子序列中，最小的结尾数值。
+
+遍历原数组：
+
+如果当前数字 x 比 tails 的最后一个元素还大，直接加到末尾（序列变长了）。
+
+否则，用二分查找在 tails 中找到第一个大于等于 x 的数，并用 x 替换它（让该长度的序列结尾更小，更具潜力）。
 ```python
 import bisect
 
@@ -175,6 +246,12 @@ class Solution:
 ---
 
 ## [152. 乘积最大子数组 - Medium](https://leetcode.cn/problems/maximum-product-subarray/)
+
+### 题目回顾
+
+> 给你一个整数数组 nums ，请你找出数组中乘积最大的非空连续 子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。
+> 测试用例的答案是一个 32-位 整数。
+> 请注意，一个只包含一个元素的数组的乘积是这个元素的值。
 
 ### 核心思路
 由于负负得正，必须同时维护**当前最大值**和**当前最小值**。
@@ -203,9 +280,17 @@ class Solution:
 
 ## [416. 分割等和子集 - Medium](https://leetcode.cn/problems/partition-equal-subset-sum/)
 
-### 核心思路
-转化成 **0-1 背包**：寻找和为 `sum / 2` 的子集。
+### 题目回顾
 
+> 给你一个 只包含正整数 的 非空 数组 nums 。请你判断是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。
+
+### 核心思路
+把问题转化一下：是否能从数组中选出一部分元素，和恰好等于总和的一半？
+
+- 如果总和是奇数，直接 false
+- 否则问题变成：从 nums 中选若干数，和 = target = sum/2
+我们定义 $dp[j]$ 为：是否可以从数组中选出若干数字，使它们的和恰好等于 $j$。
+这就是一个0-1背包问题。
 ### 代码实现
 
 ```python
@@ -232,15 +317,23 @@ class Solution:
 
 ## [32. 最长有效括号 - Hard](https://leetcode.cn/problems/longest-valid-parentheses/)
 
+### 题目回顾
+
+> 给你一个只包含 '(' 和 ')' 的字符串，找出最长有效（格式正确且连续）括号 子串 的长度。
+> 左右括号匹配，即每个左括号都有对应的右括号将其闭合的字符串是格式正确的，比如 "(()())"。
+
 ### 核心思路
 使用**栈**存下标是最直观的 Python 实现方式。
+
+栈里面存的不是字符，而是下标。 栈底那个元素（我们叫它**“哨兵”），
+代表的是：“上一个无法匹配的右括号的下标”**。通过当前下标减去栈顶下标，就能算出中间那段连续有效的长度。
 
 ### 代码实现
 
 ```python
 class Solution:
     def longestValidParentheses(self, s: str) -> int:
-        stack = [-1] # 哨兵
+        stack = [-1] # 哨兵 为什么是 -1？因为如果字符串从索引 0 开始就是匹配的（比如 ()), 那么长度应该是 1 - (-1) = 2。-1 是为了方便计算从 0 开始的长度。
         max_len = 0
 
         for i, char in enumerate(s):
@@ -249,8 +342,16 @@ class Solution:
             else:
                 stack.pop()
                 if not stack:
+                    """
+                    如果弹出后栈变空了，说明这个右括号是多余的（比如 ()) 里的第二个 )）。
+                    此时我们无法匹配，于是把当前位置 i 压入栈。它成为了新的哨兵，作为后续有效路径的“新起点”。
+                    """
                     stack.append(i) # 更新新的哨兵起始位
                 else:
+                    """
+                    如果弹出后栈不为空，说明这个右括号找到了它的“另一半”。
+                    此时，当前下标 i 减去弹出后的栈顶元素，就是这一段有效括号的长度。
+                    """
                     max_len = max(max_len, i - stack[-1])
         return max_len
 ```

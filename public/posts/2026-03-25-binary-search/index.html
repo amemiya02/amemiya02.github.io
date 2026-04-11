@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
     <meta name="robots" content="noodp" />
     <title>[Python] LeetCode 热题 100 - 二分查找 - Amemiya</title><meta name="author" content="Amemiya">
-<meta name="description" content="二分查找 35. 搜索插入位置 - Easy 核心思路 左闭右闭区间： 我们维护 [left, right]。当循环结束时，left 正好停在第一个大于或等于 target 的位置。
+<meta name="description" content="二分查找 35. 搜索插入位置 - Easy 题目回顾 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。 请必须使用时间复杂度为 O(logn)O(log n)O(logn) 的算法。
 "><meta name="keywords" content='Python, 二分查找, 题解'>
   <meta itemprop="name" content="[Python] LeetCode 热题 100 - 二分查找">
-  <meta itemprop="description" content="二分查找 35. 搜索插入位置 - Easy 核心思路 左闭右闭区间： 我们维护 [left, right]。当循环结束时，left 正好停在第一个大于或等于 target 的位置。">
+  <meta itemprop="description" content="二分查找 35. 搜索插入位置 - Easy 题目回顾 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。 请必须使用时间复杂度为 O(logn)O(log n)O(logn) 的算法。">
   <meta itemprop="datePublished" content="2026-03-25T15:30:20+09:00">
   <meta itemprop="dateModified" content="2026-03-25T15:30:20+09:00">
-  <meta itemprop="wordCount" content="1382">
+  <meta itemprop="wordCount" content="2134">
   <meta itemprop="keywords" content="Python,二分查找,题解"><meta property="og:url" content="https://amemiya02.github.io/posts/2026-03-25-binary-search/">
   <meta property="og:site_name" content="Amemiya">
   <meta property="og:title" content="[Python] LeetCode 热题 100 - 二分查找">
-  <meta property="og:description" content="二分查找 35. 搜索插入位置 - Easy 核心思路 左闭右闭区间： 我们维护 [left, right]。当循环结束时，left 正好停在第一个大于或等于 target 的位置。">
+  <meta property="og:description" content="二分查找 35. 搜索插入位置 - Easy 题目回顾 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。 请必须使用时间复杂度为 O(logn)O(log n)O(logn) 的算法。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -27,7 +27,7 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="[Python] LeetCode 热题 100 - 二分查找">
-  <meta name="twitter:description" content="二分查找 35. 搜索插入位置 - Easy 核心思路 左闭右闭区间： 我们维护 [left, right]。当循环结束时，left 正好停在第一个大于或等于 target 的位置。">
+  <meta name="twitter:description" content="二分查找 35. 搜索插入位置 - Easy 题目回顾 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。 请必须使用时间复杂度为 O(logn)O(log n)O(logn) 的算法。">
 <meta name="application-name" content="Amemiya">
 <meta name="apple-mobile-web-app-title" content="Amemiya"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -42,7 +42,7 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/amemiya02.github.io\/posts\/2026-03-25-binary-search\/"
-    },"genre": "posts","keywords": "Python, 二分查找, 题解","wordcount":  1382 ,
+    },"genre": "posts","keywords": "Python, 二分查找, 题解","wordcount":  2134 ,
     "url": "https:\/\/amemiya02.github.io\/posts\/2026-03-25-binary-search\/","datePublished": "2026-03-25T15:30:20+09:00","dateModified": "2026-03-25T15:30:20+09:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
@@ -115,7 +115,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[Python] LeetCode 热题 100 - 二分查找</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><span class="author"><img class="avatar" src='/avatar.jpg' alt="Amemiya" height="16" width="16">&nbsp;Amemiya</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder" aria-hidden="true"></i> 算法</a>&ensp;<a href="/categories/leetcode/" class="post-category" title="分类 - LeetCode"><i class="fa-regular fa-folder" aria-hidden="true"></i> LeetCode</a></span></div><div class="post-meta-line"><span title="发布于 2026-03-25 15:30:20"><i class="fa-solid fa-calendar-days me-1" aria-hidden="true"></i><time datetime="2026-03-25">2026-03-25</time></span>&nbsp;<span title="1382 字"><i class="fa-solid fa-pencil-alt me-1" aria-hidden="true"></i>约 1400 字</span>&nbsp;<span><i class="fa-regular fa-clock me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img class="avatar" src='/avatar.jpg' alt="Amemiya" height="16" width="16">&nbsp;Amemiya</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder" aria-hidden="true"></i> 算法</a>&ensp;<a href="/categories/leetcode/" class="post-category" title="分类 - LeetCode"><i class="fa-regular fa-folder" aria-hidden="true"></i> LeetCode</a></span></div><div class="post-meta-line"><span title="发布于 2026-03-25 15:30:20"><i class="fa-solid fa-calendar-days me-1" aria-hidden="true"></i><time datetime="2026-03-25">2026-03-25</time></span>&nbsp;<span title="2134 字"><i class="fa-solid fa-pencil-alt me-1" aria-hidden="true"></i>约 2200 字</span>&nbsp;<span><i class="fa-regular fa-clock me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -126,21 +126,27 @@
     <li>
       <ul>
         <li><a href="#35-搜索插入位置---easy">35. 搜索插入位置 - Easy</a></li>
+        <li><a href="#题目回顾">题目回顾</a></li>
         <li><a href="#核心思路">核心思路</a></li>
         <li><a href="#代码实现">代码实现</a></li>
         <li><a href="#74-搜索二维矩阵---medium">74. 搜索二维矩阵 - Medium</a></li>
+        <li><a href="#题目回顾-1">题目回顾</a></li>
         <li><a href="#核心思路-1">核心思路</a></li>
         <li><a href="#代码实现-1">代码实现</a></li>
         <li><a href="#34-在排序数组中查找元素的第一个和最后一个位置---medium">34. 在排序数组中查找元素的第一个和最后一个位置 - Medium</a></li>
+        <li><a href="#题目回顾-2">题目回顾</a></li>
         <li><a href="#核心思路-2">核心思路</a></li>
         <li><a href="#代码实现-2">代码实现</a></li>
         <li><a href="#33-搜索旋转排序数组---medium">33. 搜索旋转排序数组 - Medium</a></li>
+        <li><a href="#题目回顾-3">题目回顾</a></li>
         <li><a href="#核心思路-3">核心思路</a></li>
         <li><a href="#代码实现-3">代码实现</a></li>
         <li><a href="#153-寻找旋转排序数组中的最小值---medium">153. 寻找旋转排序数组中的最小值 - Medium</a></li>
+        <li><a href="#题目回顾-4">题目回顾</a></li>
         <li><a href="#核心思路-4">核心思路</a></li>
         <li><a href="#代码实现-4">代码实现</a></li>
         <li><a href="#4-寻找两个正序数组的中位数---hard">4. 寻找两个正序数组的中位数 - Hard</a></li>
+        <li><a href="#题目回顾-5">题目回顾</a></li>
         <li><a href="#核心思路-5">核心思路</a></li>
         <li><a href="#代码实现-5">代码实现</a></li>
       </ul>
@@ -155,7 +161,15 @@
   <a href="#35-%e6%90%9c%e7%b4%a2%e6%8f%92%e5%85%a5%e4%bd%8d%e7%bd%ae---easy" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><h3 class="heading-element" id="核心思路"><span>核心思路</span>
+</h3><h3 class="heading-element" id="题目回顾"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
+请必须使用时间复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span> 的算法。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -184,7 +198,19 @@
   <a href="#74-%e6%90%9c%e7%b4%a2%e4%ba%8c%e7%bb%b4%e7%9f%a9%e9%98%b5---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><h3 class="heading-element" id="核心思路-1"><span>核心思路</span>
+</h3><h3 class="heading-element" id="题目回顾-1"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>编写一个高效的算法来判断 m x n 矩阵中，是否存在一个目标值。该矩阵具有以下特性：</p>
+<ul>
+<li>每行中的整数从左到右按升序排列。</li>
+<li>每行的第一个整数大于前一行的最后一个整数。
+给你一个整数 target ，如果 target 在矩阵中，返回 true ；否则，返回 false 。</li>
+</ul>
+</blockquote>
+<h3 class="heading-element" id="核心思路-1"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-1" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -220,7 +246,16 @@
   <a href="#34-%e5%9c%a8%e6%8e%92%e5%ba%8f%e6%95%b0%e7%bb%84%e4%b8%ad%e6%9f%a5%e6%89%be%e5%85%83%e7%b4%a0%e7%9a%84%e7%ac%ac%e4%b8%80%e4%b8%aa%e5%92%8c%e6%9c%80%e5%90%8e%e4%b8%80%e4%b8%aa%e4%bd%8d%e7%bd%ae---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><h3 class="heading-element" id="核心思路-2"><span>核心思路</span>
+</h3><h3 class="heading-element" id="题目回顾-2"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>给你一个按照非递减顺序排列的整数数组 nums，和一个目标值 target 。请你找出给定目标值在数组中的开始位置和结束位置。
+如果数组中不存在目标值 target，返回 [-1, -1] 。
+你必须设计并实现时间复杂度为 O(log n) 的算法解决此问题。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-2"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-2" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -253,7 +288,17 @@
   <a href="#33-%e6%90%9c%e7%b4%a2%e6%97%8b%e8%bd%ac%e6%8e%92%e5%ba%8f%e6%95%b0%e7%bb%84---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><h3 class="heading-element" id="核心思路-3"><span>核心思路</span>
+</h3><h3 class="heading-element" id="题目回顾-3"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>整数数组 nums 按升序排列，数组中的值 互不相同 。
+在传递给函数之前，nums 在预先未知的某个下标 k（0 &lt;= k &lt; nums.length）上进行了 向左旋转，使数组变为 [nums[k], nums[k+1], &hellip;, nums[n-1], nums[0], nums[1], &hellip;, nums[k-1]]（下标 从 0 开始 计数）。例如， [0,1,2,4,5,6,7] 下标 3 上向左旋转后可能变为 [4,5,6,7,0,1,2] 。
+给你 旋转后 的数组 nums 和一个整数 target ，如果 nums 中存在这个目标值 target ，则返回它的下标，否则返回 -1 。
+你必须设计一个时间复杂度为 O(log n) 的算法解决此问题。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-3"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-3" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -289,7 +334,19 @@
   <a href="#153-%e5%af%bb%e6%89%be%e6%97%8b%e8%bd%ac%e6%8e%92%e5%ba%8f%e6%95%b0%e7%bb%84%e4%b8%ad%e7%9a%84%e6%9c%80%e5%b0%8f%e5%80%bc---medium" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><h3 class="heading-element" id="核心思路-4"><span>核心思路</span>
+</h3><h3 class="heading-element" id="题目回顾-4"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-4" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>已知一个长度为 n 的数组，预先按照升序排列，经由 1 到 n 次 旋转 后，得到输入数组。例如，原数组 nums = [0,1,2,4,5,6,7] 在变化后可能得到：
+若旋转 4 次，则可以得到 [4,5,6,7,0,1,2]
+若旋转 7 次，则可以得到 [0,1,2,4,5,6,7]
+注意，数组 [a[0], a[1], a[2], &hellip;, a[n-1]] 旋转一次 的结果为数组 [a[n-1], a[0], a[1], a[2], &hellip;, a[n-2]] 。
+给你一个元素值 互不相同 的数组 nums ，它原来是一个升序排列的数组，并按上述情形进行了多次旋转。请你找出并返回数组中的 最小元素 。
+你必须设计一个时间复杂度为 O(log n) 的算法解决此问题。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-4"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-4" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -326,7 +383,15 @@
   <a href="#4-%e5%af%bb%e6%89%be%e4%b8%a4%e4%b8%aa%e6%ad%a3%e5%ba%8f%e6%95%b0%e7%bb%84%e7%9a%84%e4%b8%ad%e4%bd%8d%e6%95%b0---hard" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><h3 class="heading-element" id="核心思路-5"><span>核心思路</span>
+</h3><h3 class="heading-element" id="题目回顾-5"><span>题目回顾</span>
+  <a href="#%e9%a2%98%e7%9b%ae%e5%9b%9e%e9%a1%be-5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。
+算法的时间复杂度应该为 O(log (m+n)) 。</p>
+</blockquote>
+<h3 class="heading-element" id="核心思路-5"><span>核心思路</span>
   <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-5" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -405,21 +470,27 @@
     <li>
       <ul>
         <li><a href="#35-搜索插入位置---easy">35. 搜索插入位置 - Easy</a></li>
+        <li><a href="#题目回顾">题目回顾</a></li>
         <li><a href="#核心思路">核心思路</a></li>
         <li><a href="#代码实现">代码实现</a></li>
         <li><a href="#74-搜索二维矩阵---medium">74. 搜索二维矩阵 - Medium</a></li>
+        <li><a href="#题目回顾-1">题目回顾</a></li>
         <li><a href="#核心思路-1">核心思路</a></li>
         <li><a href="#代码实现-1">代码实现</a></li>
         <li><a href="#34-在排序数组中查找元素的第一个和最后一个位置---medium">34. 在排序数组中查找元素的第一个和最后一个位置 - Medium</a></li>
+        <li><a href="#题目回顾-2">题目回顾</a></li>
         <li><a href="#核心思路-2">核心思路</a></li>
         <li><a href="#代码实现-2">代码实现</a></li>
         <li><a href="#33-搜索旋转排序数组---medium">33. 搜索旋转排序数组 - Medium</a></li>
+        <li><a href="#题目回顾-3">题目回顾</a></li>
         <li><a href="#核心思路-3">核心思路</a></li>
         <li><a href="#代码实现-3">代码实现</a></li>
         <li><a href="#153-寻找旋转排序数组中的最小值---medium">153. 寻找旋转排序数组中的最小值 - Medium</a></li>
+        <li><a href="#题目回顾-4">题目回顾</a></li>
         <li><a href="#核心思路-4">核心思路</a></li>
         <li><a href="#代码实现-4">代码实现</a></li>
         <li><a href="#4-寻找两个正序数组的中位数---hard">4. 寻找两个正序数组的中位数 - Hard</a></li>
+        <li><a href="#题目回顾-5">题目回顾</a></li>
         <li><a href="#核心思路-5">核心思路</a></li>
         <li><a href="#代码实现-5">代码实现</a></li>
       </ul>
