@@ -12,7 +12,7 @@ Tokenization 算法的实现
 通过这一个Assignment，我们可以了解到创建一个完整的LM模型的全部流程，后续的课程以及Assignment都会基于这个流程进行扩展和优化。
 
 
-## BPE Tokenizer
+## BPE Tokenizer Implementation
 回顾一下BPE算法的基本步骤：
 
 1. Initialization: 将输入文本视为字节序列，每个字节作为一个token。初始化词汇表包含所有可能的字节（0-255）。以及Special Tokens，比如 <|endoftext|>
@@ -1086,6 +1086,1001 @@ def encode_file_to_bin(tokenizer, text_path, out_bin_path, dtype=np.uint16):
 #### 四、训练结果保存
 
 训练完成后将 `vocab` 和 `merges` 序列化到磁盘；推理时直接加载，无需重新训练。文本文件可通过 `encode_file_to_bin` 编码为紧凑二进制（`.bin`），便于训练时用 `np.memmap` 高效读取。
+
+
+## Language Model Implementation
+
+![alt text](transformer.png)
+
+可以看到，模型主要由以下几个模块组成：
+
+1. Embedding Layer: 将输入的token IDs转化为dense vectors。
+2. Transformer Blocks: 包含多层自注意力机制和前馈神经网络。
+3. Normalization Layer: 使用RMS-Norm对输入进行归一化处理。
+4. Multi-Head Self-Attention: 实现自注意力机制，允许模型关注输入序列的不同部分。
+5. Feed-Forward Network: 由两个线性层和一个激活函数组成。
+6. Output Layer: 将Transformer的输出映射回词汇表大小的logits，用于预测下一个token。
+
+
+### Linear Module
+
+
+Linear Module 基本是所有神经网络的起始点，它的定义如下:
+
+$\text{Linear}(x) = xW^T + b$
+
+我们将 bias 设为可选项，默认不使用 bias，这样可以更好地模拟 Transformer 中的 Linear Layer。
+
+```python
+import torch.nn as nn
+import torch
+
+
+class Linear(nn.Module):
+
+    def __init__(
+        self,
+        in_features,
+        out_features,
+        device: torch.device | None = None,
+        dtype: torch.dtype | None = None,
+        bias: bool = False,
+    ):
+        super().__init__()
+
+        self.in_features = in_features
+        self.out_features = out_features
+
+        self.weight = nn.Parameter(
+            torch.empty((in_features, out_features), device=device, dtype=dtype)
+        )
+        self.bias = (
+            nn.Parameter(torch.empty(out_features, device=device, dtype=dtype))
+            if bias
+            else None
+        )
+        self._init_weight()
+
+    def forward(self, x):
+        o = x @ self.weight
+        if self.bias is not None:
+            o = o + self.bias
+        return o
+
+    def _init_weight(self):
+        mean = 0.0
+        std = 1.0 / (2 * (self.in_features + self.out_features) ** 0.5)
+        torch.nn.init.trunc_normal_(
+            self.weight, mean=mean, std=std, a=-3 * std, b=3 * std
+        )
+```
+
+其中 _init_weight() 是初始化的方法， 在Assignment 1 中为：
+
+$\mathcal{N}\left( \mu = 0, \sigma^{2}=\frac{2}{d_{\text{in}} + d_{\text{out}}} \right) \quad \text{truncated at}  [-3\sigma, 3\sigma ]$
+
+
+### Embedding Model
+记得我们在前面第一章节，实现了BPE的Tokenization，回顾一下，Tokenization的步骤就是把文字，转化成一个个的IDs。 但是这个IDs是不能被模型处理的，我们需要将其转化成一个个的Dense Vector，这个就是所谓的 Embedding。
+
+Embedding 的数学定义如下：
+
+$\text{Embedding}(x) = \mathbf{W}_{e}[x]$
+
+```python
+import torch
+import torch.nn as nn
+
+
+class Embedding(nn.Module):
+    def __init__(
+        self,
+        num_embeddings: int,
+        embedding_dim: int,
+        device: torch.device | None = None,
+        dtype: torch.dtype | None = None,
+    ):
+        super().__init__()
+
+        self.num_embeddings = num_embeddings
+        self.embedding_dim = embedding_dim
+
+        self.weight = nn.Parameter(
+            torch.empty((num_embeddings, embedding_dim), device=device, dtype=dtype)
+        )
+
+        self._init_weight()
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        B, L = x.shape  # x: (B, L)
+        out = x.reshape(-1)  # (B*L,)
+        out = self.weight.index_select(0, out)  # (B*L, D)
+        out = out.reshape(B, L, self.embedding_dim)  # (B, L, D)
+
+        return out
+
+    def _init_weight(self):
+        torch.nn.init.trunc_normal_(self.weight, mean=0.0, std=1, a=-3, b=3)
+```
+
+Embedding 本质上就是一个查表操作，它有一个更朴素的别名：查找表。
+
+假设你有 10,000 个不同的词（num_embeddings = 10000），你想把每个词表示成一个 512 维的向量（embedding_dim = 512）。
+那么 self.weight 就是一个形状为 (10000, 512) 的矩阵。矩阵的第 i行，就是第i个词的向量表示。
+
+因为加了 nn.Parameter，所以这个矩阵里的所有数字都是可学习的，会在反向传播时被梯度更新。
+
+输入 x 通常是一个 2D 的张量，形状是 (B, L)：
+
+B (Batch Size)：批次大小，比如同时处理 8 条句子。
+L (Sequence Length)：序列长度，比如每条句子有 128 个 token。
+其实在forward中，我们只需要使用 self.weight[x] 这一行代码，就可以实现 Embedding 的功能， 但是为了更清晰地展示 Embedding 的工作原理，我们使用了 index_select() 来实现。为什么不直接写 return self.weight[x] 呢？
+
+显式内存连续性：reshape(-1) 会把输入压平成一维，index_select(0, out) 直接在一维索引上查表，这种写法在某些情况下比直接用 2D 索引 self.weight[x] 更能避免底层内存不连续导致的隐式拷贝，效率更高。
+逻辑清晰：明确表达了“先展平 -> 按行查表 -> 恢复形状”的物理过程。
+
+### RMSNorm
+
+归一化核心是为了让不同层输入的取值范围或者分布能够比较一致。由于深度神经网络中每一层的输入都是上一层的输出，因此多层传递下，对网络中较高的层，之前的所有神经层的参数变化会导致其输入的分布发生较大的改变。也就是说，随着神经网络参数的更新，各层的输出分布是不相同的，且差异会随着网络深度的增大而增大。但是，需要预测的条件分布始终是相同的，从而也就造成了预测的误差。
+
+因此，在深度神经网络中，往往需要归一化操作，将每一层的输入都归一化成标准正态分布。批归一化是指在一个 mini-batch 上进行归一化，相当于对一个 batch 对样本拆分出来一部分，首先计算样本的均值：
+
+$$\mu = \frac{1}{m} \sum_{i=1}^{m} x_i$$
+
+其中，$x_i$ 是样本 x 在第 i 个维度上的值，m 就是 mini-batch 的大小。
+
+再计算样本的方差：
+$$\sigma^2 = \frac{1}{m} \sum_{i=1}^{m} (x_i - \mu)^2$$
+
+最后，对每个样本的值减去均值再除以标准差来将这一个 mini-batch 的样本的分布转化为标准正态分布：
+
+$$\hat{x_i} = \frac{x_i - \mu}{\sqrt{\sigma^2 + \epsilon}}$$
+
+此处加上$\epsilon$这一极小量是为了避免分母为0。
+
+到这里只是LayerNorm的定义。
+
+RMSNorm（Root Mean Square Layer Normalization）是一种归一化方法，和 LayerNorm 类似，但不使用均值，而是直接用输入的均方根来归一化。它的定义如下：
+
+$$\text{RMSNorm}(x) = \frac{x}{\sqrt{\frac{1}{d} \sum_{i=1}^{d} x_i^2 + \epsilon}} \cdot \gamma$$
+
+其中：
+- $x$ 是输入向量。
+- $d$ 是输入向量的维度。
+- $\epsilon$ 是一个小常数，防止除以零。
+- $\gamma$ 是一个可学习的缩放参数，通常是一个与输入维度相同的向量。
+- $\sqrt{\frac{1}{d} \sum_{i=1}^{d} x_i^2}$ 是输入向量的均方根（RMS），用来归一化输入。
+
+**本质上来说就是分子分母都不减去均值了**，直接用输入的均方根来归一化。RMSNorm 在某些情况下可以提供更稳定的训练，尤其是在 Transformer 模型中被广泛使用。
+
+```python
+import torch
+import torch.nn as nn
+
+
+class RMSNorm(nn.Module):
+    def __init__(
+        self,
+        d_model: int,
+        eps: float = 1e-5,
+        device: torch.device | None = None,
+        dtype: torch.dtype | None = None,
+    ):
+        super().__init__()
+
+        self.d_model = d_model
+        self.eps = eps
+
+        self.weight = nn.Parameter(torch.ones(d_model, device=device, dtype=dtype))
+
+    def _rms(self, x: torch.Tensor) -> torch.Tensor:
+        return torch.sqrt(torch.mean(x**2, dim=-1, keepdim=True) + self.eps)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        input_dtype = x.dtype
+        x = x.to(torch.float32)
+
+        rms = self._rms(x)
+        x_normed = x / rms
+
+        return (x_normed * self.weight).to(input_dtype)
+```
+
+Normalization的位置也是很有讲究的，在现代的LM中，通常用Pre-Norm，这一部分，等我们介绍完了所有的模块之后再来介绍。
+
+### FFN
+
+在原始 Transformer (Vaswani et al. 2023)里，FFN(Feed Forward Network, 前馈神经网络) 是一个非常经典的两层结构：Linear → ReLU → Linear，并且中间隐层维度通常取 `d_ff = 4 * d_model`。但到了现代大语言模型（例如 Llama 3、Qwen 2.5），FFN 的设计出现了两个几乎“标配”的变化：
+
+1. 换激活函数
+2. 引入门控（gating）机制。
+
+先看SiLU激活函数（又叫Swish）：
+$$\text{SiLU}(x) = x \cdot \sigma(x) = \frac{x}{1 + e^{-x}}$$
+
+它和 ReLU 一样能提供非线性，但在 0 附近是平滑的，梯度行为更连续。再看 GLU，它用一个 sigmoid 分支充当“门”，去调节另一条线性分支：
+$$\text{GLU}(x) = (W_1x) \otimes \sigma(W_2x)$$
+其中 $W_1$ 和 $W_2$ 是两个不同的权重矩阵，$\otimes$ 表示逐元素乘法。GLU 的核心思想是：
+- $W_1x$ 生成一个“候选”向量，包含了潜在的特征信息。
+- $W_2x$ 生成一个“门控”向量，经过 sigmoid 后每个元素在 (0, 1) 之间，用来调节对应位置的候选特征的强弱。
+- 最终输出是候选向量和门控向量的逐元素乘积，这样模型就可以动态地控制每个特征的流动，增强了表达能力。
+
+直觉上，这种门控能给梯度提供一条更“线性”的通路，同时保留非线性表达能力。把两者拼起来就是 SwiGLU在 FFN 中的写法：
+$$\text{FFN(x)}=\text{SwiGLU}(x) = W_2(\text{SiLU}(W_1x) \otimes (W_3x))$$
+
+```python
+import torch
+import torch.nn as nn
+
+
+def silu(x: torch.Tensor) -> torch.Tensor:
+    return x * torch.sigmoid(x)
+
+
+class FFN(nn.Module):
+    def __init__(
+        self,
+        d_model: int,
+        d_ff: int,
+        device: torch.device | None = None,
+        dtype: torch.dtype | None = None,
+    ):
+        super().__init__()
+
+        from cs336_basics.modules.linear import Linear
+
+        self.up = Linear(d_model, d_ff, device=device, dtype=dtype)
+        self.down = Linear(d_ff, d_model, device=device, dtype=dtype)
+        self.gate = Linear(d_model, d_ff, device=device, dtype=dtype)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.down(silu(self.up(x)) * self.gate(x))
+```
+
+### RoPE位置编码
+
+Transformer 本身对序列的顺序并不敏感，因此需要把位置信息注入到注意力机制里。除了常见的绝对位置编码（absolute PE），现代 LLM 更常用的一类方法是 Rotary Position Embeddings（RoPE) (Su et al. 2023)：它不是把位置向量“加到 embedding 上”，而是对 Q/K 向量做按维度成对的旋转，从而让注意力天然具备相对位置信息。
+
+位置编码，即根据序列中 token 的相对位置对其进行编码，再将位置编码加入词向量编码中。位置编码的方式有很多，Transformer 使用了正余弦函数来进行位置编码（绝对位置编码Sinusoidal），其编码方式为：
+$$\text{PE}_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)$$
+$$\text{PE}_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)$$
+
+上式中，pos 为 token 在句子中的位置，2i 和 2i+1 则指示了位置编码向量的维度索引是奇数还是偶数，从上式中我们可以看出对于奇数维度和偶数维度，Transformer 采用了不同的函数进行编码。
+
+
+这样的位置编码主要有两个好处：
+
+使 PE 能够适应比训练集里面所有句子更长的句子，假设训练集里面最长的句子是有 20 个单词，突然来了一个长度为 21 的句子，则使用公式计算的方法可以计算出第 21 位的 Embedding。
+可以让模型容易地计算出相对位置，对于固定长度的间距 k，PE(pos+k) 可以用 PE(pos) 计算得到。因为 Sin(A+B) = Sin(A)Cos(B) + Cos(A)Sin(B), Cos(A+B) = Cos(A)Cos(B) - Sin(A)Sin(B)。
+
+RoPE 的核心思想是对 Q/K 向量进行旋转，使得注意力机制能够捕捉到相对位置信息。具体来说，RoPE 将每个 token 的位置编码表示为一个旋转矩阵，然后将这个旋转应用到对应的 Q/K 向量上。这样，在计算注意力权重时，模型不仅考虑了 token 之间的内容关系，还隐式地考虑了它们之间的相对位置关系。
+
+#### 旋转矩阵
+
+在线性代数与空间几何中，旋转矩阵 $R$ 是用于实现向量或坐标系旋转变换的方阵。它属于**正交矩阵**，且行列式恒为 $+1$（即属于特殊正交群 $SO(n)$）。
+
+坐标变换的基本关系式为：
+$$ \mathbf{v}' = R \mathbf{v} $$
+其中，$\mathbf{v}$ 为原坐标系下的向量，$\mathbf{v}'$ 为旋转后的新向量。
+
+在二维平面中，向量绕坐标原点逆时针旋转 $\theta$ 角的旋转矩阵为：
+
+$$ R_2(\theta) = \begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix} $$
+
+展开为线性方程组形式：
+$$ \begin{cases} x' = x\cos\theta - y\sin\theta \\ y' = x\sin\theta + y\cos\theta \end{cases} $$
+
+#### 旋转矩阵的核心性质
+
+在工程推导中，旋转矩阵 $R$ 的以下性质被频繁使用：
+
+1. **正交性**：
+   $$ R^T R = R R^T = I $$
+   其中 $R^T$ 为 $R$ 的转置，$I$ 为单位矩阵。
+2. **逆矩阵等于转置矩阵**（极大地简化了逆运算的计算）：
+   $$ R^{-1} = R^T $$
+3. **保范性（长度不变性）**：旋转操作不改变向量的长度（模）。
+   $$ \|R\mathbf{v}\|_2 = \|\mathbf{v}\|_2 $$
+4. **行列式恒为 1**（证明其是纯旋转，没有包含镜像反射）：
+   $$ \det(R) = 1 $$
+5. **向量内积不变性**：旋转不改变两个向量之间的夹角。
+   $$ (R\mathbf{u}) \cdot (R\mathbf{v}) = \mathbf{u} \cdot \mathbf{v} $$
+
+
+
+RoPE的思想也很简单：对第i个 token 的 query：
+$$Q_i' = Q_i \cdot R(\theta_i)$$
+其中 $R(\theta_i)$ 是一个旋转矩阵，$\theta_i$ 是根据 token 位置计算得到的旋转角度。对于 key 也是同样的操作：
+$$K_i' = K_i \cdot R(\theta_i)$$
+
+其核心思想是：**通过在复数域中旋转特征向量，将绝对位置信息以旋转角度的形式注入，同时在注意力机制的计算中天然地转化为相对位置信息。**
+
+#### 旋转角度的定义
+对于序列中第 $i$ 个 token，其特征向量的第 $k$ 个维度对（即 $2k-1$ 和 $2k$ 维）被赋予一个旋转角度 $\theta_{i,k}$：
+
+$$ \theta_{i,k} = i \cdot \Theta^{-\frac{2k-2}{d}} $$
+
+*   $i$：token 在序列中的绝对位置（从 0 开始）。
+*   $d$：特征向量的总维度（`d_model`）。
+*   $k$：维度对的索引（$k \in \{1, 2, ..., d/2\}$）。
+*   $\Theta$：常数基数，通常设为 **10000**。
+
+> **注意**：这个角度的频率定义 $\Theta^{-\frac{2k-2}{d}}$ 与原始 Transformer 中正弦/余弦绝对位置编码的频率公式**完全一致**。
+
+#### 二维旋转块 $R_k^i$
+对于第 $i$ 个位置的特征向量，在其第 $k$ 个维度对 $(x_{2k-1}, x_{2k})$ 上，施加一个标准的二维旋转矩阵变换：
+
+$$ R_k^i = \begin{bmatrix} \cos\theta_{i,k} & -\sin\theta_{i,k} \\ \sin\theta_{i,k} & \cos\theta_{i,k} \end{bmatrix} $$
+
+#### 整体旋转矩阵 $R_i$
+将上述 $d/2$ 个二维旋转块拼接在主对角线上，其余位置补 0，就构成了 $d \times d$ 的**稀疏块对角矩阵** $R_i$。第 $i$ 个 token 的 Query 或 Key 向量 $x^{(i)}$ 经过 RoPE 编码后变为 $x'^{(i)}$：
+
+$$ x'^{(i)} = R_i x^{(i)} = \begin{bmatrix} 
+\cos\theta_{i,1} & -\sin\theta_{i,1} & 0 & 0 & \cdots & 0 & 0 \\
+\sin\theta_{i,1} & \cos\theta_{i,1} & 0 & 0 & \cdots & 0 & 0 \\
+0 & 0 & \cos\theta_{i,2} & -\sin\theta_{i,2} & \cdots & 0 & 0 \\
+0 & 0 & \sin\theta_{i,2} & \cos\theta_{i,2} & \cdots & 0 & 0 \\
+\vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+0 & 0 & 0 & 0 & \cdots & \cos\theta_{i,d/2} & -\sin\theta_{i,d/2} \\
+0 & 0 & 0 & 0 & \cdots & \sin\theta_{i,d/2} & \cos\theta_{i,d/2} 
+\end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \\ \vdots \\ x_{d-1} \\ x_d \end{bmatrix} $$
+
+#### 几何直觉：为什么是“旋转”？
+
+可以将特征向量的每一对维度 $(x_{2k-1}, x_{2k})$ 看作二维复平面上的一个点。
+*   **不同维度，不同波长**：随着维度索引 $k$ 的增加，频率 $\Theta^{-\frac{2k-2}{d}}$ 逐渐减小，波长逐渐变长。低维（$k$较小）像高频的秒针，对局部微小的位置变化极其敏感；高维（$k$较大）像低频的时针，能捕捉长距离的位置跨度。
+*   **位置越靠后，角度越大**：第 $i$ 个 token 的旋转角度直接与 $i$ 成正比。位置越远，在复平面上转过的角度就越大。
+*   **相对位置的体现**：当计算两个 token 的相似度时，本质上是看它们在复平面上角度的**差值**。角度差仅取决于两个 token 的距离（相对位置 $m-n$），而与它们的具体绝对位置无关。
+
+---
+
+#### 注意力机制中的相对位置体现
+
+RoPE 最精妙的地方在于它**只在 Query 和 Key 上施加旋转，Value 保持不变**。
+
+假设第 $i$ 个位置的 Query 为 $q^{(i)}$，第 $j$ 个位置的 Key 为 $k^{(j)}$。经过 RoPE 变换后：
+*   $q'^{(i)} = R_i q^{(i)}$
+*   $k'^{(j)} = R_j k^{(j)}$
+
+在计算注意力分数（内积）时：
+$$ q'^{(i)} \cdot k'^{(j)} = (R_i q^{(i)})^T (R_j k^{(j)}) = (q^{(i)})^T R_i^T R_j k^{(j)} $$
+
+由于旋转矩阵是正交矩阵，满足 $R_i^T = R_i^{-1}$，因此：
+$$ R_i^T R_j = R_i^{-1} R_j = R_{j-i} $$
+
+最终结果为：
+$$ q'^{(i)} \cdot k'^{(j)} = q^{(i)} \cdot (R_{j-i} k^{(j)}) $$
+
+**结论**：注意力分数的计算中，绝对位置的旋转矩阵神奇地消解，变成了一个**仅包含相对位置 $j-i$ 的旋转矩阵 $R_{j-i}$**。这就是 RoPE 能够在长上下文建模中表现优异的根本原因。
+
+---
+
+#### 与正弦/余弦绝对位置编码的区别
+
+原始 Transformer（Vaswani et al., 2017）使用的是正弦/余弦位置编码。虽然两者的**频率公式完全一样**，但**融合方式截然不同**。
+
+| 特性 | 正余弦位置编码 | 旋转位置编码 |
+| :--- | :--- | :--- |
+| **融合方式** | **加法**：$x' = x + pos$ | **乘法（旋转）**：$x' = R \cdot x$ |
+| **数学本质** | 在原向量空间中进行平移操作 | 在复数域对应的二维子空间中进行旋转操作 |
+| **内积结果** | $q'^T k' = q^T k + q^T pos_k + pos_q^T k + pos_q^T pos_k$ | $q'^T k' = q^T (R_{j-i} k)$ |
+| **绝对位置干扰** | 存在大量与绝对位置 $i, j$ 单独相关的项（如 $pos_q^T k$） | 绝对位置项彻底消失，仅保留相对位置 $j-i$ 项 |
+| **理论优雅度** | 强行拼接，内积展开十分冗杂且缺乏明确几何意义 | 完美利用了正交矩阵的特性，推导极其优雅 |
+
+
+RoPE 层没有可学习参数。为了效率，通常会：
+
+- 预计算所有 $cos(\theta_{i,k})$ 与 $sin(\theta_{i,k})$
+- 作为 buffer 缓存在模块里，而不是 nn.Parameter（因为它们是固定的）
+- 甚至可以让所有 Transformer 层共享同一个 RoPE 模块（跨层复用缓存）
+实现上常用：
+- self.register_buffer(..., persistent=False) 来保存预计算好的 sin/cos（不进 state_dict 或不作为可训练参数）
+- 只要序列长度/维度不变，这些值可以在不同 batch、不同 layer 间复用
+不过，在实际实现 RoPE 旋转时，我们并不需要显式构建大块对角矩阵$R_i$，而是把向量按 2 维一组配对 $(x_{2k-1}, x_{2k})$，对每一组做一个平面旋转
+
+```python
+
+import einops
+import torch
+import torch.nn as nn
+
+
+class RoPEEmbedding(nn.Module):
+    def __init__(
+        self,
+        theta: float,
+        d_k: int,
+        max_seq_len: int,
+        device: torch.device | None = None,
+    ):
+        super().__init__()
+
+        self.theta = theta  # 基础频率，通常设为 10000.0 或更大
+        self.d_k = d_k  # 注意力头的维度 (例如 128)
+        self.max_seq_len = max_seq_len
+
+        # torch.arange(0, d_k, 2) 生成 [0, 2, 4, ... d_k-2]。
+        inv_freq = 1.0 / (
+            theta ** (torch.arange(0, d_k, 2, device=device, dtype=torch.float32) / d_k)
+        )
+
+        self.register_buffer("inv_freq", inv_freq, persistent=False)
+
+    """
+    它把相邻的两个元素 $(x_1, x_2)$ 变成了 $(-x_2, x_1)$，为后面的高效计算做准备。
+    """
+
+    def _rotate_half(self, x):
+        x = einops.rearrange(x, "... (d j) -> ... d j", j=2)
+        x1, x2 = x.unbind(dim=-1)
+        return einops.rearrange(torch.stack((-x2, x1), dim=-1), "... d j-> ... (d j)")
+
+    def forward(
+        self,
+        x: torch.Tensor,
+        token_positions: torch.Tensor | None = None,
+    ) -> torch.Tensor:
+        # 1. 如果没有给位置，默认就是 0 到 seq_len-1 (比如 [0, 1, 2, ..., seq_len-1])
+        if token_positions is None:
+            seq_len = x.shape[-2]
+            token_positions = torch.arange(seq_len, device=x.device)
+            token_positions = token_positions.unsqueeze(0)
+        # 2. 计算每个 token 在每个平面的旋转角度 (m * theta_i)
+        # token_positions 形状: (1, seq_len)
+        # inv_freq 形状: (d_k / 2)
+        # theta 形状: (1, seq_len, d_k / 2)
+        theta = torch.einsum("...i , j -> ... i j", token_positions, self.inv_freq)
+        # 3. 算 cos 和 sin，并把每个值复制两次 (因为一个平面有2个维度共用一个角度)
+        # 形状变回: (1, seq_len, d_k)
+        cos = torch.cos(theta).repeat_interleave(2, dim=-1)
+        sin = torch.sin(theta).repeat_interleave(2, dim=-1)
+
+        x_rotated = (x * cos) + (self._rotate_half(x) * sin)
+        return x_rotated
+
+```
+
+### Multi-Head Attention
+
+在 Transformer中，最核心的计算之一就是 scaled dot-product attention。它可以看作：
+1. 计算 query 和 key 的相似度（打分），
+2. 把这些分数(logits)归一化成概率分布，
+3. 最后用这个分布对 value 做加权求和。
+
+首先我们来看看如何将分数(logits)归一化为概率分布，在这里我们需要用到的就是 Softmax 函数
+
+**Softmax Function**
+
+Softmax 的定义是：
+$$\text{Softmax}(x_i) = \frac{e^{x_i}}{\sum_{j} e^{x_j}}$$
+Softmax 函数的作用是将一个实数向量转换为一个概率分布。它通过指数函数放大输入中的较大值，同时抑制较小值，最后通过除以所有指数值的和来确保输出的总和为 1。
+
+仔细观察我们可以发现softmax 对所有输入同时加同一个常数不变。也就是说，对任意常数 c：
+$$\text{Softmax}(x_i + c) = \text{Softmax}(x_i)$$
+
+证明很简单：分子分母都会多乘一个 exp(c)，会抵消掉。因此工程实现里通常取
+$$c = -\max_i x_i$$
+来避免指数函数计算时的数值溢出问题。
+
+```python
+"""
+仔细观察我们可以发现softmax 对所有输入同时加同一个常数不变。也就是说，对任意常数 c
+softmax(v) = softmax(v + c)。
+其实就相当于分子分母多乘一个 exp(c)，工程中为了数值稳定，通常会取 c = -max(v)，这样就能避免 exp(v_i) 过大导致的溢出问题。
+"""
+
+
+def stable_softmax(
+    logits: torch.Tensor,
+    dim: int = -1,
+) -> torch.Tensor:
+    max_logits = torch.max(logits, dim=dim, keepdim=True).values
+    exp_logits = torch.exp(logits - max_logits)
+    sum_exp_logits = torch.sum(exp_logits, dim=dim, keepdim=True)
+    softmax = exp_logits / sum_exp_logits
+    return softmax
+
+```
+
+**Scaled Dot-Product Attention**
+
+在 Transformer 中，注意力机制的核心计算是 scaled dot-product attention。它的定义如下：
+$$\text{Attention}(Q, K, V) = \text{Softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V$$
+
+其中：
+- $Q$ 是查询矩阵（Query），形状为 $(B, L, d_k)$
+- $K$ 是键矩阵（Key），形状为 $(B, L, d_k)$
+- $V$ 是值矩阵（Value），形状为 $(B, L, d_v)$
+- $d_k$ 是键的维度
+- $B$ 是批次大小，$L$ 是序列长度
+
+
+在计算注意力分数时，我们首先计算 $QK^T$，得到一个形状为 $(B, L, L)$ 的矩阵，其中每个元素表示查询和键之间的相似度。然后我们将这个矩阵除以 $\sqrt{d_k}$ 来进行缩放，**防止数值过大导致 softmax 输出过于平坦**。最后，我们对缩放后的矩阵应用 softmax 函数，将其转换为一个概率分布，并用这个分布对值矩阵 $V$ 进行加权求和，得到最终的注意力输出。
+
+我们往往只需要计算 Query 和 Key 之间的注意力结果，很少存在额外的真值 Value。也就是说，我们其实只需要拟合两个文本序列。​在经典的 注意力机制中，Q 往往来自于一个序列，K 与 V 来自于另一个序列，都通过参数矩阵计算得到，从而可以拟合这两个序列之间的关系。例如在 Transformer 的 Decoder 结构中，Q 来自于 Decoder 的输入，K 与 V 来自于 Encoder 的输出，从而拟合了编码信息与历史信息之间的关系，便于综合这两种信息实现未来的预测。
+
+​但在 Transformer 的 Encoder 结构中，使用的是 注意力机制的变种 —— 自注意力（self-attention，自注意力）机制。所谓自注意力，即是计算本身序列中每个元素对其他元素的注意力分布，即在计算过程中，Q、K、V 都由同一个输入通过不同的参数矩阵计算得到。在 Encoder 中，Q、K、V 分别是输入对参数矩阵$W_Q$、$W_K$、$W_V$ 做积得到，从而拟合输入语句中每一个 token 对其他所有 token 的关系。
+
+通过自注意力机制，我们可以找到一段文本中每一个 token 与其他所有 token 的相关关系大小，从而建模文本之间的依赖关系。​在代码中的实现，self-attention 机制其实是通过给 Q、K、V 的输入传入同一个参数实现的：
+
+```python
+Attention(W_Q X, W_K X, W_V X)
+```
+
+在很多场景下我们需要 mask（例如 causal LM 中不允许看未来 token，或 padding 位置不参与注意力）。mask 的形状是：
+$$
+M = \begin{bmatrix}
+0 & -\infty & -\infty & \cdots & -\infty \\
+0 & 0 & -\infty & \cdots & -\infty \\
+0 & 0 & 0 & \cdots & -\infty \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & 0 & \cdots & 0
+\end{bmatrix}
+$$
+
+其中0也可以用True表示，-∞可以用False表示。
+
+- True 表示允许 attend（信息流通）
+- False 表示不允许 attend（需要屏蔽)
+
+其中 mask[i, j] = 0 表示位置 j 可以被位置 i 注意到，mask[i, j] = -∞ 表示位置 j 不可以被位置 i 注意到。在计算注意力分数时，我们将 mask 加到 $QK^T / \sqrt{d_k}$ 上，这样被 mask 掉的位置在 softmax 后的概率就会变成 0，从而实现了对这些位置的屏蔽。
+
+在语言模型里，token i预测下一个词时不应该访问 i 之后的 token 表示，否则会泄露答案，训练目标会被“作弊”轻易完成。 实现上可以用
+
+1. torch.triu（上三角）构造 False 区域，
+2. 用广播比较 j <= i。
+
+**Attention 的本质:**
+
+是“相似度打分 + softmax 归一化 + 对 V 加权求和”。工程实现时要特别注意
+ **softmax 的数值稳定性（减最大值） 和 masking（softmax 前加 -∞）** ，
+这两点几乎决定了注意力实现是否稳定、是否高效.
+
+在实现了单个Attention模块之后，我们看看这些如何组合在一起，实现我们的Multi Headed Attention
+
+```python
+
+def scaled_dot_product_attention(
+    query: torch.Tensor,
+    key: torch.Tensor,
+    value: torch.Tensor,
+    mask: torch.Tensor | None = None,
+) -> torch.Tensor:
+    d_k = query.size(-1)
+    scores = torch.matmul(query, key.transpose(-2, -1)) / (d_k**0.5)
+
+    if mask is not None:
+        scores = scores.masked_fill(mask == 0, float("-inf"))
+
+    attn_weights = stable_softmax(scores, dim=-1)
+    output = torch.matmul(attn_weights, value)
+    return output
+```
+
+**Multi-Head Attention**
+
+Multi-head attention 的定义是：
+
+$$\text{MultiHead}(Q, K, V) = W^O \text{Concat}(\text{head}_1, \text{head}_2, ..., \text{head}_h) $$
+
+其中每个head的计算如下：
+$$\text{head}_i = \text{Attention}(Q_i, K_i, V_i)$$
+
+这里的 $Q_i$、$K_i$、$V_i$ 是把同一个输入沿 embedding 维度切分得到的第 $i$ 个 slice（每个 head 的维度是 $d_k$ 或 $d_v$）
+在 self-attention 场景中，Q、K、V 都由同一个输入X投影得到.
+$$\text{head}_i = \text{Attention}(W_Q X, W_K X, W_V X)$$
+
+在继续完成 MHA 之前，我们先理清楚 shape 变化。假设：
+
+- 输入 X 的 shape 是 (batch_size, seq_len, d_model)
+- head 数量是 num_heads
+- 每个 head 的维度是 d_k = d_model // num_heads
+
+那么，计算 Q, K, V的线性投影后，我们需要把它们 reshape 成 (batch_size, num_heads, seq_len, d_k)，以便每个 head 独立计算注意力。实现上通常用以下两步：
+
+1. 先用 view() 把最后一维拆成 (num_heads, d_k)，变成 (batch_size, seq_len, num_heads, d_k)
+2. 再用 transpose() 把 num_heads 维度移到第二维，变成 (batch_size, num_heads, seq_len, d_k)
+
+之后，我们可以计算我们的scores:
+
+```python
+Q (batch_size, seq_len, num_heads, d_k) @ K^T (batch_size, num_heads, d_k, seq_len)  -> Score (batch_size, num_heads, seq_len, seq_len)
+```
+
+softmax 和 mask，不会改变 shape，最后对 V 做加权求和后，输出 shape 是 (batch_size, num_heads, seq_len, d_k)。最后一步是把多头输出拼回原始维度：
+
+1. 先用 transpose() 把 num_heads 维度移回第三维，变成 (batch_size, seq_len, num_heads, d_k)
+2. 再用 contiguous().view() 把最后两维拼回去，变成 (batch_size, seq_len, d_model)。
+3. 最后通过一个线性层$W_O$投影回原始维度。
+4. 最终输出 shape 是 (batch_size, seq_len, d_model)
+```python
+x : (B, S, D)
+    +--> Q = x W_Q : (B,S,D) --> view (B,S,H,d_k) --> transpose -> (B,H,S,d_k)
+    |
+    +--> K = x W_K : (B,S,D) --> view (B,S,H,d_k) --> transpose -> (B,H,S,d_k)
+    |
+    +--> V = x W_V : (B,S,D) --> view (B,S,H,d_k) --> transpose -> (B,H,S,d_k)
+
+             K^T : (B,H,d_k,S)
+scores = Q @ K^T  -----------------> scores : (B,H,S,S)
+        (B,H,S,d_k) @ (B,H,d_k,S)
+
+scores / sqrt(d_k) ----------------> (B,H,S,S)
++ mask (add -inf) -----------------> (B,H,S,S)
+softmax (last dim) ----------------> attn : (B,H,S,S)
+
+out_heads = attn @ V  -------------> out_heads : (B,H,S,d_k)
+            (B,H,S,S) @ (B,H,S,d_k)
+
+transpose(1,2) --------------------> (B,S,H,d_k)
+contiguous().view(B,S,D) ----------> out : (B,S,D)
+W_O (Linear) ----------------------> y : (B,S,D)
+```
+
+要搞懂 MHA（多头注意力）里的维度变换，**千万不要死记硬背 shape，一定要把自己想象成 PyTorch 底层的计算引擎**。
+
+我们把枯燥的 `(B, S, D)` 换成具体的数字，比如：**批处理 2 句话，每句话 3 个字，每个字用 8 个数字表示**。
+*   **B**atch_size = 2（两句话）
+*   **S**eq_len = 3（比如：“我”、“爱”、“你”）
+*   **D**model = 8（每个字的特征向量长度）
+*   **H**eads = 2（切成 2 个头）
+*   **d**_k = 4（每个头分到 8 / 2 = 4 个数字）
+
+下面我们像放电影一样，一步一步来看发生了什么，以及**为什么必须这么做**。
+
+---
+
+**第一步：造三把钥匙 (线性投影)**
+
+```python
+Q = x @ W_Q  # (2, 3, 8) @ (8, 8) -> (2, 3, 8)
+K = x @ W_K  # (2, 3, 8)
+V = x @ W_V  # (2, 3, 8)
+```
+*   **发生了什么**：输入是 `(2, 3, 8)`，经过三个不同的权重矩阵相乘，得到了 Q、K、V。形状**没变**，还是 `(2, 3, 8)`。
+*   **为什么**：这就像是你把原始的 8 维特征，投射到了三个不同的“视角”。Q是“我要找什么”，K是“我有什么特点”，V是“我的实际内容”。但在这一步，所有的信息还都揉在一起。
+
+---
+
+**第二步：切分多头—— 最核心的魔法**
+
+```python
+# (2, 3, 8) -> view -> (2, 3, 2, 4)
+# (2, 3, 2, 4) -> transpose(1, 2) -> (2, 2, 3, 4)
+```
+*   **发生了什么**：
+    1.  **`view` (切香肠)**：把最后的 8 维，平分成 2 个头，每个头 4 维 `(2, 3, 2, 4)`。
+    2.  **`transpose` (换位置)**：把“头数(2)”和“句子长度(3)”换个位置，变成 `(2, 2, 3, 4)`。
+*   **为什么必须这么变？（重点！）**
+    *   **为什么要 view？** 因为我们想让不同的头关注不同的信息。比如头 1（前 4 个数字）专门看语法，头 2（后 4 个数字）专门看情感。所以必须切开。
+    *   **为什么要 transpose？这是 PyTorch 的“死规矩”！**
+        *   PyTorch 的 `@`（矩阵乘法）规则是：**把最后两维当成矩阵，把前面的维度全都当成“批次”**。
+        *   如果你不 transpose，形状是 `(2, 3, 2, 4)`。当你算 `Q @ K^T` 时，它会把 `(2, 4)` 当成矩阵去乘，这根本不是我们想要的！
+        *   我们想要的是：**每个头，自己独立算一次注意力**。
+        *   transpose 成 `(2, 2, 3, 4)` 后，前面的 `(2, 2)` 被当成了“4个独立的批次”（2句话 × 2个头 = 4个独立计算任务），后面的 `(3, 4)` 才是真正参与计算的矩阵。这样 4 个头就实现了**并行计算**，互不干扰！
+
+---
+
+**第三步：计算注意力分数**
+
+```python
+# Q: (2, 2, 3, 4)  @  K^T: (2, 2, 4, 3)  ->  Score: (2, 2, 3, 3)
+```
+*   **发生了什么**：中间的 4 被消掉了，得到了一个 `(3, 3)` 的方块。
+*   **为什么**：`(3, 3)` 代表什么？代表这 3 个字两两之间的“匹配度”。
+    *   第 1 行代表：“我”对“我”、“爱”、“你”的关注分数。
+    *   第 2 行代表：“爱”对“我”、“爱”、“你”的关注分数。
+    *   中间的 4 维被消掉是正常的，因为点积就是把多维特征压缩成了一个标量（分数）。除以 $\sqrt{d_k}$ 是为了让分数别太大，防止 softmax 后梯度消失。
+
+---
+
+**第四步：对 V 加权求和**
+
+```python
+# attn: (2, 2, 3, 3)  @  V: (2, 2, 3, 4)  ->  out_heads: (2, 2, 3, 4)
+```
+*   **发生了什么**：用刚才算出的 `(3, 3)` 分数，去乘以 V 的内容 `(3, 4)`，结果又变回了 `(3, 4)`。
+*   **为什么**：比如第一个字“我”，它可能发现“爱”的分数是 0.8，“你”的分数是 0.2。它就把 V 里的“爱”拿过来 80%，把“你”拿过来 20%，揉合成自己新的 4 维特征。所以每个字看完别人后，输出的依然是 4 维特征。此时，2 个头的工作都已经做完了。
+
+---
+
+**第五步：拼接多头—— 原路返回**
+
+```python
+# out_heads: (2, 2, 3, 4) 
+# -> transpose(1, 2) -> (2, 3, 2, 4)
+# -> contiguous().view(2, 3, 8)
+```
+*   **发生了什么**：
+    1.  **`transpose`**：把形状从 `(2, 2, 3, 4)` 换回 `(2, 3, 2, 4)`。把“头”这个维度放回最后面。
+    2.  **`contiguous().view`**：把最后两维 `(2, 4)` 拼成 `(8)`。
+*   **为什么要这么变？**
+    *   **为什么要 transpose？** 因为 `view` 只能合并**相邻**的维度。你不能直接把 `(2, 2, 3, 4)` 变成 `(2, 3, 8)`，因为中间隔了个 3。必须先挪位置。
+    *   **为什么要 `contiguous`？（新手常坑）**：`transpose` 操作在内存中是很“懒”的，它只是改变了读取顺序（底层内存还是乱的）。而 `view` 要求底层数据必须是整整齐齐排布的。所以 `contiguous()` 的意思是：“**去内存里给我重新按顺序抄一遍**”，然后再顺利地 `view` 拼接成 8 维。
+
+---
+
+**第六步：最后的线性层 $W_O$**
+
+```python
+# out: (2, 3, 8) @ W_O -> y: (2, 3, 8)
+```
+*   **发生了什么**：形状不变，依然是 `(2, 3, 8)`。
+*   **为什么**：前面 2 个头是**各干各的**（头 1 看语法，头 2 看情感），它们之间没有信息交流。$W_O$ 这一层的作用，就是让这 8 个数字再次发生**全连接混合**。让语法信息和情感信息互相碰撞、整合，输出最终最完美的 8 维特征，交给下一层（比如 FFN）。
+
+---
+
+
+在使用 RoPE 的版本中，需要对 Q 和 K 做同样的位置旋转：
+
+- 对每个 head 的 Q应用 RoPE
+- 对每个 head 的 K 应用 RoPE
+- 不要对 V 应用 RoPE
+
+原因是：RoPE 影响的是“相似度打分”（$QK^T$）的相对位置信息；而 $V$是被加权汇聚的内容本身，通常不需要做旋转。
+
+另外，RoPE 的一个实现细节是：在 multi-head 中，head 维可以视为 batch 维来处理。也就是说，同一个位置 
+ 对应的旋转（cos/sin）应该对 所有 head 共享，每个 head 独立做 attention，但旋转规则一致。
+
+有了这些模块，我们就得到了最终的MHA
+
+```python
+import torch
+import torch.nn as nn
+from cs336_basics.modules.linear import Linear
+from cs336_basics.modules.rope import RoPEEmbedding
+
+
+
+class MHA(nn.Module):
+
+    def __init__(
+        self,
+        d_model: int,
+        num_heads: int,
+        use_rope: bool = False,
+        theta: float = 10000.0,
+        max_seq_len: int = 2048,
+        device: torch.device | None = None,
+        dtype: torch.dtype | None = None,
+    ) -> None:
+        super().__init__()
+        assert d_model % num_heads == 0, "d_model must be divisible by num_heads"
+        self.d_k = d_model // num_heads
+        self.num_heads = num_heads
+        self.d_model = d_model
+
+        self.q_linear = Linear(d_model, d_model, device=device, dtype=dtype)
+        self.k_linear = Linear(d_model, d_model, device=device, dtype=dtype)
+        self.v_linear = Linear(d_model, d_model, device=device, dtype=dtype)
+        self.out_linear = Linear(d_model, d_model, device=device, dtype=dtype)
+        self.use_rope = use_rope
+        if use_rope:
+            self.rope = RoPEEmbedding(
+                theta=theta,
+                d_k=self.d_k,
+                max_seq_len=max_seq_len,
+                device=device,
+            )
+
+    def _create_causal_mask(self, seq_len: int, device: torch.device) -> torch.Tensor:
+        """
+        tril 是 triangle lower（下三角）的缩写。
+        它会保留矩阵的主对角线及其下方的元素，把对角线右上方的元素全部变成 0。
+        """
+        mask = torch.tril(torch.ones(seq_len, seq_len, device=device)).bool()
+        """
+        .unsqueeze(0) 两次：
+        刚才生成的 mask 形状是 (seq_len, seq_len)。
+        但在 Transformer 的 Multi-Head Attention 中，
+        注意力分数矩阵（Attention Scores）的形状通常是 (batch_size, num_heads, seq_len, seq_len)。
+        为了能让 mask 和注意力分数矩阵进行广播相加（Broadcast Add），
+        我们必须给 mask 在最前面增加两个维度。
+        两次 unsqueeze(0) 后，它的形状就变成了 (1, 1, seq_len, seq_len)。这样它就能完美适配各种批次大小和注意力头数了。
+        """
+        return mask.unsqueeze(0).unsqueeze(0)
+
+    def forward(
+        self,
+        x: torch.Tensor,
+        token_positions: torch.Tensor | None = None,
+    ) -> torch.Tensor:
+
+        batch_size, seq_len, _ = x.size()
+        causal_mask = self._create_causal_mask(seq_len, x.device)
+        """
+        那么，计算 Q,K,V
+        的线性投影后，我们需要把它们 reshape 成 (batch_size, num_heads, seq_len, d_k)，
+        以便每个 head 独立计算注意力。实现上通常用以下两步：
+
+        先用 view() 把最后一维拆成 (num_heads, d_k)，变成 (batch_size, seq_len, num_heads, d_k)
+        再用 transpose() 把 num_heads 维度移到第二维，变成 (batch_size, num_heads, seq_len, d_k)
+
+        """
+        # 线性变换并分头
+        query = (
+            self.q_linear(x)
+            .view(batch_size, -1, self.num_heads, self.d_k)
+            .transpose(1, 2)
+        )
+        key = (
+            self.k_linear(x)
+            .view(batch_size, -1, self.num_heads, self.d_k)
+            .transpose(1, 2)
+        )
+        value = (
+            self.v_linear(x)
+            .view(batch_size, -1, self.num_heads, self.d_k)
+            .transpose(1, 2)
+        )
+        """
+        在使用 RoPE 的版本中，需要对 Q 和 K 做同样的位置旋转：
+        对每个 head 的 Q
+        应用 RoPE
+        对每个 head 的 K
+        应用 RoPE
+        不要对 V
+        应用 RoPE
+        原因是：RoPE 影响的是“相似度打分”（Q@K^T）的相对位置信息；而 V
+        是被加权汇聚的内容本身，通常不需要做旋转。
+        """
+        if self.use_rope:
+            query, key = self.rope(query, token_positions), self.rope(
+                key, token_positions
+            )
+
+        # 计算注意力
+        attn_output = scaled_dot_product_attention(query, key, value, causal_mask)
+
+        # 合并头并线性变换输出
+        attn_output = (
+            attn_output.transpose(1, 2).contiguous().view(batch_size, -1, self.d_model)
+        )
+        output = self.out_linear(attn_output)
+        return output
+
+```
+
+### Transformer Block
+
+有了这些模块，我们就可以和搭积木一样，搭建我们Transformer
+
+对输入 X，第一层的更新规则是：
+
+$$Y = X + \text{MHA}(\text{RMSNorm}(X))$$
+
+这句话可以拆开理解为三步：
+
+- (1) 归一化：先把输入 X 做 RMSNorm，得到更稳定的输入分布
+- (2) 主操作：把归一化后的向量送入 MHA，计算注意力输出
+- (3) 残差：把注意力输出加回原输入 X，形成新的输出Y
+
+为什么要加残差？因为注意力机制是一个非常强大的变换，如果直接用它的输出作为下一层的输入，可能会导致信息丢失或者梯度消失。加上残差连接可以让模型更容易训练，同时保留原始输入的信息。
+
+Pre-Norm 的意思是：**先归一化，再操作**。Pre-Norm相对于 Post-Norm（先做子层再归一化）有几个优点：
+
+1. 训练更稳定：Pre-Norm 可以**缓解**深层 Transformer 的**梯度消失**问题，使得**训练更稳定**。
+2. 更深的模型：Pre-Norm **允许我们训练更深的 Transformer**，因为每个子层的输入都经过归一化，减少了内部协变量偏移。
+3. 对Learning Rate更不敏感：Pre-Norm 结构**对学习率的选择不那么敏感**，允许使用更大的学习率进行训练。
+
+在 Encoder 中，在第一个子层，输入会先进行层归一化（Layer Norm），然后进入多头自注意力层，其输出会与原输入相加。在第二个子层也是一样。即：
+
+$$
+x=x+MultiHeadSelfAttention(RMSNorm(x))
+$$
+$$
+output=x+FNN(RMSNorm(x))
+$$
+
+```python
+
+class TransformerBlock(nn.Module):
+class TransformerBlock(nn.Module):
+    def __init__(self, config: ModelConfig):
+        super().__init__()
+
+        self.config = config
+
+        self.mha = MHA(
+            d_model=config.d_model,
+            num_heads=config.num_heads,
+            use_rope=config.use_rope,
+            theta=config.rope_theta,
+            max_seq_len=config.max_seq_len,
+        )
+        self.ffn = FFN(
+            d_model=config.d_model,
+            d_ff=config.d_ff,
+        )
+        self.norm1 = RMSNorm(config.d_model)
+        self.norm2 = RMSNorm(config.d_model)
+
+    def forward(self, x: torch.Tensor, token_positions: torch.Tensor | None = None) -> torch.Tensor:
+        x = x + self.mha(self.norm1(x), token_positions=token_positions) 
+        x = x + self.ffn(self.norm2(x)) 
+        return x
+```
+
+### Output Layer
+
+在堆叠完若干个 Transformer blocks 之后，我们会得到每个位置的最终 hidden states：
+
+$$H = \text{TransformerBlocks}(X) \isin \mathbb{R}^{B \times L \times D}$$
+
+
+接下来需要一个 Output Layer（LM Head） 把 hidden states 映射到词表大小的 logits：
+
+$$ logits = HW_{out} \isin \mathbb{R}^{B \times L \times V} $$
+
+其中 $B$ 是批次大小，$L$ 是序列长度，$D$ 是模型维度，$V$ 是词表大小。
+
+在很多现代 LLM 中，通常还会在输出层前加一个最终归一化（同样是 Pre-Norm 风格）：
+
+$$ logits = \text{RMSNorm}(H) W_{out} $$
+
+```python
+class OutputLayer(nn.Module):
+    def __init__(self, d_model, vocab_size, use_norm: bool = False):
+        super().__init__()
+        self.linear = Linear(d_model, vocab_size)
+        self.norm = RMSNorm(d_model) if use_norm else nn.Identity()
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x = self.norm(x)
+        logits = self.linear(x)
+        return logits
+```
+
+### Full Transformer Model
+
+当我们实现完 embedding、Transformer block（MHA + FFN）、以及输出层之后，就可以按照示意图的高层结构把整个语言模型串起来了。整体流程可以概括为三步：
+
+1. Token Embedding：把 token id 映射到向量表示
+2. 堆叠 num_layers 个 Transformer Blocks
+3. Output Layers：映射到词表分布
+
+```python
+class TransformerLM(nn.Module):
+    def __init__(self, config: ModelConfig):
+        super().__init__()
+
+        self.config = config
+
+        self.token_embedding = nn.Embedding(config.vocab_size, config.d_model)
+        self.layers = nn.ModuleList([TransformerBlock(config) for _ in range(config.num_layers)])
+        self.final_norm = RMSNorm(config.d_model)
+        self.output_layer = OutputLayer(config.d_model, config.vocab_size, use_norm=config.use_final_norm)
+
+        if config.tie_weights:
+            self._tie_weights()
+
+    def forward(self, x: torch.Tensor, token_positions: torch.Tensor | None = None) -> torch.Tensor:
+        x = self.token_embedding(x)
+
+        for layer in self.layers:
+            x = layer(x, token_positions=token_positions)
+
+        x = self.final_norm(x)
+        logits = self.output_layer(x)
+        return logits
+
+    def _tie_weights(self):
+        self.output_layer.linear.weight = self.token_embedding.weight
+```
+
+token ids → embedding 得到 $X_0$→ 经过 $L$个 Transformer blocks 得到 $H$→ 输出头（norm + linear + softmax）得到词表分布，用于 next-token prediction。
+
+### 总结
+
+总的来说，Part 02 就是在 Part 01 的 Tokenization 之后，把“能训练的语言模型”真正搭起来：我们从最基础的 Linear / Embedding 出发，逐步实现 RMSNorm（Pre-Norm）、现代 LLM 常用的 SwiGLU-FFN、再到最核心也最容易写错的 (RoPE + Causal) Multi-Head Self-Attention，最终像搭积木一样组装出完整的 TransformerBlock，并串联成 TransformerLM，通过 Output Layer 输出 vocabulary logits 用于 next-token prediction。
+
+这一部分最值得记住的工程要点有三类：
+
+1. 稳定性（stability）： Softmax 的数值稳定（减 max）、Pre-Norm（RMSNorm 放在子层前）、以及 causal mask 防止未来信息泄露，都是“训练能不能跑起来”的关键。
+2. 效率（efficiency）： Q/K/V 投影应当是 3 次矩阵乘法（更进一步可以合成 1 次），mask 用 “softmax 前加 -” 而不是切子序列，RoPE 用预计算的 sin/cos buffer 复用跨 batch/跨层，避免显式构造$d\times d$旋转矩阵。
+3. 结构（architecture）： 现代 LLM 的 Block 基本都遵循 “RMSNorm → MHA/FFN → Residual” 的 Pre-Norm 模式；FFN 常用 SwiGLU（激活 + gating）；RoPE 只作用在 Q/K（不作用在 V）；最后再接一个输出头（可选 final norm / weight tying）把 hidden states 映射到词表分布。
+
+
 
 ---
 
