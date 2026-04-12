@@ -2080,6 +2080,977 @@ token ids → embedding 得到 $X_0$→ 经过 $L$个 Transformer blocks 得到 
 2. 效率（efficiency）： Q/K/V 投影应当是 3 次矩阵乘法（更进一步可以合成 1 次），mask 用 “softmax 前加 -” 而不是切子序列，RoPE 用预计算的 sin/cos buffer 复用跨 batch/跨层，避免显式构造$d\times d$旋转矩阵。
 3. 结构（architecture）： 现代 LLM 的 Block 基本都遵循 “RMSNorm → MHA/FFN → Residual” 的 Pre-Norm 模式；FFN 常用 SwiGLU（激活 + gating）；RoPE 只作用在 Q/K（不作用在 V）；最后再接一个输出头（可选 final norm / weight tying）把 hidden states 映射到词表分布。
 
+## Optimizer & Training Loop
+
+### Loss & Perplexity
+
+我们先来定义我们的Loss Function,在神经网络训练中，Loss Function（损失函数）用于衡量模型预测与真实标签之间的差距。对于语言模型，常用的损失函数是交叉熵损失（Cross Entropy Loss）。
+
+在现代常见的语言模型是Next-Token Prediction模型，其训练目标是预测下一个token，也就是给定前面 t 个 token，预测第 t+1 个 token 的概率分布：
+
+$$P(x_{t+1} | x_1, x_2, ..., x_t)$$
+
+假设我们有一个长度为 T 的训练序列 $(x_1, x_2, ..., x_T)$，那么模型的目标是最大化整个序列的联合概率：
+
+$$P(x_1, x_2, ..., x_T) = P(x_1) P(x_2 | x_1) P(x_3 | x_1, x_2) ... P(x_T | x_1, ..., x_{T-1})$$
+
+为了实现这个目标，我们通常使用交叉熵损失（Cross Entropy Loss）来衡量模型预测的概率分布与真实分布之间的差异。
+
+Cross Entropy Loss 常用于分类任务中，定义如下：
+
+$$ \mathcal{L} = -\frac{1}{N}\sum_{i=1}^{N}\sum_{c=1}^{C} p_i y_{i,c}\ln(p_{i,c}) $$
+
+其中：
+
+- $N$是样本数量（在语言模型中通常是所有时间步的 token 数量）
+- $C$是类别数量（词表大小）
+- $p_i$是样本 $i$ 的预测概率分布
+- $y_{i,c}$是样本 $i$ 的真实标签的 one-hot 编码（如果样本 $i$ 的真实类别是 $c$，则 $y_{i,c} = 1$，否则 $y_{i,c} = 0$）
+- $p_{i,c}$是模型对样本 $i$ 预测为类别 $c$ 的概率。
+
+实现这个损失函数时，我们通常会结合 softmax 一起使用，因为模型输出的 logits 需要先经过 softmax 转换为概率分布。
+
+```python
+
+def cross_entropy(logits: torch.Tensor, labels: torch.Tensor):
+    # Subtract the largest element for numerical stability.
+    # 如果 logits 中的数值过大，计算 exp(logits) 可能会导致数值溢出（overflow）。
+    # 通过减去 logits 中的最大值，可以确保所有的数值都变得较小，从而避免溢出问题。
+    logits = logits - torch.max(logits, dim=1, keepdim=True).values
+
+    # 计算 log_probs。log_probs 的 shape 仍然是 (N, C)，表示每个样本在每个类别上的对数概率。
+    # logP(x) = log(exp(logits) / sum(exp(logits))) = logits - log(sum(exp(logits)))
+    log_probs = logits - torch.log(torch.sum(torch.exp(logits), dim=1, keepdim=True))
+
+    # 现在 log_probs 矩阵里装满了模型对每一个选项的“对数自信度”。
+    # 但是，我们在计算损失时，只关心模型对“正确答案”的自信度有多高。
+    # 其他选错的项，我们根本不看。
+    labels = labels.unsqueeze(1)
+    loss = log_probs.gather(1, labels).squeeze(1)
+    loss = -loss.mean()
+    return loss
+
+```
+其中 log_probs.gather(1, labels) 这一行代码的作用是
+从 log_probs 张量中提取出每个样本对应的真实标签的对数概率值。具体来说：
+
+- log_probs 的 shape 是 (N, C)，表示 N个样本在C个类别上的对数概率分布。
+- labels 的 shape 是 (N, 1)，表示每个样本的真实类别索引。
+- gather(1, labels) 会根据 labels 中的索引，从 log_probs 的第二维（类别维度）中提取对应的对数概率值，结果的 shape 是 (N, 1)。
+
+在使用这个交叉熵损失函数时，我们通常会将模型的输出 logits 和对应的真实标签展开成一维向量。
+这样做的好处是，可以简化计算过程，使得每个时间步的预测都被视为一个独立的样本，从而方便地计算整体的损失。
+
+
+在语言模型中，除了交叉熵损失，我们还常用一个指标叫做困惑度（Perplexity, PPL）来评估模型的性能。困惑度衡量的是模型对测试数据的预测能力，数值越低表示模型越好。 它的定义如下：
+
+$$PPL = \exp\left(\frac{1}{N} \sum_{i=1}^{N} L_i\right)$$
+
+它是交叉熵损失的指数形式，其中$L_i$是第 $i$ 个样本的交叉熵损失，
+$N$ 是样本总数， 也就是所有时间步的 token 数量。 它的直观意义是：**模型在预测下一个 token 时，平均每个 token 有多少种可能的选择。** 我们展开PPL的定义：
+$$PPL = \exp\left(\frac{1}{N} \sum_{i=1}^{N} -\log(p_i)\right) = \exp\left(-\frac{1}{N} \sum_{i=1}^{N} \log(p_i)\right) = \prod_{i=1}^{N} p_i^{-\frac{1}{N}}$$
+
+PPL 等价于 **“模型给真实 token 的概率 p”的倒数 1/p 的几何平均**，所以越小表示模型平均给真值的概率越大。
+
+这个看起来很抽象，我们来看一个具体例子： 假设我们有一个非常简单的词表，只有 4 个 token：{A, B, C, D}。现在我们有一个测试序列 A B C D，模型在每个时间步的预测概率如下：
+
+预测 B 的概率：0.5
+预测 C 的概率：0.25
+预测 D 的概率：0.1
+那么，我们可以计算这个序列的困惑度：
+$$PPL = \exp\left(-\frac{1}{3} (\log(0.5) + \log(0.25) + \log(0.1))\right)\approx 4.64>4$$
+这意味着，模型在预测下一个 token 时，平均每个 token 有大约 4.64 种可能的选择。 因为词表只有 4 个 token，这个困惑度表明模型的预测能力还不够好。
+
+代码实现如下：
+
+```python
+def perplexity(logits: torch.Tensor, labels: torch.Tensor):
+    loss = cross_entropy(logits, labels)
+    ppl = torch.exp(loss)
+    return ppl
+``` 
+
+### Optimizer & Learning Rate Scheduler
+
+有了Loss Function之后，我们接下来要定义Optimizer和Learning Rate Scheduler，来指导模型参数的更新。
+
+
+#### AdamW
+
+提及AdamW之前，我们先回顾一下Adam优化器。Adam（Adaptive Moment Estimation）是一种基于一阶矩估计的优化算法，它结合了动量（Momentum）和RMSProp的优点，能够自适应地调整每个参数的学习率。Adam通过计算梯度的一阶矩（均值）和二阶矩（未中心化的方差）来更新参数。
+
+核心更新公式
+```
+① 计算一阶/二阶矩估计（Adam 与 AdamW 相同）
+mt = β₁·mt-1 + (1−β₁)·gt     ← 一阶矩（动量）
+vt = β₂·vt-1 + (1−β₂)·gt²   ← 二阶矩（梯度平方）
+m̂t = mt / (1−β₁ᵗ)               ← 偏差修正
+v̂t = vt / (1−β₂ᵗ)               ← 偏差修正
+
+② 参数更新步骤（关键区别在这里！）
+Adam L2 in gradient
+θt = θt-1 − α · m̂t / (√v̂t + ε)
+（weight decay 加到梯度 g 里）
+gt = ∇L + λ·θ
+
+AdamW decoupled decay
+θt = θt-1 − α · m̂t / (√v̂t + ε)
+       − α · λ · θt-1
+（weight decay 直接作用于参数）
+```
+
+- Adam 的问题： 把 λ·θ 加到梯度 g 后，它会被自适应学习率 1/√v̂ 缩放。 梯度大的参数，v̂ 大，缩放小；梯度小的参数，v̂ 小，缩放大。 结果：weight decay 对不同参数的实际衰减力度不一致， 并非真正的"每步按比例缩小参数"。
+
+- AdamW 的修复： 将 weight decay 从梯度中解耦，直接以 α·λ·θ 的形式 独立地收缩参数，不受自适应缩放影响，真正实现了"参数越大、惩罚越强"的效果。
+
+
+好，我来系统讲解 Adam 和 AdamW 的原理与区别。先用一张交互式可视化来直观展示两种优化器的动态，然后配合公式详细解释。下面我来详细讲解。
+
+---
+
+##### 先理解 Adam 解决了什么问题
+
+在 Adam 之前，SGD + 动量是主流，但有两个痛点：
+
+1. **所有参数用同一个学习率**——有的参数梯度很大（频繁更新），有的很小（稀疏更新），统一步长不合适。
+2. **方向不稳定**——纯动量在梯度方向变化时容易震荡。
+
+Adam 的核心思路：**给每个参数自适应分配学习率**。
+
+---
+
+##### 第一步：维护两个"统计量"
+
+$$m_t = \beta_1 m_{t-1} + (1 - \beta_1) g_t$$
+
+$$v_t = \beta_2 v_{t-1} + (1 - \beta_2) g_t^2$$
+
+- $m_t$ 是**一阶矩**（梯度的指数移动平均），相当于"动量"，记住梯度的方向偏好
+- $v_t$ 是**二阶矩**（梯度平方的移动平均），相当于记住"这个参数最近多活跃"
+- 默认 $\beta_1 = 0.9$，$\beta_2 = 0.999$
+
+##### 第二步：偏差修正（这一步很多人会忽略）
+
+初始时 $m_0 = v_0 = 0$，早期更新会被严重低估。修正方法：
+
+$$\hat{m}_t = \frac{m_t}{1 - \beta_1^t}, \quad \hat{v}_t = \frac{v_t}{1 - \beta_2^t}$$
+
+随着 $t$ 增大，$\beta_1^t \to 0$，修正因子自动趋向 1，后期影响消失。
+
+##### 第三步：参数更新
+
+$$\theta_t = \theta_{t-1} - \frac{\alpha}{\sqrt{\hat{v}_t} + \varepsilon} \cdot \hat{m}_t$$
+
+**直觉理解：**
+- 分子 $\hat{m}_t$：往动量方向走（方向平滑）
+- 分母 $\sqrt{\hat{v}_t}$：梯度大的参数步长自动缩小（防止过冲），梯度小的参数步长自动放大（加快稀疏特征学习）
+- $\varepsilon \approx 10^{-8}$：防止除以零
+
+---
+
+##### Adam 加 L2 正则的"隐患"
+
+通常我们想让大参数受到更强惩罚，防止过拟合，做法是在 loss 上加 $\frac{\lambda}{2}\|\theta\|^2$，梯度变为：
+
+$$g_t^{L2} = \nabla \mathcal{L} + \lambda \theta$$
+
+这样额外的 $\lambda \theta$ 会被 Adam 的自适应缩放 $\frac{1}{\sqrt{\hat{v}_t}}$ 一并处理：
+
+$$\theta_t = \theta_{t-1} - \frac{\alpha}{\sqrt{\hat{v}_t} + \varepsilon} \cdot (\hat{m}_t^{\text{grad}} + \lambda \theta_{t-1})$$
+
+**问题在哪？** 梯度本来就大的参数，$\hat{v}_t$ 也大，整个分式变小，weight decay 的实际效果被自动"稀释"了；梯度小的参数反而受到更强的衰减。这与我们"对所有参数均匀施加 L2 惩罚"的初衷完全相反。
+
+Loshchilov & Hutter（ICLR 2019）指出：**Adam 的 L2 正则化在数学上并不等价于 weight decay**。
+
+---
+
+##### AdamW：解耦 weight decay
+
+AdamW 的修复非常直接——把 weight decay 从梯度里拿出来，单独作用于参数：
+
+$$\theta_t = \theta_{t-1} - \alpha \cdot \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \varepsilon} - \alpha \cdot \lambda \cdot \theta_{t-1}$$
+
+最后这一项 $\alpha \lambda \theta_{t-1}$ 不经过任何自适应缩放，**每个参数每步都按同样的比例收缩**，真正实现了"参数越大，惩罚越强"的初衷。
+
+可以理解为每步更新后再乘以一个因子：
+
+$$\theta_t = (1 - \alpha\lambda)\,\theta_{t-1} - \alpha \cdot \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \varepsilon}$$
+
+---
+
+##### 两者区别总结
+
+| 对比维度 | Adam (L2) | AdamW |
+|---|---|---|
+| weight decay 实现 | 混入梯度，被自适应缩放影响 | 解耦，直接作用于参数 |
+| 正则化均匀性 | 不同参数受到的实际衰减力度不一 | 每个参数均匀衰减 |
+| 适合场景 | 简单任务，不太在意正则强度 | Transformer / 大模型（GPT、BERT 等均用 AdamW） |
+| 超参调整 | weight decay 与 lr 耦合 | weight decay 可以独立调，更直觉 |
+
+---
+
+这样就保证了 weight decay 的效果是一致的，不会被自适应缩放影响。
+
+理解了 AdamW 的原理后，我们来看一下它的代码实现：
+
+```python
+
+
+class AdamW(torch.optim.Optimizer):
+    def __init__(
+        self,
+        params: Iterable[torch.nn.Parameter],
+        lr: float = 1e-3,
+        betas: tuple[float, float] = (0.9, 0.999),
+        eps: float = 1e-8,
+        weight_decay: float = 1e-2,
+    ):
+        if lr < 0.0:
+            raise ValueError(f"Invalid learning rate: {lr}")
+        if eps <= 0.0:
+            raise ValueError(f"Invalid epsilon value: {eps}")
+        if weight_decay < 0.0:
+            raise ValueError(f"Invalid weight_decay value: {weight_decay}")
+        if not isinstance(betas, tuple) or len(betas) != 2:
+            raise ValueError(f"betas must be a tuple of length 2, got: {betas}")
+        beta1, beta2 = betas
+        if not (0.0 <= beta1 < 1.0):
+            raise ValueError(f"Invalid beta1 value: {beta1}")
+        if not (0.0 <= beta2 < 1.0):
+            raise ValueError(f"Invalid beta2 value: {beta2}")
+
+        defaults = dict(lr=lr, betas=betas, eps=eps, weight_decay=weight_decay)
+        super().__init__(params, defaults)
+
+    @torch.no_grad()
+    def step(self, closure: Optional[callable] = None):
+        """Performs a single optimization step."""
+        loss = None
+        if closure is not None:
+            with torch.enable_grad():
+                loss = closure()
+
+        for group in self.param_groups:
+            lr: float = group["lr"]
+            beta1, beta2 = group["betas"]
+            eps: float = group["eps"]
+            weight_decay: float = group["weight_decay"]
+
+            for p in group["params"]:
+                if p.grad is None:
+                    continue
+
+                grad = p.grad
+                if grad.is_sparse:
+                    raise RuntimeError("AdamW does not support sparse gradients")
+
+                state = self.state[p]
+                if len(state) == 0:
+                    state["step"] = 0
+                    state["exp_avg"] = torch.zeros_like(
+                        p, memory_format=torch.preserve_format
+                    )
+                    state["exp_avg_sq"] = torch.zeros_like(
+                        p, memory_format=torch.preserve_format
+                    )
+
+                exp_avg = state["exp_avg"]
+                exp_avg_sq = state["exp_avg_sq"]
+
+                state["step"] += 1
+                t = state["step"]
+
+                # Update biased first and second moment estimates
+                exp_avg.mul_(beta1).add_(grad, alpha=(1.0 - beta1))
+                exp_avg_sq.mul_(beta2).addcmul_(grad, grad, value=(1.0 - beta2))
+
+                # Bias correction
+                bias_correction1 = 1.0 - beta1**t
+                bias_correction2 = 1.0 - beta2**t
+
+                # Compute step size
+                step_size = lr / bias_correction1
+
+                # Denominator: sqrt(v_hat) + eps
+                denom = (exp_avg_sq / bias_correction2).sqrt().add_(eps)
+
+                # Decoupled weight decay
+                if weight_decay != 0.0:
+                    p.mul_(1.0 - lr * weight_decay)
+
+                # Parameter update
+                p.addcdiv_(exp_avg, denom, value=-step_size)
+
+        return loss
+
+```
+#### Cosine Annealing Learning Rate Scheduler
+
+有了优化器之后，我们还需要一个Learning Rate Scheduler来动态调整学习率。在深度学习训练过程中，最合适的学习率会随阶段变化：
+
+- 训练早期：模型还没学到东西，参数离目标很远
+    - 用 更大的学习率，更新更快，loss 下降更快
+- 训练后期：模型接近收敛
+    - 用 更小的学习率，避免在最优点附近震荡，提升稳定性与最终效果
+
+因此我们需要Learning Rate Scheduler来在不同时期调整不同的Learning Rate。一个常见的Learning Rate Scheduler叫做 Cosine Annealing Scheduler，其核心思想是：
+
+它把学习率$\alpha_t$分成 三段：
+
+1. Warm-Up: 从 0 线性提升到 $$\alpha_{max}$$（防止一开始梯度太乱，直接大 LR 会不稳定）
+2. Cosine Annealing: 从 $$\alpha_{max}$$ 平滑降到 $$\alpha_{min}$$ （下降过程更平滑，比“突然降学习率”更稳）
+3. Post-Annealing: 保持 $$\alpha_{min}$$ 不变 （让训练在低 LR 下慢慢精修（fine-tune 风格））
+
+接下来我们看一下如何调整这三个不同的阶段：
+
+阶段1: Warm-Up
+
+当$t < T_w$时，我们线性增长到$\alpha_{max}$：
+
+$$\alpha_t = \alpha_{max} \cdot \frac{t}{T_w}$$
+
+阶段2: Cosine Annealing
+
+这个是相对复杂的阶段，在这个阶段我们的学习率用余弦曲线下降：
+
+$$\alpha_t = \alpha_{min} + \frac{1}{2}(\alpha_{max} - \alpha_{min}) \cdot \left(1 + \cos\left(\pi \cdot \frac{t - T_w}{T_c - T_w}\right)\right)$$
+
+这个式子做了两件事：
+- 用余弦函数产生一个从 1 平滑到 -1 的曲线
+- 再把它映射成一个从$$\alpha_{max}$$平滑到 $$\alpha_{min}$$ 的学习率
+
+我们查看一下两个端点：
+- 当 $t = T_w$ 时，$\alpha_t = \alpha_{max}$（余弦函数值为 1）
+- 当 $t = T_c$ 时，$\alpha_t = \alpha_{min}$（余弦函数值为 -1）
+
+阶段3: Post-Annealing
+
+当 $t \geq T_c$ 时，我们将学习率设定为 $\alpha_{min}$，且保持不变.
+
+代码实现也很简单：
+
+```python
+def cosine_annealing_lr(
+    t: int,
+    alpha_max: float,
+    alpha_min: float,
+    Tw: int,
+    Tc: int,
+) -> float:
+    # Warm-up
+    if Tw > 0 and t < Tw:
+        return (t / Tw) * alpha_max
+
+    # Cosine annealing (including the exact boundary t==Tw)
+    if t <= Tc:
+        # If Tc == Tw, there is no annealing window; at t==Tw return alpha_max.
+        if Tc == Tw:
+            return alpha_max
+
+        progress = (t - Tw) / (Tc - Tw)  # in [0, 1]
+        return alpha_min + 0.5 * (1.0 + math.cos(math.pi * progress)) * (
+            alpha_max - alpha_min
+        )
+
+    # Post-annealing
+    return alpha_min
+
+```
+
+![alt text](cosine_annealing.png)
+
+
+#### Gradient Clipping
+
+在训练神经网络时，有时会遇到某些 “特别难/特别极端” 的训练样本，它们会让模型产生 非常大的梯度。如果直接用这种梯度更新参数，可能会导致：
+
+1. Loss Spike: Loss 突然爆炸（数值不稳定）
+2. 参数更新步子太大，导致训练发散
+3. 训练曲线抖动的很厉害，难以收敛
+
+为了解决这个问题，实践中常用 Gradient Clipping。它的核心思想非常简单：把所有参数的梯度合起来，视为一个向量$g$, 计算它的 L2-Norm $\|g\|_2$，我们可以将其理解为整体梯度的强度/总能量, 然后设定一个阈值 $M$（最大允许的梯度范数）
+
+因此，我们有两种情况：
+1. $\|g\|_2 \leq M$ 说明梯度在安全范围内，直接保持原样。
+2. $\|g\|_2 > M$ 说明这个梯度过大，可能会造成问题，因此我们等比例缩小更新这个梯度, 缩小的系数是 $\frac{M}{\|g\|_2+\epsilon}$，这样就能把梯度的 L2-Norm 恰好缩放到 $M$，保证更新步子不会过大。
+
+更新后的梯度为：
+$$g' = g \cdot \min\left(1, \frac{M}{\|g\|_2+\epsilon}\right)$$
+
+通过这种缩放的方式，我们可以实现：
+
+- 方向不变：裁剪不会改变梯度的方向（只是整体缩放）
+- 步子变小：当梯度太大时，相当于强行让更新不要跨太大步
+- 更稳定：尤其对 RNN、Transformer 或训练早期很常见的“梯度爆炸”问题很有帮助
+
+代码实现也很简单，直观：
+
+```python
+@torch.no_grad()
+def gradient_clip(
+    parameters: Iterable[torch.nn.Parameter],
+    max_l2_norm: float,
+    eps: float = 1e-6,
+) -> None:
+    # Calculate L2-Norm
+    total_norm = 0.0
+    for p in parameters:
+        if p.grad is not None:
+            param_norm = p.grad.data.norm(2)
+            total_norm += param_norm.item() ** 2
+    total_norm = total_norm**0.5
+
+    # Update gradient value accroding to the factor
+    clip_coef = max_l2_norm / (total_norm + eps)
+    if clip_coef < 1.0:
+        for p in parameters:
+            if p.grad is not None:
+                p.grad.data.mul_(clip_coef)
+```
+
+有了这三个优化的组件之后，我们就可以把它们放在一起，形成一个完整的训练步骤：
+
+```python
+inputs, targets = data_loading_sequential(
+    x=x,
+    batch_size=train_config.batch_size,
+    context_length=model.config.max_seq_len,
+    device=train_config.device,
+    state=state,
+)
+
+# Forward pass
+with ctx:
+    logits = model(inputs)
+    logits = logits.view(-1, logits.size(-1))
+    targets = targets.view(-1)
+    loss = cross_entropy(logits, targets)
+
+# Backward pass and optimization step
+optimizer.zero_grad(set_to_none=True)
+loss.backward()
+# Gradient clipping
+gradient_clip(model.parameters(), max_l2_norm=train_config.max_grad_norm)
+
+# Learning rate scheduling
+lr = cosine_annealing_lr(
+    t=step,
+    alpha_max=train_config.max_lr,
+    alpha_min=train_config.min_lr,
+    Tw=train_config.warmup_steps,
+    Tc=train_config.num_steps - train_config.warmup_steps,
+)
+for param_group in optimizer.param_groups:
+    param_group["lr"] = lr
+optimizer.step()
+```
+
+#### Data Loader
+
+有了模型和优化器之后，我们还需要一个**数据加载器（Dataloader）**来提供训练数据。在语言模型的训练中，数据通常是文本序列，我们需要将这些文本序列转换为模型可以处理的格式。还记得之前我们在 Part 01 讲过的 Tokenization 吗？我们需要先把文本转换为 token ids，然后再组织成适合模型输入的批次。我们已经训练完Tokenizer，并且把文本转换成了token ids的形式保存在**.bin**文件中，接下来我们需要一个数据加载器来从这些token ids中提取出训练样本。
+
+在这个作业中，我们使用一个简单的**顺序采样（sequential sampling）**方法来加载数据。具体来说，我们会从 token ids 中按顺序提取出长度为 `context_length` 的子序列作为输入，目标是预测下一个 token。我们会不断地从数据中提取这样的子序列，直到达到指定的批次大小（batch size）。
+
+```python
+original_data = np.memmap( 
+    train_config.train_data_path, 
+    dtype=np.uint16, 
+    mode="r+", 
+)
+x_t = torch.from_numpy(original_data) 
+
+def get_batch_sequential(
+    x_t: torch.Tensor | np.ndarray,
+    batch_size: int,
+    context_length: int,
+    device: str | torch.device,
+    state: BatchState,
+    *,
+    stride: int | None = None,
+):
+    if stride is None:
+        stride = context_length
+
+    n = x_t.numel()
+    max_start = n - context_length - 1
+    if max_start < 0:
+        raise ValueError(f"Sequence too short: n={n}, context_length={context_length}")
+
+    # Avoid per-sample modulo wrap. If we would run off the end, reset cursor.
+    last_start = state.pos + (batch_size - 1) * stride
+    end = last_start + context_length + 1
+    if end > n:
+        state.pos = 0
+        last_start = (batch_size - 1) * stride
+        end = last_start + context_length + 1
+
+    base = x_t[state.pos : end]  # 1D contiguous slice
+
+    # 2D views: (B, T). Strides are in *elements* for PyTorch tensors.
+    inputs = base.as_strided(size=(batch_size, context_length), stride=(stride, 1)) 
+    targets = base[1:].as_strided(size=(batch_size, context_length), stride=(stride, 1)) #<< 
+
+    state.pos += batch_size * stride
+
+    # Transfer + cast (cast happens AFTER transfer => cheaper for CPU)
+    if (isinstance(device, torch.device) and device.type == "cuda") or (
+        isinstance(device, str) and "cuda" in device.lower()
+    ):
+        inputs = inputs.to(device, non_blocking=True).long() 
+        targets = targets.to(device, non_blocking=True).long() 
+    else:
+        inputs = inputs.long().to(device)
+        targets = targets.long().to(device)
+
+    return inputs, targets
+```
+
+需要注意的是，这个部分可能是训练时间瓶颈，因为数据加载和预处理可能会比较慢，尤其是当数据量很大时。 我们运用了以下几个技巧来提升数据加载效率：
+
+1. 使用 np.memmap 来内存映射数据文件，这样可以避免一次性加载整个数据集到内存中，节省内存空间。
+2. 使用 as_strided 来创建输入和目标的视图，避免了数据的复制，提高了效率。
+3. 使用非阻塞的数据传输（non_blocking=True）来加速数据从 CPU 到 GPU 的传输。
+
+#### Checkpoint
+
+在训练模型的过程中，我们需要时不时的保持 Checkpoint, 为什么呢？因为训练模型不只是“把 loss 训到低”这么简单，我们还经常需要：
+
+中途恢复训练：比如训练跑到一半机器断了、作业超时、意外退出，
+保留中间模型：方便之后分析训练过程、比较不同阶段的模型、做不同阶段的采样， Exponemtial Moving Average (EMA) 等等
+Checkpoint 的目标是：让你能从中断处无缝继续训练。
+
+因此至少要存这三类东西：
+
+1. 模型参数（model weights）
+    - 没有它，就没有模型本体了
+2. 优化器状态（optimizer state）
+    - 例如 AdamW 的一阶/二阶动量（moment estimates）
+    - 不存优化器状态，恢复后训练轨迹会变（因为动量没了）
+3. 当前迭代步数（iteration / step）
+    - 用来恢复学习率 schedule
+    - 否则学习率会从头开始或错位
+
+```python
+def save_checkpoint(
+    model: torch.nn.Module,
+    optimizer,
+    iteration,
+    out: str | os.PathLike | typing.BinaryIO | typing.IO[bytes],
+    verbose: bool = False,
+) -> None:
+    state = {
+        "model_state_dict": model.state_dict(),
+        "optimizer_state_dict": optimizer.state_dict(),
+        "iteration": iteration,
+    }
+
+    torch.save(state, out)
+
+    if verbose:
+        print_color(f"Checkpoint saved to {out}", "blue")
+
+
+def load_checkpoint(
+    src: str | os.PathLike | typing.BinaryIO | typing.IO[bytes], model, optimizer, verbose: bool = False
+) -> int:
+    state = torch.load(src, map_location=get_device())
+
+    model.load_state_dict(state["model_state_dict"])
+    optimizer.load_state_dict(state["optimizer_state_dict"])
+
+    if verbose:
+        print_color(f"Checkpoint loaded from {src}", "blue")
+
+    return state["iteration"]
+
+```
+
+#### Training Loop
+
+最后，我们把所有的组件放在一起，形成一个完整的训练循环：
+
+```python
+def train(model: torch.nn.Module, optimizer: torch.optim.Optimizer, train_config: TrainingConfig):
+    tokenizer = load_tokenizer_from_dir(train_config.dataset_dir)
+
+    # Load training dataset
+    original_data = np.memmap(
+        train_config.train_data_path,
+        dtype=np.uint16,
+        mode="r+",
+    )
+    x = torch.from_numpy(original_data)
+
+    best_eval_loss = float("inf")
+    ctx = get_ctx(train_config.use_mixed_precision, train_config.device)
+
+    # Training loop
+    state = BatchState(pos=0)
+    for step in range(train_config.num_steps):
+        # inputs, targets = dataloader
+        inputs, targets = data_loading_sequential(
+            x=x,
+            batch_size=train_config.batch_size,
+            context_length=model.config.max_seq_len,
+            device=train_config.device,
+            state=state,
+        )
+
+        # Forward pass
+        with ctx:
+            logits = model(inputs)
+            logits = logits.view(-1, logits.size(-1))
+            targets = targets.view(-1)
+            loss = cross_entropy(logits, targets)
+
+        # Backward pass and optimization step
+        optimizer.zero_grad(set_to_none=True)
+        loss.backward()
+        # Gradient clipping
+        gradient_clip(model.parameters(), max_l2_norm=train_config.max_grad_norm)
+
+        # Learning rate scheduling
+        lr = cosine_annealing_lr(
+            t=step,
+            alpha_max=train_config.max_lr,
+            alpha_min=train_config.min_lr,
+            Tw=train_config.warmup_steps,
+            Tc=train_config.num_steps - train_config.warmup_steps,
+        )
+        for param_group in optimizer.param_groups:
+            param_group["lr"] = lr
+        optimizer.step()
+
+        # Logging
+        if train_config.wandb_logging:
+            wandb.log(
+                {
+                    "train/loss": loss.item(),
+                    "train/perplexity": perplexity(loss).item(),
+                    "train/lr": lr,
+                },
+                step=step + 1,
+            )
+
+        print_color(
+            f"Step {step + 1}/{train_config.num_steps}, Loss: {loss.item():.4f}, LR: {lr:.6f}", "green"
+        )
+
+        if train_config.eval_log_interval > 0 and (step + 1) % train_config.eval_log_interval == 0:
+            # Cleanup
+            del inputs, targets, logits, loss
+            clear_memory()
+
+            print_color("Evaluating model...", "blue")
+            eval_loss, eval_perplexity = eval_model(model, train_config, step + 1)
+            wandb.log(
+                {
+                    "eval/loss": eval_loss.item(),
+                    "eval/perplexity": eval_perplexity.item(),
+                },
+                step=step + 1,
+            )
+            print_color(
+                f"Eval Loss: {eval_loss.item():.4f}, Eval Perplexity: {eval_perplexity.item():.4f}", "blue"
+            )
+            if eval_loss < best_eval_loss:
+                best_eval_loss = eval_loss
+                print_color(f"New best eval loss: {best_eval_loss:.4f}", "yellow")
+                out_path = os.path.join(
+                    train_config.save_checkpoint_dir,
+                    train_config.model_name,
+                    f"best_model_step_{step + 1}.pt",
+                )
+                save_checkpoint(
+                    model=model,
+                    optimizer=optimizer,
+                    iteration=step + 1,
+                    out=out_path,
+                    verbose=True,
+                )
+
+        # Sample generation
+        if train_config.sampling_log_interval > 0 and (step + 1) % train_config.sampling_log_interval == 0:
+            generated_outputs = generate(
+                model=model,
+                prompt="Once upon a time",
+                tokenizer=tokenizer,
+                max_new_tokens=256,
+                top_k=50,
+                temperature=0.8,
+            )
+            generated_text = generated_outputs["generated_text"]
+            print_color(f"Generated text at step {step + 1}:", "cyan")
+            print("Once upon a time", end="")
+            print_color(f"{generated_text}\n", "cyan")
+```
+这个训练循环涵盖了从数据加载、前向传播、反向传播、优化器更新、学习率调整、梯度裁剪，到评估和模型保存的完整流程。通过这个循环，我们可以有效地训练我们的语言模型，并在训练过程中监控模型的性能。
+
+## Generation
+
+训练完模型之后，我们可以用它来生成文本。在语言模型中，文本生成通常是通过采样（sampling）的方式来实现的。给定一个初始的上下文（prompt），模型会根据当前的上下文预测下一个 token 的概率分布，然后从这个分布中采样一个 token，加入到上下文中，重复这个过程，直到生成指定长度的文本。
+
+首先，我们来看一下采样的基本流程：
+
+1. 输入上下文：给定一个初始的文本上下文（prompt），将其转换为 token ids。
+2. 循环生成：对于每一步生成：
+   - 使用模型预测下一个 token 的概率分布。
+   - 根据采样策略从概率分布中选择下一个 token。
+   - 将选中的 token 加入到上下文中，作为下一步的输入。
+   - 重复上述过程，直到生成指定数量的 token。
+3. 输出生成文本：将生成的 token ids 转换回文本，输出最终生成的文本。
+
+```python
+
+@torch.no_grad()
+def generate(
+    model: torch.nn.Module,
+    prompt: torch.Tensor | str,
+    tokenizer: BPETokenizer,
+    max_new_tokens: int = 256,
+    top_k: int = 0,
+    top_p: float = 0.0,
+    temperature: float = 1.0,
+) -> dict:
+    model.eval()
+    if isinstance(prompt, str):
+        out = tokenizer.encode(prompt)
+        input_ids = out.ids if hasattr(out, "ids") else out  # List[int]
+        input_ids = torch.tensor(input_ids, dtype=torch.long).unsqueeze(0)
+    else:
+        input_ids = prompt.unsqueeze(0)  # Add batch dimension
+
+    input_ids = input_ids.to(model.device)
+    input_len = input_ids.shape[1]
+
+    with torch.amp.autocast("cuda", enabled=False):
+        for _ in range(max_new_tokens):
+            logits = model(input_ids)
+            next_token_logits = logits[:, -1, :].float()  # Get logits for the last token
+
+            # Sample from the distribution
+            assert temperature > 0.0, "Temperature must be positive."
+            assert top_p == 0.0 or top_k == 0, "Only one of top_p or top_k should be set."
+            next_token_logits = next_token_logits / temperature
+
+            if top_k > 0:
+                next_token_id = top_k_sampling(next_token_logits, top_k)
+            elif top_p > 0.0:
+                next_token_id = top_p_sampling(next_token_logits, top_p)
+            else:
+                next_token_id = next_token_logits.argmax(dim=-1, keepdim=True)  # Greedy if no sampling
+
+            if next_token_id.item() == tokenizer.eos_token_id:
+                break  # Stop if EOS token is generated
+            input_ids = torch.cat([input_ids, next_token_id], dim=-1)  # Append to input_ids
+
+    input_ids = input_ids.squeeze(0)  # Remove batch dimension
+    all_text = tokenizer.decode(input_ids.tolist())
+    generated_ids = input_ids[input_len:]
+    generated_text = tokenizer.decode(generated_ids.tolist())
+
+    model.train()
+    return {
+        "all_text": all_text,
+        "generated_text": generated_text,
+        "generated_ids": generated_ids,
+    }
+```
+
+
+其中不同的采样过程，会生成不同风格的文本，我们来看一下几种常用的采样方法：
+
+我们来看一下常用的采样方法： 
+- Greedy Sampling 
+- Top-K Sampling 
+- Top-P (Nucleus) Sampling
+
+### Greedy Sampling 
+
+是最简单的一种采样方法。在每一步生成时，模型会选择概率最高的 token 作为下一个 token。虽然这种方法简单且高效，但它可能会导致生成的文本缺乏多样性和创造性，因为它总是选择最可能的选项，容易陷入局部最优。
+
+```python
+next_token_id = next_token_logits.argmax(dim=-1, keepdim=True)
+```
+
+### Top-K Sampling
+
+Top-K Sampling 是一种改进的采样方法。在每一步生成时，模型会选择概率最高的 K 个 token，然后从这 K 个 token 中根据它们的概率分布进行采样。这样可以增加生成文本的多样性，同时仍然保持一定的质量。
+
+```python
+
+def top_k_sampling(
+    logits: torch.Tensor,
+    top_k: int,
+):
+    if top_k <= 0:
+        # sample from full distribution
+        probs = F.softmax(logits, dim=-1)
+        return torch.multinomial(probs, num_samples=1).squeeze(-1)
+
+    # 1. keep only top-k logits
+    top_k_logits, top_k_indices = torch.topk(logits, top_k, dim=-1)
+
+    filtered_logits = torch.full_like(logits, float("-inf"))
+    filtered_logits.scatter_(dim=-1, index=top_k_indices, src=top_k_logits)
+
+    # 2. softmax over filtered logits
+    probs = F.softmax(filtered_logits, dim=-1)
+
+    # 3. sample
+    next_token = torch.multinomial(probs, num_samples=1)
+
+    return next_token
+```
+
+### Top-P Sampling
+
+Top-P Sampling（也称为 Nucleus Sampling）是一种更灵活的采样方法。在每一步生成时，模型会选择累计概率达到 P 的最小 token 集合，然后从这个集合中根据它们的概率分布进行采样。这样可以动态调整候选 token 的数量，既保证了多样性，又避免了选择过于罕见的 token。
+
+```python
+def top_p_sampling(logits: torch.Tensor, top_p: float) -> torch.Tensor:
+    """
+    logits: (B, V)
+    returns: (B,) sampled token ids
+    """
+    assert 0.0 < top_p <= 1.0
+
+    # sort
+    sorted_logits, sorted_indices = torch.sort(logits, dim=-1, descending=True)
+    sorted_probs = F.softmax(sorted_logits, dim=-1)
+    cumulative_probs = torch.cumsum(sorted_probs, dim=-1)
+
+    # mask tokens with cumulative prob > top_p (but keep at least 1 token)
+    sorted_indices_to_remove = cumulative_probs > top_p
+    sorted_indices_to_remove[..., 1:] = sorted_indices_to_remove[..., :-1].clone()
+    sorted_indices_to_remove[..., 0] = False
+
+    # scatter mask back to original vocab positions
+    indices_to_remove = torch.zeros_like(logits, dtype=torch.bool)
+    indices_to_remove.scatter_(dim=-1, index=sorted_indices, src=sorted_indices_to_remove)
+
+    filtered_logits = logits.masked_fill(indices_to_remove, float("-inf"))
+
+    probs = F.softmax(filtered_logits, dim=-1)
+    next_token = torch.multinomial(probs, num_samples=1)
+
+    return next_token
+```
+
+### Temperature
+
+我们还可以通过调整 temperature 来控制生成文本的随机性。Temperature 是一个正数，通常在(0, +∞)范围内。它通过缩放 logits 来影响概率分布：
+
+- 当 temperature < 1 时，概率分布会变得更陡峭，模型更倾向于选择高概率的 token，生成的文本更确定性。
+- 当 temperature > 1 时，概率分布会变得更平坦，模型更倾向于选择低概率的 token，生成的文本更具多样性和创造性。
+
+数学上，我们通过除以 temperature 来调整 logits：
+$$
+softmax_i(z; T) = \frac{\exp(z_i/T)}{\sum_j \exp(z_j/T)}
+$$
+
+![alt text](temperature.png)
+
+### 总结
+
+在本部分中，我们介绍了如何使用训练好的语言模型进行文本生成。我们讨论了几种常用的采样方法，包括 Greedy Sampling、Top-K Sampling 和 Top-P Sampling，并介绍了如何通过调整 temperature 来控制生成文本的随机性。通过这些方法，我们可以生成多样化且有趣的文本内容。
+
+![alt text](sample_summary.png)
+
+## Experiments
+
+终于，我们完成了模型的训练和生成部分。接下来我们来看一下实验结果。在这里，我们训练了一个小型的 GPT-like 模型，模型配置如下：
+
+```python
+@dataclass
+class ModelConfig:
+    vocab_size: int = 10000
+    max_seq_len: int = 256
+
+    d_model: int = 512
+    d_ff: int = 1344
+
+    num_heads: int = 16
+    num_layers: int = 4
+
+    dropout: float = 0.1
+
+    use_rms_norm: bool = True
+    pre_norm: bool = True
+
+    # Special token IDs
+    eos_token_id: int = 256
+
+    # RoPE
+    use_rope: bool = True
+    rope_theta: float = 10000.0
+
+    # Others
+    tie_weights: bool = False
+    use_final_norm: bool = False
+
+@dataclass
+class TrainingConfig:
+    batch_size: int = 256
+    num_steps: int = 10_000
+    dataset_dir: str = "datasets/tiny_stories"
+    train_data_path: str = "datasets/tiny_stories/train.bin"
+    eval_data_path: str = "datasets/tiny_stories/eval.bin"
+
+    # Optimizer related parameters
+    betas: tuple = field(default=(0.9, 0.98))
+    weight_decay: float = 1e-5
+    max_lr: float = 3e-4
+    min_lr: float = 1e-5
+    warmup_steps: int = 500
+    max_grad_norm: float = 1.0
+
+    # Logging & checkpointing
+    wandb_logging: bool = True
+    eval_log_interval: int = 500
+    sampling_log_interval: int = 200
+
+    # Others:
+    model_name: str = "tiny_stories_transformer"
+    save_checkpoint_dir: str = "checkpoints"
+    device: str = "cpu"
+    debug_mode: bool = False
+    use_mixed_precision: bool = True
+    seed: int = 2025
+```
+
+![alt text](training_results.png)
+
+我们可以看到，在完成了10K步的训练之后，模型的训练损失和评估损失都有了明显的下降，困惑度（Perplexity）也有了显著的下降。这表明模型已经学会了一些语言模式，能够更好地预测下一个 token。最后的结果：
+
+
+```json
+{"train/loss":0.832310676574707,"eval/loss":0.871448814868927,"_step":10000,"_timestamp":1.7752947028266637e+09,"eval/perplexity":2.3919637203216553,"train/perplexity":2.298624038696289,"_wandb":{"runtime":1993},"train/lr":1e-05,"_runtime":1993.032631917}
+```
+我们看看模型生成的文本：
+
+
+
+![alt text](generated_text.png)
+
+我们可以看到，生成的句子，有一定的连贯性， 但是故事并不是完整的，且有一定的逻辑混乱。这是因为模型规模较小，训练步数有限，无法完全捕捉到复杂的语言结构和故事情节。我们可以通过以下几种方式来提升生成效果：
+
+1. 增加训练的steps：现在是10K，如果增加到15K，20K，效果应该会更好
+2. 增大Batch Size：相对的来说，Batch Size越大，Noise就越小，训练就更加稳当
+3. 增加Context Length：当前的Context Length是256，将其增大到512，或者更大，可以覆盖一个整个完整的故事结构。
+
+## Summary
+
+经过不懈的努力，终于完成了这个Assignment，在这个Assignment中，我们了解什么是BPE Tokenizer，Transformer Language Model 的架构，LM的训练流程，以及成功在最后生成了一段还不错的小故事。
+在这个过程中，我们不仅实现了一个基本的语言模型，还深入理解了优化器、学习率调度、梯度裁剪等训练技巧，以及文本生成的不同采样方法。通过实验，我们验证了模型的训练效果，并观察了生成文本的质量。
+这个Assignment为我们后续更深入的研究和实践打下了坚实的基础。接下来，我们可以尝试更大规模的模型，更多样化的数据集，以及更复杂的生成任务，继续探索语言模型的无限可能！
+
+## References
+
+1. [Assignment 01: Tokenization & Language Modeling](https://yyzhang2025.github.io/posts/CS336/Ass01/ass01.html)
+2. [Attention Is All You Need](https://arxiv.org/abs/1706.03762)
+3. [Adam: A Method for Stochastic Optimization](https://arxiv.org/abs/1412.6980)
+4. [Decoupled Weight Decay Regularization](https://arxiv.org/abs/1711.05101)
 
 
 ---
