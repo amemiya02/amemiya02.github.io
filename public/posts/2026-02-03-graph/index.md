@@ -318,6 +318,6 @@ func (this *Trie) searchPrefix(prefix string) *Trie {
 
 ---
 
-> 作者:   
-> URL: https://amemiya02.github.io/posts/2026-02-03-graph/  
+> 作者: [Amemiya](https://github.com/amemiya02)  
+> URL: http://localhost:1313/posts/2026-02-03-graph/  
 

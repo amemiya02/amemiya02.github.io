@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "style.min.css",
-	"sourceRoot": "/Users/zichuanxu/vscode/amemiya02.github.io",
+	"sourceRoot": "/Users/xuzichuan/vscode/amemiya02.github.io",
 	"sources": [
 		"themes/FixIt/assets/css/style.scss",
 		"themes/FixIt/assets/css/_variables.scss",

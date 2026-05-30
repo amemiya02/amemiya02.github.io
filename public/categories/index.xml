@@ -1,47 +1,52 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Categories on Amemiya</title>
-    <link>https://amemiya02.github.io/categories/</link>
-    <description>Recent content in Categories on Amemiya</description>
-    <generator>Hugo</generator>
-    <language>zh-CN</language>
-    <lastBuildDate>Tue, 07 Apr 2026 19:01:48 +0900</lastBuildDate>
-    <atom:link href="https://amemiya02.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Go</title>
-      <link>https://amemiya02.github.io/categories/go/</link>
-      <pubDate>Tue, 07 Apr 2026 19:01:48 +0900</pubDate>
-      <guid>https://amemiya02.github.io/categories/go/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>LeetCode</title>
-      <link>https://amemiya02.github.io/categories/leetcode/</link>
-      <pubDate>Wed, 25 Mar 2026 15:45:36 +0900</pubDate>
-      <guid>https://amemiya02.github.io/categories/leetcode/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>算法</title>
-      <link>https://amemiya02.github.io/categories/%E7%AE%97%E6%B3%95/</link>
-      <pubDate>Wed, 25 Mar 2026 15:45:36 +0900</pubDate>
-      <guid>https://amemiya02.github.io/categories/%E7%AE%97%E6%B3%95/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>MySQL</title>
-      <link>https://amemiya02.github.io/categories/mysql/</link>
-      <pubDate>Tue, 10 Feb 2026 23:09:17 +0800</pubDate>
-      <guid>https://amemiya02.github.io/categories/mysql/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>数据库</title>
-      <link>https://amemiya02.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
-      <pubDate>Tue, 10 Feb 2026 23:09:17 +0800</pubDate>
-      <guid>https://amemiya02.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</guid>
-      <description></description>
-    </item>
-  </channel>
+	<channel>
+		<title>Categories on Amemiya</title>
+		<link>http://localhost:1313/categories/</link>
+		<description>Recent content in Categories on Amemiya</description>
+		<generator>Hugo</generator>
+		<language>zh-CN</language>
+		
+		
+		
+		
+			<lastBuildDate>Tue, 07 Apr 2026 19:01:48 +0900</lastBuildDate>
+		
+			<atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Go</title>
+				<link>http://localhost:1313/categories/go/</link>
+				<pubDate>Tue, 07 Apr 2026 19:01:48 +0900</pubDate>
+				<guid>http://localhost:1313/categories/go/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>CS336</title>
+				<link>http://localhost:1313/categories/cs336/</link>
+				<pubDate>Tue, 07 Apr 2026 18:57:33 +0900</pubDate>
+				<guid>http://localhost:1313/categories/cs336/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>LLM</title>
+				<link>http://localhost:1313/categories/llm/</link>
+				<pubDate>Tue, 07 Apr 2026 18:57:33 +0900</pubDate>
+				<guid>http://localhost:1313/categories/llm/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>LeetCode</title>
+				<link>http://localhost:1313/categories/leetcode/</link>
+				<pubDate>Wed, 11 Feb 2026 09:00:00 +0900</pubDate>
+				<guid>http://localhost:1313/categories/leetcode/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>算法</title>
+				<link>http://localhost:1313/categories/%E7%AE%97%E6%B3%95/</link>
+				<pubDate>Wed, 11 Feb 2026 09:00:00 +0900</pubDate>
+				<guid>http://localhost:1313/categories/%E7%AE%97%E6%B3%95/</guid>
+				<description></description>
+			</item>
+	</channel>
 </rss>

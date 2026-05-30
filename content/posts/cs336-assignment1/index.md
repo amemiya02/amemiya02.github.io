@@ -5,18 +5,22 @@ date: 2026-04-07T18:57:33+09:00
 slug: 5086d95
 draft: false
 author:
-  name:
-  link:
+  name: Amemiya
+  link: https://github.com/amemiya02
   email:
-  avatar:
+  avatar: avatar.png
 description:
 keywords:
 comment: false
 weight: 0
 tags:
-  - [大语言模型, LLM, CS336, Transformer]
+  - 大语言模型
+  - LLM
+  - CS336
+  - Transformer
 categories:
-  - [CS336, LLM]
+  - CS336
+  - LLM
 hiddenFromHomePage: false
 hiddenFromSearch: false
 hiddenFromRelated: false
@@ -32,6 +36,8 @@ repost:
 
 # See details front matter: https://fixit.lruihao.cn/documentation/content-management/introduction/#front-matter
 ---
+
+> **参考**：本笔记参照 [yyzhang2025 - CS336 Assignment 01](https://yyzhang2025.github.io/posts/LearningNotes/LLM/CS336/Ass01/ass01.html) 整理。
 
 <!--more-->
 Assignment 01 要求我们从0实现一个简单的语言模型训练流程，涵盖：

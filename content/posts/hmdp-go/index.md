@@ -5,10 +5,10 @@ date: 2026-04-07T19:01:48+09:00
 slug: 8bd4dd1
 draft: false
 author:
-  name:
-  link:
+  name: Amemiya
+  link: https://github.com/amemiya02
   email:
-  avatar:
+  avatar: avatar.png
 description:
 keywords:
 comment: false

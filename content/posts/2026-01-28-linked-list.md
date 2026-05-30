@@ -3,6 +3,10 @@ title: "[Golang] LeetCode 热题 100 - 链表"
 date: 2026-01-28 9:00:00 +0900
 categories: [算法, LeetCode]
 tags: [Go, 链表, 题解]
+author:
+  name: Amemiya
+  link: https://github.com/amemiya02
+  avatar: avatar.png
 ---
 # 链表
 

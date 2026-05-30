@@ -3,6 +3,10 @@ title: "[Golang] LeetCode 热题 100 - 滑动窗口"
 date: 2026-01-25 9:00:00 +0900
 categories: [算法, LeetCode]
 tags: [Go, 滑动窗口, 题解]
+author:
+  name: Amemiya
+  link: https://github.com/amemiya02
+  avatar: avatar.png
 ---
 # 滑动窗口
 

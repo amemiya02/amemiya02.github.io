@@ -1,6 +1,8 @@
 # CS336 Assignment 01
 
 
+> **参考**：本笔记参照 [yyzhang2025 - CS336 Assignment 01](https://yyzhang2025.github.io/posts/LearningNotes/LLM/CS336/Ass01/ass01.html) 整理。
+
 <!--more-->
 Assignment 01 要求我们从0实现一个简单的语言模型训练流程，涵盖：
 
@@ -3055,6 +3057,6 @@ class TrainingConfig:
 
 ---
 
-> 作者: <no value>  
-> URL: https://amemiya02.github.io/posts/5086d95/  
+> 作者: [Amemiya](https://github.com/amemiya02)  
+> URL: http://localhost:1313/posts/5086d95/  
 

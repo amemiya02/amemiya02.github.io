@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>LLM - 分类 - Amemiya</title>
+    <link>http://localhost:1313/categories/llm/</link>
+    <description>Amemiya的个人博客</description>
+    <generator>Hugo 0.162.1 &amp; FixIt v0.4.3-20260130042349-e23a50d7</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 07 Apr 2026 18:57:33 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/llm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CS336 Assignment 01</title>
+      <link>http://localhost:1313/posts/5086d95/</link>
+      <pubDate>Tue, 07 Apr 2026 18:57:33 +0900</pubDate>
+      <guid>http://localhost:1313/posts/5086d95/</guid>
+      <category domain="http://localhost:1313/categories/cs336/">CS336</category>
+      <category domain="http://localhost:1313/categories/llm/">LLM</category>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;strong&gt;参考&lt;/strong&gt;：本笔记参照 &lt;a href=&#34;https://yyzhang2025.github.io/posts/LearningNotes/LLM/CS336/Ass01/ass01.html&#34; target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;yyzhang2025 - CS336 Assignment 01&lt;/a&gt; 整理。&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+    </item>
+  </channel>
+</rss>

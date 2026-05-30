@@ -335,6 +335,6 @@ func largestRectangleArea(heights []int) int {
 
 ---
 
-> 作者:   
-> URL: https://amemiya02.github.io/posts/2026-02-09-stack/  
+> 作者: [Amemiya](https://github.com/amemiya02)  
+> URL: http://localhost:1313/posts/2026-02-09-stack/  
 

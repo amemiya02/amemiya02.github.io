@@ -565,6 +565,6 @@ func TestHyperLogLog(t *testing.T) {
 
 ---
 
-> 作者: <no value>  
-> URL: https://amemiya02.github.io/posts/8bd4dd1/  
+> 作者: [Amemiya](https://github.com/amemiya02)  
+> URL: http://localhost:1313/posts/8bd4dd1/  
 

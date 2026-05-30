@@ -3,6 +3,10 @@ title: "[Golang] LeetCode 热题 100 - 回溯"
 date: 2026-02-03 9:01:00 +0900
 categories: [算法, LeetCode]
 tags: [Go, 回溯, 题解]
+author:
+  name: Amemiya
+  link: https://github.com/amemiya02
+  avatar: avatar.png
 ---
 # 回溯
 

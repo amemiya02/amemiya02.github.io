@@ -25,7 +25,7 @@ home:
     enable: true
     subtitle: The last leg of a journey just marks the halfway point.
     avatarMenu: github
-    avatarURL: avatar.jpg
+    avatarURL: avatar.png
 
 social:
   GitHub: amemiya02

@@ -982,6 +982,6 @@ func max(a, b int) int {
 
 ---
 
-> 作者:   
-> URL: https://amemiya02.github.io/posts/2026-01-31-binary-tree/  
+> 作者: [Amemiya](https://github.com/amemiya02)  
+> URL: http://localhost:1313/posts/2026-01-31-binary-tree/  
 

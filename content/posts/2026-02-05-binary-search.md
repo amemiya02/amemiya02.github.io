@@ -3,6 +3,10 @@ title: "[Golang] LeetCode 热题 100 - 二分查找"
 date: 2026-02-05 8:00:00 +0900
 categories: [算法, LeetCode]
 tags: [Go, 二分查找, 题解]
+author:
+  name: Amemiya
+  link: https://github.com/amemiya02
+  avatar: avatar.png
 ---
 # 二分查找
 

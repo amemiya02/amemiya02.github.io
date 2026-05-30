@@ -3,6 +3,10 @@ title: "[Golang] LeetCode 热题 100 - 双指针"
 date: 2026-01-24 21:00:00 +0900
 categories: [算法, LeetCode]
 tags: [Go, 双指针, 动态规划, 题解]
+author:
+  name: Amemiya
+  link: https://github.com/amemiya02
+  avatar: avatar.png
 ---
 # 双指针
 

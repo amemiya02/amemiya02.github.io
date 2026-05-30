@@ -3,6 +3,10 @@ title: "[Golang] LeetCode 热题 100 - 二叉树"
 date: 2026-01-31 9:00:00 +0900
 categories: [算法, LeetCode]
 tags: [Go, 二叉树, 题解]
+author:
+  name: Amemiya
+  link: https://github.com/amemiya02
+  avatar: avatar.png
 ---
 # 二叉树
 

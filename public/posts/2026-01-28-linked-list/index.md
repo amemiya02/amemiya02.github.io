@@ -1217,6 +1217,6 @@ func (this *LRUCache) removeTail() *Node {
 
 ---
 
-> 作者:   
-> URL: https://amemiya02.github.io/posts/2026-01-28-linked-list/  
+> 作者: [Amemiya](https://github.com/amemiya02)  
+> URL: http://localhost:1313/posts/2026-01-28-linked-list/  
 
