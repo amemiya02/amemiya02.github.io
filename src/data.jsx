@@ -117,8 +117,8 @@ export const DSC_DATA = {
       tagline: "为 DeepSeek 而生的终端编码代理。单个 Go 二进制，MIT 开源。",
       cols: [
         { h: "产品", links: [["特性", "#features"], ["DeepSeek 特化", "#spec"], ["实时演示", "#demo"], ["安装", "#install"]] },
-        { h: "文档", links: [["配置", "#"], ["供应商", "#"], ["工具", "#"], ["权限与沙箱", "#"], ["MCP / 技能", "#"]] },
-        { h: "社区", links: [["GitHub", "https://github.com/amemiya02/deepseekcode"], ["Releases", "#"], ["Issues", "#"], ["贡献指南", "#"]] },
+        { h: "文档", links: [["配置", "https://github.com/amemiya02/deepseekcode/blob/main/docs/config.md"], ["供应商", "https://github.com/amemiya02/deepseekcode/blob/main/docs/PROVIDERS.md"], ["工具", "https://github.com/amemiya02/deepseekcode/blob/main/docs/tools.md"], ["权限与沙箱", "https://github.com/amemiya02/deepseekcode/blob/main/docs/permissions.md"], ["MCP / 技能", "https://github.com/amemiya02/deepseekcode/blob/main/docs/mcp.md"]] },
+        { h: "社区", links: [["GitHub", "https://github.com/amemiya02/deepseekcode"], ["Releases", "https://github.com/amemiya02/deepseekcode/releases"], ["Issues", "https://github.com/amemiya02/deepseekcode/issues"], ["贡献指南", "https://github.com/amemiya02/deepseekcode/blob/main/README.md"]] },
       ],
       rights: "MIT License · © 2026 deepseekcode",
     },
@@ -179,8 +179,8 @@ export const DSC_DATA = {
       tagline: "The terminal coding agent built for DeepSeek. One Go binary, MIT licensed.",
       cols: [
         { h: "Product", links: [["Features", "#features"], ["DeepSeek", "#spec"], ["Live demo", "#demo"], ["Install", "#install"]] },
-        { h: "Docs", links: [["Configuration", "#"], ["Providers", "#"], ["Tools", "#"], ["Permissions & sandbox", "#"], ["MCP / Skills", "#"]] },
-        { h: "Community", links: [["GitHub", "https://github.com/amemiya02/deepseekcode"], ["Releases", "#"], ["Issues", "#"], ["Contributing", "#"]] },
+        { h: "Docs", links: [["Configuration", "https://github.com/amemiya02/deepseekcode/blob/main/docs/config.md"], ["Providers", "https://github.com/amemiya02/deepseekcode/blob/main/docs/PROVIDERS.md"], ["Tools", "https://github.com/amemiya02/deepseekcode/blob/main/docs/tools.md"], ["Permissions & sandbox", "https://github.com/amemiya02/deepseekcode/blob/main/docs/permissions.md"], ["MCP / Skills", "https://github.com/amemiya02/deepseekcode/blob/main/docs/mcp.md"]] },
+        { h: "Community", links: [["GitHub", "https://github.com/amemiya02/deepseekcode"], ["Releases", "https://github.com/amemiya02/deepseekcode/releases"], ["Issues", "https://github.com/amemiya02/deepseekcode/issues"], ["Contributing", "https://github.com/amemiya02/deepseekcode/blob/main/README.md"]] },
       ],
       rights: "MIT License · © 2026 deepseekcode",
     },

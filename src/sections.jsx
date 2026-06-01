@@ -188,10 +188,10 @@ export function Install({ t }) {
   return (
     <section className="section" id="install">
       <div className="wrap">
-        <div className="reveal" style={{ maxWidth: 620 }}>
+        <div className="reveal">
           <span className="eyebrow"><span className="dot"></span>{t.install.eyebrow}</span>
           <h2 className="h-section" style={{ marginTop: 18 }}>{t.install.title}</h2>
-          <p className="lead" style={{ marginTop: 16 }}>{hlDS(t.install.lead)}</p>
+          <p className="lead" style={{ marginTop: 16, maxWidth: "none" }}>{hlDS(t.install.lead)}</p>
         </div>
         <div className="install-wrap">
           <div className="reveal">
