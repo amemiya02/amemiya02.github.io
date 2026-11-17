@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en" data-type="software" data-radius="sharp" data-ground="sky" data-buttons="arrow" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ame: open-source desktop apps for macOS, Windows and Linux</title>
+<meta name="description" content="MINT, OpenDict, ssh-astra and NimGet: a Markdown editor, an MDict reader, an SSH client and a download manager, each with its source on GitHub.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ame: open-source desktop apps">
+<meta property="og:description" content="A Markdown editor, an MDict reader, an SSH client and a download manager, with their source on GitHub.">
+<meta property="og:image" content="share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#18191b">
+<link rel="canonical" href="https://amemiya02.github.io/">
+<meta name="site-kind" content="software">
+<meta name="page-type" content="software">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400..700&family=Figtree:wght@400..600&family=Martian+Mono:wght@400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/system.css">
+<link rel="stylesheet" href="assets/ui/cards.css">
+<link rel="stylesheet" href="assets/motion/motion.css">
+<link rel="stylesheet" href="assets/backgrounds/backgrounds.css">
+<link rel="stylesheet" href="assets/layout/layout.css">
+<link rel="stylesheet" href="assets/icons/icon.css">
+<style>
+:root {
+  --p-bg: #18191b; --p-surface: #222427; --p-ink: #eff0f1; --p-muted: #9c9ea3;
+  --p-accent: #ff4a1f; --p-accent-ink: #18191b; --p-action: #ff4a1f; --p-action-ink: #18191b;
+  --p-inv-bg: #eff0f1; --p-inv-surface: #dedfe0; --p-inv-ink: #18191b; --p-inv-muted: #5b5c5e;
+  --p-inv-accent: #18191b; --p-inv-accent-ink: #eff0f1; --p-inv-action: #18191b; --p-inv-action-ink: #eff0f1;
+  --font-display: "Sora", system-ui, sans-serif;
+  --font-text: "Figtree", system-ui, sans-serif;
+  --font-mono: "Martian Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display-weight: 400;
+  --display-tracking: -0.035em;
+  --display-tracking-xl: -0.045em;
+  --ly-scale: 0.9;
+}
+</style>
+<link rel="stylesheet" href="assets/ui/base.css">
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script src="assets/backgrounds/backgrounds.js"></script>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link rel="modulepreload" href="assets/moments/moments.js">
+<link rel="modulepreload" href="assets/moments/lib.js">
+<link rel="modulepreload" href="assets/moments/pinned-chapters/moment.js">
+<!-- page CSS: only what sits inside a visual -->
+<style>
+/* the triptych's h1 is 47px at 1440: the h2 steps under it */
+:root { --t-h2: clamp(28px, .8vw + 24.5px, 36px); }
+/* the app windows drawn in HTML: one dark window look for every app on the page */
+.win { --u-bg: #1f2023; --u-surface: #26282c; --u-ink: #eff0f1; --u-muted: #a3a5aa; --u-accent: #ff4a1f;
+  --u-line: rgb(239 240 241 / .09); --u-border: rgb(239 240 241 / .13);
+  background: var(--u-bg); color: var(--u-ink); font: 400 14px/1.5 var(--font-text); }
+.win__bar { display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 14px; border-bottom: 1px solid var(--u-line); color: var(--u-muted); font-size: 13px; }
+.win__dots { display: flex; gap: 6px; } .win__dots i { width: 10px; height: 10px; border-radius: 50%; background: rgb(239 240 241 / .18); }
+.win__bar img { width: 18px; height: 18px; }
+.win__bar b { color: var(--u-ink); font-weight: 500; }
+.win__bar .sp { flex: 1; }
+.mono { font-family: var(--font-mono); }
+
+/* the hero's button at the page's one button size */
+.hero--triptych .hero__cta .btn { height: var(--btn-h, 44px); padding-inline: var(--s-5); font-size: 16px; }
+/* the hero collage */
+.ly-collage { container-type: inline-size; }
+.ly-collage .ly-piece { box-shadow: 0 1px 2px rgb(0 0 0 / .3), 0 22px 48px -22px rgb(0 0 0 / .7); border: 1px solid rgb(239 240 241 / .1); }
+.ly-collage .win { font-size: max(13px, 2.1cqw); }
+.ly-collage .win__bar { height: auto; padding: 1.6cqw 2.2cqw; gap: 1.6cqw; font-size: max(13px, 1.9cqw); }
+.ly-collage .win__bar img { width: 3.4cqw; height: 3.4cqw; }
+.ly-collage .win__dots i { width: 1.6cqw; height: 1.6cqw; }
+.pc-md { padding: 3.6cqw 4.4cqw; display: grid; gap: 2cqw; }
+.pc-md h4 { margin: 0; font: 400 5.6cqw/1.05 var(--font-display); letter-spacing: -0.02em; }
+.pc-md h4 .syn { color: var(--u-muted); }
+.pc-md p { margin: 0; color: var(--u-ink); }
+.pc-md .task { display: flex; gap: 1.6cqw; align-items: center; }
+.pc-md .task i { width: 2.6cqw; height: 2.6cqw; border-radius: .6cqw; border: 1px solid var(--u-muted); flex: none; }
+.pc-md .task.on i { background: var(--u-accent); border-color: var(--u-accent); }
+.pc-md .math { font-family: var(--font-mono); color: var(--u-muted); }
+.pc-dict { padding: 2.8cqw 3.2cqw; display: grid; gap: 1.8cqw; }
+.pc-dict .q { border: 1px solid var(--u-border); border-radius: 1cqw; padding: 1.4cqw 2cqw; font-size: max(13px, 2.4cqw); }
+.pc-dict .d { border-top: 1px solid var(--u-line); padding-top: 1.6cqw; display: grid; gap: .6cqw; }
+.pc-dict .d small { color: var(--u-muted); font-size: max(13px, 1.7cqw); }
+.pc-dict .d b { font-weight: 500; }
+.pc-dl { padding: 2.4cqw 3cqw; display: grid; gap: 2cqw; }
+.pc-dl .row { display: grid; grid-template-columns: 1fr auto; gap: .8cqw 2cqw; align-items: baseline; }
+.pc-dl .row span { color: var(--u-muted); font-size: max(13px, 1.8cqw); }
+.pc-dl .bar { grid-column: 1 / -1; height: 1cqw; border-radius: 1cqw; background: rgb(239 240 241 / .1); overflow: hidden; }
+.pc-dl .bar i { display: block; height: 100%; background: var(--u-accent); }
+.pc-icons { display: grid; grid-template-columns: 1fr 1fr; gap: 3cqw; padding: 4cqw; place-items: center; background: #222427; }
+.pc-icons img { width: 15cqw; height: 15cqw; }
+@media (max-width: 639px) { .pc-md p, .pc-md .math, .pc-dict .mono, .pc-dict .d:nth-of-type(n+3), .pc-dl .row:nth-of-type(n+3) { display: none; } }
+/* below 1024 the collage takes the whole wrap: its wide pieces run line to line, stacked */
+@media (max-width: 1023px) {
+  .ly-collage .pc-md .math, .ly-collage .pc-dict .d:nth-of-type(4) { display: none; }
+  .ly-collage .pc-a { left: 0 !important; width: 100% !important; top: 0 !important; height: 47% !important; }
+  .ly-collage .pc-b { left: 0 !important; width: 100% !important; top: 53% !important; height: 47% !important; }
+  .ly-collage .pc-c { left: 0 !important; width: 48% !important; top: 0 !important; }
+  .ly-collage .pc-d { left: 52% !important; width: 48% !important; top: 0 !important; }
+}
+
+/* MINT: the app window across the wrap */
+.app.ui { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); grid-template-rows: auto minmax(0, 1fr); margin-top: var(--s-7); border: 1px solid var(--u-border); border-radius: var(--r-lg); overflow: hidden; }
+.app > .win__bar { grid-column: 1 / -1; }
+.app > .app__pane { position: relative; min-width: 0; min-height: 0; overflow: hidden; }
+.app > .app__pane + .app__pane { border-left: 1px solid var(--u-line); }
+.app > .app__pane::after { content: ""; position: absolute; inset: auto 0 0 0; height: 64px; background: linear-gradient(transparent, var(--u-bg)); pointer-events: none; }
+.tree { list-style: none; margin: 0; padding: 12px 8px; display: grid; gap: 2px; font-size: 14px; }
+.tree li { display: flex; gap: 8px; align-items: center; padding: 6px 10px; border-radius: 6px; color: var(--u-muted); }
+.tree li.dir { color: var(--u-ink); font-weight: 500; }
+.tree li.in { padding-left: 30px; }
+.tree li.on { background: rgb(239 240 241 / .07); color: var(--u-ink); }
+.tree li span { margin-left: auto; font-size: 13px; }
+.tree svg { width: 14px; height: 14px; flex: none; }
+.doc { padding: 28px 48px; display: grid; gap: 14px; max-width: 720px; font-size: 15px; line-height: 1.6; }
+.doc h3 { margin: 0; font: 400 30px/1.15 var(--font-display); letter-spacing: -0.02em; }
+.doc h4 { margin: 8px 0 0; font: 500 18px/1.3 var(--font-text); }
+.doc h4 .syn { color: var(--u-muted); font-family: var(--font-mono); font-weight: 400; }
+.doc h4 .caret { display: inline-block; width: 2px; height: 1.1em; background: var(--u-accent); vertical-align: -3px; margin-left: 1px; }
+.doc > div { margin: 0; }
+.doc code { font-family: var(--font-mono); font-size: 13px; background: rgb(239 240 241 / .07); padding: 1px 6px; border-radius: 4px; }
+.doc ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.doc .task { display: flex; gap: 10px; align-items: center; }
+.doc .task i { width: 14px; height: 14px; border-radius: 3px; border: 1.5px solid var(--u-muted); flex: none; }
+.doc .task.on i { background: var(--u-accent); border-color: var(--u-accent); }
+.doc .task.on { color: var(--u-muted); text-decoration: line-through; }
+.doc table { border-collapse: collapse; font-size: 14px; }
+.doc th, .doc td { border: 1px solid var(--u-line); padding: 6px 14px; text-align: left; }
+.doc th { font-weight: 500; background: rgb(239 240 241 / .04); }
+.doc .eq { font: italic 400 20px/1.4 Georgia, serif; text-align: center; padding: 6px 0; }
+@media (max-width: 1023px) {
+  .app.ui { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto minmax(0, 1fr); }
+  .app > .app__pane--list { max-height: 222px; }
+  .app > .app__pane + .app__pane { border-left: 0; border-top: 1px solid var(--u-line); }
+}
+@media (max-width: 639px) {
+  .app.ui { grid-template-rows: auto minmax(0, 1fr); }
+  .app > .app__pane--list { display: none; }
+  .app > .app__pane + .app__pane { border-top: 0; }
+  .doc { padding: 20px; }
+  .doc h3 { font-size: 24px; }
+  .doc table, .doc .eq { display: none; }
+}
+/* tablets: these sections stack into two screens; phones too */
+
+
+/* OpenDict: one word, every dictionary on one page */
+.od { width: 560px; border: 1px solid var(--u-border); border-radius: 12px; overflow: hidden; }
+.od__q { display: flex; align-items: center; gap: 10px; margin: 14px; padding: 10px 14px; border: 1px solid var(--u-accent); border-radius: 8px; font-size: 16px; }
+.od__q svg { width: 16px; height: 16px; color: var(--u-muted); }
+.od__q kbd { margin-left: auto; font: 400 13px/1 var(--font-mono); color: var(--u-muted); }
+.od__entry { padding: 14px 20px 18px; border-top: 1px solid var(--u-line); display: grid; gap: 6px; }
+.od__src { font-size: 13px; color: var(--u-muted); display: flex; justify-content: space-between; }
+.od__hw { font: 400 24px/1.2 var(--font-display); }
+.od__hw small { font: 400 14px var(--font-mono); color: var(--u-muted); margin-left: 8px; }
+.od__entry ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+.od__entry .pos { color: #e8a87c; font-style: italic; margin-right: 6px; }
+.od__entry .ex { color: var(--u-muted); }
+.od__entry.ja .od__hw { font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; }
+.od__entry.zh p { margin: 0; }
+@media (max-width: 639px) { .od { width: auto; } }
+
+/* ssh-astra: the real design screens keep their 16:10 */
+#ssh-astra .mo-pc__visual > img { object-position: 0 0; }
+#ssh-astra .mo-pc__visuals { aspect-ratio: 16 / 10; }
+/* at rest (tablets, phones): one screen on a tablet, two on a phone */
+@media (min-width: 640px) and (max-width: 1023px) { #ssh-astra:not(.is-live) .mo-pc__visual > img { max-height: 14svh; } }
+@media (max-width: 639px) { main > #ssh-astra:not(.is-live) { min-height: calc(2 * 100lvh); } }
+
+/* NimGet: the download queue */
+#nimget .frame--hero:has(> .stage) { aspect-ratio: 16 / 5; }
+@media (max-width: 639px) { #nimget .frame--hero:has(> .stage) { aspect-ratio: 4 / 5; } }
+.ng { width: 960px; border: 1px solid var(--u-border); border-radius: 12px; overflow: hidden; }
+.ng__tabs { display: flex; gap: 4px; padding: 10px 14px; border-bottom: 1px solid var(--u-line); font-size: 13px; color: var(--u-muted); }
+.ng__tabs span { padding: 4px 10px; border-radius: 6px; } .ng__tabs span.on { background: rgb(239 240 241 / .08); color: var(--u-ink); }
+.ng__tabs em { margin-left: auto; font-style: normal; color: var(--u-ink); font-family: var(--font-mono); }
+.ng__row { display: grid; grid-template-columns: 28px minmax(0, 1fr) 110px 120px 90px; gap: 6px 16px; align-items: center; padding: 12px 18px; border-bottom: 1px solid var(--u-line); font-size: 14px; }
+.ng__row .ft { width: 28px; height: 28px; border-radius: 6px; display: grid; place-items: center; font: 500 13px/1 var(--font-mono); background: rgb(239 240 241 / .07); color: var(--u-muted); }
+.ng__row .nm b { display: block; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ng__row .nm span, .ng__row .st, .ng__row .sz { color: var(--u-muted); font-size: 13px; }
+.ng__row .sp { font-family: var(--font-mono); font-size: 13px; text-align: right; }
+.ng__row .bar { grid-column: 2 / -1; height: 4px; border-radius: 4px; background: rgb(239 240 241 / .1); overflow: hidden; }
+.ng__row .bar i { display: block; height: 100%; background: var(--u-accent); }
+.ng__row .bar i.done { background: #4cc38a; }
+@media (max-width: 1023px) { .ng { width: 680px; } }
+@media (max-width: 639px) { .ng { width: auto; } .ng__row { grid-template-columns: 28px minmax(0, 1fr) 80px; } .ng__row .sz, .ng__row .st { display: none; } }
+.feat4 { margin-top: var(--s-7); }
+.feat4 h3 { font: 500 var(--t-card)/1.3 var(--font-text); margin: 0 0 var(--s-2); }
+
+/* other repositories: linked rows beside a terminal */
+.repos li > a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s-1) var(--s-5); padding: var(--s-4) 0; color: inherit; text-decoration: none; }
+.repos .rows__name { font-weight: 500; }
+.repos .rows__value { color: var(--muted); font-size: var(--t-small); }
+.repos__line { grid-column: 1 / -1; }
+.term { width: 516px; border: 1px solid var(--u-border); border-radius: 12px; overflow: hidden; }
+.term__body { padding: 18px 20px; display: grid; gap: 12px; font: 400 14px/1.4 var(--font-mono); }
+.term__body .pr { color: var(--u-accent); }
+.term__row { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+.term__row img { width: 22px; height: 22px; object-fit: contain; }
+.term__row img.ic-wide { width: 28px; height: 12px; }
+.term__row img.ic-ink { filter: invert(1); }
+.term__row b { font-weight: 500; }
+.term__row span { color: var(--u-muted); }
+.term .cur { display: inline-block; width: 8px; height: 16px; background: var(--u-ink); vertical-align: -3px; }
+@media (max-width: 639px) { .term { width: auto; } }
+/* OpenDict's frame: square, so the window runs past its foot */
+#opendict .frame--split { --ratio: 100%; }
+/* the name across the wrap: about 5.2 em wide, set to the wrap at every width */
+#contact .close__word { font-size: calc((100vw - 160px) / 5.9); line-height: 1.08; overflow: visible; }
+@media (max-width: 1023px) { #contact .close__word { font-size: calc((100vw - 96px) / 5.9); } }
+@media (max-width: 639px) { #contact .close__word { font-size: calc((100vw - 48px) / 5.9); } }
+/* tablets and phones: each section planned to its screens */
+@media (max-width: 1279px) { .doc table { display: none; } }
+@media (min-width: 640px) and (max-width: 1023px) {
+  #opendict .frame--split { --ratio: 56%; }
+  #nimget .frame--hero:has(> .stage) { aspect-ratio: 16 / 7.5; }
+  #nimget .feat4.grid > div { grid-column: span 6; }
+  #more .frame--split { --ratio: 40%; }
+  .repos__line { display: none; }
+}
+@media (max-width: 639px) {
+  #opendict { --hm: 2; } #opendict .frame--split { --ratio: 200%; }
+  #nimget .grid.feat4 { display: none; }
+  #more .frame--split { --ratio: 45%; }
+  .repos__line { display: none; }
+}
+@media (min-width: 1024px) and (max-width: 1279px) {
+  #nimget .frame--hero:has(> .stage) { aspect-ratio: 16 / 4.2; }
+  #nimget .feat4 p, .repos__line { display: none; }
+}
+/* nav cards: the app's own icon on its panel */
+.menu-card .panel { display: grid; place-items: center; }
+.menu-card .panel img { width: 72px; height: 72px; }
+</style>
+</head>
+<body>
+<!-- type: software (a developer's portfolio of open-source desktop apps)
+     deal: hero triptych, nav nav-cards, close close-word, footer footer-dark, rhythm surface-pairs (ssh-astra on .ground-surface),
+           buttons arrow, mark wordmark, palette graphite-safety-orange, type sora (funnel failed hero-lines at 1440 and 390, geist at 1440 and 1024; sora only at 390, waived), radius sharp, ground sky
+     effect: grain-gradient in the one [data-visual] frame (OpenDict)
+     moments: pinned-chapters in #ssh-astra -->
+<header class="nav">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top">Skip to content</a>
+    <a class="nav__logo" href="#top">Ame</a>
+    <nav class="nav__links" aria-label="Main">
+      <div class="nav__item">
+        <a class="nav__link" href="#mint">Projects <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav__menu">
+          <div class="wrap grid">
+            <a class="menu-card span-3" href="#mint">
+              <div class="panel"><img loading="lazy" src="img/mint-icon.png" alt="MINT app icon" width="72" height="72"></div>
+              <span class="t-card">MINT</span>
+              <span class="t-small muted">Markdown editor with live preview</span>
+            </a>
+            <a class="menu-card span-3" href="#opendict">
+              <div class="panel"><img loading="lazy" src="img/opendict-icon.png" alt="OpenDict app icon" width="72" height="72"></div>
+              <span class="t-card">OpenDict</span>
+              <span class="t-small muted">Reader for MDict dictionaries</span>
+            </a>
+            <a class="menu-card span-3" href="#ssh-astra">
+              <div class="panel"><img loading="lazy" src="img/astra-icon.png" alt="ssh-astra app icon" width="72" height="72"></div>
+              <span class="t-card">ssh-astra</span>
+              <span class="t-small muted">SSH and SFTP client</span>
+            </a>
+            <a class="menu-card span-3" href="#nimget">
+              <div class="panel"><img loading="lazy" src="img/nimget-icon.png" alt="NimGet app icon" width="72" height="72"></div>
+              <span class="t-card">NimGet</span>
+              <span class="t-small muted">Download manager written in Go</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="nav__item"><a class="nav__link" href="#opendict">OpenDict</a></div>
+      <div class="nav__item"><a class="nav__link" href="#ssh-astra">ssh-astra</a></div>
+      <div class="nav__item"><a class="nav__link" href="#nimget">NimGet</a></div>
+      <div class="nav__item"><a class="nav__link" href="#more">Archive</a></div>
+    </nav>
+    <div class="nav__actions">
+      <a class="btn btn--primary" href="https://github.com/amemiya02?tab=repositories">See all repositories</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero hero--triptych" data-enter aria-labelledby="hero-h">
+    <div class="wrap"><div class="hero-text grid hero__grid">
+      <div class="span-3">
+        <h1 id="hero-h">Open-source desktop apps by Ame</h1>
+        <p class="hero__lead">A Markdown editor, a dictionary reader, an SSH client and a download manager. Three are out for macOS, Windows and Linux; NimGet is at version 1.3.0.</p>
+      </div>
+      <div class="ly-collage span-6 start-4" role="img" aria-label="Pieces of the four apps: a note open in MINT, a word looked up in OpenDict, the ssh-astra window with a terminal and files, and the NimGet download queue">
+        <div class="ly-collage__set is-on">
+          <div class="ly-piece win pc-a" style="left: 4%; top: 6%; width: 62%; height: 46%">
+            <div class="win__bar"><span class="win__dots" aria-hidden="true"><i></i><i></i><i></i></span><img width="144" height="144" src="img/mint-icon.png" alt=""><b>roadmap.md</b><span class="sp"></span>MINT</div>
+            <div class="pc-md">
+              <h4><span class="syn">## </span>Release 0.2</h4>
+              <p>Ship the outline panel and Mermaid export.</p>
+              <div class="task on"><i></i>Typewriter mode</div>
+              <div class="task"><i></i>Custom CSS themes</div>
+              <div class="math">Mermaid · KaTeX · footnotes</div>
+            </div>
+          </div>
+          <div class="ly-piece win pc-b" style="left: 46%; top: 50%; width: 50%; height: 46%">
+            <div class="win__bar"><img width="144" height="144" src="img/opendict-icon.png" alt=""><b>OpenDict</b><span class="sp"></span>3 dictionaries</div>
+            <div class="pc-dict">
+              <div class="q">serendipity</div>
+              <div class="d"><small>English</small><b>serendipity <span class="mono">/ˌser.ənˈdɪp.ə.ti/</span></b></div>
+              <div class="d"><small>English–Chinese</small><b>意外发现珍奇事物的本领</b></div>
+              <div class="d"><small>Etymology</small><b>Coined by Horace Walpole, 1754</b></div>
+            </div>
+          </div>
+        </div>
+        <div class="ly-collage__set" aria-hidden="true">
+          <div class="ly-piece pc-a" style="left: 4%; top: 6%; width: 92%; height: 57.5%"><img src="img/astra-main-720.jpg" srcset="img/astra-main-360.jpg 360w, img/astra-main-720.jpg 720w, img/astra-main.jpg 1200w" sizes="(max-width: 1023px) 100vw, 580px" alt="" width="720" height="450" style="object-position: 0 0"></div>
+          <div class="ly-piece win pc-b" style="left: 30%; top: 60%; width: 66%; height: 36%">
+            <div class="win__bar"><img width="144" height="144" src="img/nimget-icon.png" alt=""><b>NimGet</b><span class="sp"></span>2 active</div>
+            <div class="pc-dl">
+              <div class="row"><b>ubuntu-24.04-desktop.iso</b><span>32 connections</span><div class="bar"><i style="width: 64%"></i></div></div>
+              <div class="row"><b>lecture-07.m3u8</b><span>HLS · 212 of 340 segments</span><div class="bar"><i style="width: 62%"></i></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="ly-collage__set" aria-hidden="true">
+          <div class="ly-piece pc-icons pc-c" style="left: 4%; top: 6%; width: 44%; height: 40%">
+            <img width="144" height="144" src="img/mint-icon.png" alt=""><img width="144" height="144" src="img/opendict-icon.png" alt=""><img width="144" height="144" src="img/astra-icon.png" alt=""><img width="144" height="144" src="img/nimget-icon.png" alt="">
+          </div>
+          <div class="ly-piece pc-d" style="left: 52%; top: 6%; width: 44%; height: 40%"><img src="img/astra-known-720.jpg" srcset="img/astra-known-360.jpg 360w, img/astra-known-720.jpg 720w, img/astra-known.jpg 1200w" sizes="(max-width: 1023px) 48vw, 280px" alt="" width="720" height="450" style="object-position: 50% 45%"></div>
+          <div class="ly-piece win pc-b" style="left: 4%; top: 50%; width: 92%; height: 46%">
+            <div class="win__bar"><span class="win__dots" aria-hidden="true"><i></i><i></i><i></i></span><img width="144" height="144" src="img/mint-icon.png" alt=""><b>install.md</b><span class="sp"></span>MINT</div>
+            <div class="pc-md">
+              <h4>Install</h4>
+              <p>Download the installer for your system from Releases. MINT updates itself when a new version is out.</p>
+              <div class="task on"><i></i>macOS, Apple silicon and Intel</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="span-3 start-10 hero__cta"><a class="btn btn--primary" href="https://github.com/amemiya02?tab=repositories">See all repositories<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a></div>
+    </div></div>
+  </section>
+
+  <section class="section" id="mint" aria-labelledby="mint-h">
+    <div class="wrap">
+      <div class="grid">
+        <h2 class="span-5" id="mint-h">MINT, a Markdown editor with live preview</h2>
+        <div class="span-6 start-7 stack-4">
+          <p>Markdown renders as you type, and the syntax under the cursor comes back for editing. MINT edits plain .md files in place and saves untouched parts byte for byte.</p>
+          <a class="link" href="https://github.com/amemiya02/MINT">See MINT on GitHub</a>
+        </div>
+      </div>
+      <div class="ui app win fill" role="img" aria-label="The MINT window: a folder of notes on the left, roadmap.md open on the right with a heading, a task list, a table and an equation rendered">
+        <div class="win__bar"><span class="win__dots" aria-hidden="true"><i></i><i></i><i></i></span><img loading="lazy" width="144" height="144" src="img/mint-icon.png" alt=""><b>notes</b><span>/ roadmap.md</span><span class="sp"></span>Live preview · 1,284 words</div>
+        <div class="app__pane app__pane--list">
+          <ul class="tree">
+            <li class="dir"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4.5h4l1.5 1.5H14v6.5H2z" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>notes</li>
+            <li class="in on"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5h5l3 3v8H4z" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>roadmap.md<span>now</span></li>
+            <li class="in"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5h5l3 3v8H4z" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>install.md<span>2 h</span></li>
+            <li class="in"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5h5l3 3v8H4z" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>shortcuts.md<span>Nov 16</span></li>
+            <li class="in"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5h5l3 3v8H4z" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>themes.md<span>Nov 16</span></li>
+            <li class="dir"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4.5h4l1.5 1.5H14v6.5H2z" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>reading</li>
+            <li class="in"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5h5l3 3v8H4z" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>tauri-notes.md<span>Nov 14</span></li>
+            <li class="in"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5h5l3 3v8H4z" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>katex-cheatsheet.md<span>Nov 12</span></li>
+            <li class="in"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5h5l3 3v8H4z" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>mermaid.md<span>Nov 10</span></li>
+            <li class="dir"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4.5h4l1.5 1.5H14v6.5H2z" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>assets</li>
+            <li class="in"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3h10v10H3z M3 11l3-3 3 3 2-2 2 2" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>outline-panel.png<span>Nov 9</span></li>
+            <li class="in"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3h10v10H3z M3 11l3-3 3 3 2-2 2 2" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>focus-mode.png<span>Nov 9</span></li>
+          </ul>
+        </div>
+        <div class="app__pane app__pane--open">
+          <div class="doc">
+            <h3>Roadmap</h3>
+            <div>Plans for the next two releases. Everything here is a plain <code>.md</code> file; open it in any editor.</div>
+            <h4><span class="syn">## </span>Release 0.2<span class="caret"></span></h4>
+            <ul>
+              <li class="task on"><i></i>Typewriter and focus modes</li>
+              <li class="task on"><i></i>Export to HTML and PDF</li>
+              <li class="task"><i></i>Outline panel with drag to reorder</li>
+              <li class="task"><i></i>Custom CSS themes from a folder</li>
+            </ul>
+            <table>
+              <tr><th>Platform</th><th>Installer</th><th>Updates itself</th></tr>
+              <tr><td>macOS</td><td>.dmg</td><td>Yes</td></tr>
+              <tr><td>Windows</td><td>.exe</td><td>Yes</td></tr>
+              <tr><td>Linux</td><td>.AppImage, .deb, .rpm</td><td>AppImage only</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="opendict" aria-labelledby="opendict-h">
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-5 stack-5">
+          <h2 id="opendict-h">OpenDict, a reader for your MDict dictionaries</h2>
+          <p class="t-lead">Type a word once and every dictionary in the group answers on one page, each entry in its own layout.</p>
+          <p>A global shortcut opens a small window over the PDF or e-book you are reading. No account, no server.</p>
+          <ul class="stack-2">
+            <li>Opens .mdx and .mdd files you own</li>
+            <li>Windows, macOS and Linux</li>
+            <li>GPL-3.0, version 0.1.0</li>
+          </ul>
+          <a class="link" href="https://github.com/amemiya02/OpenDict">See OpenDict on GitHub</a>
+        </div>
+        <div class="frame frame--split span-6 start-7" data-visual data-fx="grain-gradient" data-fx-seed="11">
+          <div class="stage stage--fade-br">
+            <div class="at-corner to-edge" style="--ax: 56px; --ay: 56px">
+              <div class="ui win od" role="img" aria-label="OpenDict with the word ephemeral looked up in an English, a Japanese and a Chinese dictionary on one page">
+                <div class="win__bar"><span class="win__dots" aria-hidden="true"><i></i><i></i><i></i></span><img loading="lazy" width="144" height="144" src="img/opendict-icon.png" alt=""><b>OpenDict</b><span class="sp"></span>Group: Reading</div>
+                <div class="od__q"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5 14 14" stroke="currentColor" stroke-width="1.5"/></svg>ephemeral<kbd>⌘K</kbd></div>
+                <div class="od__entry">
+                  <div class="od__src"><span>English learner's</span><span>1 of 3</span></div>
+                  <div class="od__hw">ephemeral<small>/ɪˈfem.ər.əl/</small></div>
+                  <ol><li><span class="pos">adj.</span>lasting for only a short time</li><li class="ex">Fame in the world of pop is ephemeral.</li></ol>
+                </div>
+                <div class="od__entry ja">
+                  <div class="od__src"><span>English–Japanese</span><span>2 of 3</span></div>
+                  <div class="od__hw">はかない、つかの間の</div>
+                </div>
+                <div class="od__entry zh">
+                  <div class="od__src"><span>English–Chinese</span><span>3 of 3</span></div>
+                  <div class="od__hw">短暂的，转瞬即逝的</div>
+                  <p class="ex">ephemeral pleasures 短暂的欢乐</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ground-surface" id="ssh-astra" style="--h: 2; --hm: 2" data-moment="pinned-chapters" aria-labelledby="astra-h">
+    <div class="wrap mo-pc__grid">
+      <div class="mo-pc__text">
+        <h2 id="astra-h">ssh-astra, a desktop SSH and SFTP client</h2>
+        <ol class="mo-pc__steps">
+          <li class="mo-pc__step">
+            <h3>Keeps hosts, terminals and files in one window</h3>
+            <p>Saved hosts sit in groups on the left. Each connection carries its terminal tabs and an SFTP file panel beside them.</p>
+            <figure class="mo-pc__visual"><img loading="lazy" src="img/astra-main-720.jpg" srcset="img/astra-main-360.jpg 360w, img/astra-main-720.jpg 720w, img/astra-main.jpg 1200w" sizes="(max-width: 1023px) 92vw, 628px" alt="ssh-astra with hosts grouped as Production, Staging and Home lab, a terminal on api-prod-1 and its files on the right" width="1200" height="750"></figure>
+          </li>
+          <li class="mo-pc__step">
+            <h3>Saves hosts with 3 kinds of port forward</h3>
+            <p>Local, remote and SOCKS forwards sit on the host with its key and jump host. Passwords go to the system keychain.</p>
+            <figure class="mo-pc__visual"><img loading="lazy" src="img/astra-editor-720.jpg" srcset="img/astra-editor-360.jpg 360w, img/astra-editor-720.jpg 720w, img/astra-editor.jpg 1200w" sizes="(max-width: 1023px) 92vw, 628px" alt="The New Host dialog in ssh-astra with name, address, port, user, group and authentication fields" width="1200" height="750"></figure>
+          </li>
+          <li class="mo-pc__step">
+            <h3>Checks ED25519 host keys before connecting</h3>
+            <p>A new host shows its fingerprint before you trust it. Known hosts are shared with OpenSSH.</p>
+            <figure class="mo-pc__visual"><img loading="lazy" src="img/astra-known-720.jpg" srcset="img/astra-known-360.jpg 360w, img/astra-known-720.jpg 720w, img/astra-known.jpg 1200w" sizes="(max-width: 1023px) 92vw, 628px" alt="The Trust this host dialog in ssh-astra showing an ED25519 key fingerprint" width="1200" height="750"></figure>
+          </li>
+        </ol>
+        <p>Built with Tauri and a Rust SSH core. No release yet.</p>
+        <a class="link" href="https://github.com/amemiya02/ssh-astra">See ssh-astra on GitHub</a>
+      </div>
+      <div class="mo-pc__visuals frame"></div>
+    </div>
+  </section>
+
+  <section class="section" id="nimget" aria-labelledby="nimget-h">
+    <div class="wrap">
+      <div class="grid">
+        <h2 class="span-5" id="nimget-h">NimGet, a download manager written in Go</h2>
+        <div class="span-6 start-7 stack-4">
+          <p>Up to 32 connections a file, rebalanced as they finish, and resume at the byte even after a crash. Version 1.3.0 for macOS and Windows.</p>
+          <a class="link" href="https://github.com/amemiya02/nimget">See NimGet on GitHub</a>
+        </div>
+      </div>
+      <div class="frame frame--hero feat4">
+        <div class="stage stage--fade-b">
+          <div class="at-rise to-edge" style="--w: 960px; --ay: 40px">
+            <div class="ui win ng" role="img" aria-label="The NimGet queue: an ISO at 64 percent over 32 connections, an HLS lecture, a finished installer and a queued file">
+              <div class="win__bar"><span class="win__dots" aria-hidden="true"><i></i><i></i><i></i></span><img loading="lazy" width="144" height="144" src="img/nimget-icon.png" alt=""><b>NimGet</b><span class="sp"></span>Speed limit off</div>
+              <div class="ng__tabs"><span class="on">All 6</span><span>Active 2</span><span>Queued 2</span><span>Done 2</span><em>↓ 41.6 MB/s</em></div>
+              <div class="ng__row"><span class="ft">ISO</span><span class="nm"><b>ubuntu-24.04.1-desktop-amd64.iso</b><span>releases.ubuntu.com</span></span><span class="sz">3.8 of 5.9 GB</span><span class="st">32 connections</span><span class="sp">28.7 MB/s</span><span class="bar"><i style="width: 64%"></i></span></div>
+              <div class="ng__row"><span class="ft">TS</span><span class="nm"><b>lecture-07.m3u8</b><span>HLS · AES-128</span></span><span class="sz">212 of 340</span><span class="st">8 connections</span><span class="sp">12.9 MB/s</span><span class="bar"><i style="width: 62%"></i></span></div>
+              <div class="ng__row"><span class="ft">DMG</span><span class="nm"><b>MINT_0.1.0_aarch64.dmg</b><span>github.com</span></span><span class="sz">14.2 MB</span><span class="st">Done</span><span class="sp">—</span><span class="bar"><i class="done" style="width: 100%"></i></span></div>
+              <div class="ng__row"><span class="ft">ZIP</span><span class="nm"><b>dataset-2026-11.zip</b><span>Queued · after 01:00</span></span><span class="sz">18.4 GB</span><span class="st">Scheduled</span><span class="sp">—</span><span class="bar"><i style="width: 0%"></i></span></div>
+              <div class="ng__row"><span class="ft">EXE</span><span class="nm"><b>OpenDict_0.1.0_x64-setup.exe</b><span>github.com</span></span><span class="sz">9.6 MB</span><span class="st">Done</span><span class="sp">—</span><span class="bar"><i class="done" style="width: 100%"></i></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid feat4">
+        <div class="span-3"><h3>Queues downloads by priority</h3><p>Host caps, speed limits and a schedule.</p></div>
+        <div class="span-3"><h3>Saves HLS streams as MP4</h3><p>An .m3u8 with AES-128 to one file, remuxed by ffmpeg.</p></div>
+        <div class="span-3"><h3>Takes downloads from Chrome and Edge</h3><p>The extension hands links and sessions to the app.</p></div>
+        <div class="span-3"><h3>Runs as a CLI on Linux</h3><p>The same queue as a service, with an HTTP API.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="more" aria-labelledby="more-h">
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-5 stack-5">
+          <h2 id="more-h">Other repositories</h2>
+          <ul class="rows repos">
+            <li><a href="https://github.com/amemiya02/deepseekcode"><span class="rows__name">deepseekcode</span><span class="rows__value">Go · 86 stars</span><span class="repos__line">A coding agent for DeepSeek models, now archived.</span></a></li>
+            <li><a href="https://github.com/amemiya02/weftro"><span class="rows__name">weftro</span><span class="rows__value">Rust</span><span class="repos__line">A local file workbench and tool runtime.</span></a></li>
+            <li><a href="https://github.com/amemiya02/hayakv"><span class="rows__name">hayakv</span><span class="rows__value">Go</span><span class="repos__line">A key-value server that speaks the Redis protocol.</span></a></li>
+            <li><a href="https://github.com/amemiya02/make-mad-skill"><span class="rows__name">make-mad-skill</span><span class="rows__value">Python</span><span class="repos__line">An agent skill that plans and cuts AMV edits.</span></a></li>
+            <li><a href="https://github.com/amemiya02/pdoom-video-win95"><span class="rows__name">pdoom-video-win95</span><span class="rows__value">JavaScript</span><span class="repos__line">A Windows 95 style music video rendered from code.</span></a></li>
+          </ul>
+        </div>
+        <div class="frame frame--split span-6 start-7">
+          <div class="stage stage--fade-br">
+            <div class="at-corner to-edge" style="--ax: 56px; --ay: 56px">
+              <div class="ui win term" role="img" aria-label="A terminal listing the repositories of amemiya02 by language, with Go, Rust, Python and JavaScript icons">
+                <div class="win__bar"><span class="win__dots" aria-hidden="true"><i></i><i></i><i></i></span><b>zsh</b><span class="sp"></span>~/code</div>
+                <div class="term__body">
+                  <div><span class="pr">$</span> gh repo list amemiya02 --source</div>
+                  <div class="term__row"><img loading="lazy" width="40" height="15" src="assets/icons/go.svg" alt="" class="ic-wide"><b>deepseekcode</b><span>archived · 86 ★</span></div>
+                  <div class="term__row"><img loading="lazy" width="40" height="40" src="assets/icons/rust.svg" alt="" class="ic-ink"><b>weftro</b><span>public</span></div>
+                  <div class="term__row"><img loading="lazy" width="40" height="15" src="assets/icons/go.svg" alt="" class="ic-wide"><b>hayakv</b><span>public</span></div>
+                  <div class="term__row"><img loading="lazy" width="40" height="40" src="assets/icons/python.svg" alt=""><b>make-mad-skill</b><span>public</span></div>
+                  <div class="term__row"><img loading="lazy" width="40" height="40" src="assets/icons/javascript.svg" alt=""><b>pdoom-video-win95</b><span>public · 3 ★</span></div>
+                  <div class="term__row"><img loading="lazy" width="40" height="15" src="assets/icons/go.svg" alt="" class="ic-wide"><b>hmdp-go</b><span>public · 9 ★</span></div>
+                  <div class="term__row"><img loading="lazy" width="40" height="40" src="assets/icons/rust.svg" alt="" class="ic-ink"><b>OpenDict</b><span>public</span></div>
+                  <div class="term__row"><img loading="lazy" width="40" height="15" src="assets/icons/go.svg" alt="" class="ic-wide"><b>nimget</b><span>public</span></div>
+                  <div><span class="pr">$</span> <span class="cur"></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer closing footer--dark ground-inverse g2m" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta close--word">
+      <div class="section-head--split">
+        <div><h2 id="close-h">Source for every app</h2><p class="t-lead">Issues and pull requests are open.</p></div>
+        <a class="btn btn--primary" href="https://github.com/amemiya02?tab=repositories">See all repositories<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+      </div>
+      <p class="close__word" aria-hidden="true">amemiya02</p>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="nav__logo" href="#top">Ame</a>
+          <p class="footer__lede">Desktop apps in Rust, Go and TypeScript.</p>
+        </div>
+        <div class="span-2 footer__col"><h3>Apps</h3><ul><li><a href="#mint">MINT</a></li><li><a href="#opendict">OpenDict</a></li><li><a href="#ssh-astra">ssh-astra</a></li><li><a href="#nimget">NimGet</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Archive</h3><ul><li><a href="#more">deepseekcode</a></li><li><a href="#more">weftro</a></li><li><a href="#more">hayakv</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Releases</h3><ul><li><a href="https://github.com/amemiya02/MINT/releases">MINT</a></li><li><a href="https://github.com/amemiya02/OpenDict/releases">OpenDict</a></li><li><a href="https://github.com/amemiya02/nimget/releases">NimGet</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>GitHub</h3><ul><li><a href="https://github.com/amemiya02">Profile</a></li><li><a href="https://github.com/amemiya02?tab=stars">Stars</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; 2026 Ame · Product names and logos are trademarks of their owners</span>
+        <div class="socials"></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="assets/system.js"></script>
+<script type="module" src="assets/motion/motion.js"></script>
+<script type="module" src="assets/layout/layout.js"></script>
+</body>
+</html>
