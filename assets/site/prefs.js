@@ -147,6 +147,16 @@
     applyThemeLabel();
   }
 
+  /* the shader grounds (OpenDict's grain gradient) read their colours when they mount: hand them the new ones.
+     Same URL as system.js imports, so this is the module instance that mounted them. */
+  function refreshFx() {
+    var els = [].slice.call(document.querySelectorAll('[data-fx-mounted]'));
+    if (!els.length) return;
+    import(new URL('assets/effects/fx.js', document.baseURI).href).then(function (fx) {
+      els.forEach(function (el) { if (el.__fx) el.__fx.setPalette(fx.readPalette(el)); });
+    }).catch(function () {});
+  }
+
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('[data-pref]');
     if (!b) return;
@@ -159,6 +169,7 @@
       root.dataset.theme = theme() === 'dark' ? 'light' : 'dark';
       store('ame-theme', root.dataset.theme);
       applyTheme();
+      refreshFx();
     }
   });
 

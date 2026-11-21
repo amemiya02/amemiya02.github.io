@@ -78,9 +78,18 @@ html[lang^="zh"] {
 /* the app windows drawn in HTML: one dark window look for every app on the page */
 .win { --u-bg: #1f2023; --u-surface: #26282c; --u-ink: #eff0f1; --u-muted: #a3a5aa; --u-accent: #ff4a1f;
   --u-line: rgb(239 240 241 / .09); --u-border: rgb(239 240 241 / .13);
+  --u-bar: #1a1b1e; --u-dot: rgb(239 240 241 / .18); --u-tint: rgb(239 240 241 / .07); --u-head: rgb(239 240 241 / .04);
+  --u-track: rgb(239 240 241 / .1); --u-pos: #e8a87c; --u-ok: #4cc38a; --u-shadow: 0 32px 64px -32px rgb(0 0 0 / .6);
   background: var(--u-bg); color: var(--u-ink); font: 400 14px/1.5 var(--font-text); }
-.win__bar { display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 14px; border-bottom: 1px solid var(--u-line); color: var(--u-muted); font-size: 13px; }
-.win__dots { display: flex; gap: 6px; } .win__dots i { width: 10px; height: 10px; border-radius: 50%; background: rgb(239 240 241 / .18); }
+/* the light theme draws the same windows on paper: white panes, a grey title bar, ink lines */
+html[data-theme="light"] .win { --u-bg: #ffffff; --u-surface: #f4f4f2; --u-ink: #18191b; --u-muted: #66686c; --u-accent: #d93d12;
+  --u-line: rgb(24 25 27 / .08); --u-border: rgb(24 25 27 / .13);
+  --u-bar: #f3f3f1; --u-dot: rgb(24 25 27 / .16); --u-tint: rgb(24 25 27 / .055); --u-head: rgb(24 25 27 / .03);
+  --u-track: rgb(24 25 27 / .08); --u-pos: #b4531a; --u-ok: #1f9d5c;
+  --u-shadow: 0 1px 2px rgb(24 25 27 / .06), 0 28px 56px -30px rgb(24 25 27 / .28); }
+.ui.win { box-shadow: var(--u-shadow); }
+.win__bar { display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 14px; border-bottom: 1px solid var(--u-line); background: var(--u-bar); color: var(--u-muted); font-size: 13px; }
+.win__dots { display: flex; gap: 6px; } .win__dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--u-dot); }
 .win__bar img { width: 18px; height: 18px; }
 .win__bar b { color: var(--u-ink); font-weight: 500; }
 .win__bar .sp { flex: 1; }
@@ -89,7 +98,15 @@ html[lang^="zh"] {
 /* the hero's button at the page's one button size */
 .hero--triptych .hero__cta .btn { height: var(--btn-h, 44px); padding-inline: var(--s-5); font-size: 16px; }
 /* the hero collage */
-.ly-collage { container-type: inline-size; }
+.ly-collage { container-type: size; }
+/* the two phones: the tallest pair that fits (88% of the height; both side by side, with the gap, inside 92% of the
+   width), each at its screenshot's own ratio, centred as a pair; below 1024 the collage is the whole wrap */
+.ly-collage { --pg: 4cqw; --pr: calc(540 / 1110 + 540 / 1175); --ph: min(88cqh, (92cqw - var(--pg)) / var(--pr));
+  --wc: calc(var(--ph) * 540 / 1110); --wd: calc(var(--ph) * 540 / 1175); --px: calc(50% - (var(--wc) + var(--pg) + var(--wd)) / 2); }
+@media (max-width: 1023px) { .ly-collage { --ph: min(100cqh, (100cqw - var(--pg)) / var(--pr)); } }
+.ly-collage .ly-piece.pc-phone { height: var(--ph) !important; top: calc((100cqh - var(--ph)) / 2) !important; }
+.ly-collage .ly-piece.pc-phone.pc-c { width: var(--wc) !important; left: var(--px) !important; }
+.ly-collage .ly-piece.pc-phone.pc-d { width: var(--wd) !important; left: calc(var(--px) + var(--wc) + var(--pg)) !important; }
 .ly-collage .ly-piece { box-shadow: 0 1px 2px rgb(0 0 0 / .3), 0 22px 48px -22px rgb(0 0 0 / .7); border: 1px solid rgb(239 240 241 / .1); }
 .ly-collage .ly-piece.pc-phone { border-radius: 24px; }
 .ly-collage .ly-piece.pc-phone > img { object-position: 50% 0; }
@@ -113,10 +130,10 @@ html[lang^="zh"] {
 .pc-dl { padding: 2.4cqw 3cqw; display: grid; gap: 2cqw; }
 .pc-dl .row { display: grid; grid-template-columns: 1fr auto; gap: .8cqw 2cqw; align-items: baseline; }
 .pc-dl .row span { color: var(--u-muted); font-size: max(13px, 1.8cqw); }
-.pc-dl .bar { grid-column: 1 / -1; height: 1cqw; border-radius: 1cqw; background: rgb(239 240 241 / .1); overflow: hidden; }
+.pc-dl .bar { grid-column: 1 / -1; height: 1cqw; border-radius: 1cqw; background: var(--u-track); overflow: hidden; }
 .pc-dl .bar i { display: block; height: 100%; background: var(--u-accent); }
-.pc-icons { display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 2.4cqw; padding: 4cqw; background: #222427; }
-.pc-icons img { width: 10cqw; height: 10cqw; }
+.pc-icons { display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 2.4cqw; padding: 4cqw; background: var(--surface); }
+.ly-collage .ly-piece.pc-icons > img { width: 10cqw; height: 10cqw; object-fit: contain; }
 @media (max-width: 639px) { .pc-md p, .pc-md .math, .pc-dict .mono, .pc-dict .d:nth-of-type(n+3), .pc-dl .row:nth-of-type(n+3) { display: none; } }
 /* below 1024 the collage takes the whole wrap: its wide pieces run line to line, stacked */
 @media (max-width: 1023px) {
@@ -125,7 +142,6 @@ html[lang^="zh"] {
   .ly-collage .pc-b { left: 0 !important; width: 100% !important; top: 53% !important; height: 47% !important; }
   .ly-collage .pc-c { left: 0 !important; width: 48% !important; top: 0 !important; }
   .ly-collage .pc-d { left: 52% !important; width: 48% !important; top: 0 !important; }
-  .ly-collage .pc-phone { height: 100% !important; }
 }
 
 /* Hayaki: one card per platform, its two phones rising out of the panel */
@@ -153,7 +169,7 @@ html[lang^="zh"] {
 .tree li { display: flex; gap: 8px; align-items: center; padding: 6px 10px; border-radius: 6px; color: var(--u-muted); }
 .tree li.dir { color: var(--u-ink); font-weight: 500; }
 .tree li.in { padding-left: 30px; }
-.tree li.on { background: rgb(239 240 241 / .07); color: var(--u-ink); }
+.tree li.on { background: var(--u-tint); color: var(--u-ink); }
 .tree li span { margin-left: auto; font-size: 13px; }
 .tree svg { width: 14px; height: 14px; flex: none; }
 .doc { padding: 28px 48px; display: grid; gap: 14px; max-width: 720px; font-size: 15px; line-height: 1.6; }
@@ -162,7 +178,7 @@ html[lang^="zh"] {
 .doc h4 .syn { color: var(--u-muted); font-family: var(--font-mono); font-weight: 400; }
 .doc h4 .caret { display: inline-block; width: 2px; height: 1.1em; background: var(--u-accent); vertical-align: -3px; margin-left: 1px; }
 .doc > div { margin: 0; }
-.doc code, .doc kbd { font-family: var(--font-mono); font-size: 13px; background: rgb(239 240 241 / .07); padding: 1px 6px; border-radius: 4px; }
+.doc code, .doc kbd { font-family: var(--font-mono); font-size: 13px; background: var(--u-tint); padding: 1px 6px; border-radius: 4px; }
 .doc ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
 .doc .task { display: flex; gap: 10px; align-items: center; }
 .doc .task i { width: 14px; height: 14px; border-radius: 3px; border: 1.5px solid var(--u-muted); flex: none; }
@@ -170,7 +186,7 @@ html[lang^="zh"] {
 .doc .task.on { color: var(--u-muted); text-decoration: line-through; }
 .doc table { border-collapse: collapse; font-size: 14px; }
 .doc th, .doc td { border: 1px solid var(--u-line); padding: 6px 14px; text-align: left; }
-.doc th { font-weight: 500; background: rgb(239 240 241 / .04); }
+.doc th { font-weight: 500; background: var(--u-head); }
 @media (max-width: 1023px) {
   .app.ui { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto minmax(0, 1fr); }
   .app > .app__pane--list { max-height: 222px; }
@@ -197,7 +213,7 @@ html[lang^="zh"] {
 .od__hw { font: 400 24px/1.2 var(--font-display); }
 .od__hw small { font: 400 14px var(--font-mono); color: var(--u-muted); margin-left: 8px; }
 .od__entry ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
-.od__entry .pos { color: #e8a87c; font-style: italic; margin-right: 6px; }
+.od__entry .pos { color: var(--u-pos); font-style: italic; margin-right: 6px; }
 .od__entry .ex { color: var(--u-muted); }
 .od__entry.ja .od__hw { font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; }
 .od__entry.zh p { margin: 0; }
@@ -220,16 +236,16 @@ html[lang^="zh"] {
 @media (max-width: 639px) { #nimget .frame--hero:has(> .stage) { aspect-ratio: 4 / 4.8; } }
 .ng { width: 960px; border: 1px solid var(--u-border); border-radius: 12px; overflow: hidden; }
 .ng__tabs { display: flex; gap: 4px; padding: 10px 14px; border-bottom: 1px solid var(--u-line); font-size: 13px; color: var(--u-muted); }
-.ng__tabs span { padding: 4px 10px; border-radius: 6px; } .ng__tabs span.on { background: rgb(239 240 241 / .08); color: var(--u-ink); }
+.ng__tabs span { padding: 4px 10px; border-radius: 6px; } .ng__tabs span.on { background: var(--u-tint); color: var(--u-ink); }
 .ng__tabs em { margin-left: auto; font-style: normal; color: var(--u-ink); font-family: var(--font-mono); }
 .ng__row { display: grid; grid-template-columns: 28px minmax(0, 1fr) 110px 120px 90px; gap: 6px 16px; align-items: center; padding: 12px 18px; border-bottom: 1px solid var(--u-line); font-size: 14px; }
-.ng__row .ft { width: 28px; height: 28px; border-radius: 6px; display: grid; place-items: center; font: 500 13px/1 var(--font-mono); background: rgb(239 240 241 / .07); color: var(--u-muted); }
+.ng__row .ft { width: 28px; height: 28px; border-radius: 6px; display: grid; place-items: center; font: 500 13px/1 var(--font-mono); background: var(--u-tint); color: var(--u-muted); }
 .ng__row .nm b { display: block; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ng__row .nm span, .ng__row .st, .ng__row .sz { color: var(--u-muted); font-size: 13px; }
 .ng__row .sp { font-family: var(--font-mono); font-size: 13px; text-align: right; }
-.ng__row .bar { grid-column: 2 / -1; height: 4px; border-radius: 4px; background: rgb(239 240 241 / .1); overflow: hidden; }
+.ng__row .bar { grid-column: 2 / -1; height: 4px; border-radius: 4px; background: var(--u-track); overflow: hidden; }
 .ng__row .bar i { display: block; height: 100%; background: var(--u-accent); }
-.ng__row .bar i.done { background: #4cc38a; }
+.ng__row .bar i.done { background: var(--u-ok); }
 @media (max-width: 1023px) { .ng { width: 680px; } }
 @media (max-width: 639px) { .ng { width: auto; } .ng__tabs em { display: none; } .ng__row { grid-template-columns: 28px minmax(0, 1fr) 80px; } .ng__row .sz, .ng__row .st { display: none; } }
 .feat4 { margin-top: var(--s-7); }
@@ -271,6 +287,7 @@ html[data-theme="dark"] .pref-moon, html[data-theme="light"] .pref-sun { display
 @media (max-width: 639px) { .nav:not(.is-open) .nav__actions > .btn--primary { display: none; } }
 /* the collage's drawn windows keep their own dark ground (the piece's --surface would turn light) */
 .ly-collage .ly-piece.win { background: var(--u-bg); }
+html[data-theme="light"] .ly-collage .ly-piece.win { border-color: var(--u-border); }
 html[data-theme="light"] .ly-collage .ly-piece { box-shadow: 0 1px 2px rgb(0 0 0 / .12), 0 22px 48px -22px rgb(0 0 0 / .35); border-color: rgb(24 25 27 / .12); }
 /* nav cards: the app's own icon on its panel, five across the wrap */
 .menu-card .panel { display: grid; place-items: center; }
