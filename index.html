@@ -38,7 +38,32 @@
   --display-tracking-xl: -0.045em;
   --ly-scale: 0.9;
 }
+/* light theme: the page turns light, the inverse ground (the footer) and the app windows stay dark */
+html[data-theme="light"] {
+  --p-bg: #f6f6f4; --p-surface: #ebebe8; --p-ink: #18191b; --p-muted: #5b5c5e;
+  --p-accent: #c8360d; --p-accent-ink: #ffffff; --p-action: #c8360d; --p-action-ink: #ffffff;
+  --p-inv-bg: #18191b; --p-inv-surface: #222427; --p-inv-ink: #eff0f1; --p-inv-muted: #9c9ea3;
+  --p-inv-accent: #ff4a1f; --p-inv-accent-ink: #18191b; --p-inv-action: #ff4a1f; --p-inv-action-ink: #18191b;
+  color-scheme: light;
+}
+html[data-theme="dark"] { color-scheme: dark; }
+/* Chinese: a CJK face after the Latin one, and no negative tracking on CJK lines */
+html[lang^="zh"] {
+  --font-display: "Sora", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+  --font-text: "Figtree", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+  --display-tracking: -0.01em; --display-tracking-xl: -0.015em;
+}
 </style>
+<script>
+(function () {
+  var d = document.documentElement, t = null, l = null;
+  try { t = localStorage.getItem('ame-theme'); l = localStorage.getItem('ame-lang'); } catch (e) {}
+  if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  if (l !== 'zh' && l !== 'en') l = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  d.dataset.theme = t;
+  d.lang = l === 'zh' ? 'zh-CN' : 'en';
+})();
+</script>
 <link rel="stylesheet" href="assets/ui/base.css">
 <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
 <script src="assets/backgrounds/backgrounds.js"></script>
@@ -210,10 +235,11 @@
 .feat4 { margin-top: var(--s-7); }
 .feat4 h3 { font: 500 var(--t-card)/1.3 var(--font-text); margin: 0 0 var(--s-2); }
 
-/* the name across the wrap: about 5.2 em wide, set to the wrap at every width */
-#contact .close__word { font-size: calc((100vw - 160px) / 5.9); line-height: 1.08; overflow: visible; }
-@media (max-width: 1023px) { #contact .close__word { font-size: calc((100vw - 96px) / 5.9); } }
-@media (max-width: 639px) { #contact .close__word { font-size: calc((100vw - 48px) / 5.9); line-height: 1.28; } }
+/* the name across the wrap: about 5.55 em wide, sized from the wrap itself (not the viewport, which is wider than
+   the 1280 wrap on a large screen), and the footer's one column never grows past the wrap to fit it */
+#contact > .wrap { grid-template-columns: minmax(0, 1fr); }
+#contact .closing__cta { container-type: inline-size; min-width: 0; }
+#contact .close__word { font-size: calc(100cqi / 5.55); line-height: 1.2; overflow: visible; }
 /* tablets and phones: each section planned to its screens */
 @media (max-width: 1279px) { .doc table { display: none; } }
 @media (min-width: 640px) and (max-width: 1023px) {
@@ -229,6 +255,23 @@
   #nimget .frame--hero:has(> .stage) { aspect-ratio: 16 / 4.2; }
   #nimget .feat4 p { display: none; }
 }
+/* language and theme switches: two small outline buttons before the bar's main button */
+.nav__prefs { display: flex; align-items: center; gap: var(--s-2); }
+.pref-btn { display: inline-grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 1px solid var(--line-strong); border-radius: var(--r-btn, 4px);
+  background: transparent; color: var(--ink); font: 500 14px/1 var(--font-text); cursor: pointer; transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease); }
+.pref-btn:hover { background: color-mix(in oklab, var(--ink) 7%, transparent); }
+.pref-btn:focus-visible { outline: 2px solid var(--action); outline-offset: 2px; }
+.pref-btn svg { width: 16px; height: 16px; }
+html[data-theme="dark"] .pref-moon, html[data-theme="light"] .pref-sun { display: none; }
+@media (max-width: 1023px) {
+  .nav:not(.is-open) .nav__actions > .nav__prefs { display: flex; }
+  .nav.is-open .nav__actions > .nav__prefs { justify-content: center; }
+  .pref-btn { width: 44px; height: 44px; }
+}
+@media (max-width: 639px) { .nav:not(.is-open) .nav__actions > .btn--primary { display: none; } }
+/* the collage's drawn windows keep their own dark ground (the piece's --surface would turn light) */
+.ly-collage .ly-piece.win { background: var(--u-bg); }
+html[data-theme="light"] .ly-collage .ly-piece { box-shadow: 0 1px 2px rgb(0 0 0 / .12), 0 22px 48px -22px rgb(0 0 0 / .35); border-color: rgb(24 25 27 / .12); }
 /* nav cards: the app's own icon on its panel, five across the wrap */
 .menu-card .panel { display: grid; place-items: center; }
 .menu-card .panel img { width: 72px; height: 72px; }
@@ -246,37 +289,37 @@
      moments: pinned-chapters in #ssh-astra -->
 <header class="nav">
   <div class="wrap nav__bar">
-    <a class="skip-link" href="#top">Skip to content</a>
+    <a class="skip-link" href="#top" data-i18n="nav.skip">Skip to content</a>
     <a class="nav__logo" href="#top">Ame</a>
-    <nav class="nav__links" aria-label="Main">
+    <nav class="nav__links" aria-label="Main" data-i18n-attr="aria-label=nav.main">
       <div class="nav__item">
-        <a class="nav__link" href="#hayaki">Projects <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a class="nav__link" href="#hayaki"><span data-i18n="nav.projects">Projects</span> <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div class="nav__menu">
           <div class="wrap grid grid--apps">
             <a class="menu-card span-3" href="#hayaki">
-              <div class="panel"><img loading="lazy" src="img/hayaki-icon.png" alt="Hayaki app icon" width="72" height="72"></div>
+              <div class="panel"><img loading="lazy" src="img/hayaki-icon.png" alt="Hayaki app icon" data-i18n-attr="alt=icon.hayaki" width="72" height="72"></div>
               <span class="t-card">Hayaki</span>
-              <span class="t-small muted">Anki flashcards for Android and iPhone</span>
+              <span class="t-small muted" data-i18n="menu.hayaki">Anki flashcards for Android and iPhone</span>
             </a>
             <a class="menu-card span-3" href="#opendict">
-              <div class="panel"><img loading="lazy" src="img/opendict-icon.png" alt="OpenDict app icon" width="72" height="72"></div>
+              <div class="panel"><img loading="lazy" src="img/opendict-icon.png" alt="OpenDict app icon" data-i18n-attr="alt=icon.opendict" width="72" height="72"></div>
               <span class="t-card">OpenDict</span>
-              <span class="t-small muted">Reader for MDict dictionaries</span>
+              <span class="t-small muted" data-i18n="menu.opendict">Reader for MDict dictionaries</span>
             </a>
             <a class="menu-card span-3" href="#mint">
-              <div class="panel"><img loading="lazy" src="img/mint-icon.png" alt="MINT app icon" width="72" height="72"></div>
+              <div class="panel"><img loading="lazy" src="img/mint-icon.png" alt="MINT app icon" data-i18n-attr="alt=icon.mint" width="72" height="72"></div>
               <span class="t-card">MINT</span>
-              <span class="t-small muted">Markdown editor with live preview</span>
+              <span class="t-small muted" data-i18n="menu.mint">Markdown editor with live preview</span>
             </a>
             <a class="menu-card span-3" href="#nimget">
-              <div class="panel"><img loading="lazy" src="img/nimget-icon.png" alt="NimGet app icon" width="72" height="72"></div>
+              <div class="panel"><img loading="lazy" src="img/nimget-icon.png" alt="NimGet app icon" data-i18n-attr="alt=icon.nimget" width="72" height="72"></div>
               <span class="t-card">NimGet</span>
-              <span class="t-small muted">Download manager written in Go</span>
+              <span class="t-small muted" data-i18n="menu.nimget">Download manager written in Go</span>
             </a>
             <a class="menu-card span-3" href="#ssh-astra">
-              <div class="panel"><img loading="lazy" src="img/astra-icon.png" alt="SSH Astra app icon" width="72" height="72"></div>
+              <div class="panel"><img loading="lazy" src="img/astra-icon.png" alt="SSH Astra app icon" data-i18n-attr="alt=icon.astra" width="72" height="72"></div>
               <span class="t-card">SSH Astra</span>
-              <span class="t-small muted">SSH and SFTP client</span>
+              <span class="t-small muted" data-i18n="menu.astra">SSH and SFTP client</span>
             </a>
           </div>
         </div>
@@ -287,9 +330,16 @@
       <div class="nav__item"><a class="nav__link" href="#ssh-astra">SSH Astra</a></div>
     </nav>
     <div class="nav__actions">
-      <a class="btn btn--primary" href="https://github.com/amemiya02?tab=repositories">See all repositories</a>
+      <div class="nav__prefs">
+        <button class="pref-btn" type="button" data-pref="lang" data-i18n-attr="aria-label=prefs.lang;title=prefs.lang" aria-label="Switch to Chinese" title="Switch to Chinese"><span data-i18n="prefs.langShort">中</span></button>
+        <button class="pref-btn" type="button" data-pref="theme" aria-label="Switch theme" title="Switch theme">
+          <svg class="pref-sun" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v1.8M8 13.2V15M1 8h1.8M13.2 8H15M3.05 3.05l1.27 1.27M11.68 11.68l1.27 1.27M3.05 12.95l1.27-1.27M11.68 4.32l1.27-1.27" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <svg class="pref-moon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 9.6A5.8 5.8 0 0 1 6.4 2.5a5.8 5.8 0 1 0 7.1 7.1z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <a class="btn btn--primary" href="https://github.com/amemiya02?tab=repositories" data-i18n="cta.repos">See all repositories</a>
     </div>
-    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu" data-i18n-attr="aria-label=nav.menu">
       <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     </button>
   </div>
@@ -299,10 +349,10 @@
   <section class="hero hero--triptych" data-enter aria-labelledby="hero-h">
     <div class="wrap"><div class="hero-text grid hero__grid">
       <div class="span-3">
-        <h1 id="hero-h">Open-source desktop and phone apps</h1>
-        <p class="hero__lead">Anki flashcards for Android and iPhone, plus a dictionary reader, a Markdown editor, a download manager and an SSH client for the desktop. All five are on GitHub.</p>
+        <h1 id="hero-h" data-i18n="hero.h">Open-source desktop and phone apps</h1>
+        <p class="hero__lead" data-i18n="hero.lead">Anki flashcards for Android and iPhone, plus a dictionary reader, a Markdown editor, a download manager and an SSH client for the desktop. All five are on GitHub.</p>
       </div>
-      <div class="ly-collage span-6 start-4" role="img" aria-label="Pieces of the five apps: Hayaki on Android and iPhone, a note open in MINT, a word looked up in OpenDict, the SSH Astra window with a terminal and files, and the NimGet download queue">
+      <div class="ly-collage span-6 start-4" role="img" data-i18n-attr="aria-label=hero.collage" aria-label="Pieces of the five apps: Hayaki on Android and iPhone, a note open in MINT, a word looked up in OpenDict, the SSH Astra window with a terminal and files, and the NimGet download queue">
         <div class="ly-collage__set is-on">
           <div class="ly-piece pc-phone pc-c" style="left: 4%; top: 6%; width: 44%; height: 88%"><img src="img/hayaki-android-browse.webp" alt="" width="540" height="1110"></div>
           <div class="ly-piece pc-phone pc-d" style="left: 52%; top: 6%; width: 44%; height: 88%"><img src="img/hayaki-ios-decks.webp" alt="" width="540" height="1175"></div>
@@ -353,24 +403,24 @@
           </div>
         </div>
       </div>
-      <div class="span-3 start-10 hero__cta"><a class="btn btn--primary" href="https://github.com/amemiya02?tab=repositories">See all repositories<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a></div>
+      <div class="span-3 start-10 hero__cta"><a class="btn btn--primary" href="https://github.com/amemiya02?tab=repositories"><span data-i18n="cta.repos">See all repositories</span><svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a></div>
     </div></div>
   </section>
 
   <section class="section" id="hayaki" style="--h: 1; --hm: 2" aria-labelledby="hayaki-h">
     <div class="wrap">
       <div class="grid">
-        <h2 class="span-5" id="hayaki-h">Hayaki, an offline flashcard app for Anki decks</h2>
+        <h2 class="span-5" id="hayaki-h" data-i18n="hy.h">Hayaki, an offline flashcard app for Anki decks</h2>
         <div class="span-6 start-7 stack-4">
-          <p>Study your Anki collection without a connection. Anki’s own scheduler sets when each card comes back, and you sync with AnkiWeb or your own server.</p>
+          <p data-i18n="hy.p">Study your Anki collection without a connection. Anki’s own scheduler sets when each card comes back, and you sync with AnkiWeb or your own server.</p>
         </div>
       </div>
       <div class="grid hy">
         <article class="card card--open span-6">
-          <h3>Runs on Android 7.0 and later</h3>
-          <p>Version 0.2.0 builds on AnkiDroid with a Jetpack Compose interface and installs beside it.</p>
-          <a class="link" href="https://github.com/amemiya02/Hayaki/releases/tag/v0.2.0">Download Hayaki for Android</a>
-          <div class="panel" role="img" aria-label="Hayaki on Android: the Decks screen with 9 cards to study today, and a geography answer with four ratings">
+          <h3 data-i18n="hy.a.h">Runs on Android 7.0 and later</h3>
+          <p data-i18n="hy.a.p">Version 0.2.0 builds on AnkiDroid with a Jetpack Compose interface and installs beside it.</p>
+          <a class="link" href="https://github.com/amemiya02/Hayaki/releases/tag/v0.2.0" data-i18n="hy.a.link">Download Hayaki for Android</a>
+          <div class="panel" role="img" data-i18n-attr="aria-label=hy.a.aria" aria-label="Hayaki on Android: the Decks screen with 9 cards to study today, and a geography answer with four ratings">
             <div class="stage stage--fade-b">
               <div class="hy__pair">
                 <div class="device"><img loading="lazy" src="img/hayaki-android-decks.webp" alt="" width="540" height="1110"></div>
@@ -380,10 +430,10 @@
           </div>
         </article>
         <article class="card card--open span-6">
-          <h3>Runs on iPhone and iPad with iOS 26</h3>
-          <p>A native SwiftUI app around Anki’s Rust core. Build it in Xcode and install it on your device.</p>
-          <a class="link" href="https://github.com/amemiya02/Hayaki-iOS#get-started">Read the iOS build steps</a>
-          <div class="panel" role="img" aria-label="Hayaki on iPhone: a card with an equation and four glass rating buttons, and the statistics screen in the dark theme">
+          <h3 data-i18n="hy.i.h">Runs on iPhone and iPad with iOS 26</h3>
+          <p data-i18n="hy.i.p">A native SwiftUI app around Anki’s Rust core. Build it in Xcode and install it on your device.</p>
+          <a class="link" href="https://github.com/amemiya02/Hayaki-iOS#get-started" data-i18n="hy.i.link">Read the iOS build steps</a>
+          <div class="panel" role="img" data-i18n-attr="aria-label=hy.i.aria" aria-label="Hayaki on iPhone: a card with an equation and four glass rating buttons, and the statistics screen in the dark theme">
             <div class="stage stage--fade-b">
               <div class="hy__pair">
                 <div class="device"><img loading="lazy" src="img/hayaki-ios-review.webp" alt="" width="540" height="1175"></div>
@@ -400,20 +450,20 @@
     <div class="wrap">
       <div class="grid">
         <div class="span-5 stack-5">
-          <h2 id="opendict-h">OpenDict, a reader for your MDict dictionaries</h2>
-          <p class="t-lead">Type a word once and every dictionary in the group answers on one page, each entry in its own layout.</p>
-          <p>Select a word in another app and press the shortcut: the Mini Window shows the entry beside it. Saved words go to a Word Book.</p>
+          <h2 id="opendict-h" data-i18n="od.h">OpenDict, a reader for your MDict dictionaries</h2>
+          <p class="t-lead" data-i18n="od.lead">Type a word once and every dictionary in the group answers on one page, each entry in its own layout.</p>
+          <p data-i18n="od.p">Select a word in another app and press the shortcut: the Mini Window shows the entry beside it. Saved words go to a Word Book.</p>
           <ul class="stack-2">
-            <li>Opens the .mdx and .mdd files you own</li>
-            <li>Windows, macOS and Linux, updated in the app</li>
-            <li>GPL-3.0, version 0.1.2</li>
+            <li data-i18n="od.li1">Opens the .mdx and .mdd files you own</li>
+            <li data-i18n="od.li2">Windows, macOS and Linux, updated in the app</li>
+            <li data-i18n="od.li3">GPL-3.0, version 0.1.2</li>
           </ul>
-          <a class="link" href="https://github.com/amemiya02/OpenDict">See OpenDict on GitHub</a>
+          <a class="link" href="https://github.com/amemiya02/OpenDict" data-i18n="od.link">See OpenDict on GitHub</a>
         </div>
         <div class="frame frame--split span-6 start-7" data-visual data-fx="grain-gradient" data-fx-seed="11">
           <div class="stage stage--fade-br">
             <div class="at-corner to-edge" style="--ax: 56px; --ay: 56px">
-              <div class="ui win od" role="img" aria-label="OpenDict with the word ephemeral looked up in an English, a Japanese and a Chinese dictionary, a thesaurus and an etymology on one page">
+              <div class="ui win od" role="img" data-i18n-attr="aria-label=od.aria" aria-label="OpenDict with the word ephemeral looked up in an English, a Japanese and a Chinese dictionary, a thesaurus and an etymology on one page">
                 <div class="win__bar"><span class="win__dots" aria-hidden="true"><i></i><i></i><i></i></span><img loading="lazy" width="144" height="144" src="img/opendict-icon.png" alt=""><b>OpenDict</b><span class="sp"></span>Group: Reading</div>
                 <div class="od__q"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5 14 14" stroke="currentColor" stroke-width="1.5"/></svg>ephemeral<kbd>⌘K</kbd></div>
                 <div class="od__entry">
@@ -451,13 +501,13 @@
   <section class="section" id="mint" aria-labelledby="mint-h">
     <div class="wrap">
       <div class="grid">
-        <h2 class="span-5" id="mint-h">MINT, a Markdown editor with live preview</h2>
+        <h2 class="span-5" id="mint-h" data-i18n="mint.h">MINT, a Markdown editor with live preview</h2>
         <div class="span-6 start-7 stack-4">
-          <p>Markdown renders as you type, and the syntax at the cursor comes back for editing. Saving keeps every byte outside your edits. Version 0.3.3, with 24 themes.</p>
-          <a class="link" href="https://github.com/amemiya02/MINT">See MINT on GitHub</a>
+          <p data-i18n="mint.p">Markdown renders as you type, and the syntax at the cursor comes back for editing. Saving keeps every byte outside your edits. Version 0.3.3, with 24 themes.</p>
+          <a class="link" href="https://github.com/amemiya02/MINT" data-i18n="mint.link">See MINT on GitHub</a>
         </div>
       </div>
-      <div class="ui app win fill" role="img" aria-label="The MINT window: a folder of notes on the left, quick-start.md open on the right with a heading, a task list and a table of shortcuts rendered">
+      <div class="ui app win fill" role="img" data-i18n-attr="aria-label=mint.aria" aria-label="The MINT window: a folder of notes on the left, quick-start.md open on the right with a heading, a task list and a table of shortcuts rendered">
         <div class="win__bar"><span class="win__dots" aria-hidden="true"><i></i><i></i><i></i></span><img loading="lazy" width="144" height="144" src="img/mint-icon.png" alt=""><b>notes</b><span>/ quick-start.md</span><span class="sp"></span><span class="win__meta">Live preview · 412 words</span></div>
         <div class="app__pane app__pane--list">
           <ul class="tree">
@@ -501,26 +551,26 @@
   <section class="section ground-surface" id="ssh-astra" style="--h: 2; --hm: 2" data-moment="pinned-chapters" aria-labelledby="astra-h">
     <div class="wrap mo-pc__grid">
       <div class="mo-pc__text">
-        <h2 id="astra-h">SSH Astra, a desktop SSH and SFTP client</h2>
+        <h2 id="astra-h" data-i18n="astra.h">SSH Astra, a desktop SSH and SFTP client</h2>
         <ol class="mo-pc__steps">
           <li class="mo-pc__step">
-            <h3>Keeps hosts, terminals and files in one window</h3>
-            <p>Hosts sit in groups, imported from your SSH config. The file panel follows the shell’s cd and queues your uploads.</p>
-            <figure class="mo-pc__visual"><img loading="lazy" src="img/astra-hosts-720.jpg" srcset="img/astra-hosts-360.jpg 360w, img/astra-hosts-720.jpg 720w, img/astra-hosts-1280.jpg 1280w" sizes="(max-width: 1023px) 92vw, 628px" alt="SSH Astra with hosts grouped as Production, Staging and Homelab, a git log in the terminal on web-01 and its files on the right" width="1280" height="716"></figure>
+            <h3 data-i18n="astra.s1.h">Keeps hosts, terminals and files in one window</h3>
+            <p><span data-i18n="astra.s1.p">Hosts sit in groups, imported from your SSH config. The file panel follows the shell’s cd and queues your uploads.</span></p>
+            <figure class="mo-pc__visual"><img loading="lazy" src="img/astra-hosts-720.jpg" srcset="img/astra-hosts-360.jpg 360w, img/astra-hosts-720.jpg 720w, img/astra-hosts-1280.jpg 1280w" sizes="(max-width: 1023px) 92vw, 628px" data-i18n-attr="alt=astra.s1.alt" alt="SSH Astra with hosts grouped as Production, Staging and Homelab, a git log in the terminal on web-01 and its files on the right" width="1280" height="716"></figure>
           </li>
           <li class="mo-pc__step">
-            <h3>Splits a terminal into panes</h3>
-            <p>Tabs and split panes run on xterm.js with WebGL. A dropped connection comes back on its own.</p>
-            <figure class="mo-pc__visual"><img loading="lazy" src="img/astra-panes-720.jpg" srcset="img/astra-panes-360.jpg 360w, img/astra-panes-720.jpg 720w, img/astra-panes-1280.jpg 1280w" sizes="(max-width: 1023px) 92vw, 628px" alt="SSH Astra with the terminal split into two panes, a git log on the left and htop on the right" width="1280" height="716"></figure>
+            <h3 data-i18n="astra.s2.h">Splits a terminal into panes</h3>
+            <p><span data-i18n="astra.s2.p">Tabs and split panes run on xterm.js with WebGL. A dropped connection comes back on its own.</span></p>
+            <figure class="mo-pc__visual"><img loading="lazy" src="img/astra-panes-720.jpg" srcset="img/astra-panes-360.jpg 360w, img/astra-panes-720.jpg 720w, img/astra-panes-1280.jpg 1280w" sizes="(max-width: 1023px) 92vw, 628px" data-i18n-attr="alt=astra.s2.alt" alt="SSH Astra with the terminal split into two panes, a git log on the left and htop on the right" width="1280" height="716"></figure>
           </li>
           <li class="mo-pc__step">
-            <h3>Runs local, remote and SOCKS5 forwards</h3>
-            <p>Forwards can start when you connect. Secrets stay in the system keychain, and known hosts are shared with OpenSSH.</p>
-            <figure class="mo-pc__visual"><img loading="lazy" src="img/astra-forwards-720.jpg" srcset="img/astra-forwards-360.jpg 360w, img/astra-forwards-720.jpg 720w, img/astra-forwards-1280.jpg 1280w" sizes="(max-width: 1023px) 92vw, 628px" alt="The Port forwards tab in SSH Astra with a local, a remote and a SOCKS5 forward running through api-01" width="1280" height="716"></figure>
+            <h3 data-i18n="astra.s3.h">Runs local, remote and SOCKS5 forwards</h3>
+            <p><span data-i18n="astra.s3.p">Forwards can start when you connect. Secrets stay in the system keychain, and known hosts are shared with OpenSSH.</span></p>
+            <figure class="mo-pc__visual"><img loading="lazy" src="img/astra-forwards-720.jpg" srcset="img/astra-forwards-360.jpg 360w, img/astra-forwards-720.jpg 720w, img/astra-forwards-1280.jpg 1280w" sizes="(max-width: 1023px) 92vw, 628px" data-i18n-attr="alt=astra.s3.alt" alt="The Port forwards tab in SSH Astra with a local, a remote and a SOCKS5 forward running through api-01" width="1280" height="716"></figure>
           </li>
         </ol>
-        <p>Version 0.2.0 for Windows, macOS and Linux, built with Tauri and Rust.</p>
-        <a class="link" href="https://github.com/amemiya02/ssh-astra">See SSH Astra on GitHub</a>
+        <p data-i18n="astra.p">Version 0.2.0 for Windows, macOS and Linux, built with Tauri and Rust.</p>
+        <a class="link" href="https://github.com/amemiya02/ssh-astra" data-i18n="astra.link">See SSH Astra on GitHub</a>
       </div>
       <div class="mo-pc__visuals frame"></div>
     </div>
@@ -528,16 +578,16 @@
   <section class="section" id="nimget" aria-labelledby="nimget-h">
     <div class="wrap">
       <div class="grid">
-        <h2 class="span-5" id="nimget-h">NimGet, a download manager written in Go</h2>
+        <h2 class="span-5" id="nimget-h" data-i18n="ng.h">NimGet, a download manager written in Go</h2>
         <div class="span-6 start-7 stack-4">
-          <p>Up to 32 connections a file, and resume at the byte after a crash. On the project’s loopback test it fetched 512 MiB in 1.24 s; aria2 took 3.97 s. Version 1.4.6 for Windows and macOS.</p>
-          <a class="link" href="https://github.com/amemiya02/nimget">See NimGet on GitHub</a>
+          <p data-i18n="ng.p">Up to 32 connections a file, and resume at the byte after a crash. On the project’s loopback test it fetched 512 MiB in 1.24 s; aria2 took 3.97 s. Version 1.4.6 for Windows and macOS.</p>
+          <a class="link" href="https://github.com/amemiya02/nimget" data-i18n="ng.link">See NimGet on GitHub</a>
         </div>
       </div>
       <div class="frame frame--hero feat4">
         <div class="stage stage--fade-b">
           <div class="at-rise to-edge" style="--w: 960px; --ay: 40px">
-            <div class="ui win ng" role="img" aria-label="The NimGet queue: an ISO at 64 percent over 32 connections, a magnet download from 38 peers, a scheduled HLS lecture and two finished installers">
+            <div class="ui win ng" role="img" data-i18n-attr="aria-label=ng.aria" aria-label="The NimGet queue: an ISO at 64 percent over 32 connections, a magnet download from 38 peers, a scheduled HLS lecture and two finished installers">
               <div class="win__bar"><span class="win__dots" aria-hidden="true"><i></i><i></i><i></i></span><img loading="lazy" width="144" height="144" src="img/nimget-icon.png" alt=""><b>NimGet</b><span class="sp"></span>Speed limit off</div>
               <div class="ng__tabs"><span class="on">All 5</span><span>Active 2</span><span>Queued 1</span><span>Done 2</span><em>↓ 38.1 MB/s</em></div>
               <div class="ng__row"><span class="ft">ISO</span><span class="nm"><b>ubuntu-26.04-desktop-amd64.iso</b><span>releases.ubuntu.com</span></span><span class="sz">3.9 of 6.1 GB</span><span class="st">32 connections</span><span class="sp">28.7 MB/s</span><span class="bar"><i style="width: 64%"></i></span></div>
@@ -550,10 +600,10 @@
         </div>
       </div>
       <div class="grid feat4">
-        <div class="span-3"><h3>Queues downloads by priority</h3><p>Host caps, speed limits and a schedule.</p></div>
-        <div class="span-3"><h3>Takes downloads from Chrome and Edge</h3><p>The extension hands over links and sessions.</p></div>
-        <div class="span-3"><h3>Opens magnet links and HLS</h3><p>BitTorrent v1 and v2; HLS saved as MP4.</p></div>
-        <div class="span-3"><h3>Runs as a CLI on Linux</h3><p>Its commands also drive the desktop app.</p></div>
+        <div class="span-3"><h3 data-i18n="ng.f1.h">Queues downloads by priority</h3><p data-i18n="ng.f1.p">Host caps, speed limits and a schedule.</p></div>
+        <div class="span-3"><h3 data-i18n="ng.f2.h">Takes downloads from Chrome and Edge</h3><p data-i18n="ng.f2.p">The extension hands over links and sessions.</p></div>
+        <div class="span-3"><h3 data-i18n="ng.f3.h">Opens magnet links and HLS</h3><p data-i18n="ng.f3.p">BitTorrent v1 and v2; HLS saved as MP4.</p></div>
+        <div class="span-3"><h3 data-i18n="ng.f4.h">Runs as a CLI on Linux</h3><p data-i18n="ng.f4.p">Its commands also drive the desktop app.</p></div>
       </div>
     </div>
   </section>
@@ -564,8 +614,8 @@
   <div class="wrap">
     <div class="closing__cta close--word">
       <div class="section-head--split">
-        <div><h2 id="close-h">Source for every app</h2><p class="t-lead">Issues and pull requests are open.</p></div>
-        <a class="btn btn--primary" href="https://github.com/amemiya02?tab=repositories">See all repositories<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+        <div><h2 id="close-h" data-i18n="close.h">Source for every app</h2><p class="t-lead" data-i18n="close.lead">Issues and pull requests are open.</p></div>
+        <a class="btn btn--primary" href="https://github.com/amemiya02?tab=repositories"><span data-i18n="cta.repos">See all repositories</span><svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
       </div>
       <p class="close__word" aria-hidden="true">amemiya02</p>
     </div>
@@ -573,21 +623,22 @@
       <div class="grid">
         <div class="span-4 stack-4">
           <a class="nav__logo" href="#top">Ame</a>
-          <p class="footer__lede">Apps in Kotlin, Swift, Rust, Go and TypeScript.</p>
+          <p class="footer__lede" data-i18n="foot.lede">Apps in Kotlin, Swift, Rust, Go and TypeScript.</p>
         </div>
-        <div class="span-2 footer__col"><h3>Apps</h3><ul><li><a href="#hayaki">Hayaki</a></li><li><a href="#opendict">OpenDict</a></li><li><a href="#mint">MINT</a></li><li><a href="#nimget">NimGet</a></li><li><a href="#ssh-astra">SSH Astra</a></li></ul></div>
-        <div class="span-2 footer__col"><h3>Releases</h3><ul><li><a href="https://github.com/amemiya02/Hayaki/releases">Hayaki</a></li><li><a href="https://github.com/amemiya02/OpenDict/releases">OpenDict</a></li><li><a href="https://github.com/amemiya02/MINT/releases">MINT</a></li><li><a href="https://github.com/amemiya02/nimget/releases">NimGet</a></li><li><a href="https://github.com/amemiya02/ssh-astra/releases">SSH Astra</a></li></ul></div>
-        <div class="span-2 footer__col"><h3>Hayaki</h3><ul><li><a href="https://github.com/amemiya02/Hayaki">Android source</a></li><li><a href="https://github.com/amemiya02/Hayaki-iOS">iOS source</a></li></ul></div>
-        <div class="span-2 footer__col"><h3>GitHub</h3><ul><li><a href="https://github.com/amemiya02">Profile</a></li><li><a href="https://github.com/amemiya02?tab=stars">Stars</a></li></ul></div>
+        <div class="span-2 footer__col"><h3 data-i18n="foot.apps">Apps</h3><ul><li><a href="#hayaki">Hayaki</a></li><li><a href="#opendict">OpenDict</a></li><li><a href="#mint">MINT</a></li><li><a href="#nimget">NimGet</a></li><li><a href="#ssh-astra">SSH Astra</a></li></ul></div>
+        <div class="span-2 footer__col"><h3 data-i18n="foot.releases">Releases</h3><ul><li><a href="https://github.com/amemiya02/Hayaki/releases">Hayaki</a></li><li><a href="https://github.com/amemiya02/OpenDict/releases">OpenDict</a></li><li><a href="https://github.com/amemiya02/MINT/releases">MINT</a></li><li><a href="https://github.com/amemiya02/nimget/releases">NimGet</a></li><li><a href="https://github.com/amemiya02/ssh-astra/releases">SSH Astra</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Hayaki</h3><ul><li><a href="https://github.com/amemiya02/Hayaki" data-i18n="foot.android">Android source</a></li><li><a href="https://github.com/amemiya02/Hayaki-iOS" data-i18n="foot.ios">iOS source</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>GitHub</h3><ul><li><a href="https://github.com/amemiya02" data-i18n="foot.profile">Profile</a></li><li><a href="https://github.com/amemiya02?tab=stars" data-i18n="foot.stars">Stars</a></li></ul></div>
       </div>
       <div class="footer__legal">
-        <span>&copy; 2026 Ame · Product names and logos are trademarks of their owners</span>
+        <span data-i18n="foot.legal">&copy; 2026 Ame · Product names and logos are trademarks of their owners</span>
         <div class="socials"></div>
       </div>
     </div>
   </div>
 </footer>
 
+<script src="assets/site/prefs.js"></script>
 <script type="module" src="assets/system.js"></script>
 <script type="module" src="assets/motion/motion.js"></script>
 <script type="module" src="assets/layout/layout.js"></script>
